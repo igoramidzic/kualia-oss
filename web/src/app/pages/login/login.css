@@ -1,0 +1,16 @@
+/* Fade-up animation */
+.fade-in {
+  opacity: 0;
+  animation: fade-up 300ms ease-out 200ms forwards;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

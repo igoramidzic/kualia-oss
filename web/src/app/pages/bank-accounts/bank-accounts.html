@@ -1,0 +1,345 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <!-- Header with Breadcrumbs -->
+  <div class="flex flex-shrink-0 flex-col border-b select-none">
+    <div class="flex h-10 items-center gap-2 px-2 sm:px-3">
+      <div class="flex shrink-0 items-center gap-2">
+        <app-sidebar-toggle class="lg:hidden" />
+        <nav class="flex items-center space-x-1 text-sm">
+          <span class="m-0 p-1">Bank Accounts</span>
+        </nav>
+        @if (favoriteCount() > 0) {
+          <button
+            hlmBtn
+            variant="ghost"
+            size="sm"
+            type="button"
+            class="w-8 rounded-md p-0 transition-colors"
+            [class.bg-accent]="favoriteOnly()"
+            [attr.aria-pressed]="favoriteOnly()"
+            aria-label="Show favorite bank accounts"
+            (click)="toggleFavoriteFilter()"
+          >
+            <nucleo-icon
+              [icon]="Heart"
+              [class]="favoriteOnly() ? 'h-4 w-4 fill-red-500 text-red-500' : 'text-muted-foreground h-4 w-4'"
+            />
+          </button>
+        }
+      </div>
+      <app-responsive-filter-row
+        class="hidden min-w-0 flex-1 lg:block"
+        containerClass="flex w-full min-w-0 items-center gap-1 overflow-hidden"
+        [filters]="responsiveFilters()"
+      />
+      <div class="ml-auto flex shrink-0 items-center gap-2">
+        <button
+          hlmBtn
+          variant="ghost"
+          size="sm"
+          class="group hover:text-foreground transition-colors"
+          (click)="openCreateBankAccountDialog()"
+        >
+          <nucleo-icon
+            [icon]="Plus"
+            class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
+          />
+          Add Bank Account
+        </button>
+      </div>
+    </div>
+    <app-responsive-filter-row class="block lg:hidden" [filters]="responsiveFilters()" />
+  </div>
+
+  <div class="relative flex-1 overflow-hidden">
+    <!-- Scrollable Content -->
+    <div #scrollContainer class="fade-in h-full overflow-auto">
+      <!-- Error Message -->
+      @if (error()) {
+        <div class="bg-destructive/10 text-destructive border-destructive/20 mb-6 rounded-lg border p-4">
+          {{ error() }}
+          @if (!loading()) {
+            <button (click)="retryLoad()" class="ml-2 underline hover:no-underline">Retry</button>
+          }
+        </div>
+      }
+
+      <!-- Bank Accounts List -->
+      @if (!loading() && hasBankAccounts()) {
+        <div class="p-3 sm:p-5">
+          <app-net-worth-chart
+            [accounts]="typeFilteredBankAccounts()"
+            [report]="netWorthReport()"
+            [currentMonth]="currentMonth"
+            [historyLoading]="historyLoading()"
+            [historyError]="historyError()"
+          />
+        </div>
+        <div class="pb-[200px] select-none">
+          <div>
+            @for (group of groupedBankAccountsWithSeparation(); track group.label; let groupIndex = $index) {
+              <div
+                hlmCollapsible
+                [expanded]="isGroupExpanded(group.label)"
+                (expandedChange)="onGroupExpandedChange(group.label, $event)"
+              >
+                <!-- Group Header - Draggable and Drop Target -->
+                <div
+                  [appDragSource]="{ type: 'group', id: group.label, index: groupIndex }"
+                  [dragDisabled]="favoriteOnly() || activeAccountType() !== 'all'"
+                  [containerKey]="'bank-account-groups'"
+                  (dragStart)="onGroupDragStart()"
+                  (dragEnd)="onGroupDragEnd()"
+                  [appDropTarget]="{ type: 'group', id: group.label, index: groupIndex }"
+                  [containerKey]="'bank-account-groups'"
+                  [acceptTypes]="['group']"
+                  (dropped)="onGroupDropped($event)"
+                  [appDragGap]="groupIndex"
+                  [gapContainerKey]="'bank-account-groups'"
+                  [gapItemId]="group.label"
+                  [gapTotalItems]="groupedBankAccountsWithSeparation().length"
+                  class="bg-accent/50 hover:bg-accent/70 group grid h-10 items-center border-b font-semibold"
+                  style="grid-template-columns: auto 1fr auto"
+                >
+                  <!-- Collapse button -->
+                  <div class="flex items-center justify-center pr-1 pl-2.5 sm:pl-3.5">
+                    <button
+                      hlmBtn
+                      variant="ghost"
+                      size="icon"
+                      hlmCollapsibleTrigger
+                      type="button"
+                      class="h-6 w-6"
+                      [attr.aria-label]="'Toggle ' + formatAccountTypeCategory(group.label)"
+                    >
+                      <nucleo-icon
+                        [icon]="isGroupExpanded(group.label) ? ChevronDown : ChevronRight"
+                        class="text-muted-foreground h-4 w-4"
+                      />
+                    </button>
+                  </div>
+
+                  <!-- Group name -->
+                  <div class="pl-1.5 text-sm">{{ formatAccountTypeCategory(group.label) }}</div>
+
+                  <!-- Group total -->
+                  <div class="pr-4 text-right text-sm">
+                    @if (groupTotals()[group.label]; as total) {
+                      {{ formatCurrency(total) }}
+                    }
+                  </div>
+                </div>
+
+                <!-- Group Content -->
+                <hlm-collapsible-content
+                  [class.!grid-rows-[0fr]]="isDraggingGroup()"
+                  class="grid transition-[grid-template-rows] duration-200 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]"
+                >
+                  <div
+                    class="overflow-hidden transition-transform duration-200 ease-out data-[state=closed]:-translate-y-2"
+                  >
+                    <!-- OPEN ACCOUNTS -->
+                    <div>
+                      @for (account of group.openAccounts; track account._id; let accountIndex = $index) {
+                        <a
+                          [appDragSource]="{
+                            type: 'account',
+                            id: account._id,
+                            index: accountIndex,
+                            groupLabel: group.label,
+                          }"
+                          [containerKey]="'bank-accounts'"
+                          [dragDisabled]="favoriteOnly()"
+                          [appDropTarget]="{
+                            type: 'account',
+                            id: account._id,
+                            index: accountIndex,
+                            groupLabel: group.label,
+                          }"
+                          [containerKey]="'bank-accounts'"
+                          [acceptTypes]="['account']"
+                          (dropped)="onAccountDropped($event, group.label)"
+                          [appDragGap]="accountIndex"
+                          [gapContainerKey]="'bank-accounts'"
+                          [gapGroupKey]="group.label"
+                          [gapItemId]="account._id"
+                          [gapTotalItems]="group.openAccounts.length"
+                          [routerLink]="getBankAccountUrl(account)"
+                          hlmContextMenuTrigger
+                          [hlmContextMenuTrigger]="bankAccountContextMenu"
+                          [hlmContextMenuTriggerData]="{ accountId: account._id }"
+                          class="hover:bg-accent/30 flex items-center justify-between border-b px-3 py-2 pr-4 sm:px-4"
+                        >
+                          <div class="flex min-w-0 flex-1 items-center gap-2">
+                            <div class="relative shrink-0">
+                              <app-entity-mark
+                                [mode]="account.visualIdentityMode"
+                                [logoUrl]="account.resolvedLogoUrl"
+                                [iconName]="account.iconName ?? defaultBankAccountIconName"
+                                [iconColorId]="account.iconColorId"
+                                [defaultIconName]="defaultBankAccountIconName"
+                                [alt]="account.name"
+                                size="sm"
+                              />
+                              @if (account.isFavorite) {
+                                <span
+                                  class="bg-background absolute -right-0.5 -bottom-0.5 flex h-3 w-3 items-center justify-center rounded-full border"
+                                >
+                                  <nucleo-icon
+                                    [icon]="Heart"
+                                    class="h-2.5 w-2.5 fill-red-500 text-red-500"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              }
+                            </div>
+                            <span class="truncate text-sm font-normal">{{ account.name }}</span>
+                          </div>
+                          <div class="flex shrink-0 items-center gap-3">
+                            <div class="flex items-center gap-1">
+                              <app-bank-link-status-badge [bankAccount]="account" />
+                              <app-last-synced-badge [bankAccount]="account" />
+                            </div>
+                            @if (account.currentBalance !== undefined && account.currentBalance !== null) {
+                              <span class="whitespace-nowrap text-right text-sm tabular-nums">{{ formatCurrency(account.currentBalance) }}</span>
+                            }
+                          </div>
+                        </a>
+                      }
+                    </div>
+
+                    <!-- CLOSED ACCOUNTS SECTION (only if closed accounts exist) -->
+                    @if (group.closedCount > 0) {
+                      <div
+                        hlmCollapsible
+                        [expanded]="isClosedAccountsVisible(group.label)"
+                        (expandedChange)="onClosedAccountsExpandedChange(group.label, $event)"
+                      >
+                        <!-- CLOSED ACCOUNTS (with collapsible animation) -->
+                        <hlm-collapsible-content
+                          class="grid origin-bottom transition-[grid-template-rows] duration-200 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]"
+                        >
+                          <div class="overflow-hidden">
+                            @for (account of group.closedAccounts; track account._id) {
+                              <a
+                                [routerLink]="getBankAccountUrl(account)"
+                                hlmContextMenuTrigger
+                                [hlmContextMenuTrigger]="bankAccountContextMenu"
+                                [hlmContextMenuTriggerData]="{ accountId: account._id }"
+                                class="bg-accent/60 hover:bg-accent/90 flex items-center justify-between border-b px-3 py-2 pr-4 opacity-75 transition-colors sm:px-4"
+                              >
+                                <div class="flex min-w-0 flex-1 items-center gap-2">
+                                  <div class="relative shrink-0">
+                                    <app-entity-mark
+                                      [mode]="account.visualIdentityMode"
+                                      [logoUrl]="account.resolvedLogoUrl"
+                                      [iconName]="account.iconName ?? defaultBankAccountIconName"
+                                      [iconColorId]="account.iconColorId"
+                                      [defaultIconName]="defaultBankAccountIconName"
+                                      [alt]="account.name"
+                                      size="sm"
+                                    />
+                                    @if (account.isFavorite) {
+                                      <span
+                                        class="bg-background absolute -right-0.5 -bottom-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border"
+                                      >
+                                        <nucleo-icon
+                                          [icon]="Heart"
+                                          class="h-2 w-2 fill-red-500 text-red-500"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    }
+                                  </div>
+                                  <span class="truncate text-sm font-normal">{{ account.name }}</span>
+                                </div>
+                                <div class="flex shrink-0 items-center gap-3">
+                                  <div class="flex items-center gap-1">
+                                    <app-closed-account-badge [bankAccount]="account" />
+                                    <app-bank-link-status-badge [bankAccount]="account" />
+                                    <app-last-synced-badge [bankAccount]="account" />
+                                  </div>
+                                  @if (account.currentBalance !== undefined && account.currentBalance !== null) {
+                                    <span class="whitespace-nowrap text-right text-sm tabular-nums">{{ formatCurrency(account.currentBalance) }}</span>
+                                  }
+                                </div>
+                              </a>
+                            }
+                          </div>
+                        </hlm-collapsible-content>
+
+                        <!-- TOGGLE ROW -->
+                        <button
+                          type="button"
+                          hlmCollapsibleTrigger
+                          class="bg-accent/20 hover:bg-accent/35 text-muted-foreground hover:text-foreground group flex h-9 w-full items-center gap-2 border-b pr-3 pl-10 text-xs transition-colors sm:pr-4 sm:pl-12"
+                          [attr.aria-label]="
+                            isClosedAccountsVisible(group.label)
+                              ? 'Hide ' +
+                                group.closedCount +
+                                ' closed ' +
+                                (group.closedCount === 1 ? 'account' : 'accounts') +
+                                ' in ' +
+                                formatAccountTypeCategory(group.label)
+                              : 'Show ' +
+                                group.closedCount +
+                                ' closed ' +
+                                (group.closedCount === 1 ? 'account' : 'accounts') +
+                                ' in ' +
+                                formatAccountTypeCategory(group.label)
+                          "
+                          [attr.aria-expanded]="isClosedAccountsVisible(group.label)"
+                        >
+                          <nucleo-icon
+                            [icon]="isClosedAccountsVisible(group.label) ? EyeOff : Eye"
+                            class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
+                          />
+                          <span>
+                            {{ isClosedAccountsVisible(group.label) ? 'Hide' : 'Show' }}
+                            {{ group.closedCount }}
+                            {{ group.closedCount === 1 ? 'closed account' : 'closed accounts' }}
+                          </span>
+                        </button>
+                      </div>
+                    }
+                  </div>
+                </hlm-collapsible-content>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (!loading() && hasBankAccounts() && favoriteOnly() && groupedBankAccountsWithSeparation().length === 0) {
+        <div class="py-12 text-center">
+          <nucleo-icon [icon]="Heart" class="text-muted-foreground mx-auto h-10 w-10" />
+          <h3 class="mt-2 text-sm font-semibold">No favorite accounts</h3>
+        </div>
+      }
+
+      <!-- Empty State -->
+      @if (!loading() && !hasBankAccounts() && !error()) {
+        <div class="py-12 text-center">
+          <nucleo-icon [icon]="Wallet" class="text-muted-foreground mx-auto h-12 w-12" />
+          <h3 class="mt-2 text-sm font-semibold">No bank accounts</h3>
+          <p class="text-muted-foreground mt-1 text-sm">Get started by adding your first bank account.</p>
+          <div class="mt-6">
+            <button hlmBtn (click)="openCreateBankAccountDialog()">
+              <nucleo-icon [icon]="Plus" class="h-4 w-4" />
+              New Bank Account
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>
+
+<ng-template #bankAccountContextMenu let-accountId="accountId">
+  <hlm-dropdown-menu class="w-48">
+    <button hlmDropdownMenuItem (click)="onToggleAccountFavorite(accountId, $event)">
+      <nucleo-icon [icon]="Heart" [class]="isBankAccountFavorite(accountId) ? 'h-4 w-4 fill-current' : 'h-4 w-4'" />
+      <span class="text-xs">{{ isBankAccountFavorite(accountId) ? 'Unfavorite' : 'Favorite' }}</span>
+    </button>
+  </hlm-dropdown-menu>
+</ng-template>

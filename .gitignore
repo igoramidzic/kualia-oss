@@ -1,0 +1,108 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+**/node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+/.nx/
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+.env.local
+
+# Expo
+.expo/
+web-build/
+expo-env.d.ts
+
+# iOS build artifacts
+ios/build-*.ipa
+ios/build-*.tar.gz
+ios/ios.app/
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# macOS
+*.pem
+
+# Xcode user data
+*.xcuserstate
+xcuserdata/
+
+# App Store Connect CLI credentials, review plans, and build artifacts
+/.asc/
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# Astro blog
+blog/dist/
+blog/.astro/
+blog/node_modules/
+.worktrees/
+
+# Local development and credentials
+.env
+.env.*
+!.env.example
+.convex/
+.local/
+.turbo/
+**/dist/
+**/.angular/
+*.log
+public/local-session.json
+*.sqlite*
+*.db
+*.ipa
+*.xcarchive/
+*.zip
+*.tar.gz

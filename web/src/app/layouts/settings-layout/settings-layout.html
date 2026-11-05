@@ -1,0 +1,62 @@
+<div hlmSidebarWrapper class="flex h-full overflow-hidden select-none">
+  <hlm-sidebar [sidebarContainerClass]="'!border-r-0'">
+    <div hlmSidebarContent>
+      <div hlmSidebarGroup>
+        <div class="p-2">
+          <a hlmBtn variant="ghost" class="text-muted-foreground justify-start gap-2" [routerLink]="backRoute()">
+            <nucleo-icon [icon]="ArrowLeft" [size]="16" />
+            Back to app
+          </a>
+        </div>
+
+        <nav class="mt-4 flex flex-col gap-[1px]">
+          @if (isAccountSettings) {
+            <p class="text-muted-foreground mb-1 px-2 text-sm font-light">Account</p>
+            <app-navigation-item label="Profile" [route]="profileRoute" [icon]="UserRound" [exactMatch]="true" />
+            <app-navigation-item
+              label="Preferences"
+              [route]="preferencesRoute"
+              [icon]="Settings"
+              [exactMatch]="true"
+            />
+            <app-navigation-item label="Family" [route]="familyRoute" [icon]="UsersRound" [exactMatch]="true" />
+            <app-navigation-item label="Billing" [route]="billingRoute" [icon]="CreditCard" [exactMatch]="true" />
+            <app-navigation-item label="API Keys" [route]="apiKeysRoute" [icon]="KeyRound" [exactMatch]="true" />
+            <app-navigation-item
+              label="MCP connections"
+              [route]="mcpConnectionsRoute"
+              [icon]="Cable"
+              [exactMatch]="true"
+            />
+          } @else {
+            <app-navigation-item
+              label="General"
+              [route]="workspaceSettingsRoute()"
+              [icon]="Building"
+              [exactMatch]="true"
+            />
+            <app-navigation-item
+              label="Bank connections"
+              [route]="bankConnectionsRoute()"
+              [icon]="Link"
+              [exactMatch]="true"
+            />
+            <app-navigation-item label="Merchants" [route]="merchantsRoute()" [icon]="Store" [exactMatch]="false" />
+            <app-navigation-item label="Rules" [route]="rulesRoute()" [icon]="ChevronsRight" [exactMatch]="true" />
+            <app-navigation-item label="Export" [route]="exportRoute()" [icon]="Download" [exactMatch]="true" />
+
+            <div class="border-border mt-4 border-t pt-2">
+              <app-navigation-item label="Activity" [route]="activityRoute()" [icon]="History" [exactMatch]="true" />
+            </div>
+          }
+        </nav>
+      </div>
+    </div>
+  </hlm-sidebar>
+
+  <main class="bg-background transition-padding flex-1 overflow-hidden p-0 duration-200 lg:py-2 lg:pe-2">
+    <div class="content-area flex h-full flex-col overflow-hidden rounded-xl sm:border">
+      <router-outlet />
+    </div>
+  </main>
+</div>

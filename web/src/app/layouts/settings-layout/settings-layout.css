@@ -1,0 +1,5 @@
+/* Settings layout specific styles */
+
+.content-area {
+  background: var(--content-background);
+}

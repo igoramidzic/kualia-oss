@@ -1,0 +1,178 @@
+<hlm-dialog-header class="border-b p-4">
+  <h1 class="">{{ enableTarget ? 'Edit' : 'Create' }} Target for {{ categoryName }}</h1>
+</hlm-dialog-header>
+
+<div class="max-h-[60vh] w-full max-w-sm overflow-y-auto p-4">
+  <!-- Amount Input (large, borderless like transaction dialog) -->
+  <div class="mb-4 flex items-center gap-3">
+    <span class="text-muted-foreground shrink-0 text-xs select-none">Target amount</span>
+    <app-currency-input
+      [ngModel]="amountDisplay()"
+      [allowNegative]="false"
+      [inputClass]="'w-full border-none bg-transparent h-8 outline-none focus:outline-none'"
+      (ngModelChange)="onAmountChange($event)"
+    />
+  </div>
+
+  <!-- Target Type Toggle -->
+  <div class="mb-4 flex items-center gap-2">
+    <span class="text-muted-foreground shrink-0 text-xs select-none">I want to</span>
+    <app-target-type-toggle
+      [value]="targetTypeSelection()"
+      [amount]="amount()"
+      [disabled]="isSubmitting()"
+      (valueChange)="onTargetTypeChange($event)"
+    />
+  </div>
+
+  <!-- Recurring Fields -->
+  @if (targetTypeSelection() === 'set_aside' || targetTypeSelection() === 'fill_up') {
+    <!-- Repeat every row -->
+    <div class="mb-4 flex items-center gap-2">
+      <span class="text-muted-foreground shrink-0 text-xs select-none">Repeat every</span>
+      <hlm-select class="inline-block" [(value)]="frequencyInterval" [itemToString]="frequencyIntervalToString">
+        <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass">
+          <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content *hlmSelectPortal class="max-h-48">
+          @for (option of frequencyIntervalOptions(); track option.value) {
+            <hlm-select-item [value]="option.value">{{ option.label }}</hlm-select-item>
+          }
+        </hlm-select-content>
+      </hlm-select>
+      <hlm-select class="inline-block" [(value)]="frequency" [itemToString]="frequencyToString">
+        <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass">
+          <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content *hlmSelectPortal>
+          @for (option of frequencyOptionsWithLabels(); track option.value) {
+            <hlm-select-item [value]="option.value">{{ option.label }}</hlm-select-item>
+          }
+        </hlm-select-content>
+      </hlm-select>
+    </div>
+
+    <!-- On row (hidden for daily/yearly) -->
+    @if (frequency() === 'weekly' || frequency() === 'monthly') {
+      <div class="mb-4 flex items-center gap-2">
+        <span class="text-muted-foreground shrink-0 text-xs select-none">{{
+          frequency() === 'monthly' ? 'By the' : 'On'
+        }}</span>
+        @if (frequency() === 'monthly') {
+          <hlm-select class="inline-block" [(value)]="dueDay" [itemToString]="dueDayToString">
+            <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass">
+              <hlm-select-value />
+            </hlm-select-trigger>
+            <hlm-select-content *hlmSelectPortal class="max-h-48">
+              @for (option of dayOfMonthOptions; track option.value) {
+                <hlm-select-item [value]="option.value">{{ option.label }}</hlm-select-item>
+              }
+            </hlm-select-content>
+          </hlm-select>
+        } @else {
+          <hlm-select class="inline-block" [(value)]="dayOfWeek" [itemToString]="dayOfWeekToString">
+            <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass">
+              <hlm-select-value />
+            </hlm-select-trigger>
+            <hlm-select-content *hlmSelectPortal>
+              @for (option of dayOfWeekOptions; track option.value) {
+                <hlm-select-item [value]="option.value">{{ option.label }}</hlm-select-item>
+              }
+            </hlm-select-content>
+          </hlm-select>
+        }
+      </div>
+    }
+
+    <!-- First due on row (hidden for daily/weekly/monthly with interval of 1) -->
+    @if (frequency() === 'yearly' || frequencyInterval() > 1) {
+      <div class="mb-4 flex items-center gap-2">
+        <span class="text-muted-foreground shrink-0 text-xs select-none">First due on</span>
+        <app-date-picker
+          [date]="firstDueDate()"
+          variant="ghost"
+          buttonClass="h-8 px-2 text-xs"
+          emptyText="Select date"
+          (dateChange)="onFirstDueDateChange($event)"
+        />
+      </div>
+    }
+  }
+
+  <!-- Maintain Balance Fields -->
+  @if (targetTypeSelection() === 'maintain_balance') {
+    <div class="mb-4 flex items-center gap-2">
+      <span class="text-muted-foreground shrink-0 text-xs select-none">Monthly contribution</span>
+      <app-currency-input
+        [ngModel]="monthlyContributionDisplay()"
+        [allowNegative]="false"
+        [inputClass]="'w-full border-none bg-transparent h-8 outline-none focus:outline-none'"
+        (ngModelChange)="onMonthlyContributionChange($event)"
+      />
+    </div>
+  }
+
+  <!-- One-Time Goal Fields -->
+  @if (targetTypeSelection() === 'one_time') {
+    <div class="mb-4 flex items-center gap-2">
+      <span class="text-muted-foreground shrink-0 text-xs select-none">Due on</span>
+      <app-date-picker
+        [date]="targetDate()"
+        [min]="minTargetDate"
+        variant="ghost"
+        buttonClass="h-8 px-2 text-xs"
+        emptyText="Select date"
+        (dateChange)="targetDate.set($event)"
+      />
+    </div>
+  }
+
+  <!-- Target Description Preview -->
+  <app-category-target-description
+    [targetType]="targetTypeSelection()"
+    [amount]="amount()"
+    [frequency]="frequency()"
+    [frequencyInterval]="frequencyInterval()"
+    [dayOfWeek]="dayOfWeek()"
+    [dueDay]="dueDay()"
+    [firstDueDate]="firstDueDate()"
+    [targetDate]="targetDate()"
+    [monthlyContribution]="monthlyContribution()"
+    class="mb-4 block"
+  />
+</div>
+
+@if (error()) {
+  <div class="bg-destructive/10 text-destructive border-destructive/20 mx-4 mb-4 rounded-lg border p-3">
+    <p class="text-sm">{{ error() }}</p>
+  </div>
+}
+
+<hlm-dialog-footer class="flex-wrap gap-2 border-t p-4">
+  @if (enableTarget) {
+    <button
+      hlmBtn
+      size="sm"
+      variant="outline"
+      (click)="handleDelete()"
+      [disabled]="isSubmitting()"
+      class="text-destructive mr-auto"
+    >
+      @if (isSubmitting() && isDeleting()) {
+        <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+        Removing...
+      } @else {
+        Remove
+      }
+    </button>
+  }
+  <button hlmBtn size="sm" variant="outline" (click)="cancel()" [disabled]="isSubmitting()">Cancel</button>
+  <button hlmBtn size="sm" (click)="handleSave()" [disabled]="!isFormValid() || isSubmitting()">
+    @if (isSubmitting() && !isDeleting()) {
+      <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+      Saving...
+    } @else {
+      Save Target
+    }
+  </button>
+</hlm-dialog-footer>

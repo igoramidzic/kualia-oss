@@ -1,0 +1,13 @@
+{
+  "name": "@kualia/backend",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "node ../scripts/dev-backend.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@kualia/shared": "workspace:*"
+  }
+}

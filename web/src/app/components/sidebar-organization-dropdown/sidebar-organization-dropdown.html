@@ -1,0 +1,48 @@
+<div class="relative">
+  <button
+    type="button"
+    hlmBtn
+    [variant]="triggerVariant()"
+    [size]="triggerSize()"
+    [class]="triggerClass()"
+    hlmDropdownMenuTrigger
+    [hlmDropdownMenuTrigger]="menu"
+    [side]="menuSide()"
+    aria-haspopup="menu"
+    [attr.aria-label]="iconOnly() ? userDisplayName() : null"
+  >
+    <div class="flex w-full items-center gap-2" [class.justify-center]="iconOnly()">
+      <hlm-avatar size="sm">
+        @if (userImageUrl(); as imageUrl) {
+          <img hlmAvatarImage [src]="imageUrl" alt="" />
+        }
+        <span hlmAvatarFallback data-testid="user-avatar-fallback">
+          <nucleo-icon [icon]="UserIcon" [size]="14" />
+        </span>
+      </hlm-avatar>
+
+      @if (!iconOnly()) {
+        <span class="flex-1 truncate text-left text-sm">{{ userDisplayName() }}</span>
+        <nucleo-icon
+          [icon]="ChevronDown"
+          [size]="16"
+          class="text-muted-foreground transition-transform duration-200"
+        />
+      }
+    </div>
+  </button>
+
+  <ng-template #menu>
+    <hlm-dropdown-menu class="w-56">
+      <a hlmDropdownMenuItem [routerLink]="settingsLink">
+        <span>Account settings</span>
+      </a>
+
+      <hlm-dropdown-menu-separator />
+
+      <button hlmDropdownMenuItem (click)="logout()">
+        <span>Log Out</span>
+      </button>
+    </hlm-dropdown-menu>
+  </ng-template>
+</div>

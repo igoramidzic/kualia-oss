@@ -1,0 +1,52 @@
+<a
+  [routerLink]="routePath()"
+  [queryParams]="routeQueryParams()"
+  (click)="handleClick()"
+  hlmBtn
+  size="sm"
+  variant="ghost"
+  class="group/nav-item text-normal w-full justify-start font-light transition-none group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0"
+  [class.text-accent-foreground]="isActive()"
+  [ngClass]="{ 'bg-accent/50': isActive() }"
+  [attr.aria-label]="label()"
+  [attr.aria-current]="isActive() ? 'page' : null"
+>
+  <div class="flex w-full items-center justify-between group-data-[collapsible=icon]:justify-center">
+    <div class="flex min-w-0 items-center gap-2">
+      <nucleo-icon
+        [icon]="icon()"
+        [size]="16"
+        class="group-hover/nav-item:!text-foreground dark:group-hover/nav-item:!text-foreground flex-shrink-0"
+        [class.text-foreground]="isActive()"
+        [class.text-muted-foreground]="!isActive()"
+      />
+      <span class="truncate group-data-[collapsible=icon]:hidden">{{ label() }}</span>
+      @if (badgeText() && badgeTextPosition() === 'inline') {
+        <span
+          hlmBadge
+          variant="outline"
+          class="flex-shrink-0 px-1.5 py-0 text-[10px] font-normal group-data-[collapsible=icon]:hidden"
+          [ngClass]="badgeTextClass()"
+          data-testid="navigation-item-inline-badge"
+        >
+          {{ badgeText() }}
+        </span>
+      }
+    </div>
+    <div class="flex items-center gap-2 group-data-[collapsible=icon]:hidden">
+      @if (alertIcon()) {
+        <nucleo-icon [icon]="alertIcon()!" [size]="16" class="text-destructive flex-shrink-0" />
+      }
+      @if (badgeText() && badgeTextPosition() === 'end') {
+        <span hlmBadge variant="outline" class="px-1.5 py-0 text-[10px] font-normal" [ngClass]="badgeTextClass()">
+          {{ badgeText() }}
+        </span>
+      }
+      @if (displayBadgeCount()) {
+        <span hlmBadge variant="default" class="flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs">
+          {{ displayBadgeCount() }}
+        </span>
+      }
+    </div>
+  </div>
+</a>

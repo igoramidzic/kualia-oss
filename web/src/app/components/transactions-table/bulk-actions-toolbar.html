@@ -1,0 +1,105 @@
+<div
+  class="bg-primary animate-in slide-in-from-bottom-4 fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full px-2 py-1.5 shadow-lg duration-200"
+>
+  <!-- Deselect / Count Button -->
+  <button
+    hlmBtn
+    variant="ghost"
+    size="sm"
+    class="h-8 gap-1.5 rounded-full px-3 text-sm font-medium text-white hover:bg-white/20 hover:text-white"
+    (click)="onDeselectAll()"
+    [disabled]="isBulkActionInProgress()"
+  >
+    <nucleo-icon [icon]="XIcon" [size]="14" />
+    {{ selectionLabel() }}
+  </button>
+
+  <div class="mx-0.5 h-5 w-px bg-white/30"></div>
+
+  <!-- Enter Now (only when the selection is exclusively scheduled transactions) -->
+  @if (canEnterNow()) {
+    <button
+      hlmBtn
+      variant="ghost"
+      size="sm"
+      class="h-8 gap-1.5 rounded-full px-3 text-sm font-medium text-white hover:bg-white/20 hover:text-white"
+      (click)="enterNowSelected()"
+      [disabled]="isBulkActionInProgress()"
+    >
+      <nucleo-icon [icon]="CalendarArrowDown" [size]="14" />
+      Enter now
+    </button>
+
+    <div class="mx-0.5 h-5 w-px bg-white/30"></div>
+  }
+
+  <!-- Approve Button (only when selected transactions need review) -->
+  @if (hasSelectedNeedsReview()) {
+    <button
+      hlmBtn
+      variant="ghost"
+      size="sm"
+      class="h-8 gap-1.5 rounded-full px-3 text-sm font-medium text-white hover:bg-white/20 hover:text-white"
+      (click)="bulkApprove()"
+      [disabled]="isBulkActionInProgress()"
+    >
+      <nucleo-icon [icon]="BadgeCheck" [size]="14" />
+      Approve
+    </button>
+
+    <div class="mx-0.5 h-5 w-px bg-white/30"></div>
+  }
+
+  <!-- Delete Button -->
+  <button
+    hlmBtn
+    variant="ghost"
+    size="sm"
+    class="h-8 gap-1.5 rounded-full px-3 text-sm font-medium text-white hover:bg-white/20 hover:text-white"
+    (click)="bulkDelete()"
+    [disabled]="isBulkActionInProgress()"
+  >
+    <nucleo-icon [icon]="Trash2" [size]="14" />
+    Delete
+  </button>
+
+  <!-- More Menu (transaction status actions; only for regular-only selections) -->
+  @if (isRegularOnly()) {
+    <div class="mx-0.5 h-5 w-px bg-white/30"></div>
+
+    <brn-popover [state]="moreMenuState()" (stateChanged)="moreMenuState.set($event)" sideOffset="8">
+      <button
+        hlmBtn
+        variant="ghost"
+        size="icon"
+        class="h-8 w-8 rounded-full text-white hover:bg-white/20 hover:text-white"
+        brnPopoverTrigger
+        [disabled]="isBulkActionInProgress()"
+      >
+        <nucleo-icon [icon]="Ellipsis" [size]="16" />
+      </button>
+      <div *brnPopoverContent="let ctx" hlmPopoverContent class="w-48 p-1">
+        <button
+          hlmBtn
+          variant="ghost"
+          size="sm"
+          class="w-full justify-start gap-2 px-2 text-sm font-normal"
+          (click)="bulkUpdateStatus('cleared')"
+        >
+          <nucleo-icon [icon]="CircleCheck" [size]="14" />
+          Mark Cleared
+        </button>
+        <button
+          hlmBtn
+          variant="ghost"
+          size="sm"
+          class="w-full justify-start gap-2 px-2 text-sm font-normal"
+          (click)="bulkUpdateStatus('pending')"
+        >
+          <nucleo-icon [icon]="ClockFading" [size]="14" />
+          Mark Pending
+        </button>
+      </div>
+    </brn-popover>
+  }
+</div>

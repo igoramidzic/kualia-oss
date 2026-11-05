@@ -1,0 +1,107 @@
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+/* Tab enter/leave: grow/shrink in width while fading. overflow:hidden during the animation
+   clips the inner button's truncated text smoothly so neighboring tabs slide aside. */
+@keyframes ai-tab-enter-keys {
+  from {
+    max-width: 0;
+    opacity: 0;
+  }
+  to {
+    max-width: 16rem;
+    opacity: 1;
+  }
+}
+@keyframes ai-tab-leave-keys {
+  from {
+    max-width: 16rem;
+    opacity: 1;
+  }
+  to {
+    max-width: 0;
+    opacity: 0;
+  }
+}
+.ai-tab-enter {
+  animation: ai-tab-enter-keys 200ms ease-out;
+  overflow: hidden;
+}
+.ai-tab-leave {
+  animation: ai-tab-leave-keys 180ms ease-in forwards;
+  overflow: hidden;
+}
+
+/* Unread dot enter/leave: animate the layout footprint (width + margin-right) so the
+   button grows/shrinks naturally as the dot resolves in or out. No transform/scale —
+   keeping the visible dot size locked to its layout slot avoids the jitter that came from
+   scale and width interpolating at different perceived rates. The button's own flex gap
+   is overridden to 0 (see template) so the dot's margin-right is the sole separator. */
+@keyframes ai-unread-dot-enter-keys {
+  from {
+    width: 0;
+    margin-right: 0;
+    opacity: 0;
+  }
+  to {
+    width: 0.5rem;
+    margin-right: 0.25rem;
+    opacity: 1;
+  }
+}
+@keyframes ai-unread-dot-leave-keys {
+  from {
+    width: 0.5rem;
+    margin-right: 0.25rem;
+    opacity: 1;
+  }
+  to {
+    width: 0;
+    margin-right: 0;
+    opacity: 0;
+  }
+}
+.ai-unread-dot-enter {
+  animation: ai-unread-dot-enter-keys 180ms ease-out;
+}
+.ai-unread-dot-leave {
+  animation: ai-unread-dot-leave-keys 180ms ease-in forwards;
+}
+
+/* Tab title shimmer while a thread has an in-flight send. Uses the same gradient + duration
+   vocabulary as the panel's "Thinking…" indicator so the bar's pulse matches the body's. */
+@keyframes ai-tab-shimmer-keys {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+.ai-tab-shimmer {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--muted-foreground) 45%, transparent) 0%,
+    color-mix(in oklch, var(--muted-foreground) 45%, transparent) 40%,
+    var(--foreground) 50%,
+    color-mix(in oklch, var(--muted-foreground) 45%, transparent) 60%,
+    color-mix(in oklch, var(--muted-foreground) 45%, transparent) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: ai-tab-shimmer-keys 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-tab-shimmer {
+    animation: none;
+    color: var(--muted-foreground);
+    -webkit-text-fill-color: var(--muted-foreground);
+  }
+}

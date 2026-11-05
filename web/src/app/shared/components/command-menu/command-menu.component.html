@@ -1,0 +1,70 @@
+<hlm-command
+  #commandRoot
+  (keydown)="onKeyDown($event)"
+  [search]="searchValue()"
+  (searchChange)="onSearchChange($event)"
+>
+  <hlm-command-input
+    class="h-12"
+    [placeholder]="context() === 'workspace-selector' ? 'Search workspaces...' : 'Type a command or search...'"
+  />
+
+  <hlm-command-list>
+    <!-- Default context: show commands -->
+    @if (context() === 'default') {
+      @for (group of commandGroups(); track group.label) {
+        <hlm-command-group hlm>
+          <hlm-command-group-label>{{ group.label }}</hlm-command-group-label>
+          @for (command of group.commands; track command.id) {
+            <button hlm-command-item class="h-12" [value]="command.label" (selected)="executeCommand(command)">
+              @if (command.icon) {
+                <ng-icon hlm [name]="command.icon" hlmCommandIcon />
+              }
+              {{ command.label }}
+              @if (command.shortcut) {
+                <hlm-command-shortcut class="flex items-center gap-1">
+                  @for (key of command.shortcut.keys; track $index) {
+                    <kbd class="kbd">{{ key }}</kbd>
+                    @if ($index < command.shortcut.keys.length - 1 && command.shortcut.sequence) {
+                      <span class="text-muted-foreground text-xs">then</span>
+                    }
+                  }
+                </hlm-command-shortcut>
+              }
+            </button>
+          }
+        </hlm-command-group>
+      }
+    }
+
+    <!-- Workspace selector context -->
+    @if (context() === 'workspace-selector') {
+      <hlm-command-group hlm>
+        <hlm-command-group-label>Workspaces</hlm-command-group-label>
+        @for (workspace of workspaceItems(); track workspace._id) {
+          <button
+            hlm-command-item
+            class="flex h-12 items-center gap-3"
+            [value]="workspace.name"
+            (selected)="executeWorkspaceSelection(workspace)"
+          >
+            <span class="flex-1 text-left">{{ workspace.name }}</span>
+
+            <!-- Current workspace indicator -->
+            @if (workspace.isCurrent) {
+              <span class="bg-accent text-muted-foreground rounded px-1.5 py-0.5 text-xs">Current</span>
+            }
+
+            <!-- Number badge (only for first 9) -->
+            @if (workspace.number) {
+              <kbd class="kbd">{{ workspace.number }}</kbd>
+            }
+          </button>
+        }
+      </hlm-command-group>
+    }
+
+    <!-- Empty state -->
+    <div *brnCommandEmpty hlmCommandEmpty>No results found.</div>
+  </hlm-command-list>
+</hlm-command>

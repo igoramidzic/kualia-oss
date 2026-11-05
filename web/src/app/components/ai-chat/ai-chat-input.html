@@ -1,0 +1,144 @@
+<div class="shrink-0 px-2 pt-1 pb-2">
+  <!-- Back-card slot: animates max-height for layout while the inner card translates down to
+       look like it's sliding behind the input card. The form's z-index is higher so the card
+       visually disappears behind it on exit. The slot is always present so the rounded corners
+       and border on the form don't pop when the card appears/disappears. -->
+  <div
+    class="overflow-hidden transition-[max-height] duration-300 ease-out"
+    [style.max-height.px]="limitReached() || workspaceName() !== null ? backCardMaxHeight : 0"
+  >
+    @if (limitReached()) {
+      <div
+        class="bg-destructive/10 border-destructive/30 text-destructive mx-0.5 flex items-center gap-1.5 rounded-t-xl border border-b-0 px-3 pt-1 pb-3"
+        role="status"
+      >
+        <nucleo-icon [icon]="AlertCircle" [size]="12" class="shrink-0" />
+        <span class="truncate text-xs font-medium">Monthly AI usage limit reached — resets on the 1st.</span>
+      </div>
+    } @else {
+      <div
+        class="bg-background dark:bg-accent border-border mx-0.5 flex items-center gap-1.5 rounded-t-xl border border-b-0 px-3 pt-1 pb-3 transition-transform duration-300 ease-out"
+        [class.translate-y-full]="workspaceName() === null"
+        [attr.aria-hidden]="workspaceName() === null ? 'true' : null"
+      >
+        <nucleo-icon [icon]="LayoutGrid" [size]="12" class="text-primary shrink-0" />
+        <span class="text-foreground truncate text-xs font-medium">{{ workspaceName() ?? ' ' }}</span>
+      </div>
+    }
+  </div>
+  <!-- Front card: input fills the whole card (so clicking anywhere focuses it); send floats
+       bottom-right. Always pulls up by 2 to overlap the back card when present, and sits above
+       it via z-index so the back card slides out behind it cleanly. The wrapper holds the
+       drop overlay so it covers only the input card while files are being dragged. -->
+  <div class="relative z-10 -mt-2">
+    @if (isDragOver()) {
+      <div
+        class="border-primary/60 bg-background/95 dark:bg-accent/95 pointer-events-none absolute inset-0 z-20 flex items-center justify-center rounded-xl border-2 border-dashed"
+        aria-hidden="true"
+      >
+        <div class="text-foreground flex flex-col items-center gap-1 text-xs font-medium">
+          <nucleo-icon [icon]="Paperclip" [size]="20" class="text-primary" />
+          <span>Drop files to attach</span>
+        </div>
+      </div>
+    }
+    <form
+      (submit)="onSubmit($event)"
+      (mousedown)="onCardMouseDown($event)"
+      class="bg-popover border-border flex flex-col rounded-xl border shadow-sm"
+    >
+      @if (pendingAttachments().length > 0) {
+        <ul class="flex flex-wrap gap-1.5 px-2 pt-2">
+          @for (attachment of pendingAttachments(); track attachment.id) {
+            <li
+              class="border-border bg-accent text-foreground flex max-w-[220px] items-center gap-1.5 rounded-md border px-2 py-1 text-xs"
+              [class.border-destructive]="attachment.status === 'error'"
+            >
+              <nucleo-icon [icon]="Paperclip" [size]="12" class="text-muted-foreground shrink-0" />
+              <span class="truncate" [title]="attachment.filename">{{ attachment.filename }}</span>
+              @if (attachment.status === 'uploading') {
+                <span class="text-muted-foreground shrink-0">Uploading…</span>
+              } @else if (attachment.status === 'error') {
+                <span class="text-destructive shrink-0">{{ attachment.error ?? 'Failed' }}</span>
+              }
+              <button
+                hlmBtn
+                type="button"
+                size="icon"
+                variant="ghost"
+                class="text-muted-foreground hover:text-foreground -mr-1 h-4 w-4 shrink-0 rounded"
+                [attr.aria-label]="'Remove ' + attachment.filename"
+                (click)="removeAttachment(attachment.id)"
+              >
+                <nucleo-icon [icon]="X" [size]="10" />
+              </button>
+            </li>
+          }
+        </ul>
+      }
+      <input
+        #fileInput
+        type="file"
+        multiple
+        [accept]="attachmentAccept"
+        class="hidden"
+        (change)="onFileInputChange($event)"
+        aria-hidden="true"
+        tabindex="-1"
+      />
+      <textarea
+        #promptInput
+        [ngModel]="inputValue()"
+        (ngModelChange)="onTextChange($event)"
+        name="prompt"
+        data-ai-chat-prompt
+        rows="1"
+        [placeholder]="placeholder()"
+        autocomplete="off"
+        [disabled]="limitReached()"
+        (keydown)="onKeydown($event)"
+        (input)="autoResize(promptInput)"
+        class="text-foreground placeholder:text-muted-foreground block max-h-[4.5rem] min-h-[1.5rem] w-full resize-none overflow-hidden bg-transparent px-3 pt-2 pb-1 text-[13px] focus:outline-none disabled:cursor-not-allowed"
+      ></textarea>
+      <div class="flex items-center justify-end gap-1 px-1.5 pb-1.5">
+        <button
+          hlmBtn
+          type="button"
+          size="icon"
+          variant="ghost"
+          class="text-muted-foreground hover:text-foreground h-7 w-7 rounded-full"
+          [hlmTooltip]="'Attach files'"
+          aria-label="Attach files"
+          [disabled]="limitReached()"
+          (click)="openFilePicker()"
+        >
+          <nucleo-icon [icon]="Paperclip" [size]="14" />
+        </button>
+        @if (isResponding()) {
+          <button
+            hlmBtn
+            type="button"
+            size="icon"
+            class="bg-accent text-accent-foreground hover:bg-accent/80 h-7 w-7 rounded-full"
+            (click)="onSendOrStop($event)"
+            aria-label="Stop response"
+          >
+            <nucleo-icon [icon]="Square" [size]="12" class="fill-current" />
+          </button>
+        } @else {
+          <button
+            hlmBtn
+            type="submit"
+            size="icon"
+            [variant]="canSend() ? 'default' : 'secondary'"
+            class="h-7 w-7 rounded-full"
+            [disabled]="!canSend()"
+            aria-label="Send message"
+          >
+            <nucleo-icon [icon]="ArrowUp" [size]="14" />
+          </button>
+        }
+      </div>
+    </form>
+  </div>
+</div>

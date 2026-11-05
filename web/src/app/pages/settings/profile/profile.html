@@ -1,0 +1,105 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="Profile" />
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+    <div class="container mx-auto max-w-[640px] p-4 pt-4 transition-all select-none lg:p-6 lg:pt-6 lg:pt-16">
+      <div class="mb-6">
+        <h1 class="text-2xl">Profile</h1>
+      </div>
+
+      <div class="mb-8 select-none">
+        <h2 class="mb-3 text-sm">First name</h2>
+
+        <div hlmCard>
+          <div class="flex items-start gap-4 p-3 sm:items-center">
+            <label hlmLabel for="profile-name" class="w-[25%] pt-2 text-sm font-light sm:w-[55%] sm:pt-0">
+              First name
+            </label>
+            <div class="flex-1">
+              <input
+                hlmInput
+                type="text"
+                id="profile-name"
+                [value]="name()"
+                (input)="onNameInput($event)"
+                (keydown.enter)="onNameSubmit($event)"
+                (blur)="onNameBlur()"
+                placeholder="Your first name"
+                class="h-8 w-full text-sm dark:bg-transparent"
+                autocomplete="given-name"
+                [disabled]="saving()"
+                data-testid="profile-name-input"
+              />
+              @if (nameError()) {
+                <p class="text-destructive mt-1 text-xs">{{ nameError() }}</p>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-8 select-none">
+        <h2 class="mb-3 text-sm">Account Details</h2>
+
+        <div hlmCard>
+          <div class="flex items-center gap-4 border-b p-3">
+            <div class="w-[25%] text-sm font-light sm:w-[55%]">Email</div>
+            <div class="min-w-0 flex-1 text-right">
+              <span
+                hlmBadge
+                variant="outline"
+                class="max-w-full truncate px-2.5 py-1 text-xs font-normal"
+                data-testid="profile-email-badge"
+              >
+                {{ email() }}
+              </span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 p-3">
+            <div class="w-[25%] text-sm font-light sm:w-[55%]">Sign-in method</div>
+            <div class="min-w-0 flex-1 text-right">
+              <span
+                hlmBadge
+                variant="outline"
+                class="max-w-full truncate px-2.5 py-1 text-xs font-normal"
+                data-testid="profile-provider-badge"
+              >
+                {{ authProviderLabel() }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-8 select-none">
+        <h2 class="text-destructive mb-3 text-sm">Danger Zone</h2>
+
+        <div hlmCard class="border-destructive/20 p-3">
+          <div class="flex items-center justify-between gap-4">
+            <div class="min-w-0 flex-1">
+              <div class="text-sm">Delete Account</div>
+              <p class="text-muted-foreground text-xs">
+                Delete your account, owned workspaces, financial data, and bank connections
+              </p>
+            </div>
+
+            <button
+              hlmBtn
+              type="button"
+              variant="outline"
+              size="sm"
+              class="text-destructive hover:text-destructive shrink-0"
+              (click)="openDeleteAccountDialog()"
+              data-testid="delete-account-button"
+            >
+              Delete Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

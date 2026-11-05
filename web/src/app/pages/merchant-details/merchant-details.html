@@ -1,0 +1,158 @@
+<div class="h-full overflow-y-auto p-4 pb-[200px] sm:p-6">
+  <div class="mx-auto max-w-[805px]">
+    @if (merchant(); as merchant) {
+      <div class="fade-in max-w-2xl">
+        <div class="mb-6">
+          <div class="flex items-center gap-3">
+            <brn-popover
+              [state]="logoPickerState()"
+              (stateChanged)="onLogoPickerStateChanged($event)"
+              class="h-10"
+              align="start"
+            >
+              <button
+                type="button"
+                brnPopoverTrigger
+                class="cursor-pointer transition-opacity hover:opacity-80"
+                [class.opacity-50]="savingLogoUrl()"
+                [class.pointer-events-none]="savingLogoUrl()"
+                [disabled]="savingLogoUrl()"
+              >
+                <app-entity-mark
+                  [mode]="merchant.visualIdentityMode"
+                  [logoUrl]="merchantLogoUrl()"
+                  [iconName]="merchant.iconName ?? defaultMerchantIconName"
+                  [iconColorId]="merchant.iconColorId"
+                  [defaultIconName]="defaultMerchantIconName"
+                  [alt]="merchant.name"
+                />
+              </button>
+              <div *brnPopoverContent="let ctx" class="mt-2 p-0 sm:w-[440px]" hlmPopoverContent>
+                <app-logo-picker
+                  [isOpen]="logoPickerState() === 'open'"
+                  [currentLogoUrl]="merchantLogoUrl()"
+                  [defaultLogoUrl]="defaultLogoUrl()"
+                  [logoState]="logoState()"
+                  [entityType]="'merchant'"
+                  [entityId]="merchant._id"
+                  [pickerMode]="merchant.visualIdentityMode"
+                  [selectedIconName]="merchant.iconName"
+                  [selectedIconColorId]="merchant.iconColorId"
+                  [defaultIconName]="defaultMerchantIconName"
+                  (logoSelected)="onLogoChange($event)"
+                  (customImageUploaded)="onLogoChange($event)"
+                  (removeCustomRequested)="removeCustomLogo()"
+                  (removeDefaultRequested)="removeDefaultLogo()"
+                  (resetDefaultRequested)="resetToDefaultLogo()"
+                  (modeChange)="onIdentityModeChange($event)"
+                  (iconSelected)="onIconChange($event)"
+                  (iconColorSelected)="onIconColorChange($event)"
+                  (closeRequested)="closeLogoPicker()"
+                />
+              </div>
+            </brn-popover>
+            <div class="flex-1">
+              <div
+                role="textbox"
+                contenteditable="true"
+                spellcheck="false"
+                (input)="onNameInput()"
+                (focus)="onNameFocus($event)"
+                (blur)="onNameBlur($event)"
+                (keydown)="onNameKeydown($event)"
+                class="focus:ring-primary border-transparent text-2xl transition-colors outline-none"
+                [class.opacity-50]="savingName()"
+              >
+                {{ merchantName() }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <section hlmCard>
+            <div hlmCardHeader class="border-b py-4">
+              <h2 hlmCardTitle>Statistics</h2>
+              <p hlmCardDescription>Overview of this merchant's activity</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 p-4">
+              <div>
+                <p class="text-muted-foreground text-sm">Total Transactions</p>
+                <p class="text-xl font-medium">{{ merchant.transactionCount }}</p>
+              </div>
+              <div>
+                <p class="text-muted-foreground text-sm">Total Spent</p>
+                <p class="text-xl font-medium">{{ formatAmount(totalSpent()) }}</p>
+              </div>
+            </div>
+          </section>
+
+          @if (hasSuggestions()) {
+            <section hlmCard>
+              <div hlmCardHeader class="border-b py-4">
+                <h2 hlmCardTitle>Typical Transactions</h2>
+                <p hlmCardDescription>Based on transaction history</p>
+              </div>
+              <div class="divide-y">
+                @if (suggestedCategories().length > 0) {
+                  <div class="flex items-center justify-between px-4 py-3">
+                    <p class="text-muted-foreground text-sm">Categories</p>
+                    <p class="text-sm">{{ suggestedCategoriesText() }}</p>
+                  </div>
+                }
+                @if (suggestedBankAccount(); as account) {
+                  <div class="flex items-center justify-between px-4 py-3">
+                    <p class="text-muted-foreground text-sm">Account</p>
+                    <p class="text-sm">{{ account.name }}</p>
+                  </div>
+                }
+              </div>
+            </section>
+          }
+
+          <section hlmCard>
+            <div hlmCardHeader class="border-b py-4">
+              <h2 hlmCardTitle>Recent transactions</h2>
+              <p hlmCardDescription>Latest activity for this merchant</p>
+              <a
+                hlmCardAction
+                routerLink="../transactions"
+                class="text-primary hover:text-primary/80 text-sm font-medium underline-offset-4 hover:underline"
+              >
+                View all transactions
+              </a>
+            </div>
+
+            <div>
+              @if (transactionsLoading()) {
+                <div class="p-4 text-center">
+                  <span class="text-muted-foreground text-sm">Loading transactions...</span>
+                </div>
+              } @else if (merchantTransactions().length > 0) {
+                <div>
+                  @for (transaction of merchantTransactions(); track transaction._id; let isLast = $last) {
+                    <app-transaction-row-brief
+                      [transaction]="transaction"
+                      [showBankAccountBadge]="true"
+                      [isLast]="isLast"
+                    />
+                  }
+                </div>
+              } @else {
+                <div class="py-12 text-center">
+                  <nucleo-icon [icon]="ArrowLeftRight" class="text-muted-foreground mx-auto h-12 w-12" />
+                  <h3 class="mt-2 text-sm font-semibold">No transactions</h3>
+                  <p class="text-muted-foreground mt-1 text-sm">There are no transactions to display.</p>
+                </div>
+              }
+            </div>
+          </section>
+        </div>
+      </div>
+    } @else {
+      <div class="border-border bg-accent rounded-lg border p-8 text-center">
+        <p class="text-muted-foreground">Merchant not found</p>
+      </div>
+    }
+  </div>
+</div>

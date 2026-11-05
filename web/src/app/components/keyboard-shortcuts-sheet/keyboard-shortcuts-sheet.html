@@ -1,0 +1,45 @@
+<hlm-sheet [side]="'right'" [state]="sheetState()" (stateChanged)="onStateChanged($event)">
+  <hlm-sheet-content *brnSheetContent="let ctx" class="bg-content-background overflow-auto select-none">
+    <hlm-sheet-header>
+      <h3 hlmSheetTitle>Keyboard Shortcuts</h3>
+      <p hlmSheetDescription>Quick access to common actions</p>
+    </hlm-sheet-header>
+
+    <div class="space-y-8 px-4 pb-6">
+      <div>
+        <h4 class="text-foreground mb-4 text-sm font-semibold">Navigation</h4>
+        <div class="space-y-3">
+          @for (shortcut of navigationShortcuts; track shortcut.id) {
+            <div class="flex items-center justify-between">
+              <span class="text-muted-foreground text-sm">{{ shortcut.description }}</span>
+              <div class="flex items-center gap-1">
+                @for (key of shortcut.keys; track key) {
+                  <kbd class="kbd">{{ key }}</kbd>
+                  @if (key !== shortcut.keys[shortcut.keys.length - 1]) {
+                    <span class="text-muted-foreground text-xs">then</span>
+                  }
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-foreground mb-4 text-sm font-semibold">Actions</h4>
+        <div class="space-y-3">
+          @for (shortcut of actionShortcuts; track shortcut.id) {
+            <div class="flex items-center justify-between">
+              <span class="text-muted-foreground text-sm">{{ shortcut.description }}</span>
+              <div class="flex gap-1">
+                @for (key of shortcut.keys; track key) {
+                  <kbd class="kbd">{{ key }}</kbd>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </hlm-sheet-content>
+</hlm-sheet>

@@ -1,0 +1,19 @@
+<nav class="flex flex-shrink-0 flex-col border-b select-none lg:hidden">
+  <div class="flex h-10 items-center px-2 sm:px-3">
+    <div class="flex items-center gap-2">
+      <app-sidebar-toggle class="lg:hidden" />
+      <div class="flex items-center space-x-1 text-sm">
+        @if (contextName(); as contextName) {
+          <a
+            [routerLink]="contextRoute()"
+            class="text-muted-foreground hover:text-foreground m-0 flex items-center gap-1 p-1"
+          >
+            {{ contextName }}
+          </a>
+          <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
+        }
+        <span class="m-0 p-1">{{ pageTitle() }}</span>
+      </div>
+    </div>
+  </div>
+</nav>

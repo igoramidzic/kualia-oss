@@ -1,0 +1,51 @@
+<div class="relative min-w-0">
+  <button
+    type="button"
+    hlmBtn
+    size="sm"
+    variant="ghost"
+    class="w-full min-w-0 justify-start gap-2 px-2 py-1.5 text-sm"
+    hlmDropdownMenuTrigger
+    [hlmDropdownMenuTrigger]="workspaceMenu"
+    side="bottom"
+    align="start"
+    aria-haspopup="menu"
+  >
+    <span class="flex size-6 shrink-0 items-center justify-center">
+      <img src="images/kualia-logo-dark.svg" alt="" class="size-5 dark:hidden" />
+      <img src="images/kualia-logo-light.svg" alt="" class="hidden size-5 dark:block" />
+    </span>
+    <span class="min-w-0 flex-1 truncate text-left">{{ workspaceName() }}</span>
+    <nucleo-icon [icon]="ChevronDown" [size]="16" class="text-muted-foreground shrink-0" />
+  </button>
+
+  <ng-template #workspaceMenu>
+    <hlm-dropdown-menu class="w-56">
+      @if (loadingWorkspaces()) {
+        <div class="text-muted-foreground px-2 py-2 text-sm">Loading workspaces...</div>
+      } @else {
+        @for (workspace of workspaces(); track workspace._id) {
+          <button
+            hlmDropdownMenuItem
+            type="button"
+            (click)="selectWorkspace(workspace)"
+            [disabled]="isCurrentWorkspace(workspace._id) || loadingWorkspaceId() !== null"
+          >
+            <span class="truncate">{{ workspace.name }}</span>
+            @if (isCurrentWorkspace(workspace._id)) {
+              <span class="text-muted-foreground ml-auto text-xs">Current</span>
+            }
+          </button>
+        }
+      }
+
+      @if (workspaces().length > 0) {
+        <hlm-dropdown-menu-separator />
+      }
+
+      <a hlmDropdownMenuItem [routerLink]="['/workspaces']">
+        <span>View all workspaces</span>
+      </a>
+    </hlm-dropdown-menu>
+  </ng-template>
+</div>

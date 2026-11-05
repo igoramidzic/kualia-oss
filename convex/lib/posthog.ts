@@ -1,0 +1,26 @@
+'use node';
+
+import { PostHog } from 'posthog-node';
+
+let posthogClient: PostHog | null = null;
+
+export function getPostHogClient(): PostHog | null {
+  if (!process.env['POSTHOG_API_KEY']) {
+    return null;
+  }
+
+  if (!posthogClient) {
+    posthogClient = new PostHog(process.env['POSTHOG_API_KEY'], {
+      host: process.env['POSTHOG_API_HOST'] ?? 'https://us.i.posthog.com',
+    });
+  }
+
+  return posthogClient;
+}
+
+export async function shutdownPostHog(): Promise<void> {
+  if (posthogClient) {
+    await posthogClient.shutdown();
+    posthogClient = null;
+  }
+}

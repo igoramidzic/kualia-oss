@@ -1,0 +1,12 @@
+@if (isMaintenanceMode()) {
+  <app-maintenance-blocking [message]="maintenanceMessage()" />
+} @else {
+  <app-main-layout [shellEnabled]="usesMainLayout()" [settingsShellEnabled]="usesSettingsLayout()">
+    <router-outlet />
+  </app-main-layout>
+
+  @if (isAppReady()) {
+    <app-keyboard-shortcuts-sheet />
+  }
+}
+<hlm-toaster />

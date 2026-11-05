@@ -1,0 +1,137 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="MCP connections" />
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+    <div class="container mx-auto max-w-[680px] p-4 pt-4 select-none lg:p-6 lg:pt-16">
+      @if (!isLoading()) {
+        <div class="fade-in">
+          <div class="mb-8">
+            <div class="flex items-center gap-3">
+              <div class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl">
+                <nucleo-icon [icon]="Cable" class="h-5 w-5" />
+              </div>
+              <h1 class="text-2xl font-medium">MCP connections</h1>
+            </div>
+
+            <p class="text-muted-foreground mt-5 text-base leading-7">
+              These apps and AI tools can access Kualia on your behalf. Review what each connection can do, when it
+              was last used, or revoke access immediately.
+            </p>
+          </div>
+
+          <section class="mb-8" aria-label="Connected MCP apps">
+            @if (connections().length > 0) {
+              <div class="space-y-3">
+                @for (connection of connections(); track connection.clientId) {
+                  <article hlmCard class="p-4 sm:p-5" [attr.data-testid]="'mcp-connection-' + connection.clientId">
+                    <div class="flex items-start gap-4">
+                      <div
+                        class="bg-muted text-muted-foreground flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border"
+                      >
+                        <nucleo-icon [icon]="ShieldCheck" class="h-5 w-5" />
+                      </div>
+
+                      <div class="min-w-0 flex-1">
+                        <div class="flex flex-wrap items-start justify-between gap-3">
+                          <div class="min-w-0">
+                            <h2 class="truncate font-medium">{{ clientName(connection) }}</h2>
+                            @if (clientWebsite(connection); as website) {
+                              <a
+                                class="text-muted-foreground hover:text-foreground mt-0.5 flex items-center gap-1 text-sm"
+                                [href]="website"
+                                target="_blank"
+                                rel="noopener"
+                              >
+                                <span class="truncate">{{ clientDestination(connection) }}</span>
+                                <nucleo-icon [icon]="ExternalLink" class="h-3.5 w-3.5 flex-shrink-0" />
+                              </a>
+                            } @else {
+                              <p class="text-muted-foreground mt-0.5 truncate text-sm">
+                                {{ clientDestination(connection) }}
+                              </p>
+                            }
+                          </div>
+
+                          <button
+                            hlmBtn
+                            size="sm"
+                            variant="ghost"
+                            class="text-destructive hover:text-destructive -mt-1 flex-shrink-0"
+                            (click)="openRevokeDialog(connection)"
+                            [attr.data-testid]="'revoke-mcp-connection-' + connection.clientId"
+                          >
+                            <nucleo-icon [icon]="Trash2" class="h-4 w-4" />
+                            Revoke
+                          </button>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-1.5">
+                          @for (scope of connection.scopes; track scope) {
+                            <span class="bg-muted text-muted-foreground rounded-md border px-2 py-1 text-xs">
+                              {{ scopeLabel(scope) }}
+                            </span>
+                          }
+                        </div>
+
+                        <dl class="mt-4 grid gap-2 border-t pt-3 text-xs sm:grid-cols-2">
+                          <div class="flex items-baseline justify-between gap-2 sm:block">
+                            <dt class="text-muted-foreground">Connected</dt>
+                            <dd class="mt-0.5 font-medium">{{ connection.connectedAt | date: 'mediumDate' }}</dd>
+                          </div>
+                          <div class="flex items-baseline justify-between gap-2 sm:block">
+                            <dt class="text-muted-foreground">Last used</dt>
+                            <dd class="mt-0.5 font-medium">
+                              @if (connection.lastUsedAt) {
+                                {{ connection.lastUsedAt | date: 'medium' }}
+                              } @else {
+                                Never
+                              }
+                            </dd>
+                          </div>
+                          <div class="flex items-baseline justify-between gap-2 sm:block">
+                            <dt class="text-muted-foreground">Last approved</dt>
+                            <dd class="mt-0.5 font-medium">{{ connection.lastAuthorizedAt | date: 'mediumDate' }}</dd>
+                          </div>
+                          @if (resourceDestination(connection); as resource) {
+                            <div class="flex items-baseline justify-between gap-2 sm:block">
+                              <dt class="text-muted-foreground">MCP server</dt>
+                              <dd class="mt-0.5 truncate font-medium" [title]="connection.resource">{{ resource }}</dd>
+                            </div>
+                          }
+                        </dl>
+                      </div>
+                    </div>
+                  </article>
+                }
+              </div>
+            } @else {
+              <div class="border-border rounded-xl border border-dashed p-8 text-center">
+                <div class="bg-muted text-muted-foreground mx-auto flex h-12 w-12 items-center justify-center rounded-xl">
+                  <nucleo-icon [icon]="Cable" class="h-5 w-5" />
+                </div>
+                <h2 class="mt-4 font-medium">No MCP connections</h2>
+                <p class="text-muted-foreground mx-auto mt-1 max-w-sm text-sm leading-6">
+                  Apps will appear here after you approve a Kualia connection from an MCP client.
+                </p>
+                <a
+                  hlmBtn
+                  size="sm"
+                  variant="outline"
+                  class="mt-5"
+                  href="https://docs.kualia.com/mcp/overview"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  MCP setup guide
+                  <nucleo-icon [icon]="ExternalLink" class="h-4 w-4" />
+                </a>
+              </div>
+            }
+          </section>
+        </div>
+      }
+    </div>
+  </div>
+</div>

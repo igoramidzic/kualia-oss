@@ -1,0 +1,105 @@
+<div class="h-full overflow-y-auto p-4 pb-[200px] select-none sm:p-6">
+  <div class="mx-auto max-w-[805px]">
+    @if (category(); as category) {
+      <div class="fade-in max-w-2xl">
+        <div class="mb-6">
+          <div class="flex items-center gap-3">
+            @if (category.isSystemCategory) {
+              <div class="bg-accent flex h-8 w-8 items-center justify-center rounded-lg border sm:h-10 sm:w-10">
+                @if (categoryIcon() && getIconData(categoryIcon())) {
+                  <nucleo-icon [icon]="getIconData(categoryIcon())!" [size]="20" class="text-muted-foreground" />
+                }
+              </div>
+            } @else {
+              <app-icon-picker
+                [selectedIcon]="categoryIcon()"
+                (iconChange)="onIconChange($event)"
+                [disabled]="savingIcon()"
+                [variant]="'outline'"
+                [buttonClass]="'h-8 w-8 p-0 sm:h-10 sm:w-10'"
+              />
+            }
+            <div class="flex-1">
+              @if (category.isSystemCategory) {
+                <div class="flex items-center gap-2">
+                  <div class="text-lg sm:text-2xl">
+                    {{ categoryName() }}
+                  </div>
+                  @if (category.isSystemCategory) {
+                    <span hlmBadge variant="outline" class="text-xs">
+                      System
+                      <nucleo-icon [icon]="systemCategoryIcon" [size]="14" class="text-muted-foreground" />
+                    </span>
+                  }
+                </div>
+              } @else {
+                <div
+                  role="textbox"
+                  contenteditable="true"
+                  spellcheck="false"
+                  (input)="onNameInput()"
+                  (focus)="onNameFocus($event)"
+                  (blur)="onNameBlur($event)"
+                  (keydown)="onNameKeydown($event)"
+                  class="text-lg outline-none sm:text-2xl"
+                  [class.opacity-50]="saving()"
+                >
+                  {{ categoryName() }}
+                </div>
+              }
+              @if (error()) {
+                <p class="text-destructive mt-1 text-sm">{{ error() }}</p>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="border-border rounded-lg border p-4">
+            <h2 class="mb-4 text-lg font-medium">Statistics</h2>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-muted-foreground text-sm">Total Transactions</p>
+                <p class="text-xl font-medium">{{ totalTransactions() }}</p>
+              </div>
+
+              <div>
+                <p class="text-muted-foreground text-sm">Total Amount</p>
+                <p class="text-xl font-medium">{{ formatAmount(totalAmount()) }}</p>
+              </div>
+            </div>
+          </div>
+
+          @if (categoryTransactions().length > 0) {
+            <div class="border-border fade-in rounded-lg border p-4">
+              <div class="mb-4 flex items-center justify-between">
+                <h2 class="font-medium sm:text-lg">Recent Transactions</h2>
+                <a routerLink="../transactions" class="text-primary text-sm hover:underline">View all transactions</a>
+              </div>
+
+              <div class="space-y-2">
+                @for (transaction of categoryTransactions(); track transaction._id) {
+                  <a
+                    [routerLink]="getTransactionRoute(transaction._id)"
+                    class="hover:bg-accent/50 flex items-center justify-between rounded p-2"
+                  >
+                    <div class="flex-1">
+                      <p class="text-sm">{{ transaction.merchantName }}</p>
+                      <p class="text-muted-foreground text-xs">{{ formatDate(transaction.date) }}</p>
+                    </div>
+                    <p class="text-sm font-medium">{{ formatAmount(toNumber(transaction.amount)) }}</p>
+                  </a>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    } @else if (!loading()) {
+      <div class="border-border bg-accent rounded-lg border p-8 text-center">
+        <p class="text-muted-foreground">Category not found</p>
+      </div>
+    }
+  </div>
+</div>

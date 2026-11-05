@@ -1,0 +1,349 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-1 overflow-hidden">
+    <div class="fade-in h-full overflow-y-auto px-4 pt-4 pb-[200px] select-none sm:px-6 sm:pt-6">
+      <div class="mx-auto max-w-[805px]">
+        @if (!isLoading() && !scheduled()) {
+          <div class="mb-4 flex items-center gap-3">
+            <div class="bg-accent flex h-9 w-9 items-center justify-center rounded-full">
+              <nucleo-icon [icon]="CalendarArrowDown" class="text-muted-foreground h-5 w-5" />
+            </div>
+            <h3 class="text-lg font-semibold">Planned transaction not found</h3>
+          </div>
+          <a [routerLink]="getPlannedLink()" hlmBtn variant="default" size="sm">Back to Planned</a>
+        } @else if (scheduled(); as scheduled) {
+          <div class="fade-in">
+            @if (isCompleted()) {
+              <div class="bg-accent/40 mb-4 rounded-md border px-3 py-2 text-sm">
+                <div class="font-medium">Schedule completed</div>
+                <div class="text-muted-foreground text-xs">
+                  This planned transaction has already been entered. Editing and Enter now are disabled.
+                </div>
+              </div>
+            } @else if (isPaused()) {
+              <!-- Paused banner (mirrors the old recurring inactive banner) -->
+              <div class="bg-accent/40 mb-4 rounded-md border px-3 py-2 text-sm">
+                <div class="flex items-center gap-2">
+                  <nucleo-icon [icon]="Pause" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+                  <span class="font-medium">This planned transaction is paused</span>
+                </div>
+                <div class="text-muted-foreground mt-0.5 text-xs">
+                  Paused schedules are never entered, don't send reminders, and never show as due.
+                </div>
+                <div class="mt-2">
+                  <button
+                    hlmBtn
+                    variant="outline"
+                    size="sm"
+                    type="button"
+                    class="text-primary"
+                    [disabled]="savingPaused()"
+                    (click)="togglePaused()"
+                  >
+                    <nucleo-icon [icon]="Play" class="h-4 w-4" />
+                    Resume
+                  </button>
+                </div>
+              </div>
+            } @else {
+              <div
+                class="bg-accent/30 mb-4 flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm"
+                data-testid="next-due-section"
+              >
+                <div class="flex items-baseline gap-2">
+                  <span class="text-muted-foreground text-xs">Next due date</span>
+                  <span class="font-medium">{{ nextDueDateLabel() }}</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <button hlmBtn variant="default" size="sm" (click)="enterNow()" [disabled]="busy()">
+                    @if (entering()) {
+                      <nucleo-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
+                    } @else {
+                      <nucleo-icon [icon]="CalendarArrowDown" [size]="14" />
+                    }
+                    Enter now
+                  </button>
+                  <button hlmBtn variant="outline" size="sm" (click)="skip()" [disabled]="busy()">
+                    @if (skipping()) {
+                      <nucleo-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
+                    } @else {
+                      <nucleo-icon [icon]="SkipForward" [size]="14" />
+                    }
+                    Skip
+                  </button>
+                  <button
+                    hlmBtn
+                    variant="outline"
+                    size="sm"
+                    (click)="togglePaused()"
+                    [disabled]="savingPaused() || busy()"
+                  >
+                    @if (savingPaused()) {
+                      <nucleo-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
+                    } @else {
+                      <nucleo-icon [icon]="Pause" [size]="14" />
+                    }
+                    Pause
+                  </button>
+                </div>
+              </div>
+            }
+
+            <!-- Amount Sign Toggle -->
+            <app-amount-sign-toggle
+              class="mb-4 block"
+              [value]="amountSign()"
+              [disabled]="!isEditable() || savingAmount() || (isTransfer() && !displayTransferToAccountId())"
+              size="sm"
+              (valueChange)="onSignChange($event)"
+            />
+
+            <!-- Amount -->
+            <div class="mb-4">
+              <div class="flex items-center">
+                <span class="text-muted-foreground text-2xl select-none">{{ currencySymbol() }}</span>
+                <app-arithmetic-currency-input
+                  [initialValue]="amountAbs()"
+                  [disabled]="!isEditable() || savingAmount()"
+                  [allowNegative]="false"
+                  [inputClass]="'w-full border-none bg-transparent text-2xl outline-none focus:outline-none'"
+                  (valueChange)="onAmountChange($event)"
+                  (blurEvent)="onAmountBlur()"
+                  (enterPressed)="onAmountBlur()"
+                />
+              </div>
+            </div>
+
+            <!-- Properties: payee / account / category -->
+            <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="properties-row">
+              <span class="text-muted-foreground pr-2 text-xs select-none">Properties</span>
+
+              <app-payee-selector
+                [merchantId]="displayMerchantId()"
+                [selectedBankAccountId]="displayTransferToAccountId()"
+                [availableBankAccounts]="transferPayeeAccounts()"
+                [pendingMerchantName]="optimisticMerchantName()"
+                [transactionType]="isTransfer() ? 'transfer' : 'regular'"
+                [transactionAmount]="isTransfer() ? -1 : signedAmount()"
+                [disabled]="!isEditable() || savingMerchant()"
+                [allowNone]="false"
+                variant="ghost"
+                buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                (payeeChange)="onPayeeChange($event)"
+              />
+
+              <app-bank-account-selector
+                [bankAccountId]="displayBankAccountId()"
+                [disabled]="!isEditable() || savingBankAccount()"
+                [allowNone]="false"
+                [excludeAccountIds]="transferSourceExcludeIds()"
+                variant="ghost"
+                buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                (bankAccountChange)="onBankAccountChange($event)"
+              />
+
+              @if (isTransfer() && !isCrossBudgetTransfer()) {
+                <button
+                  type="button"
+                  hlmBtn
+                  variant="ghost"
+                  size="sm"
+                  class="w-fit justify-between px-2 text-xs"
+                  disabled
+                >
+                  Transfer
+                </button>
+              } @else if (isSplitMode()) {
+                <button
+                  type="button"
+                  hlmBtn
+                  variant="ghost"
+                  size="sm"
+                  class="w-fit justify-between px-2 text-xs"
+                  disabled
+                >
+                  Split transaction
+                </button>
+              } @else {
+                <app-category-selector
+                  [categoryId]="displayCategoryId()"
+                  [isReadyToAssign]="displayReadyToAssign()"
+                  [disabled]="!isEditable() || savingCategory()"
+                  [allowNone]="true"
+                  [showSplitButton]="!isTransfer()"
+                  [yearMonth]="displayYearMonth()"
+                  variant="ghost"
+                  buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                  (categoryChange)="selectCategory($event)"
+                  (splitClick)="handleEnterSplitMode()"
+                />
+              }
+            </div>
+
+            <!-- Due date / reminder / entry mode -->
+            <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="due-row">
+              <span class="text-muted-foreground pr-2 text-xs select-none">Due</span>
+
+              <app-transaction-date-picker
+                [date]="displayDate()"
+                [max]="null"
+                [disabled]="!isEditable() || savingDate() || savingRecurrence()"
+                [showRecurrence]="true"
+                [recurrence]="recurrence()"
+                variant="ghost"
+                buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                (dateChange)="selectDate($event)"
+                (recurrenceChange)="selectRecurrence($event)"
+              />
+
+              <hlm-select
+                class="inline-block"
+                [value]="reminderSelection()"
+                [itemToString]="reminderToString"
+                [disabled]="!isEditable() || savingReminder()"
+                (valueChange)="selectReminder($any($event))"
+              >
+                <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass" aria-label="Reminder">
+                  <nucleo-icon [icon]="BellRing" [size]="14" class="text-muted-foreground" />
+                  <hlm-select-value />
+                </hlm-select-trigger>
+                <hlm-select-content *hlmSelectPortal>
+                  @for (option of reminderOptions; track option.value) {
+                    <hlm-select-item [value]="option.value">{{ option.label }}</hlm-select-item>
+                  }
+                </hlm-select-content>
+              </hlm-select>
+
+              <button
+                type="button"
+                hlmBtn
+                variant="ghost"
+                size="sm"
+                class="w-fit justify-between px-1 text-xs"
+                aria-label="Toggle automatic entry"
+                [attr.aria-pressed]="isAutoEntry()"
+                [disabled]="!isEditable() || savingEntryMode()"
+                (click)="onEntryModeToggle(!isAutoEntry())"
+              >
+                <div class="flex items-center gap-2">
+                  <nucleo-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
+                  <span>{{ isAutoEntry() ? 'Enter automatically' : 'Enter manually' }}</span>
+                </div>
+              </button>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="status-row">
+              <span class="text-muted-foreground pr-2 text-xs select-none">Status</span>
+              <button
+                type="button"
+                hlmBtn
+                variant="ghost"
+                size="sm"
+                class="w-fit justify-between px-1 text-xs"
+                [disabled]="!isEditable() || savingEntryStatus()"
+                (click)="togglePending()"
+              >
+                <div class="flex items-center gap-2">
+                  @if (isPending()) {
+                    <nucleo-icon [icon]="ClockFading" [size]="14" class="flex-shrink-0 text-yellow-500" />
+                    <span>Pending</span>
+                  } @else {
+                    <nucleo-icon [icon]="Check" [size]="14" class="flex-shrink-0 text-green-500" />
+                    <span>Cleared</span>
+                  }
+                </div>
+              </button>
+            </div>
+
+            <!-- Splits editor -->
+            @if (isSplitMode() && isEditable()) {
+              <div class="mb-6">
+                <app-transaction-splits
+                  [transactionAmount]="signedAmountBigInt()"
+                  [amountSign]="amountSign()"
+                  [yearMonth]="displayYearMonth()"
+                  [splits]="localSplits()"
+                  [initialSplits]="initialSplits()"
+                  [saving]="savingSplits()"
+                  (addSplit)="handleAddSplit($event)"
+                  (removeSplit)="handleRemoveSplit($event)"
+                  (updateSplitCategory)="handleUpdateSplitCategory($event)"
+                  (updateSplitAmount)="handleUpdateSplitAmount($event)"
+                  (save)="handleSaveSplits()"
+                  (cancelSplit)="handleCancelSplits()"
+                />
+              </div>
+            }
+
+            <!-- Notes (Editable) -->
+            <div class="mb-6">
+              <span class="text-muted-foreground text-xs select-none">Note</span>
+              <textarea
+                hlmTextarea
+                spellcheck="false"
+                [attr.aria-label]="'Planned transaction notes'"
+                [ngModel]="notes()"
+                (ngModelChange)="notes.set($event)"
+                (blur)="onNotesBlur()"
+                (keydown)="onNotesKeydown($event)"
+                [disabled]="!isEditable() || savingNotes()"
+                placeholder="Enter notes..."
+                class="min-h-0 resize-none border-none bg-transparent px-0 py-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
+                [class.opacity-50]="savingNotes()"
+                rows="1"
+              ></textarea>
+            </div>
+
+            <!-- Entered transactions -->
+            <div class="border-t pt-4">
+              <button
+                type="button"
+                class="hover:bg-accent/30 -mx-2 flex h-8 items-center gap-2 rounded-md px-2 text-left"
+                (click)="toggleEnteredExpanded()"
+              >
+                <nucleo-icon
+                  [icon]="enteredExpanded() ? ChevronDown : ChevronRight"
+                  [size]="14"
+                  class="text-muted-foreground flex-shrink-0"
+                />
+                <span class="text-sm font-medium">Entered transactions</span>
+                <span class="text-muted-foreground text-xs">{{ enteredTransactions().length }}</span>
+              </button>
+
+              @if (enteredExpanded()) {
+                @if (enteredError()) {
+                  <p class="text-destructive fade-in mt-3 text-sm">{{ enteredError() }}</p>
+                } @else if (!enteredLoading() && enteredTransactions().length === 0) {
+                  <p class="text-muted-foreground fade-in mt-3 text-sm">
+                    No transactions entered from this schedule yet.
+                  </p>
+                } @else if (enteredTransactions().length > 0) {
+                  <div class="fade-in mt-2 overflow-hidden rounded-md border">
+                    @for (tx of enteredTransactions(); track tx._id; let isLast = $last) {
+                      <app-transaction-row-brief
+                        class="fade-in block"
+                        [transaction]="tx"
+                        [isLast]="isLast && !enteredHasMore()"
+                        [showBankAccountBadge]="true"
+                      />
+                    }
+                    @if (enteredHasMore()) {
+                      <button
+                        type="button"
+                        class="hover:bg-accent/30 flex h-10 w-full items-center justify-center gap-2 text-xs"
+                        [disabled]="enteredLoadingMore()"
+                        (click)="loadMoreEntered()"
+                      >
+                        {{ enteredLoadingMore() ? 'Loading…' : 'Load more' }}
+                      </button>
+                    }
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

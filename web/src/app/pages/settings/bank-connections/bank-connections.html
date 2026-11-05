@@ -1,0 +1,202 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="Bank Connections" />
+  </div>
+
+  <div class="flex-1 overflow-y-auto pb-[200px]">
+    <div class="container mx-auto max-w-[640px] p-4 pt-4 transition-all select-none lg:p-6 lg:pt-6 lg:pt-16">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl">Bank Connections</h1>
+        <button hlmBtn size="sm" (click)="addNewBankConnection()">
+          <nucleo-icon [icon]="Plus" class="h-4 w-4" />
+          Add Connection
+        </button>
+      </div>
+
+      @if (loading() === false) {
+        @if (hasConnections()) {
+          <div class="space-y-8">
+            @for (section of connectionSections(); track section.id) {
+              <section class="space-y-3" [attr.data-testid]="'bank-connection-section-' + section.id">
+                <div>
+                  <h2 class="text-sm font-medium">{{ section.title }}</h2>
+                  <p class="text-muted-foreground text-sm">{{ section.description }}</p>
+                </div>
+
+                <div class="space-y-4">
+                  @for (connection of section.connections; track connection.provider + ':' + connection.id) {
+                    <div
+                      hlmCard
+                      class="overflow-hidden"
+                      [attr.data-testid]="'bank-connection-card-' + connection.provider + '-' + connection.id"
+                    >
+                      <div class="border-border flex items-center justify-between gap-3 border-b p-2 sm:p-4">
+                        <div class="flex min-w-0 items-center gap-3">
+                          @if (connection.logoUrl) {
+                            <img
+                              [src]="connection.logoUrl"
+                              [alt]="connection.displayName"
+                              class="h-10 w-10 shrink-0 rounded-full object-contain"
+                            />
+                          } @else {
+                            <div class="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+                              @if (connection.provider === 'apple_wallet') {
+                                <nucleo-icon [icon]="WalletCards" [size]="20" class="text-muted-foreground" />
+                              } @else {
+                                <span class="text-sm font-medium">{{ connection.displayName.charAt(0) }}</span>
+                              }
+                            </div>
+                          }
+
+                          <div class="flex min-w-0 flex-col">
+                            <span class="truncate font-medium">{{ connection.displayName }}</span>
+                            @if (!connection.isOwnedByCurrentUser) {
+                              <span class="text-muted-foreground truncate text-xs">
+                                Shared by {{ getOwnerDisplayName(connection) }}
+                              </span>
+                            }
+                            @if (connection.management.type === 'ios') {
+                              <span class="text-muted-foreground flex items-center gap-1 text-xs">
+                                <nucleo-icon [icon]="Smartphone" [size]="12" />
+                                {{ connection.management.label }}
+                              </span>
+                            }
+                            @if (connection.lastSyncedAt; as lastSyncedAt) {
+                              <span class="text-muted-foreground text-xs"
+                                >Last synced {{ getTimeAgo(lastSyncedAt) }}</span
+                              >
+                            }
+                          </div>
+                        </div>
+
+                        @if (connection.canManageConnection) {
+                          <div
+                            [hlmDropdownMenuTrigger]="connectionMenu"
+                            class="cursor-pointer"
+                            align="end"
+                            [attr.data-testid]="
+                              'bank-connection-status-menu-' + connection.provider + '-' + connection.id
+                            "
+                          >
+                            <button hlmBtn variant="ghost" size="sm" class="flex items-center gap-2 font-light">
+                              <span
+                                class="h-2 w-2 rounded-full"
+                                [class]="getStatusCircleClass(connection.status)"
+                              ></span>
+                              <span>{{ connection.statusLabel }}</span>
+                              <nucleo-icon [icon]="ChevronDown" [size]="16" />
+                            </button>
+                          </div>
+
+                          <ng-template #connectionMenu>
+                            <hlm-dropdown-menu>
+                              @if (canReconnect(connection)) {
+                                <button
+                                  hlmDropdownMenuItem
+                                  (click)="reconnectConnection(connection)"
+                                  class="font-light"
+                                >
+                                  <nucleo-icon [icon]="ReconnectIcon" [size]="16" />
+                                  Reconnect
+                                </button>
+                              }
+                              <button
+                                hlmDropdownMenuItem
+                                (click)="disconnectConnection(connection)"
+                                variant="destructive"
+                                class="w-52 text-left font-light"
+                              >
+                                <nucleo-icon [icon]="DisconnectIcon" [size]="16" />
+                                Disconnect...
+                              </button>
+                            </hlm-dropdown-menu>
+                          </ng-template>
+                        } @else {
+                          <div
+                            class="flex shrink-0 items-center gap-2 px-3 py-2 text-sm font-light"
+                            [attr.data-testid]="
+                              'bank-connection-status-static-' + connection.provider + '-' + connection.id
+                            "
+                          >
+                            <span class="h-2 w-2 rounded-full" [class]="getStatusCircleClass(connection.status)"></span>
+                            <span>{{ connection.statusLabel }}</span>
+                          </div>
+                        }
+                      </div>
+
+                      <div class="divide-border divide-y">
+                        @for (account of connection.accounts; track account.ref.provider + ':' + account.id) {
+                          @let isSupported = isConnectionAccountSupported(account.accountType);
+                          <div
+                            hlmItem
+                            variant="outline"
+                            size="sm"
+                            [class]="
+                              'rounded-none !border-x-0 !border-t-0 !border-b-0 ' +
+                              (isSupported ? 'hover:bg-accent/50 cursor-pointer' : 'opacity-60')
+                            "
+                            role="button"
+                            tabindex="0"
+                            [attr.data-testid]="
+                              'bank-connection-account-row-' + account.ref.provider + '-' + account.id
+                            "
+                            (click)="openConnectionAccountDetails(account)"
+                            (keydown.enter)="openConnectionAccountDetails(account)"
+                            (keydown.space)="openConnectionAccountDetails(account); $event.preventDefault()"
+                          >
+                            <div hlmItemContent>
+                              <span hlmItemTitle [class.text-muted-foreground]="!isSupported">{{ account.name }}</span>
+                              <p hlmItemDescription class="flex flex-wrap items-center gap-2">
+                                @if (account.accountType) {
+                                  <span>{{ formatAccountType(account.accountType) }}</span>
+                                }
+                                @if (account.accountNumberMask) {
+                                  <span>•</span>
+                                  <span>{{ account.accountNumberMask }}</span>
+                                }
+                                @if (account.currencyCode) {
+                                  <span>•</span>
+                                  <span>{{ account.currencyCode }}</span>
+                                }
+                                @if (account.linkedToBankAccount) {
+                                  <span>•</span>
+                                  <span>
+                                    Linked to:
+                                    <span class="font-medium">{{ account.linkedToBankAccount.name }}</span>
+                                  </span>
+                                } @else {
+                                  <span>•</span>
+                                  <span class="text-muted-foreground">Not linked</span>
+                                }
+                                @if (!isSupported) {
+                                  <span>•</span>
+                                  <span class="text-muted-foreground">Not yet supported</span>
+                                }
+                              </p>
+                            </div>
+
+                            <nucleo-icon [icon]="ChevronRight" [size]="16" class="text-muted-foreground" />
+                          </div>
+                        } @empty {
+                          <div class="text-muted-foreground p-4 text-center text-sm">
+                            No accounts found for this connection
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              </section>
+            }
+          </div>
+        } @else {
+          <div class="space-y-4">
+            <div hlmCard class="p-8 text-center">
+              <p class="text-muted-foreground">No bank connections yet</p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

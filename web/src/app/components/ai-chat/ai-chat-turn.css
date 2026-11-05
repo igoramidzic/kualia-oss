@@ -1,0 +1,172 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Markdown rendering for assistant messages. Uses :host ::ng-deep so the styles reach
+   elements produced by [innerHTML], which Angular doesn't view-encapsulate. */
+:host ::ng-deep .ai-chat-markdown > span > *:first-child {
+  margin-top: 0;
+}
+:host ::ng-deep .ai-chat-markdown > span > *:last-child {
+  margin-bottom: 0;
+}
+:host ::ng-deep .ai-chat-markdown p {
+  margin: 0.5em 0;
+  white-space: pre-wrap;
+}
+:host ::ng-deep .ai-chat-markdown h1,
+:host ::ng-deep .ai-chat-markdown h2,
+:host ::ng-deep .ai-chat-markdown h3,
+:host ::ng-deep .ai-chat-markdown h4 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0.75em 0 0.4em;
+}
+:host ::ng-deep .ai-chat-markdown h1 {
+  font-size: 1.05rem;
+}
+:host ::ng-deep .ai-chat-markdown h2 {
+  font-size: 1rem;
+}
+:host ::ng-deep .ai-chat-markdown h3,
+:host ::ng-deep .ai-chat-markdown h4 {
+  font-size: 0.95rem;
+}
+:host ::ng-deep .ai-chat-markdown ul,
+:host ::ng-deep .ai-chat-markdown ol {
+  margin: 0.4em 0;
+  padding-left: 1.25rem;
+}
+:host ::ng-deep .ai-chat-markdown ul {
+  list-style: disc;
+}
+:host ::ng-deep .ai-chat-markdown ol {
+  list-style: decimal;
+}
+:host ::ng-deep .ai-chat-markdown li {
+  margin: 0.15em 0;
+}
+:host ::ng-deep .ai-chat-markdown li > p {
+  margin: 0;
+}
+:host ::ng-deep .ai-chat-markdown a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+/* The transaction-link chip is rendered as an <a> inside .ai-chat-markdown, so the
+   underline rule above would otherwise inherit. Strip the underline and the primary
+   color so the chip reads as a self-contained pill rather than a styled hyperlink. */
+:host ::ng-deep .ai-chat-markdown app-transaction-link-card a {
+  text-decoration: none;
+  color: inherit;
+}
+:host ::ng-deep .ai-chat-markdown strong {
+  font-weight: 600;
+}
+:host ::ng-deep .ai-chat-markdown em {
+  font-style: italic;
+}
+:host ::ng-deep .ai-chat-markdown code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  background-color: var(--accent);
+  padding: 0.1em 0.3em;
+  border-radius: 0.25rem;
+}
+:host ::ng-deep .ai-chat-markdown pre {
+  background-color: var(--accent);
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 0.5em 0;
+}
+:host ::ng-deep .ai-chat-markdown pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.85em;
+}
+:host ::ng-deep .ai-chat-markdown blockquote {
+  border-left: 2px solid var(--border);
+  padding-left: 0.75rem;
+  color: var(--muted-foreground);
+  margin: 0.5em 0;
+}
+:host ::ng-deep .ai-chat-markdown hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 0.75em 0;
+}
+:host ::ng-deep .ai-chat-markdown table {
+  border-collapse: collapse;
+  margin: 0.5em 0;
+  font-size: 0.9em;
+}
+:host ::ng-deep .ai-chat-markdown th,
+:host ::ng-deep .ai-chat-markdown td {
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.5rem;
+  text-align: left;
+}
+:host ::ng-deep .ai-chat-markdown th {
+  background-color: var(--accent);
+  font-weight: 600;
+}
+
+/* Shimmering "Thinking…" text shown while waiting for the assistant. The real text remains
+   visible; a clipped gradient duplicate sweeps over the phrase for the highlight. */
+.ai-chat-shimmer {
+  position: relative;
+  display: inline-block;
+  color: var(--muted-foreground);
+  color: color-mix(in oklch, var(--muted-foreground) 72%, transparent);
+}
+
+.ai-chat-shimmer::after {
+  content: attr(data-shimmer-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 34%,
+    var(--foreground) 50%,
+    transparent 66%,
+    transparent 100%
+  );
+  background-size: 240% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: ai-chat-shimmer 1.45s ease-in-out infinite;
+}
+
+@keyframes ai-chat-shimmer {
+  0% {
+    background-position: 140% 0;
+  }
+  100% {
+    background-position: -140% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-chat-shimmer::after {
+    content: none;
+    animation: none;
+  }
+}
+
+/* Rotate the "Worked for N seconds" chevron from right (closed) → down (open). The button
+   carries data-state from BrnCollapsibleTrigger; a Tailwind group-data variant didn't apply
+   reliably here, so this writes the descendant selector directly. */
+[data-state="open"] > .ai-chat-tool-chevron {
+  transform: rotate(90deg);
+}

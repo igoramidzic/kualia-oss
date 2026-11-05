@@ -1,0 +1,108 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <!-- Header with sidebar toggle -->
+  <div class="flex flex-shrink-0 flex-col border-b select-none">
+    <div class="flex h-10 items-center px-1.5 sm:px-3">
+      <div class="flex items-center gap-2">
+        <app-sidebar-toggle class="lg:hidden" />
+        <nav class="flex items-center space-x-1 text-sm">
+          <span class="m-0 p-1">Reports</span>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secondary header with filter dropdown, range dropdown, and month picker -->
+  <div class="flex flex-shrink-0 items-center justify-start gap-2 border-b px-4 py-2 sm:px-6">
+    <!-- Filter Type Dropdown -->
+    <hlm-select [value]="filterType()" (valueChange)="onFilterTypeChange($event)">
+      <hlm-select-trigger size="sm" class="w-[140px] justify-start text-sm font-medium">
+        <nucleo-icon [icon]="LayersIcon" class="text-muted-foreground mr-1.5 h-3.5 w-3.5" />
+        <hlm-select-value />
+      </hlm-select-trigger>
+      <hlm-select-content *hlmSelectPortal>
+        <hlm-select-item value="categories">By Category</hlm-select-item>
+        <hlm-select-item value="groups">By Group</hlm-select-item>
+        <hlm-select-item value="merchants">By Merchant</hlm-select-item>
+      </hlm-select-content>
+    </hlm-select>
+
+    <!-- Range Picker -->
+    <app-reports-range-picker
+      [selectedRange]="selectedRange()"
+      [selectedMonth]="selectedMonth()"
+      [availableRange]="availableRange()"
+      (rangeChange)="onRangePickerChange($event)"
+    />
+  </div>
+
+  <!-- Main content area -->
+  <div class="flex min-h-0 flex-1 flex-col overflow-auto">
+    @if (loading() && !hasLoaded()) {
+      <div class="flex h-64 items-center justify-center">
+        <div class="text-muted-foreground text-sm">Loading spending data...</div>
+      </div>
+    } @else if (!hasData()) {
+      <div class="flex h-64 items-center justify-center">
+        <div class="text-muted-foreground text-sm">No spending data available</div>
+      </div>
+    } @else {
+      <!-- Chart Section -->
+      <div class="flex-shrink-0 border-b px-4 py-6 sm:px-6">
+        <div class="mb-6">
+          <span class="text-muted-foreground text-xs font-medium tracking-wide uppercase"
+            >Spending by {{ filterTypeLabel() }}</span
+          >
+          <div class="text-sm font-medium">{{ isRangeActive() ? rangeLabel() : monthDisplay() }}</div>
+        </div>
+
+        <div class="flex flex-col gap-8 lg:flex-row">
+          <!-- Donut Chart -->
+          <div class="flex justify-center lg:justify-start">
+            <app-spending-donut-chart
+              [data]="chartData()"
+              [total]="totalSpending()"
+              [selectedId]="selectedCategoryId()"
+              [hoveredId]="hoveredCategoryId()"
+              [showAll]="showAllCategories()"
+              (categoryClick)="onCategoryClick($event)"
+            />
+          </div>
+
+          <!-- Category Legend -->
+          <div class="flex-1">
+            <app-spending-category-legend
+              [items]="chartData()"
+              [showAll]="showAllCategories()"
+              [selectedId]="selectedCategoryId()"
+              (toggleShowAll)="showAllCategories.set($event)"
+              (itemClick)="onCategoryClick($event)"
+              (itemHover)="hoveredCategoryId.set($event)"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions + Summary Section -->
+      <div class="flex flex-1 flex-col lg:flex-row">
+        <!-- Transactions List -->
+        <div class="order-2 flex-1 pb-[200px] lg:order-1 lg:border-r">
+          <app-reports-transactions-list
+            [yearMonth]="startYearMonthString()"
+            [endYearMonth]="endYearMonthString()"
+            [categoryId]="selectedFilterCategoryId()"
+            [merchantId]="selectedFilterMerchantId()"
+            [categoryGroupId]="selectedFilterGroupId()"
+            [flow]="selectedReportFlow()"
+          />
+        </div>
+
+        <!-- Summary (right side on desktop, top on mobile) -->
+        <div
+          class="order-1 flex-shrink-0 border-b px-4 py-4 sm:px-6 lg:sticky lg:top-0 lg:order-2 lg:h-fit lg:w-64 lg:self-start lg:border-b-0"
+        >
+          <app-reports-summary-card [monthData]="aggregatedDisplayMonth()" />
+        </div>
+      </div>
+    }
+  </div>
+</div>

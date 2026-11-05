@@ -1,0 +1,351 @@
+<div hlmSidebarWrapper data-loading-region="app-layout" class="relative flex h-full overflow-hidden select-none">
+  @if (shellEnabled()) {
+    <hlm-sidebar
+      [sidebarContainerClass]="'!border-r-0'"
+      collapsible="icon"
+      [attr.inert]="revealReady() ? null : ''"
+      [attr.aria-hidden]="revealReady() ? null : 'true'"
+    >
+      <div
+        hlmSidebarHeader
+        data-loading-region="sidebar-header"
+        class="p-2 transition-opacity duration-200"
+        [class.opacity-0]="!revealReady()"
+        [class.opacity-100]="revealReady()"
+      >
+        <div class="flex min-h-9 items-center gap-1">
+          <app-sidebar-workspace-dropdown class="min-w-0 flex-1 group-data-[collapsible=icon]:hidden" />
+
+          <button
+            hlmBtn
+            size="icon"
+            variant="ghost"
+            class="group/logo-toggle hidden h-8 w-8 rounded-full group-data-[collapsible=icon]:inline-flex"
+            aria-label="Expand sidebar"
+            (click)="toggleSidebar()"
+          >
+            <img
+              src="images/kualia-logo-dark.svg"
+              alt="Kualia"
+              class="h-5 w-5 shrink-0 group-hover/logo-toggle:!hidden dark:hidden"
+            />
+            <img
+              src="images/kualia-logo-light.svg"
+              alt="Kualia"
+              class="hidden h-5 w-5 shrink-0 group-hover/logo-toggle:!hidden dark:block"
+            />
+            <nucleo-icon
+              [icon]="PanelLeftOpen"
+              [size]="16"
+              class="text-muted-foreground hidden group-hover/logo-toggle:block"
+            />
+          </button>
+
+          <button
+            hlmBtn
+            size="icon"
+            variant="outline"
+            class="text-muted-foreground h-8 w-8 shrink-0 rounded-full group-data-[collapsible=icon]:hidden"
+            [attr.aria-label]="sidebarToggleLabel()"
+            (click)="toggleSidebar()"
+          >
+            <nucleo-icon [icon]="sidebarToggleIcon()" [size]="16" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        hlmSidebarContent
+        class="sidebar-scroll-fade pb-10 group-data-[collapsible=icon]:pb-0"
+      >
+        <div
+          data-loading-region="sidebar-content"
+          class="transition-opacity duration-200"
+          [class.opacity-0]="!revealReady()"
+          [class.opacity-100]="revealReady()"
+        >
+          <div hlmSidebarGroup>
+            <nav class="flex flex-col gap-[1px] group-data-[collapsible=icon]:items-center">
+            @for (item of navItems(); track item.route) {
+              @if (item.label === 'Budget' && hasOverspentCategories()) {
+                <div class="flex items-stretch gap-0.5 group-data-[collapsible=icon]:justify-center">
+                  <div class="flex-1 group-data-[collapsible=icon]:flex-none">
+                    <app-navigation-item
+                      [label]="item.label"
+                      [route]="item.route"
+                      [icon]="item.icon"
+                      [exactMatch]="item.exactMatch ?? true"
+                      [badgeCount]="item.badgeCount ?? null"
+                      [badgeText]="item.badgeText ?? null"
+                      [alertIcon]="item.alertIcon ?? null"
+                    />
+                  </div>
+                  <a
+                    [routerLink]="overspentRoutePath()"
+                    [queryParams]="overspentQueryParams()"
+                    (click)="handleOverspentClick()"
+                    hlmBtn
+                    size="sm"
+                    variant="ghost"
+                    [class]="
+                      'group/nav-item text-destructive hover:text-destructive flex w-7 flex-shrink-0 items-center justify-center p-0 font-light transition-none group-data-[collapsible=icon]:hidden ' +
+                      (isOverspentFilterActive() ? 'bg-accent/50' : '')
+                    "
+                    aria-label="View overspent categories"
+                  >
+                    <nucleo-icon [icon]="AlertCircle" [size]="16" />
+                  </a>
+                </div>
+              } @else if (item.label === 'Transactions' && hasNeedsReviewTransactions()) {
+                <div class="flex items-stretch gap-0.5 group-data-[collapsible=icon]:justify-center">
+                  <div class="flex-1 group-data-[collapsible=icon]:flex-none">
+                    <app-navigation-item
+                      [label]="item.label"
+                      [route]="item.route"
+                      [icon]="item.icon"
+                      [exactMatch]="item.exactMatch ?? true"
+                      [badgeCount]="item.badgeCount ?? null"
+                      [badgeText]="item.badgeText ?? null"
+                      [alertIcon]="item.alertIcon ?? null"
+                    />
+                  </div>
+                  <a
+                    [routerLink]="needsReviewRoutePath()"
+                    [queryParams]="needsReviewQueryParams()"
+                    (click)="handleNeedsReviewClick()"
+                    hlmBtn
+                    size="sm"
+                    variant="ghost"
+                    [class]="
+                      'group/nav-item text-primary flex w-7 flex-shrink-0 items-center justify-center p-0 font-light transition-none group-data-[collapsible=icon]:hidden ' +
+                      (isNeedsReviewFilterActive() ? 'bg-accent/50' : '')
+                    "
+                    aria-label="View needs review transactions"
+                  >
+                    <nucleo-icon [icon]="BadgeCheck" [size]="16" />
+                  </a>
+                </div>
+              } @else {
+                <app-navigation-item
+                  [label]="item.label"
+                  [route]="item.route"
+                  [icon]="item.icon"
+                  [exactMatch]="item.exactMatch ?? true"
+                  [badgeCount]="item.badgeCount ?? null"
+                  [badgeText]="item.badgeText ?? null"
+                  [alertIcon]="item.alertIcon ?? null"
+                />
+              }
+            }
+            </nav>
+          </div>
+
+          <!-- Bank Accounts -->
+          <div hlmSidebarGroup class="group-data-[collapsible=icon]:hidden">
+            <div class="border-border border-t pt-2">
+              <app-sidebar-bank-accounts />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        hlmSidebarFooter
+        data-loading-region="sidebar-footer"
+        class="!p-0 transition-opacity duration-200"
+        [class.opacity-0]="!revealReady()"
+        [class.opacity-100]="revealReady()"
+      >
+        <div class="border-border mx-2 flex flex-col gap-1 border-t pt-2 pb-2 group-data-[collapsible=icon]:hidden">
+          <button
+            hlmBtn
+            size="sm"
+            variant="ghost"
+            class="text-muted-foreground w-full justify-start px-2 font-normal"
+            [attr.aria-label]="helpAndFeedbackLabel()"
+            (click)="openHelpAndFeedback()"
+          >
+            <nucleo-icon [icon]="LifeBuoy" [size]="16" />
+            <span>Help & feedback</span>
+            @if (userJot.unreadCount() > 0) {
+              <span
+                class="bg-primary text-primary-foreground ml-auto flex size-5 shrink-0 items-center justify-center rounded-full text-[9px] leading-none font-semibold"
+                aria-hidden="true"
+              >
+                {{ helpAndFeedbackBadge() }}
+              </span>
+            }
+          </button>
+
+          <a
+            href="https://docs.kualia.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            hlmBtn
+            size="sm"
+            variant="ghost"
+            class="text-muted-foreground w-full justify-start px-2 font-normal"
+            aria-label="Documentation"
+          >
+            <nucleo-icon [icon]="BookOpen" [size]="16" />
+            <span>Documentation</span>
+          </a>
+
+          <div class="flex items-center gap-1">
+            <app-sidebar-organization-dropdown class="min-w-0 flex-1" />
+            <button
+              hlmBtn
+              size="icon"
+              variant="outline"
+              hlmDropdownMenuTrigger
+              [hlmDropdownMenuTrigger]="themeMenu"
+              class="text-muted-foreground h-8 w-8 shrink-0 rounded-full"
+              aria-label="Theme"
+              aria-haspopup="menu"
+            >
+              <nucleo-icon [icon]="currentThemeIcon()" [size]="16" />
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="border-border mx-2 hidden flex-col items-center gap-1 border-t pt-2 pb-2 group-data-[collapsible=icon]:flex"
+        >
+          <button
+            hlmBtn
+            size="icon"
+            variant="outline"
+            [hlmTooltip]="helpAndFeedbackLabel()"
+            class="text-muted-foreground relative h-8 w-8 rounded-full"
+            [attr.aria-label]="helpAndFeedbackLabel()"
+            (click)="openHelpAndFeedback()"
+          >
+            <nucleo-icon [icon]="LifeBuoy" [size]="16" />
+            @if (userJot.unreadCount() > 0) {
+              <span
+                class="bg-primary text-primary-foreground absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full text-[9px] leading-none font-semibold"
+                aria-hidden="true"
+              >
+                {{ helpAndFeedbackBadge() }}
+              </span>
+            }
+          </button>
+
+          <a
+            href="https://docs.kualia.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            hlmBtn
+            size="icon"
+            variant="outline"
+            [hlmTooltip]="'Documentation'"
+            class="text-muted-foreground h-8 w-8 rounded-full"
+            aria-label="Documentation"
+          >
+            <nucleo-icon [icon]="BookOpen" [size]="16" />
+          </a>
+
+          <app-sidebar-organization-dropdown [iconOnly]="true" />
+
+          <button
+            hlmBtn
+            size="icon"
+            variant="outline"
+            hlmDropdownMenuTrigger
+            [hlmDropdownMenuTrigger]="themeMenu"
+            class="text-muted-foreground h-8 w-8 rounded-full"
+            aria-label="Theme"
+            aria-haspopup="menu"
+          >
+            <nucleo-icon [icon]="currentThemeIcon()" [size]="16" />
+          </button>
+        </div>
+
+        <ng-template #themeMenu>
+          <hlm-dropdown-menu class="w-36">
+            @for (option of themeOptions; track option.value) {
+              <button hlmDropdownMenuItem (click)="selectTheme(option.value)">
+                <nucleo-icon [icon]="option.icon" [size]="14" />
+                <span class="text-xs">{{ option.label }}</span>
+                @if (currentTheme() === option.value) {
+                  <nucleo-icon [icon]="Check" [size]="14" class="ml-auto" />
+                }
+              </button>
+            }
+          </hlm-dropdown-menu>
+        </ng-template>
+      </div>
+    </hlm-sidebar>
+  }
+
+  <main
+    #mainEl
+    class="bg-background flex min-w-0 flex-1 flex-col overflow-hidden p-0 transition-[padding] duration-200"
+    [class.lg:pe-2]="shellEnabled()"
+    [class.lg:pt-2]="shellEnabled()"
+    [class.lg:pb-1]="shellEnabled()"
+    [class.lg:!ps-4]="shellEnabled() && aiChat.expanded()"
+    [class.lg:!pe-4]="shellEnabled() && aiChat.expanded()"
+  >
+    <div
+      data-loading-region="content-card"
+      class="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden"
+      [class.content-area]="shellEnabled()"
+      [class.lg:rounded-xl]="shellEnabled()"
+      [class.lg:border]="shellEnabled()"
+      [attr.aria-busy]="shellEnabled() || settingsShellEnabled() ? !revealReady() : null"
+    >
+      <div
+        data-loading-region="route-content"
+        class="h-full min-w-0 max-w-full overflow-hidden transition-opacity duration-200"
+        [class.opacity-0]="!contentReady()"
+        [class.opacity-100]="contentReady()"
+        [attr.inert]="contentReady() ? null : ''"
+        [attr.aria-hidden]="contentReady() ? null : 'true'"
+      >
+        <ng-content />
+      </div>
+      @if (shellEnabled()) {
+        <div
+          data-loading-region="spinner"
+          class="bg-content-background absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-200"
+          [class.pointer-events-none]="revealReady()"
+          [class.opacity-0]="revealReady()"
+          [class.opacity-100]="!revealReady()"
+          [attr.aria-hidden]="revealReady() ? 'true' : null"
+        >
+          <hlm-spinner class="text-primary text-3xl" aria-label="Loading Kualia" />
+        </div>
+      }
+    </div>
+    @if (shellEnabled()) {
+      <div
+        class="flex shrink-0 items-center justify-end px-3 opacity-0 transition-[padding,margin,opacity] duration-200 lg:px-0 lg:pt-1"
+        [class.opacity-100]="revealReady()"
+        [class.lg:!pt-4]="aiChat.expanded()"
+        [class.lg:-ms-4]="aiChat.expanded()"
+        [class.lg:-me-2]="aiChat.expanded()"
+      >
+        <app-ai-chat-launcher />
+      </div>
+    }
+  </main>
+
+  @if (settingsShellEnabled()) {
+    <div
+      data-loading-region="settings-placeholder"
+      class="bg-background absolute inset-0 z-20 flex overflow-hidden transition-opacity duration-200"
+      [class.pointer-events-none]="revealReady()"
+      [class.opacity-0]="revealReady()"
+      [class.opacity-100]="!revealReady()"
+      [attr.aria-hidden]="revealReady() ? 'true' : null"
+    >
+      <div class="bg-background hidden h-full w-[var(--sidebar-width)] shrink-0 md:block"></div>
+      <div class="min-w-0 flex-1 lg:py-2 lg:pe-2">
+        <div class="bg-content-background flex h-full items-center justify-center overflow-hidden rounded-xl sm:border">
+          <hlm-spinner class="text-primary text-3xl" aria-label="Loading settings" />
+        </div>
+      </div>
+    </div>
+  }
+</div>

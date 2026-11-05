@@ -1,0 +1,281 @@
+@import "@angular/cdk/overlay-prebuilt.css";
+
+@import "tailwindcss";
+
+@import "@spartan-ng/brain/hlm-tailwind-preset.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Inter font face declarations */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+:root {
+  --background: oklch(0.97 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.62 0.16 276.05);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.93 0 0);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.93 0 0);
+  --muted-foreground: oklch(0.21 0.006 285.885);
+  --accent: oklch(0.93 0 0);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.66 0.2 23.26);
+  --border: oklch(0.95 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+  --radius: 0.475rem;
+  --content-background: oklch(0.99 0 0);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+}
+
+:root.dark {
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.62 0.16 276.05);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+  --content-background: oklch(0.17 0 0);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+      "Helvetica Neue", sans-serif;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  /* Override CDK overlay positioning for top-center alignment */
+  .cdk-global-overlay-wrapper {
+    align-items: flex-start !important;
+    padding-top: 4rem !important;
+    overflow-y: auto !important;
+  }
+}
+
+@layer utilities {
+  .bg-content-background {
+    background-color: var(--content-background);
+  }
+
+  /* System theme-based visibility (uses prefers-color-scheme, not app theme) */
+  .system-light-only {
+    display: block;
+  }
+  .system-dark-only {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    .system-light-only {
+      display: none;
+    }
+    .system-dark-only {
+      display: block;
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 150ms ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer components {
+  .kbd {
+    @apply border-border text-muted-foreground inline-flex items-center justify-center rounded border bg-transparent px-1.5 py-0.5 text-xs select-none;
+  }
+}
+
+/* Global scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Overlay scrollbar that doesn't take up gutter space - macOS style */
+.overlay-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.overlay-scrollbar::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+.overlay-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overlay-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition:
+    background-color 0.3s ease,
+    opacity 0.3s ease;
+  opacity: 0;
+}
+
+/* Show scrollbar on hover */
+.overlay-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 1;
+}
+
+.overlay-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dark .overlay-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark .overlay-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Show scrollbar when scrolling (using JavaScript class) */
+.overlay-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 1;
+}
+
+/* Expanded AI chat panel: bump small text up to text-sm so messages and the input feel
+   readable across the wider layout. Targets text-xs and elements explicitly sized at 13px
+   (header title + prompt textarea). */
+app-ai-chat-panel.ai-chat-panel-expanded .text-xs,
+app-ai-chat-panel.ai-chat-panel-expanded .text-\[13px\] {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.dark .overlay-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.overlay-scrollbar.scrolling {
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.dark .overlay-scrollbar.scrolling {
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+/* ===== Drag and Drop Gap System ===== */
+
+/* Base class for all draggable items - enables smooth margin transitions during drag */
+.drag-gap-item {
+  transition:
+    margin-top 200ms ease-out,
+    margin-bottom 200ms ease-out,
+    height 200ms ease-out;
+}
+
+/* Disable transitions when drag ends so gap collapses instantly on drop */
+.drag-gap-item.drag-ended {
+  transition: none;
+}
+
+/* Ghosted/muted appearance for the item being dragged */
+.is-drag-source-ghost {
+  opacity: 0.4;
+  background-color: var(--accent) !important;
+}
+
+/* Invalid drop target indication - cursor shows operation is not allowed */
+.drop-target-invalid {
+  cursor: not-allowed !important;
+}

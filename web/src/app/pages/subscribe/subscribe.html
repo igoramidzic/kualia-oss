@@ -1,0 +1,39 @@
+<div class="bg-background flex min-h-screen flex-col items-center justify-center px-4">
+  <!-- Logo -->
+  <img [src]="logoPath()" alt="Kualia" class="mb-8 h-10" />
+
+  <!-- Content -->
+  <div class="w-full max-w-md text-center">
+    <h1 class="text-foreground mb-3 text-2xl font-semibold">Subscribe to Continue</h1>
+
+    <p class="text-muted-foreground mb-8">
+      Get access to all features including budget tracking, transaction management, and bank connections (US & Canada).
+    </p>
+
+    @if (errorMessage()) {
+      <div class="border-destructive/50 bg-destructive/10 text-destructive mb-6 rounded-lg border p-4 text-sm">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <!-- Subscribe Button -->
+    <button hlmBtn class="mb-4 w-full" (click)="openPaywall()" [disabled]="loading() || isInitializing()">
+      @if (loading() || isInitializing()) {
+        <nucleo-icon [icon]="LoaderCircle" class="mr-2 size-4 animate-spin" />
+        Loading...
+      } @else {
+        View Subscription Options
+      }
+    </button>
+
+    <!-- Logout Link -->
+    <button hlmBtn variant="ghost" class="text-muted-foreground" (click)="logout()">Sign out</button>
+  </div>
+
+  <!-- Paywall Container (hidden until opened) -->
+  <div
+    id="paywall-container"
+    class="bg-background/80 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
+    [class.hidden]="!showPaywall()"
+  ></div>
+</div>

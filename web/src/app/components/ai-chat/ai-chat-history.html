@@ -1,0 +1,64 @@
+<hlm-combobox
+  align="end"
+  sideOffset="6"
+  autoFocus="first-tabbable"
+  [filter]="noopFilter"
+  (valueChange)="onValueChange($event)"
+>
+  <hlm-combobox-trigger
+    variant="ghost"
+    [showIcon]="false"
+    [hlmTooltip]="'Chat history'"
+    class="text-muted-foreground hover:text-foreground h-8 w-8"
+    aria-label="Chat history"
+  >
+    <nucleo-icon [icon]="History" [size]="14" />
+  </hlm-combobox-trigger>
+  <div
+    *brnPopoverContent
+    hlmComboboxContent
+    class="w-[280px] **:data-[slot=input-group]:m-0 **:data-[slot=input-group]:rounded-none **:data-[slot=input-group]:border-0 **:data-[slot=input-group]:bg-transparent"
+  >
+    <div class="border-border border-b">
+      <hlm-combobox-input
+        placeholder="Chat history"
+        [showTrigger]="false"
+        (input)="onSearchChange($any($event.target).value)"
+      />
+    </div>
+    <div hlmComboboxList class="scroll-py-0">
+      @for (group of groupedThreads(); track group.label) {
+        <div hlmComboboxGroup>
+          <div hlmComboboxLabel>{{ group.label }}</div>
+          @for (thread of group.threads; track thread.threadId) {
+            <hlm-combobox-item [value]="thread.threadId" class="pr-2 [&>ng-icon]:!hidden">
+              <div class="flex w-full min-w-0 items-center gap-2">
+                <!-- Reserved leading slot so every row aligns regardless of which threads
+                     are unread. Currently only houses the unread dot; future per-row icons
+                     (e.g. status, pinned) would land here too. -->
+                <span class="flex h-2 w-2 flex-shrink-0 items-center justify-center" aria-hidden="true">
+                  @if (aiChat.unreadThreads().has(thread.threadId)) {
+                    <span class="bg-primary block h-2 w-2 rounded-full"></span>
+                  }
+                </span>
+                <span class="min-w-0 flex-1 truncate text-left text-xs">
+                  {{ thread.title ?? 'New chat' }}
+                </span>
+                <span class="text-muted-foreground flex-shrink-0 text-[10px]">
+                  {{ relativeLabel(thread.lastUpdatedAt) }}
+                </span>
+              </div>
+            </hlm-combobox-item>
+          }
+        </div>
+      }
+    </div>
+    <hlm-combobox-empty>
+      @if (search()) {
+        <span class="text-muted-foreground text-xs">No chats match "{{ search() }}".</span>
+      } @else {
+        <span class="text-muted-foreground text-xs">No chats yet.</span>
+      }
+    </hlm-combobox-empty>
+  </div>
+</hlm-combobox>

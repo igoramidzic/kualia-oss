@@ -1,0 +1,56 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex flex-shrink-0 flex-col border-b select-none">
+    <div class="flex h-10 items-center px-2 sm:px-3">
+      <div class="flex items-center gap-2">
+        <app-sidebar-toggle class="lg:hidden" />
+        <nav class="flex items-center space-x-1 text-sm">
+          <a [routerLink]="plannedLink()" class="text-muted-foreground/60 hover:text-foreground m-0 p-1"> Planned </a>
+          @if (isLoading()) {
+            <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
+            <hlm-skeleton class="h-5 w-48" />
+          } @else if (scheduled()) {
+            <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
+            <nucleo-icon [icon]="CalendarClock" class="text-muted-foreground h-4 w-4" />
+            @if (display(); as display) {
+              <span class="text-sm"
+                >{{ display.prefix }} <span>{{ display.amount }}</span></span
+              >
+            }
+
+            <div class="relative ml-2">
+              <button
+                type="button"
+                hlmBtn
+                variant="ghost"
+                size="icon"
+                hlmDropdownMenuTrigger
+                [hlmDropdownMenuTrigger]="plannedMenu"
+                aria-haspopup="menu"
+                class="h-6 w-6"
+              >
+                <nucleo-icon [icon]="Ellipsis" [size]="16" />
+                <span class="sr-only">Open menu</span>
+              </button>
+
+              <ng-template #plannedMenu>
+                <hlm-dropdown-menu class="w-48">
+                  <button hlmDropdownMenuItem variant="destructive" (click)="deleteScheduled()">
+                    <nucleo-icon [icon]="Trash2" [size]="14" />
+                    <span class="text-xs">Delete...</span>
+                  </button>
+                </hlm-dropdown-menu>
+              </ng-template>
+            </div>
+          } @else if (!isLoading()) {
+            <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
+            <span class="text-sm font-medium">Not Found</span>
+          }
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-hidden">
+    <router-outlet></router-outlet>
+  </div>
+</div>

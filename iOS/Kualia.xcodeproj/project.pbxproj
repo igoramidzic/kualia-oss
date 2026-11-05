@@ -1,0 +1,799 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C0DE00000000000000000001 /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000021 /* ConvexMobile */; };
+		C0DE00000000000000000002 /* ClerkKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000022 /* ClerkKit */; };
+		C0DE00000000000000000003 /* ClerkKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000023 /* ClerkKitUI */; };
+		C0DE00000000000000000004 /* ClerkConvex in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000024 /* ClerkConvex */; };
+		C0DE00000000000000000005 /* LinkKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000025 /* LinkKit */; };
+		C0DE00000000000000000006 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000026 /* RevenueCat */; };
+		C0DE00000000000000000007 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000027 /* AppsFlyerLib */; };
+		C0DE00000000000000000205 /* KualiaWidgetsExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000201 /* KualiaWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C0DE00000000000000000206 /* Kualia/DesignSystem/KualiaIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000207 /* Kualia/DesignSystem/KualiaIcon.swift */; };
+		C0DE00000000000000000208 /* Kualia/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000209 /* Kualia/Assets.xcassets */; };
+		C0DE00000000000000000220 /* Kualia/App/AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000221 /* Kualia/App/AppLanguage.swift */; };
+		C0DE00000000000000000222 /* Kualia/Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C0DE00000000000000000223 /* Kualia/Localizable.xcstrings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C0DE00000000000000000107 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A735D2D304B2C7300B3E1ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A735D34304B2C7300B3E1ED;
+			remoteInfo = Kualia;
+		};
+		C0DE00000000000000000214 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A735D2D304B2C7300B3E1ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C0DE00000000000000000200;
+			remoteInfo = KualiaWidgetsExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C0DE00000000000000000213 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C0DE00000000000000000205 /* KualiaWidgetsExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6A735D35304B2C7300B3E1ED /* Kualia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kualia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0DE00000000000000000101 /* KualiaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KualiaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0DE00000000000000000201 /* KualiaWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KualiaWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0DE00000000000000000207 /* Kualia/DesignSystem/KualiaIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kualia/DesignSystem/KualiaIcon.swift; sourceTree = SOURCE_ROOT; };
+		C0DE00000000000000000209 /* Kualia/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Kualia/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		C0DE00000000000000000221 /* Kualia/App/AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kualia/App/AppLanguage.swift; sourceTree = SOURCE_ROOT; };
+		C0DE00000000000000000223 /* Kualia/Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Kualia/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C0DE00000000000000000204 /* Exceptions for "KualiaWidgets" folder in "KualiaWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C0DE00000000000000000200 /* KualiaWidgetsExtension */;
+		};
+		C0DE00000000000000000219 /* Exceptions for "Kualia" folder in "Kualia" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6A735D34304B2C7300B3E1ED /* Kualia */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6A735D37304B2C7300B3E1ED /* Kualia */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C0DE00000000000000000219 /* Exceptions for "Kualia" folder in "Kualia" target */,
+			);
+			path = Kualia;
+			sourceTree = "<group>";
+		};
+		C0DE00000000000000000102 /* KualiaTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = KualiaTests;
+			sourceTree = "<group>";
+		};
+		C0DE00000000000000000202 /* KualiaWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C0DE00000000000000000204 /* Exceptions for "KualiaWidgets" folder in "KualiaWidgetsExtension" target */,
+			);
+			path = KualiaWidgets;
+			sourceTree = "<group>";
+		};
+		C0DE00000000000000000203 /* WidgetShared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WidgetShared;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A735D32304B2C7300B3E1ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0DE00000000000000000006 /* RevenueCat in Frameworks */,
+				C0DE00000000000000000007 /* AppsFlyerLib in Frameworks */,
+				C0DE00000000000000000005 /* LinkKit in Frameworks */,
+				C0DE00000000000000000004 /* ClerkConvex in Frameworks */,
+				C0DE00000000000000000003 /* ClerkKitUI in Frameworks */,
+				C0DE00000000000000000002 /* ClerkKit in Frameworks */,
+				C0DE00000000000000000001 /* ConvexMobile in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0DE00000000000000000103 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0DE00000000000000000210 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A735D2C304B2C7300B3E1ED = {
+			isa = PBXGroup;
+			children = (
+				6A735D37304B2C7300B3E1ED /* Kualia */,
+				C0DE00000000000000000202 /* KualiaWidgets */,
+				C0DE00000000000000000203 /* WidgetShared */,
+				C0DE00000000000000000207 /* Kualia/DesignSystem/KualiaIcon.swift */,
+				C0DE00000000000000000209 /* Kualia/Assets.xcassets */,
+				C0DE00000000000000000223 /* Kualia/Localizable.xcstrings */,
+				C0DE00000000000000000221 /* Kualia/App/AppLanguage.swift */,
+				C0DE00000000000000000102 /* KualiaTests */,
+				6A735D36304B2C7300B3E1ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6A735D36304B2C7300B3E1ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A735D35304B2C7300B3E1ED /* Kualia.app */,
+				C0DE00000000000000000201 /* KualiaWidgetsExtension.appex */,
+				C0DE00000000000000000101 /* KualiaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6A735D34304B2C7300B3E1ED /* Kualia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A735D42304B2C7400B3E1ED /* Build configuration list for PBXNativeTarget "Kualia" */;
+			buildPhases = (
+				6A735D31304B2C7300B3E1ED /* Sources */,
+				6A735D32304B2C7300B3E1ED /* Frameworks */,
+				6A735D33304B2C7300B3E1ED /* Resources */,
+				C0DE00000000000000000213 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C0DE00000000000000000215 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6A735D37304B2C7300B3E1ED /* Kualia */,
+				C0DE00000000000000000203 /* WidgetShared */,
+			);
+			name = Kualia;
+			packageProductDependencies = (
+				C0DE00000000000000000021 /* ConvexMobile */,
+				C0DE00000000000000000022 /* ClerkKit */,
+				C0DE00000000000000000023 /* ClerkKitUI */,
+				C0DE00000000000000000024 /* ClerkConvex */,
+				C0DE00000000000000000025 /* LinkKit */,
+				C0DE00000000000000000026 /* RevenueCat */,
+				C0DE00000000000000000027 /* AppsFlyerLib */,
+			);
+			productName = Kualia;
+			productReference = 6A735D35304B2C7300B3E1ED /* Kualia.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C0DE00000000000000000106 /* KualiaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0DE00000000000000000111 /* Build configuration list for PBXNativeTarget "KualiaTests" */;
+			buildPhases = (
+				C0DE00000000000000000104 /* Sources */,
+				C0DE00000000000000000103 /* Frameworks */,
+				C0DE00000000000000000105 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C0DE00000000000000000108 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C0DE00000000000000000102 /* KualiaTests */,
+			);
+			name = KualiaTests;
+			packageProductDependencies = (
+			);
+			productName = KualiaTests;
+			productReference = C0DE00000000000000000101 /* KualiaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C0DE00000000000000000200 /* KualiaWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0DE00000000000000000218 /* Build configuration list for PBXNativeTarget "KualiaWidgetsExtension" */;
+			buildPhases = (
+				C0DE00000000000000000211 /* Sources */,
+				C0DE00000000000000000210 /* Frameworks */,
+				C0DE00000000000000000212 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C0DE00000000000000000202 /* KualiaWidgets */,
+				C0DE00000000000000000203 /* WidgetShared */,
+			);
+			name = KualiaWidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = KualiaWidgetsExtension;
+			productReference = C0DE00000000000000000201 /* KualiaWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6A735D2D304B2C7300B3E1ED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					6A735D34304B2C7300B3E1ED = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					C0DE00000000000000000106 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 6A735D34304B2C7300B3E1ED;
+					};
+				};
+			};
+			buildConfigurationList = 6A735D30304B2C7300B3E1ED /* Build configuration list for PBXProject "Kualia" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				es,
+				de,
+				it,
+				fr,
+				"zh-Hans",
+				"sr-Latn",
+				Base,
+			);
+			mainGroup = 6A735D2C304B2C7300B3E1ED;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C0DE00000000000000000016 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+				C0DE00000000000000000011 /* XCRemoteSwiftPackageReference "convex-swift" */,
+				C0DE00000000000000000012 /* XCRemoteSwiftPackageReference "clerk-ios" */,
+				C0DE00000000000000000013 /* XCRemoteSwiftPackageReference "clerk-convex-swift" */,
+				C0DE00000000000000000014 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */,
+				C0DE00000000000000000015 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6A735D36304B2C7300B3E1ED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A735D34304B2C7300B3E1ED /* Kualia */,
+				C0DE00000000000000000200 /* KualiaWidgetsExtension */,
+				C0DE00000000000000000106 /* KualiaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6A735D33304B2C7300B3E1ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0DE00000000000000000105 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0DE00000000000000000212 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0DE00000000000000000208 /* Kualia/Assets.xcassets in Resources */,
+				C0DE00000000000000000222 /* Kualia/Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A735D31304B2C7300B3E1ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0DE00000000000000000104 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0DE00000000000000000211 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0DE00000000000000000206 /* Kualia/DesignSystem/KualiaIcon.swift in Sources */,
+				C0DE00000000000000000220 /* Kualia/App/AppLanguage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C0DE00000000000000000108 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A735D34304B2C7300B3E1ED /* Kualia */;
+			targetProxy = C0DE00000000000000000107 /* PBXContainerItemProxy */;
+		};
+		C0DE00000000000000000215 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C0DE00000000000000000200 /* KualiaWidgetsExtension */;
+			targetProxy = C0DE00000000000000000214 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		6A735D40304B2C7400B3E1ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6A735D41304B2C7400B3E1ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6A735D43304B2C7400B3E1ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIcon-KualiaDark AppIcon-ClassicKualia";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Kualia";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Kualia/Kualia.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Kualia/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Kualia;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Your permission lets AppsFlyer and our ad partners use your device’s advertising identifier to measure which ads lead to installs and signups. Your financial records and chat content are never sent for ad measurement.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kualia.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6A735D44304B2C7400B3E1ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIcon-KualiaDark AppIcon-ClassicKualia";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Kualia";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Kualia/Kualia.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Kualia/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Kualia;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Your permission lets AppsFlyer and our ad partners use your device’s advertising identifier to measure which ads lead to installs and signups. Your financial records and chat content are never sent for ad measurement.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kualia.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C0DE00000000000000000109 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kualia.appTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kualia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kualia";
+			};
+			name = Debug;
+		};
+		C0DE00000000000000000110 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kualia.appTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kualia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kualia";
+			};
+			name = Release;
+		};
+		C0DE00000000000000000216 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = KualiaWidgets/KualiaWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KualiaWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kualia Widgets";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kualia.app.KualiaWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C0DE00000000000000000217 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = KualiaWidgets/KualiaWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KualiaWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kualia Widgets";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kualia.app.KualiaWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A735D30304B2C7300B3E1ED /* Build configuration list for PBXProject "Kualia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A735D40304B2C7400B3E1ED /* Debug */,
+				6A735D41304B2C7400B3E1ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A735D42304B2C7400B3E1ED /* Build configuration list for PBXNativeTarget "Kualia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A735D43304B2C7400B3E1ED /* Debug */,
+				6A735D44304B2C7400B3E1ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0DE00000000000000000111 /* Build configuration list for PBXNativeTarget "KualiaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0DE00000000000000000109 /* Debug */,
+				C0DE00000000000000000110 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0DE00000000000000000218 /* Build configuration list for PBXNativeTarget "KualiaWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0DE00000000000000000216 /* Debug */,
+				C0DE00000000000000000217 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C0DE00000000000000000011 /* XCRemoteSwiftPackageReference "convex-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/get-convex/convex-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.1;
+			};
+		};
+		C0DE00000000000000000012 /* XCRemoteSwiftPackageReference "clerk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/clerk/clerk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		C0DE00000000000000000013 /* XCRemoteSwiftPackageReference "clerk-convex-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/clerk/clerk-convex-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+		C0DE00000000000000000014 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/plaid/plaid-link-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
+		C0DE00000000000000000015 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.78.0;
+			};
+		};
+		C0DE00000000000000000016 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = exactVersion;
+				version = 7.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C0DE00000000000000000021 /* ConvexMobile */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000011 /* XCRemoteSwiftPackageReference "convex-swift" */;
+			productName = ConvexMobile;
+		};
+		C0DE00000000000000000022 /* ClerkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000012 /* XCRemoteSwiftPackageReference "clerk-ios" */;
+			productName = ClerkKit;
+		};
+		C0DE00000000000000000023 /* ClerkKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000012 /* XCRemoteSwiftPackageReference "clerk-ios" */;
+			productName = ClerkKitUI;
+		};
+		C0DE00000000000000000024 /* ClerkConvex */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000013 /* XCRemoteSwiftPackageReference "clerk-convex-swift" */;
+			productName = ClerkConvex;
+		};
+		C0DE00000000000000000025 /* LinkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000014 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */;
+			productName = LinkKit;
+		};
+		C0DE00000000000000000026 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000015 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		C0DE00000000000000000027 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000016 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6A735D2D304B2C7300B3E1ED /* Project object */;
+}

@@ -1,0 +1,154 @@
+<!-- Step 1: Balance Input -->
+@if (step() === 1) {
+  <hlm-dialog-header>
+    <h2 hlmDialogTitle>Reconcile Bank Account</h2>
+  </hlm-dialog-header>
+
+  <div class="space-y-3 p-3">
+    <!-- Show cleared balance -->
+    <div class="bg-accent rounded-lg p-4">
+      <p class="text-muted-foreground text-xs font-medium uppercase">Cleared balance</p>
+      <p class="mt-2 text-2xl font-semibold">{{ formatCurrency(currentBalance()) }}</p>
+      <p class="text-muted-foreground mt-1 text-xs">Pending: {{ formatCurrency(pendingBalance()) }}</p>
+      <p class="text-muted-foreground mt-0.5 text-xs">Total: {{ formatCurrency(totalBalance()) }}</p>
+    </div>
+
+    <!-- Flow selection -->
+    <div class="space-y-3">
+      <p class="text-sm font-medium">Does the cleared balance match your bank statement?</p>
+
+      <hlm-radio-group class="flex flex-col space-y-2" [(ngModel)]="flowType" (keydown)="onRadioGroupKeydown($event)">
+        <div
+          #radioConfirm
+          class="border-border hover:bg-accent/50 focus-visible:ring-ring focus-visible:ring-offset-background mb-0 flex cursor-pointer items-center space-x-3 rounded-lg border p-3 ring-offset-2 transition-colors outline-none focus-visible:ring-2"
+          tabindex="0"
+          (click)="flowType.set('confirm')"
+          (keydown.enter)="flowType.set('confirm')"
+          (keydown.space)="$event.preventDefault(); flowType.set('confirm')"
+        >
+          <hlm-radio value="confirm">
+            <hlm-radio-indicator indicator />
+          </hlm-radio>
+          <div class="flex-1">
+            <p class="text-sm font-medium">Yes, balance is correct</p>
+            <p class="text-muted-foreground text-xs">Reconcile transactions with current balance</p>
+          </div>
+        </div>
+
+        <div
+          #radioAdjust
+          class="border-border hover:bg-accent/50 focus-visible:ring-ring focus-visible:ring-offset-background mb-0 flex cursor-pointer items-center space-x-3 rounded-lg border p-3 ring-offset-2 transition-colors outline-none focus-visible:ring-2"
+          tabindex="0"
+          (click)="flowType.set('adjust')"
+          (keydown.enter)="flowType.set('adjust')"
+          (keydown.space)="$event.preventDefault(); flowType.set('adjust')"
+        >
+          <hlm-radio value="adjust">
+            <hlm-radio-indicator indicator />
+          </hlm-radio>
+          <div class="flex-1">
+            <p class="text-sm font-medium">No, enter correct balance</p>
+            <p class="text-muted-foreground text-xs">Create a balance adjustment transaction</p>
+          </div>
+        </div>
+      </hlm-radio-group>
+    </div>
+
+    <!-- Balance input (only for "adjust" flow) -->
+    @if (flowType() === 'adjust') {
+      <div class="space-y-2">
+        <label hlmLabel for="reportedBalance">Correct Balance</label>
+        <app-currency-input
+          [(ngModel)]="reportedBalance"
+          [inputClass]="'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm'"
+          [allowNegative]="true"
+          [autoFocus]="true"
+          (enterEvent)="nextStep()"
+        />
+        <p class="text-muted-foreground text-xs">Enter the actual balance from your bank statement</p>
+
+        @if (hasDifference()) {
+          <div class="bg-accent rounded-md p-3">
+            <p class="text-xs font-medium">
+              Adjustment: <span class="font-semibold">{{ formatCurrencyWithSign(difference()!) }}</span>
+            </p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  @if (errorMessage()) {
+    <div class="bg-destructive/10 text-destructive border-destructive/20 rounded-lg border p-3">
+      <p class="text-sm">{{ errorMessage() }}</p>
+    </div>
+  }
+
+  <hlm-dialog-footer>
+    <button hlmBtn type="button" variant="ghost" (click)="cancel()">Cancel</button>
+    <button hlmBtn type="button" (click)="nextStep()" [disabled]="!canProceedToStep2()">Next</button>
+  </hlm-dialog-footer>
+}
+
+<!-- Step 2: Preview/Confirmation -->
+@if (step() === 2) {
+  <hlm-dialog-header>
+    <h2 hlmDialogTitle>Confirm Reconciliation</h2>
+  </hlm-dialog-header>
+
+  <div class="space-y-3 p-3">
+    @if (flowType() === 'confirm') {
+      <!-- Flow 1: Confirming balance -->
+      <div class="bg-accent rounded-lg p-4">
+        <div class="flex items-start space-x-3">
+          <nucleo-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-5 w-5" />
+          <div class="flex-1">
+            <p class="text-sm font-medium">Balance matches!</p>
+            <p class="text-muted-foreground mt-1 text-xs">
+              No balance adjustment needed. Your transactions will be marked as reconciled.
+            </p>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Flow 2: Adjusting balance -->
+      <div class="space-y-3">
+        <div class="bg-accent rounded-lg p-4">
+          <p class="text-xs font-medium">Balance Adjustment</p>
+          <p class="mt-1 text-2xl font-semibold">{{ formatCurrencyWithSign(difference()!) }}</p>
+          <p class="text-muted-foreground mt-2 text-xs">
+            A balance adjustment transaction will be created to match your reported balance.
+          </p>
+        </div>
+
+        <div class="border-border rounded-lg border p-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-muted-foreground text-xs">Cleared Balance</p>
+              <p class="mt-1 text-sm font-medium">{{ formatCurrency(currentBalance()) }}</p>
+            </div>
+            <div>
+              <p class="text-muted-foreground text-xs">New Balance</p>
+              <p class="mt-1 text-sm font-medium">{{ formatCurrency(reportedBalanceInCents()!) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="border-border border-t pt-3">
+      <p class="text-muted-foreground text-xs">All reviewed and cleared transactions will be marked as reconciled.</p>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="bg-destructive/10 text-destructive border-destructive/20 rounded-lg border p-3">
+      <p class="text-sm">{{ errorMessage() }}</p>
+    </div>
+  }
+
+  <hlm-dialog-footer>
+    <button hlmBtn type="button" variant="ghost" (click)="previousStep()">Back</button>
+    <button hlmBtn type="button" (click)="nextStep()">Confirm</button>
+  </hlm-dialog-footer>
+}

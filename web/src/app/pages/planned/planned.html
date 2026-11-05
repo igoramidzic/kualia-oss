@@ -1,0 +1,319 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <!-- Header with sidebar toggle, title, and tabs -->
+  <div class="flex flex-shrink-0 flex-col border-b select-none">
+    <div class="flex h-10 items-center gap-2 px-1.5 sm:px-3">
+      <app-sidebar-toggle class="shrink-0 lg:hidden" />
+      <nav class="flex shrink-0 items-center space-x-1 text-sm">
+        <span class="m-0 p-1">Planned</span>
+      </nav>
+
+      <!-- Desktop tabs (inline) -->
+      <app-responsive-filter-row
+        class="hidden min-w-0 flex-1 lg:block"
+        containerClass="flex w-full min-w-0 items-center gap-1 overflow-hidden"
+        [filters]="plannedFilters()"
+      />
+
+      <div class="flex shrink-0 items-center justify-end">
+        <!-- Add planned transaction button -->
+        <button
+          hlmBtn
+          variant="ghost"
+          size="sm"
+          class="group hover:text-foreground transition-colors"
+          (click)="openCreateDialog()"
+        >
+          <nucleo-icon
+            [icon]="Plus"
+            class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
+          />
+          Add planned
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile tabs -->
+    <app-responsive-filter-row class="block lg:hidden" [filters]="plannedFilters()" />
+  </div>
+
+  <div class="flex-1 overflow-hidden">
+    @if (activeTab() === 'monthly') {
+      <div class="fade-in flex h-full flex-col overflow-y-auto">
+        <!-- Secondary header (scrolls with content) -->
+        <!-- Row 1: Month title + navigation + toggle -->
+        <div class="flex shrink-0 items-center justify-between px-3 py-3">
+          <span class="text-lg font-semibold">{{ selectedMonthDisplay() }}</span>
+          <div class="flex items-center gap-3">
+            <app-budget-month-picker
+              [selectedMonth]="selectedMonth()"
+              [availableRange]="availableRange() ?? undefined"
+              [isCurrentMonth]="isCurrentMonth()"
+              [currentMonth]="currentMonth"
+              [canGoPrevious]="canNavigatePrevious()"
+              [canGoNext]="canNavigateNext()"
+              [previousMonth]="previousMonth()"
+              [nextMonth]="nextMonth()"
+              [showDropdown]="false"
+              [alwaysShowTodayButton]="true"
+              (monthChange)="navigateToMonth($event)"
+            />
+            <div class="border-border border-l pl-3">
+              <div hlmToggleGroup variant="outline" [value]="viewMode()" (valueChange)="onViewModeChange($event)">
+                <button hlmToggleGroupItem value="calendar" size="sm" class="w-30">
+                  <nucleo-icon [icon]="CalendarDays" [size]="14" />
+                  Calendar
+                </button>
+                <button hlmToggleGroupItem value="list" size="sm" class="w-20">
+                  <nucleo-icon [icon]="List" [size]="14" />
+                  List
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Three columns - Income, Expenses, empty (collapses to rows on small screens) -->
+        @if (selectedMonthSummary(); as summary) {
+          <div class="grid shrink-0 grid-cols-1 border-t sm:grid-cols-3">
+            <!-- Income Progress Bar -->
+            <div class="flex flex-col gap-1.5 border-b px-3 py-3 sm:border-r sm:border-b-0">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1">
+                  <span class="text-muted-foreground text-sm font-medium">Income</span>
+                  <nucleo-icon
+                    [icon]="Info"
+                    class="text-muted-foreground h-3 w-3 cursor-help"
+                    [hlmTooltip]="'Received ' + summary.inflow.paidCount + ' of ' + summary.inflow.count + ' expected'"
+                  />
+                </div>
+                <span class="text-sm font-medium">{{ formatCurrency(summary.inflow.totalExpected) }} total</span>
+              </div>
+              <hlm-progress [value]="summary.inflow.percentPaid" class="h-2">
+                <hlm-progress-indicator class="bg-green-500" />
+              </hlm-progress>
+              <div class="flex items-center justify-between">
+                <span class="text-muted-foreground text-sm"
+                  >{{ formatCurrency(summary.inflow.totalPaid) }} received</span
+                >
+                <span class="text-muted-foreground text-sm"
+                  >{{ formatCurrency(summary.inflow.totalRemaining) }} remaining</span
+                >
+              </div>
+            </div>
+
+            <!-- Expenses Progress Bar -->
+            <div class="flex flex-col gap-1.5 px-3 py-3 sm:border-r">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1">
+                  <span class="text-muted-foreground text-sm font-medium">Expenses</span>
+                  <nucleo-icon
+                    [icon]="Info"
+                    class="text-muted-foreground h-3 w-3 cursor-help"
+                    [hlmTooltip]="'Paid ' + summary.outflow.paidCount + ' of ' + summary.outflow.count + ' expected'"
+                  />
+                </div>
+                <span class="text-sm font-medium">{{ formatCurrency(summary.outflow.totalExpected) }} total</span>
+              </div>
+              <hlm-progress [value]="summary.outflow.percentPaid" class="h-2">
+                <hlm-progress-indicator class="bg-primary" />
+              </hlm-progress>
+              <div class="flex items-center justify-between">
+                <span class="text-muted-foreground text-sm">{{ formatCurrency(summary.outflow.totalPaid) }} paid</span>
+                <span class="text-muted-foreground text-sm"
+                  >{{ formatCurrency(summary.outflow.totalRemaining) }} remaining</span
+                >
+              </div>
+            </div>
+
+            <!-- Empty third column (hidden on mobile) -->
+            <div class="hidden px-3 py-3 sm:block"></div>
+          </div>
+        }
+
+        @if (viewMode() === 'list') {
+          <!-- Monthly tab with grouped sections (List View) -->
+          @if (!loading() && hasMonthlyTransactions()) {
+            <!-- Table Header -->
+            <div
+              class="bg-content-background sticky top-0 z-10 grid h-10 shrink-0 items-center border-t px-3 text-sm"
+              style="
+                grid-template-columns:
+                  minmax(160px, 1fr) minmax(130px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr)
+                  minmax(90px, 1fr);
+              "
+            >
+              <div class="text-muted-foreground">Payee</div>
+              <div class="text-muted-foreground">Date</div>
+              <div class="text-muted-foreground">Repeat</div>
+              <div class="text-muted-foreground">Category</div>
+              <div class="text-muted-foreground text-right">Amount</div>
+            </div>
+
+            <!-- Overdue Section -->
+            @if (overdueEntries().length > 0) {
+              <div
+                class="overdue-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
+              >
+                <nucleo-icon [icon]="ClockAlert" class="h-4 w-4 text-red-500" />
+                <span>Overdue ({{ overdueEntries().length }})</span>
+              </div>
+              @for (view of overdueEntries(); track view.key; let last = $last) {
+                <app-planned-transaction-row
+                  [base]="view.base"
+                  [entry]="view.entry"
+                  [isLast]="last"
+                  (rowClick)="onRowClick($event)"
+                />
+              }
+            }
+
+            <!-- Skipped Section -->
+            @if (skippedEntries().length > 0) {
+              <div
+                class="skipped-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
+              >
+                <nucleo-icon [icon]="SkipForward" class="text-muted-foreground h-4 w-4" />
+                <span>Skipped ({{ skippedEntries().length }})</span>
+              </div>
+              @for (view of skippedEntries(); track view.key; let last = $last) {
+                <app-planned-transaction-row
+                  [base]="view.base"
+                  [entry]="view.entry"
+                  [isLast]="last"
+                  (rowClick)="onRowClick($event)"
+                />
+              }
+            }
+
+            <!-- Upcoming Section -->
+            @if (upcomingEntries().length > 0) {
+              <div
+                class="upcoming-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
+              >
+                <nucleo-icon [icon]="Clock" class="h-4 w-4 text-yellow-500" />
+                <span>Upcoming ({{ upcomingEntries().length }})</span>
+              </div>
+              @for (view of upcomingEntries(); track view.key; let last = $last) {
+                <app-planned-transaction-row
+                  [base]="view.base"
+                  [entry]="view.entry"
+                  [isLast]="last"
+                  (rowClick)="onRowClick($event)"
+                />
+              }
+            }
+
+            <!-- Paid Section -->
+            @if (paidEntries().length > 0) {
+              <div
+                class="paid-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
+              >
+                <nucleo-icon [icon]="CircleCheck" class="h-4 w-4 text-green-500" />
+                <span>Paid ({{ paidEntries().length }})</span>
+              </div>
+              @for (view of paidEntries(); track view.key; let last = $last) {
+                <app-planned-transaction-row
+                  [base]="view.base"
+                  [entry]="view.entry"
+                  [isLast]="last"
+                  (rowClick)="onRowClick($event)"
+                />
+              }
+            }
+          }
+
+          @if (!loading() && !hasMonthlyTransactions() && !error()) {
+            <div class="py-12 text-center">
+              <nucleo-icon [icon]="Clock" class="text-muted-foreground mx-auto h-12 w-12" />
+              <h3 class="mt-2 text-sm font-semibold">No planned transactions this month</h3>
+              <p class="text-muted-foreground mt-1 text-sm">
+                Create planned transactions to track your regular bills and subscriptions.
+              </p>
+            </div>
+          }
+        } @else {
+          <!-- Monthly tab Calendar View -->
+          @if (!loading()) {
+            <app-planned-calendar-view
+              [entries]="monthEntries()"
+              [selectedMonth]="selectedMonth()"
+              (entryClick)="onCalendarEntryClick($event)"
+              (addClick)="openCreateDialogWithDate($event)"
+              (action)="onPlannedAction($event)"
+            />
+          }
+        }
+      </div>
+    } @else {
+      <!-- All Planned tab with Active/Paused groups -->
+      @if (!loading() && hasAllTransactions()) {
+        <div class="fade-in flex h-full flex-col overflow-y-auto">
+          <!-- Table Header -->
+          <div
+            class="bg-content-background sticky top-0 z-10 grid h-10 shrink-0 items-center px-3 text-sm"
+            style="
+              grid-template-columns: minmax(160px, 1fr) minmax(130px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(
+                  90px,
+                  1fr
+                );
+            "
+          >
+            <div class="text-muted-foreground">Payee</div>
+            <div class="text-muted-foreground">Date</div>
+            <div class="text-muted-foreground">Repeat</div>
+            <div class="text-muted-foreground">Category</div>
+            <div class="text-muted-foreground text-right">Amount</div>
+          </div>
+
+          <!-- Active Section -->
+          @if (allActivePlanned().length > 0) {
+            <div
+              class="active-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
+            >
+              <nucleo-icon [icon]="Play" class="h-4 w-4 text-green-500" />
+              <span>Active ({{ allActivePlanned().length }})</span>
+            </div>
+            @for (planned of allActivePlanned(); track planned._id; let last = $last) {
+              <app-planned-transaction-row
+                [base]="planned"
+                [isLast]="last"
+                [showContextMenu]="true"
+                (rowClick)="onRowClick($event)"
+                (action)="onPlannedAction($event)"
+              />
+            }
+          }
+
+          <!-- Paused Section -->
+          @if (allPausedPlanned().length > 0) {
+            <div
+              class="paused-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
+            >
+              <nucleo-icon [icon]="Pause" class="text-muted-foreground h-4 w-4" />
+              <span>Paused ({{ allPausedPlanned().length }})</span>
+            </div>
+            @for (planned of allPausedPlanned(); track planned._id; let last = $last) {
+              <app-planned-transaction-row
+                [base]="planned"
+                [isLast]="last"
+                [showContextMenu]="true"
+                (rowClick)="onRowClick($event)"
+                (action)="onPlannedAction($event)"
+              />
+            }
+          }
+        </div>
+      }
+
+      @if (!loading() && !hasAllTransactions() && !error()) {
+        <div class="fade-in py-12 text-center">
+          <nucleo-icon [icon]="Clock" class="text-muted-foreground mx-auto h-12 w-12" />
+          <h3 class="mt-2 text-sm font-semibold">No planned transactions</h3>
+          <p class="text-muted-foreground mt-1 text-sm">
+            Create planned transactions to track your regular bills and subscriptions.
+          </p>
+        </div>
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,233 @@
+<div>
+  <hlm-dialog-header>
+    <h2 class="text-lg font-semibold">New transaction</h2>
+  </hlm-dialog-header>
+
+  <div class="p-3">
+    <div class="space-y-4">
+      <!-- Amount Sign Toggle -->
+      <app-amount-sign-toggle
+        class="mb-4 block"
+        [value]="amountSign()"
+        [disabled]="creating()"
+        (valueChange)="onSignChange($event)"
+      />
+
+      <!-- Amount Section -->
+      <div class="mb-6">
+        <app-arithmetic-currency-input
+          #amountEditor
+          [initialValue]="transactionAmountDisplay()"
+          [disabled]="creating()"
+          [allowNegative]="false"
+          inputClass="w-full border-none bg-transparent text-2xl outline-none focus:outline-none"
+          (valueChange)="onAmountChange($event)"
+          (enterPressed)="onAmountEnterKey()"
+        />
+      </div>
+
+      <!-- Properties Row -->
+      <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="properties-row">
+        <span class="text-muted-foreground pr-2 text-xs select-none">Properties</span>
+
+        <app-payee-selector
+          [merchantId]="selectedMerchantId()"
+          [selectedBankAccountId]="selectedPayeeBankAccountId()"
+          [availableBankAccounts]="payeeBankAccounts()"
+          [pendingMerchantName]="pendingMerchantName()"
+          [transactionType]="transactionType()"
+          [transactionAmount]="payeeSelectorTransactionAmount()"
+          [disabled]="creating()"
+          [allowNone]="true"
+          variant="ghost"
+          buttonClass="h-8 w-fit justify-between px-1 text-xs"
+          (payeeChange)="onPayeeChange($event)"
+        />
+
+        <!-- Bank Account Selector -->
+        <app-bank-account-selector
+          [bankAccountId]="selectedBankAccountId()"
+          [disabled]="creating()"
+          [allowNone]="false"
+          [hideClosed]="true"
+          variant="ghost"
+          buttonClass="h-8 w-fit justify-between px-1 text-xs"
+          (bankAccountChange)="onBankAccountChangeForTransfer($event)"
+        />
+
+        <!-- Category Selector or Split Mode Button (hidden for same-budget transfers and system types) -->
+        @if (
+          (!isTransfer() && !isSystemType() && !isSelectedAccountOffBudget()) ||
+          (isTransfer() && isCrossBudgetTransfer())
+        ) {
+          @if (isSplitMode()) {
+            <button
+              type="button"
+              hlmBtn
+              variant="ghost"
+              size="sm"
+              class="w-fit justify-between px-1 text-xs"
+              [disabled]="creating()"
+            >
+              <div class="flex items-center gap-2">
+                <nucleo-icon [icon]="SplitIcon" [size]="14" class="flex-shrink-0 -rotate-90" />
+                <span>Split</span>
+              </div>
+            </button>
+          } @else {
+            <app-category-selector
+              [categoryId]="selectedCategoryId()"
+              [isReadyToAssign]="readyToAssign()"
+              [disabled]="creating()"
+              [allowNone]="true"
+              [showSelectPrompt]="true"
+              [showSplitButton]="!isTransfer()"
+              [yearMonth]="selectedYearMonth()"
+              [suggestedCategoryIds]="selectedMerchant()?.suggestedCategoryIds ?? []"
+              variant="ghost"
+              buttonClass="h-8 w-fit justify-between px-1 text-xs"
+              (categoryChange)="onCategoryChange($event)"
+              (splitClick)="handleEnterSplitMode()"
+            />
+          }
+        }
+      </div>
+
+      <!-- Due date and planned options -->
+      <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="due-row">
+        <span class="text-muted-foreground pr-2 text-xs select-none">Due</span>
+
+        <!-- Future dates are scheduled; recurrence is folded into the picker. -->
+        <app-transaction-date-picker
+          [date]="selectedDate()"
+          [max]="datePickerMax()"
+          [disabled]="creating()"
+          [showRecurrence]="canSchedule()"
+          [recurrence]="recurrence()"
+          variant="ghost"
+          buttonClass="h-8 w-fit justify-between px-1 text-xs"
+          (dateChange)="onDateChange($event)"
+          (recurrenceChange)="recurrence.set($event)"
+        />
+
+        @if (hasPlannedSchedule()) {
+          <hlm-select
+            class="inline-block"
+            [value]="reminderSelection()"
+            [itemToString]="reminderToString"
+            [disabled]="creating()"
+            (valueChange)="reminderSelection.set($any($event))"
+          >
+            <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass" aria-label="Reminder">
+              <nucleo-icon [icon]="BellRing" [size]="14" class="text-muted-foreground" />
+              <hlm-select-value />
+            </hlm-select-trigger>
+            <hlm-select-content *hlmSelectPortal>
+              @for (option of reminderOptions; track option.value) {
+                <hlm-select-item [value]="option.value">{{ option.label }}</hlm-select-item>
+              }
+            </hlm-select-content>
+          </hlm-select>
+
+          <button
+            type="button"
+            hlmBtn
+            variant="ghost"
+            size="sm"
+            class="w-fit justify-between px-1 text-xs"
+            aria-label="Toggle automatic entry"
+            [attr.aria-pressed]="enterAutomatically()"
+            [disabled]="creating()"
+            (click)="enterAutomatically.set(!enterAutomatically())"
+          >
+            <div class="flex items-center gap-2">
+              <nucleo-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
+              <span>{{ enterAutomatically() ? 'Enter automatically' : 'Enter manually' }}</span>
+            </div>
+          </button>
+        }
+      </div>
+
+      <!-- Status Row -->
+      <div class="mb-4 flex flex-wrap items-center gap-2">
+        <span class="text-muted-foreground pr-2 text-xs select-none">Status</span>
+        <button
+          type="button"
+          hlmBtn
+          variant="ghost"
+          size="sm"
+          class="w-fit justify-between px-1 text-xs"
+          [disabled]="creating()"
+          (click)="togglePending()"
+        >
+          <div class="flex items-center gap-2">
+            @if (isPending()) {
+              <nucleo-icon [icon]="ClockFading" [size]="14" class="flex-shrink-0 text-yellow-500" />
+              <span>Pending</span>
+            } @else {
+              <nucleo-icon [icon]="Check" [size]="14" class="flex-shrink-0 text-green-500" />
+              <span>Cleared</span>
+            }
+          </div>
+        </button>
+      </div>
+
+      <!-- Splits Section - only show when in split mode -->
+      @if (isSplitMode()) {
+        <div class="mb-4">
+          <app-transaction-splits
+            [transactionAmount]="BigInt(transactionAmountValue() ?? 0)"
+            [amountSign]="amountSign()"
+            [yearMonth]="selectedYearMonth()"
+            [splits]="localSplits()"
+            [initialSplits]="initialSplits()"
+            [saving]="creating()"
+            [showActions]="false"
+            (addSplit)="handleAddSplit($event)"
+            (removeSplit)="handleRemoveSplit($event)"
+            (updateSplitCategory)="handleUpdateSplitCategory($event)"
+            (updateSplitAmount)="handleUpdateSplitAmount($event)"
+          />
+        </div>
+      }
+
+      <!-- Notes Section -->
+      <div class="mb-4">
+        <span class="text-muted-foreground text-xs select-none">Note</span>
+        <textarea
+          #notesEditor
+          hlmTextarea
+          spellcheck="false"
+          [attr.aria-label]="'Transaction notes'"
+          [disabled]="creating()"
+          placeholder="Enter notes..."
+          (input)="onNotesInput()"
+          (keydown)="onNotesKeydown($event)"
+          class="min-h-0 resize-none border-none bg-transparent px-0 py-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
+          [class.opacity-50]="creating()"
+          rows="1"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+
+  <hlm-dialog-footer>
+    <div class="flex w-full flex-col items-end gap-3">
+      <button hlmBtn type="button" variant="default" [disabled]="creating()" (click)="createTransaction()">
+        @if (creating()) {
+          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          {{ isScheduling() ? 'Scheduling...' : 'Creating...' }}
+        } @else {
+          {{ isScheduling() ? 'Schedule transaction' : 'Create transaction' }}
+        }
+      </button>
+      <div class="w-full border-t pt-3">
+        <div class="text-muted-foreground flex items-center justify-end gap-1.5 text-xs select-none">
+          <span>Create</span>
+          <kbd class="kbd">{{ submitShortcutModifier }}</kbd>
+          <kbd class="kbd">Enter</kbd>
+        </div>
+      </div>
+    </div>
+  </hlm-dialog-footer>
+</div>

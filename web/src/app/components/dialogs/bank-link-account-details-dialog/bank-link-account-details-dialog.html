@@ -1,0 +1,348 @@
+<!-- Dynamic Header based on step -->
+<hlm-dialog-header>
+  @if (bankLinkAccount(); as account) {
+    <div class="flex items-start gap-2 select-none">
+      @if (currentStep().step !== 'details') {
+        <button hlmBtn variant="ghost" size="sm" (click)="goBackToDetails()" class="h-8 w-8 p-0">
+          <nucleo-icon [icon]="ArrowLeft" [size]="16" />
+        </button>
+      }
+      @if (account.institution?.logo) {
+        <img
+          [src]="account.institution!.logo"
+          [alt]="account.institution!.name"
+          class="h-9 w-9 rounded-full object-contain"
+        />
+      } @else {
+        <div class="bg-accent flex h-9 w-9 items-center justify-center rounded-full">
+          <nucleo-icon [icon]="Building2" [size]="16" class="text-muted-foreground" />
+        </div>
+      }
+      <div class="flex flex-col items-start">
+        <span class="truncate text-sm">{{ account.name }}</span>
+        <span class="text-muted-foreground text-sm">{{ account.institution?.name ?? 'Unknown Institution' }}</span>
+      </div>
+    </div>
+  }
+</hlm-dialog-header>
+
+<!-- Content: Conditional based on step -->
+<div class="w-full space-y-4 overflow-y-auto p-3">
+  <!-- STEP 1: DETAILS -->
+  @if (currentStep().step === 'details') {
+    @if (bankLinkAccount(); as account) {
+      <!-- Connection status card -->
+      <div class="border-border rounded-lg border">
+        <!-- External account info (always shown) -->
+        <div class="border-b p-3">
+          <p class="text-muted-foreground mb-1 text-xs">{{ account.sourceLabel }}</p>
+          <p class="font-medium">{{ account.name }}</p>
+          <p class="text-muted-foreground text-xs">
+            {{ formatConnectionAccountType(account.accountType) }}
+            @if (account.accountNumberMask) {
+              • {{ account.accountNumberMask }}
+            }
+            @if (account.currencyCode) {
+              • {{ account.currencyCode }}
+            }
+          </p>
+          @if (account.accountDescription) {
+            <p class="text-muted-foreground mt-1 text-xs">{{ account.accountDescription }}</p>
+          }
+        </div>
+
+        <!-- Divider with link/unlink icon -->
+        <div class="border-border relative">
+          <div
+            class="bg-background absolute top-0 left-1/2 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border"
+          >
+            <nucleo-icon [icon]="isLinked() ? LinkIcon : UnlinkIcon" [size]="14" class="text-muted-foreground" />
+          </div>
+
+          <!-- If linked: Show linked workspace account with dropdown menu -->
+          @if (isLinked() && account.linkedToBankAccount; as workspaceAccount) {
+            <div class="p-3">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex-1">
+                  <p class="text-muted-foreground mb-1 text-xs">Is linked to</p>
+
+                  <p class="font-medium">{{ workspaceAccount.name }}</p>
+                  <p class="text-muted-foreground text-xs">Workspace Account</p>
+                </div>
+
+                <!-- Dropdown menu for actions -->
+                <div class="relative">
+                  <button
+                    type="button"
+                    hlmBtn
+                    variant="ghost"
+                    size="sm"
+                    hlmDropdownMenuTrigger
+                    [hlmDropdownMenuTrigger]="accountActionsMenu"
+                    aria-haspopup="menu"
+                  >
+                    <nucleo-icon [icon]="Ellipsis" [size]="16" />
+                    <span class="sr-only">Open menu</span>
+                  </button>
+
+                  <ng-template #accountActionsMenu>
+                    <hlm-dropdown-menu class="w-48">
+                      <button hlmDropdownMenuItem (click)="viewBankAccount()">
+                        <nucleo-icon [icon]="Eye" [size]="14" />
+                        <span class="text-xs">View account</span>
+                      </button>
+                      <button hlmDropdownMenuItem variant="destructive" (click)="goToUnlinkConfirm()">
+                        <nucleo-icon [icon]="UnlinkIcon" [size]="14" />
+                        <span class="text-xs">Unlink...</span>
+                      </button>
+                    </hlm-dropdown-menu>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- If not linked: Show clickable area to link (only for supported types) -->
+          @if (!isLinked() && isBankLinkAccountSupported()) {
+            <button
+              hlmBtn
+              variant="ghost"
+              class="hover:bg-accent/50 h-full w-full justify-start rounded-none p-3 text-left"
+              (click)="goToSelectAccount()"
+            >
+              <div class="flex w-full items-center justify-between">
+                <div>
+                  <p class="text-muted-foreground text-xs">Not linked</p>
+                  <p class="text-muted-foreground text-sm font-light">Click to link to a workspace account</p>
+                </div>
+                <nucleo-icon [icon]="ChevronRight" [size]="16" class="text-muted-foreground" />
+              </div>
+            </button>
+          }
+
+          <!-- If not linked and unsupported type: Show "Not Yet Supported" message -->
+          @if (!isLinked() && !isBankLinkAccountSupported()) {
+            <div class="p-3">
+              <p class="text-muted-foreground text-xs">Not yet supported</p>
+              <p class="text-muted-foreground text-sm font-light">
+                Investment and loan accounts cannot be linked yet. We're working on adding support for these account
+                types.
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+
+  <!-- STEP 2A: SELECT_ACCOUNT -->
+  @if (currentStep().step === 'select-account') {
+    <div>
+      <p class="text-muted-foreground mb-2 text-xs font-medium uppercase">Select Workspace Account</p>
+    </div>
+
+    <!-- List of compatible accounts -->
+    @if (compatibleAccounts().length > 0) {
+      <div class="border-border divide-border divide-y rounded-lg border">
+        @for (account of compatibleAccounts(); track account._id) {
+          <div
+            hlmItem
+            variant="outline"
+            size="sm"
+            class="hover:bg-accent/50 cursor-pointer rounded-none !border-0"
+            [class.opacity-50]="account.isDisabled"
+            [class.cursor-not-allowed]="account.isDisabled"
+            role="button"
+            tabindex="0"
+            (click)="!account.isDisabled && !saving() && goToLinkConfirm(account._id)"
+            (keydown.enter)="!account.isDisabled && !saving() && goToLinkConfirm(account._id)"
+            (keydown.space)="!account.isDisabled && !saving() && goToLinkConfirm(account._id); $event.preventDefault()"
+          >
+            <!-- Account info -->
+            <div hlmItemContent>
+              <span hlmItemTitle>{{ account.name }}</span>
+              <p hlmItemDescription class="flex items-center gap-2">
+                <span>{{ formatAccountType(account.accountType) }}</span>
+                @if (account.isDisabled) {
+                  <span>•</span>
+                  <span class="text-muted-foreground">Already linked</span>
+                }
+              </p>
+            </div>
+
+            <!-- Chevron icon -->
+            <nucleo-icon [icon]="ChevronRight" [size]="16" class="text-muted-foreground" />
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Create new account card -->
+    <div
+      class="border-border hover:bg-accent/50 flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors"
+      role="button"
+      tabindex="0"
+      (click)="!saving() && goToLinkConfirm(null)"
+      (keydown.enter)="!saving() && goToLinkConfirm(null)"
+      (keydown.space)="!saving() && goToLinkConfirm(null); $event.preventDefault()"
+    >
+      <div class="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-full">
+        <nucleo-icon [icon]="Plus" [size]="20" class="text-primary" />
+      </div>
+      <div class="flex-1">
+        <p class="font-medium">Create new account</p>
+        <p class="text-muted-foreground text-sm">Create and link a new workspace account</p>
+      </div>
+      <nucleo-icon [icon]="ChevronRight" [size]="16" class="text-muted-foreground" />
+    </div>
+  }
+
+  <!-- STEP 2B: LINK_CONFIRM -->
+  @if (currentStep().step === 'link-confirm') {
+    @if (bankLinkAccount(); as bankAccount) {
+      <div class="space-y-4">
+        <p class="text-sm">
+          @if (isCreatingNewAccount()) {
+            Are you sure you want to create and link a new workspace account? This will automatically import
+            transactions from this account.
+          } @else {
+            Are you sure you want to link this account to your workspace account? This will automatically import
+            transactions from this account.
+          }
+        </p>
+
+        <div class="border-border rounded-lg border">
+          <div class="border-b p-3">
+            <p class="text-muted-foreground mb-1 text-xs">{{ bankAccount.sourceLabel }}</p>
+            <p class="font-medium">{{ bankAccount.name }}</p>
+            <p class="text-muted-foreground text-xs">
+              {{ formatConnectionAccountType(bankAccount.accountType) }}
+              @if (bankAccount.accountNumberMask) {
+                • {{ bankAccount.accountNumberMask }}
+              }
+              @if (bankAccount.currencyCode) {
+                • {{ bankAccount.currencyCode }}
+              }
+            </p>
+          </div>
+
+          <div class="border-border relative p-3">
+            <!-- Link icon in the middle of the border -->
+            <div
+              class="bg-background absolute top-0 left-1/2 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border"
+            >
+              <nucleo-icon [icon]="LinkIcon" [size]="14" class="text-muted-foreground" />
+            </div>
+
+            <p class="text-muted-foreground mb-1 text-xs">
+              @if (isCreatingNewAccount()) {
+                Will create and link to
+              } @else {
+                Will be linked to
+              }
+            </p>
+
+            <div class="flex items-center gap-2">
+              <p class="font-medium">
+                @if (isCreatingNewAccount()) {
+                  {{ bankAccount.name }}
+                } @else if (accountToLink(); as workspaceAccount) {
+                  {{ workspaceAccount.name }}
+                }
+              </p>
+              @if (isCreatingNewAccount()) {
+                <span hlmBadge variant="outline" class="text-primary border-primary">New</span>
+              } @else {
+                <span hlmBadge variant="outline" class="text-muted-foreground border-muted-foreground">Existing</span>
+              }
+            </div>
+
+            <p class="text-muted-foreground text-xs">
+              @if (isCreatingNewAccount()) {
+                {{ formatConnectionAccountType(bankAccount.accountType) }}
+              } @else if (accountToLink(); as workspaceAccount) {
+                {{ formatAccountType(workspaceAccount.accountType) }}
+              }
+            </p>
+          </div>
+        </div>
+
+        @if (error()) {
+          <div class="bg-destructive/10 text-destructive border-destructive/20 rounded-lg border p-3">
+            <p class="text-sm">{{ error() }}</p>
+          </div>
+        }
+
+        <button hlmBtn variant="default" class="w-full" [disabled]="saving()" (click)="confirmLink()">
+          @if (saving()) {
+            <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+            @if (isCreatingNewAccount()) {
+              Creating...
+            } @else {
+              Linking...
+            }
+          } @else {
+            Confirm and link
+          }
+        </button>
+      </div>
+    }
+  }
+
+  <!-- STEP 2C: UNLINK_CONFIRM -->
+  @if (currentStep().step === 'unlink-confirm') {
+    @if (bankLinkAccount(); as bankAccount) {
+      @if (bankAccount.linkedToBankAccount; as workspaceAccount) {
+        <div class="space-y-4">
+          <p class="text-sm">
+            Are you sure you want to disconnect this account? This will unlink it from your workspace account, but will
+            not delete the account or its transactions in Kualia.
+          </p>
+
+          <div class="border-border rounded-lg border">
+            <div class="border-b p-3">
+              <p class="text-muted-foreground mb-1 text-xs">{{ bankAccount.sourceLabel }}</p>
+              <p class="font-medium">{{ bankAccount.name }}</p>
+              <p class="text-muted-foreground text-xs">
+                {{ formatConnectionAccountType(bankAccount.accountType) }}
+                @if (bankAccount.accountNumberMask) {
+                  • {{ bankAccount.accountNumberMask }}
+                }
+                @if (bankAccount.currencyCode) {
+                  • {{ bankAccount.currencyCode }}
+                }
+              </p>
+            </div>
+
+            <div class="border-border relative p-3">
+              <!-- Unlink icon in the middle of the border -->
+              <div
+                class="bg-background absolute top-0 left-1/2 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border"
+              >
+                <nucleo-icon [icon]="UnlinkIcon" [size]="14" class="text-muted-foreground" />
+              </div>
+
+              <p class="text-muted-foreground mb-1 text-xs">Currently linked to</p>
+              <p class="font-medium">{{ workspaceAccount.name }}</p>
+            </div>
+          </div>
+
+          @if (error()) {
+            <div class="bg-destructive/10 text-destructive border-destructive/20 rounded-lg border p-3">
+              <p class="text-sm">{{ error() }}</p>
+            </div>
+          }
+
+          <button hlmBtn variant="destructive" class="w-full" [disabled]="saving()" (click)="confirmUnlink()">
+            @if (saving()) {
+              <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+              Unlinking...
+            } @else {
+              Confirm and unlink
+            }
+          </button>
+        </div>
+      }
+    }
+  }
+</div>

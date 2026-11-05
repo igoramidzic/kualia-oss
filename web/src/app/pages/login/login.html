@@ -1,0 +1,24 @@
+<main class="bg-background flex min-h-screen items-center justify-center p-6">
+  <div class="w-full max-w-sm space-y-6">
+    <h1 class="text-2xl font-semibold">{{ signingUp ? 'Create your Kualia account' : 'Sign in to Kualia' }}</h1>
+    <p class="text-muted-foreground text-sm">Your account and budget data live on this Kualia instance.</p>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+      <div class="space-y-2">
+        <label for="email">Email</label>
+        <input hlmInput id="email" type="email" autocomplete="username" formControlName="email" class="w-full" />
+      </div>
+      <div class="space-y-2">
+        <label for="password">Password</label>
+        <input hlmInput id="password" type="password" [autocomplete]="signingUp ? 'new-password' : 'current-password'" formControlName="password" class="w-full" />
+        @if (signingUp) { <p class="text-muted-foreground text-sm">Use at least 12 characters. Save it in your password manager.</p> }
+      </div>
+      @if (error()) { <p role="alert" class="text-destructive text-sm">{{ error() }}</p> }
+      <button hlmBtn type="submit" class="w-full" [disabled]="loading() || form.invalid">
+        {{ loading() ? 'Please wait…' : signingUp ? 'Create account' : 'Sign in' }}
+      </button>
+    </form>
+    <a [routerLink]="signingUp ? '/login' : '/signup'" [queryParams]="{ redirect: null }" class="block text-sm underline">
+      {{ signingUp ? 'Already have an account? Sign in' : 'Create an account' }}
+    </a>
+  </div>
+</main>

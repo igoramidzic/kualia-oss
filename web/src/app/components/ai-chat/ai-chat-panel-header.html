@@ -1,0 +1,71 @@
+<div class="relative flex h-12 shrink-0 items-center gap-2 px-3">
+  <span
+    class="flex min-w-0 items-center gap-2 transition-opacity duration-75 ease-out"
+    [class.opacity-0]="titleSwapping()"
+  >
+    @if (!title()) {
+      <span hlmBadge variant="secondary" class="text-[10px] uppercase">Beta</span>
+    }
+    <span class="text-foreground truncate text-[13px] font-medium">{{ title() ?? 'New chat' }}</span>
+    @if (hasActiveThread()) {
+      <button
+        hlmBtn
+        size="icon"
+        variant="ghost"
+        type="button"
+        hlmDropdownMenuTrigger
+        [hlmDropdownMenuTrigger]="chatActionsMenu"
+        class="text-muted-foreground hover:text-foreground h-6 w-6 shrink-0 rounded-full"
+        [hlmTooltip]="'Chat options'"
+        aria-label="Chat options"
+        aria-haspopup="menu"
+      >
+        <nucleo-icon [icon]="MoreHorizontal" [size]="14" />
+      </button>
+      <ng-template #chatActionsMenu>
+        <hlm-dropdown-menu class="w-44">
+          <button hlmDropdownMenuItem variant="destructive" (click)="deleteChat.emit()">
+            <nucleo-icon [icon]="Trash2" [size]="14" />
+            <span class="text-xs">Delete chat</span>
+            <span hlmDropdownMenuShortcut>{{ deleteShortcutLabel() }}</span>
+          </button>
+        </hlm-dropdown-menu>
+      </ng-template>
+    }
+  </span>
+  <div class="ml-auto flex items-center gap-1">
+    <button
+      hlmBtn
+      size="icon"
+      variant="ghost"
+      class="h-7 w-7"
+      [hlmTooltip]="'Minimize'"
+      aria-label="Minimize chat"
+      (click)="minimizeChat.emit()"
+    >
+      <nucleo-icon [icon]="Minus" [size]="14" />
+    </button>
+    <button
+      hlmBtn
+      size="icon"
+      variant="ghost"
+      class="h-7 w-7"
+      [hlmTooltip]="expanded() ? 'Collapse' : 'Expand'"
+      [attr.aria-label]="expanded() ? 'Collapse chat' : 'Expand chat'"
+      (click)="toggleExpand.emit()"
+    >
+      <nucleo-icon [icon]="expanded() ? Minimize2 : Maximize2" [size]="14" />
+    </button>
+    <button
+      hlmBtn
+      size="icon"
+      variant="ghost"
+      class="h-7 w-7"
+      [hlmTooltip]="'Close'"
+      aria-label="Close chat"
+      (click)="closeChat.emit()"
+    >
+      <nucleo-icon [icon]="X" [size]="14" />
+    </button>
+  </div>
+</div>

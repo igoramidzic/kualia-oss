@@ -1,0 +1,80 @@
+<ng-template #navTabs>
+  <a routerLink="details" routerLinkActive="bg-accent/50" hlmBtn variant="ghost" size="sm" class="h-6 border text-xs">
+    <nucleo-icon [icon]="SquareChartGantt" size="14" />
+    Details
+  </a>
+
+  <a
+    routerLink="transactions"
+    routerLinkActive="bg-accent/50"
+    hlmBtn
+    variant="ghost"
+    size="sm"
+    class="h-6 border text-xs"
+  >
+    <nucleo-icon [icon]="ArrowLeftRight" size="14" />
+    Transactions
+  </a>
+</ng-template>
+
+<div class="flex flex-shrink-0 flex-col border-b select-none">
+  <div class="flex h-10 items-center px-3">
+    <div class="flex min-w-0 items-center gap-2">
+      <app-sidebar-toggle class="flex-shrink-0 lg:hidden" />
+      <nav class="flex min-w-0 items-center space-x-1 text-sm">
+        <a routerLink="../" class="text-muted-foreground/60 hover:text-foreground m-0 flex-shrink-0 p-1"> Merchants </a>
+        @if (isLoading()) {
+          <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+          <hlm-skeleton class="h-5 w-48" />
+        } @else if (hasMerchant()) {
+          <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+          <span class="max-w-[200px] min-w-0 truncate text-sm font-medium sm:max-w-[300px]">{{
+            merchantDisplay()
+          }}</span>
+
+          <div class="relative ml-2 flex-shrink-0">
+            <button
+              type="button"
+              hlmBtn
+              variant="ghost"
+              size="icon"
+              hlmDropdownMenuTrigger
+              [hlmDropdownMenuTrigger]="merchantMenu"
+              aria-haspopup="menu"
+              class="h-6 w-6"
+            >
+              <nucleo-icon [icon]="Ellipsis" [size]="16" />
+              <span class="sr-only">Open menu</span>
+            </button>
+
+            <ng-template #merchantMenu>
+              <hlm-dropdown-menu class="w-48">
+                <button hlmDropdownMenuItem (click)="mergeRequested.emit()">
+                  <nucleo-icon [icon]="GitMerge" [size]="14" />
+                  <span class="text-xs">Merge with...</span>
+                </button>
+                <button hlmDropdownMenuItem (click)="deleteRequested.emit()">
+                  <nucleo-icon [icon]="Trash2" [size]="14" />
+                  <span class="text-xs">Delete...</span>
+                </button>
+              </hlm-dropdown-menu>
+            </ng-template>
+          </div>
+
+          <div class="ml-2 hidden flex-shrink-0 lg:flex lg:items-center lg:gap-1">
+            <ng-container *ngTemplateOutlet="navTabs" />
+          </div>
+        } @else {
+          <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+          <span class="text-sm font-medium">Not Found</span>
+        }
+      </nav>
+    </div>
+  </div>
+
+  @if (hasMerchant() && !isLoading()) {
+    <div class="flex h-10 items-center gap-1 border-t px-3 py-1 lg:hidden">
+      <ng-container *ngTemplateOutlet="navTabs" />
+    </div>
+  }
+</div>

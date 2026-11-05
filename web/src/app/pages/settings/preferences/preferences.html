@@ -1,0 +1,59 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="Preferences" />
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+    <div class="container mx-auto max-w-[640px] p-4 pt-4 transition-all select-none lg:p-6 lg:pt-6 lg:pt-16">
+      <div class="mb-6">
+        <h1 class="text-2xl">Preferences</h1>
+      </div>
+
+      <div class="mb-8 select-none">
+        <h2 class="mb-3 text-sm">Interface & Theme</h2>
+
+        <div hlmCard class="space-y-4 p-3 shadow-none">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1">
+              <div class="text-sm">Interface Theme</div>
+              <p class="text-muted-foreground text-xs">Select or customize your interface color theme</p>
+            </div>
+
+            <div [hlmDropdownMenuTrigger]="themeMenu" class="cursor-pointer">
+              <button type="button" class="pl-1 font-light" hlmBtn variant="outline" size="sm">
+                <span class="flex items-center gap-2">
+                  <div class="bg-content-background flex items-center rounded border border-1 p-1 text-[0.6rem]">
+                    <span class="bg-primary mt-[1px] mr-1 inline-block h-[5px] w-[5px] rounded-full"></span>
+                    <span class="leading-none">Aa</span>
+                  </div>
+                  <span>{{ getThemeLabel(currentTheme()) }}</span>
+                </span>
+                <nucleo-icon [icon]="ChevronDown" [size]="14" class="text-muted-foreground ml-auto" />
+              </button>
+            </div>
+
+            <ng-template #themeMenu>
+              <hlm-dropdown-menu>
+                @for (option of themeOptions; track option.value) {
+                  <button
+                    hlmDropdownMenuItem
+                    (click)="selectTheme(option.value)"
+                    class="flex items-center justify-between font-light"
+                  >
+                    <span class="flex items-center gap-2">
+                      <nucleo-icon [icon]="option.icon" [size]="14" />
+                      <span>{{ option.label }}</span>
+                    </span>
+                    @if (currentTheme() === option.value) {
+                      <nucleo-icon [icon]="Check" [size]="14" />
+                    }
+                  </button>
+                }
+              </hlm-dropdown-menu>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

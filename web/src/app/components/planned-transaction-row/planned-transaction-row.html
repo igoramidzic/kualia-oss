@@ -1,0 +1,86 @@
+<button
+  type="button"
+  [class]="
+    'hover:bg-accent/30 group grid h-10 w-full cursor-pointer items-center overflow-hidden border-b py-0 pr-3 pl-3 text-left' +
+    (isLast() ? ' !border-b-0' : '')
+  "
+  [style.grid-template-columns]="gridTemplateColumns"
+  (click)="onClick()"
+  [hlmContextMenuTrigger]="showContextMenu() ? plannedTransactionContextMenu : null"
+>
+  <!-- Column 1: Payee (Icon + Name) -->
+  <div class="flex min-w-0 items-center gap-2">
+    @if (merchantLogo()) {
+      <img
+        [src]="merchantLogo()!"
+        [alt]="displayName()"
+        class="h-7 w-7 flex-shrink-0 rounded-full border object-cover"
+      />
+    } @else {
+      <div class="bg-accent/50 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border">
+        <nucleo-icon [icon]="isTransfer() ? ArrowLeftRight : CalendarClock" class="text-muted-foreground h-4 w-4" />
+      </div>
+    }
+    <span class="truncate text-sm font-medium">{{ displayName() }}</span>
+  </div>
+
+  <!-- Column 2: Date -->
+  <div class="flex items-center gap-1.5 text-sm">
+    <span>{{ dateFormatted().date }}</span>
+    @if (dateFormatted().relative && !isPaid()) {
+      <span class="text-muted-foreground">({{ dateFormatted().relative }})</span>
+    }
+  </div>
+
+  <!-- Column 3: Repeat -->
+  <div class="flex min-w-0 items-center gap-1.5 text-sm">
+    <span class="truncate">{{ recurrenceDisplay() }}</span>
+    @if (isAutoEntry()) {
+      <span class="bg-accent/50 text-muted-foreground flex-shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-medium">
+        Auto
+      </span>
+    }
+  </div>
+
+  <!-- Column 4: Category -->
+  <div class="flex min-w-0 items-center">
+    @if (categoryDisplay().badge; as badge) {
+      <span class="bg-accent/50 truncate rounded-md px-2 py-0.5 text-xs">
+        {{ badge }}
+      </span>
+    } @else {
+      <span class="text-muted-foreground text-xs">{{ categoryDisplay().empty }}</span>
+    }
+  </div>
+
+  <!-- Column 5: Amount -->
+  <span class="flex items-center justify-end gap-1.5 text-right text-sm">
+    @if (formattedAmount().showExpected) {
+      <span class="text-muted-foreground line-through">{{ formattedAmount().expectedDisplay }}</span>
+    }
+    <span [class.text-green-500]="formattedAmount().isIncome">
+      {{ formattedAmount().display }}
+    </span>
+  </span>
+</button>
+
+<ng-template #plannedTransactionContextMenu>
+  <hlm-dropdown-menu class="w-48">
+    <button hlmDropdownMenuItem [disabled]="!canActOnOccurrence()" (click)="onAction('enter')">
+      <nucleo-icon [icon]="CalendarArrowDown" [size]="14" />
+      <span class="text-xs">Enter now</span>
+    </button>
+    <button hlmDropdownMenuItem [disabled]="base().status === 'completed'" (click)="onAction('pause')">
+      <nucleo-icon [icon]="base().status === 'paused' ? Play : Pause" [size]="14" />
+      <span class="text-xs">{{ base().status === 'paused' ? 'Resume' : 'Pause' }}</span>
+    </button>
+    <button hlmDropdownMenuItem [disabled]="!canActOnOccurrence()" (click)="onAction('skip')">
+      <nucleo-icon [icon]="SkipForward" [size]="14" />
+      <span class="text-xs">Skip</span>
+    </button>
+    <button hlmDropdownMenuItem variant="destructive" (click)="onAction('delete')">
+      <nucleo-icon [icon]="Trash2" [size]="14" />
+      <span class="text-xs">Delete</span>
+    </button>
+  </hlm-dropdown-menu>
+</ng-template>

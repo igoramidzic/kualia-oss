@@ -1,0 +1,31 @@
+<button
+  type="button"
+  hlmDropdownMenuItem
+  class="relative"
+  hlmDropdownMenuTrigger
+  [hlmDropdownMenuTrigger]="themeMenu"
+  aria-label="Select theme mode"
+  aria-haspopup="menu"
+>
+  <nucleo-icon [icon]="Palette" [size]="16" />
+  <span>Theme</span>
+  <hlm-dropdown-menu-item-sub-indicator />
+</button>
+
+<ng-template #themeMenu>
+  <hlm-dropdown-menu-sub class="w-32">
+    @for (option of themeOptions; track option.value) {
+      <button
+        hlmDropdownMenuItem
+        (click)="selectTheme(option.value)"
+        [attr.aria-selected]="currentTheme() === option.value"
+      >
+        <nucleo-icon [icon]="option.icon" [size]="16" />
+        <span>{{ option.label }}</span>
+        @if (currentTheme() === option.value) {
+          <nucleo-icon [icon]="Check" [size]="16" class="ml-auto" />
+        }
+      </button>
+    }
+  </hlm-dropdown-menu-sub>
+</ng-template>

@@ -1,0 +1,141 @@
+@if (turn().user.text || turn().attachments.length > 0) {
+  <div class="flex flex-col items-end gap-1">
+    @if (turn().attachments.length > 0) {
+      <ul class="flex max-w-[85%] flex-col items-end gap-1">
+        @for (attachment of turn().attachments; track $index) {
+          <li
+            class="bg-background border-border text-foreground flex max-w-full items-center gap-1.5 rounded-md border px-2 py-1 text-[12px]"
+          >
+            <nucleo-icon [icon]="Paperclip" [size]="12" class="text-muted-foreground shrink-0" />
+            <span class="truncate" [title]="attachment.filename">{{ attachment.filename }}</span>
+          </li>
+        }
+      </ul>
+    }
+    @if (turn().user.text) {
+      <div
+        class="bg-background border-border text-foreground max-w-[85%] rounded-lg border px-3 py-2 text-[13px] whitespace-pre-wrap"
+      >
+        {{ turn().user.text }}
+      </div>
+    }
+    @if (isFirst() && workspaceContext(); as ctx) {
+      <!-- "{name} added to context" — locked at 12px in both floating and expanded modes
+           (inline style beats the panel's text-xs / text-[12px] expansion bump). -->
+      <div class="text-muted-foreground flex items-center gap-1 text-[12px]">
+        <nucleo-icon [icon]="LayoutGrid" [size]="12" class="shrink-0" />
+        <span class="truncate">
+          <span class="text-foreground font-medium">{{ ctx.workspaceName }}</span>
+          <span> added to context</span>
+        </span>
+      </div>
+    }
+  </div>
+}
+@if (turn().assistant; as assistant) {
+  <div class="group/assistant">
+    @if (assistant.isStreaming && turn().currentTool; as currentTool) {
+      <div class="mb-2 flex h-5 items-center text-[12px]">
+        <span class="ai-chat-shimmer" [attr.data-shimmer-text]="currentTool.runningLabel + '…'">
+          {{ currentTool.runningLabel }}…
+        </span>
+      </div>
+    }
+    @if (turn().toolCalls.length > 0 && !assistant.isStreaming) {
+      <hlm-collapsible class="mb-2 block select-none">
+        <button
+          type="button"
+          hlmCollapsibleTrigger
+          class="group text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-md text-[12px] transition-colors focus-visible:outline-none"
+        >
+          <span class="font-medium">
+            @if (turn().durationSeconds !== null) {
+              Worked for {{ turn().durationSeconds }} second{{ turn().durationSeconds === 1 ? '' : 's' }}
+            } @else {
+              Used tools
+            }
+          </span>
+          <nucleo-icon
+            [icon]="ChevronRight"
+            [size]="12"
+            class="ai-chat-tool-chevron transition-transform duration-200 ease-out"
+          />
+        </button>
+        <hlm-collapsible-content
+          class="grid transition-[grid-template-rows] duration-200 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]"
+        >
+          <div class="overflow-hidden">
+            <ul class="text-muted-foreground mt-1.5 ml-4 flex list-none flex-col gap-1 text-[12px]">
+              @for (call of turn().toolCalls; track call.toolCallId) {
+                <li>
+                  <span
+                    [class.text-destructive]="call.state === 'error'"
+                    [class.text-foreground]="call.state === 'running'"
+                    >{{ call.doneLabel }}</span
+                  >
+                  @if (call.state === 'error') {
+                    <span class="text-destructive">— failed</span>
+                  }
+                </li>
+              }
+            </ul>
+          </div>
+        </hlm-collapsible-content>
+      </hlm-collapsible>
+    }
+    <!-- While a tool is running, the model's pre-tool-call preamble ("Now I'll reorder…") is
+         hidden so the loading shimmer reads cleanly. The text is still buffered — it reappears
+         alongside the final response once the tool resolves. -->
+    @if (!(assistant.isStreaming && turn().currentTool)) {
+      <div class="ai-chat-markdown text-foreground text-[13px]">
+        @for (seg of assistantSegments(); track $index) {
+          @if (seg.kind === 'markdown') {
+            <span [innerHTML]="seg.text | markdown"></span>
+          } @else {
+            <app-transaction-link-card [workspaceShortId]="seg.workspaceShortId" [transactionId]="seg.transactionId" />
+          }
+        }
+        @if (assistant.isStreaming) {
+          <span class="ml-0.5 inline-block h-3 w-1 translate-y-0.5 animate-pulse bg-current"></span>
+        }
+      </div>
+    }
+    @if (!assistant.isStreaming) {
+      <div class="mt-1 -ml-1 flex">
+        <button
+          hlmBtn
+          type="button"
+          size="icon"
+          variant="ghost"
+          class="text-muted-foreground hover:text-foreground h-7 w-7 opacity-0 transition-opacity duration-150 group-hover/assistant:opacity-100 focus-visible:opacity-100"
+          aria-label="Copy message"
+          (click)="copyAssistantText(assistant.text)"
+        >
+          <nucleo-icon [icon]="Copy" [size]="14" />
+        </button>
+      </div>
+    }
+  </div>
+} @else if (isLast() && error()) {
+  <div class="text-destructive text-[13px]">{{ error() }}</div>
+} @else if (turn().isThinking) {
+  <!-- Live status: shimmering "Thinking…" or the active tool's label. The two spans share an
+       absolute slot so the swap reads as text rising up while the previous phrase fades out.
+       The wrapper carries a min-height so a missing label doesn't collapse the row. -->
+  <div class="relative flex h-5 items-center justify-start">
+    <span
+      class="absolute inset-0 flex items-center text-[13px] transition-all duration-200 ease-out"
+      [class.opacity-0]="turn().currentTool !== null"
+      [class.-translate-y-1]="turn().currentTool !== null"
+    >
+      <span class="ai-chat-shimmer" data-shimmer-text="Thinking…">Thinking…</span>
+    </span>
+    @if (turn().currentTool; as currentTool) {
+      <span class="absolute inset-0 flex items-center text-[13px] transition-all duration-200 ease-out">
+        <span class="ai-chat-shimmer" [attr.data-shimmer-text]="currentTool.runningLabel + '…'">
+          {{ currentTool.runningLabel }}…
+        </span>
+      </span>
+    }
+  </div>
+}

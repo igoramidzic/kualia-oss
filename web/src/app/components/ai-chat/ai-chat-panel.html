@@ -1,0 +1,60 @@
+<app-ai-chat-panel-header
+  [title]="aiChat.title()"
+  [titleSwapping]="aiChat.titleSwapping()"
+  [hasActiveThread]="!!aiChat.activeThreadId()"
+  [deleteShortcutLabel]="deleteShortcutLabel"
+  [expanded]="aiChat.expanded()"
+  (minimizeChat)="minimize()"
+  (closeChat)="close()"
+  (deleteChat)="deleteActiveChat()"
+  (toggleExpand)="toggleExpand()"
+/>
+
+<!-- Messages region: relative wrapper holds the scroll container and the top/bottom fade overlays.
+     Both fades stop short of the 6px scrollbar gutter so the scrollbar isn't tinted. -->
+<div class="relative flex min-h-0 flex-1 flex-col">
+  <!-- Top fade: scrolling messages dissolve under the header. -->
+  <div
+    class="from-popover pointer-events-none absolute top-0 left-0 z-10 h-4 bg-gradient-to-b to-transparent"
+    style="right: 6px"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Messages — fades during a chat swap and while initial messages load -->
+  <div
+    #scrollContainer
+    class="ai-chat-scroll flex-1 overflow-y-auto py-3 transition-opacity duration-150 ease-out"
+    [class.opacity-0]="swapping() || aiChat.messagesLoading()"
+  >
+    <!-- Cap the readable column so messages don't sprawl when the panel is in expanded mode.
+         Horizontal padding lives here (not on the scroll container) so it aligns with the
+         input section's max-w-3xl wrapper, which has its own px from the input component. -->
+    <div class="mx-auto w-full max-w-3xl px-4">
+      @if (hasContent()) {
+        <div class="flex flex-col">
+          @for (turn of turns(); track trackByTurnId($index, turn); let isLast = $last; let isFirst = $first) {
+            <app-ai-chat-turn
+              #turnEl
+              [turn]="turn"
+              [isFirst]="isFirst"
+              [isLast]="isLast"
+              [workspaceContext]="isFirst ? displayedWorkspaceContext() : null"
+              [error]="isLast ? aiChat.error() : null"
+              [class.pb-3]="!isLast"
+              [style.min-height.px]="isLast && hasSentInSession ? containerHeight() : null"
+            />
+          }
+        </div>
+      } @else {
+        <app-ai-chat-empty-state />
+      }
+      @if (aiChat.error() && !errorShownInTurn()) {
+        <div class="text-destructive mt-2 text-xs">{{ aiChat.error() }}</div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto w-full max-w-3xl shrink-0">
+  <app-ai-chat-input [workspaceName]="workspaceName()" [limitReached]="limitReached()" />
+</div>

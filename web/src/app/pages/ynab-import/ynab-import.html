@@ -1,0 +1,83 @@
+<div class="flex h-screen flex-col overflow-hidden">
+  <!-- Navbar -->
+  <app-user-navbar />
+
+  <!-- Main Content -->
+  <div class="flex flex-1 flex-col items-center overflow-y-auto px-4 py-8">
+    <div class="w-full max-w-2xl">
+      <!-- Progress Bar -->
+      <div class="mb-8">
+        <hlm-progress class="h-2" [value]="progress()">
+          <hlm-progress-indicator class="bg-primary transition-all duration-300" />
+        </hlm-progress>
+        <p class="text-muted-foreground mt-2 text-center text-sm">Step {{ currentStep() + 1 }} of {{ 4 }}</p>
+      </div>
+
+      <!-- Step Header -->
+      <div class="mb-8 text-center">
+        @if (canGoBack()) {
+          <button
+            class="text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1 text-sm transition-colors"
+            (click)="goBack()"
+          >
+            <nucleo-icon [icon]="ArrowLeft" class="h-4 w-4" />
+            Back
+          </button>
+        }
+        <h1 class="text-2xl font-semibold">{{ stepConfig().title }}</h1>
+        @if (stepConfig().subtitle) {
+          <p class="text-muted-foreground mt-2">{{ stepConfig().subtitle }}</p>
+        }
+      </div>
+
+      <!-- Error Message -->
+      @if (error()) {
+        <div class="bg-destructive/10 text-destructive mb-6 rounded-lg p-4 text-sm">
+          {{ error() }}
+        </div>
+      }
+
+      <!-- Step Content -->
+      <div class="mb-8">
+        @switch (currentStep()) {
+          @case (YnabImportStep.Upload) {
+            <app-upload-step
+              [planFileName]="planCsvContent() ? 'plan.csv' : null"
+              [registerFileName]="registerCsvContent() ? 'register.csv' : null"
+              (planFileSelected)="onPlanFileSelected($event)"
+              (registerFileSelected)="onRegisterFileSelected($event)"
+            />
+          }
+          @case (YnabImportStep.AccountMapping) {
+            <app-account-mapping-step
+              [accountMappings]="accountMappings()"
+              [preview]="preview()"
+              [workspaceName]="workspaceName()"
+              [currency]="currency()"
+              (accountTypeChanged)="onAccountTypeChanged($event)"
+              (workspaceNameChanged)="onWorkspaceNameChanged($event)"
+              (currencyChanged)="onCurrencyChanged($event)"
+            />
+          }
+          @case (YnabImportStep.Importing) {
+            <app-importing-step
+              [importStatus]="importStatus()"
+              (importComplete)="onImportComplete()"
+              (importFailed)="onImportFailed($event)"
+            />
+          }
+          @case (YnabImportStep.Complete) {
+            <app-complete-step [importStatus]="importStatus()" />
+          }
+        }
+      </div>
+
+      <!-- Continue Button (not shown during import) -->
+      @if (currentStep() !== YnabImportStep.Importing) {
+        <button hlmBtn class="w-full" [disabled]="!canContinue() || loading()" (click)="continue()">
+          {{ continueButtonText() }}
+        </button>
+      }
+    </div>
+  </div>
+</div>

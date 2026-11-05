@@ -1,0 +1,54 @@
+.content-area {
+  background: var(--content-background);
+}
+
+@property --sidebar-scroll-fade-top {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --sidebar-scroll-fade-bottom {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes sidebar-scroll-fade-reveal-top {
+  from {
+    --sidebar-scroll-fade-top: 0px;
+  }
+  to {
+    --sidebar-scroll-fade-top: min(12%, 2.5rem);
+  }
+}
+
+@keyframes sidebar-scroll-fade-reveal-bottom {
+  from {
+    --sidebar-scroll-fade-bottom: min(12%, 2.5rem);
+  }
+  to {
+    --sidebar-scroll-fade-bottom: 0px;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .sidebar-scroll-fade {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black var(--sidebar-scroll-fade-top),
+      black calc(100% - var(--sidebar-scroll-fade-bottom)),
+      transparent 100%
+    );
+    mask-repeat: no-repeat;
+    animation-name: sidebar-scroll-fade-reveal-top, sidebar-scroll-fade-reveal-bottom;
+    animation-duration: 1ms, 1ms;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-fill-mode: both, both;
+    animation-timeline: scroll(self y), scroll(self y);
+    animation-range:
+      0 min(6rem, 100%),
+      calc(100% - min(6rem, 100%)) 100%;
+  }
+}

@@ -1,0 +1,36 @@
+@if (hasScheduled()) {
+  <!-- Dimmer background distinguishes the planned zone from the register rows below -->
+  <div class="bg-muted/40 border-b select-none">
+    <!-- Section header -->
+    <button
+      type="button"
+      class="hover:bg-accent/30 flex h-8 w-full items-center gap-2 px-3 text-left"
+      (click)="toggleExpanded()"
+    >
+      <nucleo-icon
+        [icon]="expanded() ? ChevronDown : ChevronRight"
+        [size]="14"
+        class="text-muted-foreground flex-shrink-0"
+      />
+      <nucleo-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
+      <span class="text-xs font-medium">Planned</span>
+      <span class="text-muted-foreground text-xs">{{ scheduledTransactions().length }}</span>
+    </button>
+
+    <!-- Rows (scroll together with the register; no separate inner scroll) -->
+    @if (expanded()) {
+      <div class="border-t">
+        @for (scheduled of scheduledTransactions(); track scheduled._id; let last = $last) {
+          <app-scheduled-transaction-row
+            [scheduled]="scheduled"
+            [showBankAccountBadge]="showBankAccountBadge"
+            [showNotes]="showNotes()"
+            [isLast]="last"
+            [isSelected]="isScheduledSelected(scheduled._id)()"
+            (checkboxChange)="onScheduledCheckbox($event)"
+          />
+        }
+      </div>
+    }
+  </div>
+}

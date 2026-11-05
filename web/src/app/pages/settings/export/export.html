@@ -1,0 +1,61 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="Export" />
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+    <div class="container mx-auto max-w-[640px] p-4 pt-4 select-none lg:p-6 lg:pt-16">
+      <div class="mb-8">
+        <h1 class="text-2xl font-medium">Export your data</h1>
+        <p class="text-muted-foreground mt-3 text-base leading-7">
+          Download the budgeting data in {{ workspaceName() }} as CSV files that you can open in a spreadsheet or keep
+          as a backup.
+        </p>
+      </div>
+
+      <section hlmCard class="overflow-hidden">
+        <div class="flex items-start gap-4 p-4 sm:p-5">
+          <div class="bg-primary/10 text-primary flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full">
+            <nucleo-icon [icon]="FileArchive" class="h-5 w-5" />
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <h2 class="font-medium">Workspace CSV archive</h2>
+            <p class="text-muted-foreground mt-1 text-sm leading-6">
+              The ZIP includes categories and targets, monthly plan data, bank accounts, and transactions.
+            </p>
+
+            <div class="text-muted-foreground mt-4 flex items-start gap-2 text-sm leading-6">
+              <nucleo-icon [icon]="FileSpreadsheet" class="mt-1 h-4 w-4 flex-shrink-0" />
+              <p>
+                Transaction splits use one row per movement. Every row keeps the same transaction ID and includes its
+                movement number and total movement count.
+              </p>
+            </div>
+
+            <button
+              hlmBtn
+              class="mt-5"
+              type="button"
+              [disabled]="isExporting()"
+              (click)="exportData()"
+              data-testid="download-export"
+            >
+              @if (isExporting()) {
+                <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+                Creating export…
+              } @else {
+                <nucleo-icon [icon]="Download" class="h-4 w-4" />
+                Export and download
+              }
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <p class="text-muted-foreground mt-4 text-xs leading-5">
+        Export links expire after 24 hours. Creating an export does not change your workspace data.
+      </p>
+    </div>
+  </div>
+</div>

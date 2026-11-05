@@ -1,0 +1,380 @@
+<a
+  [class]="
+    (isSelected() ? 'bg-primary/30 hover:bg-primary/40 ' : 'hover:bg-accent/30 ') +
+    'group grid h-10 items-center overflow-hidden border-b py-0 pr-2 pl-0 sm:pr-3' +
+    (isLast() ? ' !border-b-0' : '')
+  "
+  [style.grid-template-columns]="
+    showBankAccountBadge() && showNotes()
+      ? '2rem 2rem 7.5rem 1fr 1fr 1fr 1fr 5.5rem 1.5rem'
+      : showBankAccountBadge()
+        ? '2rem 2rem 7.5rem 1fr 1fr 1fr 5.5rem 1.5rem'
+        : showNotes()
+          ? '2rem 2rem 7.5rem 1fr 1fr 1fr 5.5rem 1.5rem'
+          : '2rem 2rem 7.5rem 1fr 1fr 5.5rem 1.5rem'
+  "
+  [routerLink]="getTransactionUrl(transaction()._id)"
+  tabindex="-1"
+  hlmContextMenuTrigger
+  [hlmContextMenuTrigger]="transactionContextMenu"
+>
+  <!-- Column 1: Checkbox -->
+  <label
+    [for]="'transaction-checkbox-' + transaction()._id"
+    class="flex h-full cursor-default items-center justify-center"
+    tabindex="-1"
+    (click)="$event.stopPropagation(); $event.preventDefault(); onCheckboxClick($event)"
+    (keydown.enter)="$event.stopPropagation(); onCheckboxClick($event)"
+    (keydown.space)="$event.stopPropagation(); onCheckboxClick($event); $event.preventDefault()"
+  >
+    <hlm-checkbox
+      [id]="'transaction-checkbox-' + transaction()._id"
+      [checked]="isSelected()"
+      (click)="$event.stopPropagation(); onCheckboxClick($event)"
+      [class]="
+        isSelected()
+          ? 'border-primary transition-none'
+          : 'border-primary opacity-0 transition-none group-hover:opacity-100 focus-visible:opacity-100'
+      "
+    />
+  </label>
+
+  <!-- Column 2: Review Status -->
+  <div class="flex h-full items-center justify-center">
+    @if (transaction().reviewStatus === 'reviewed') {
+      <!-- Reviewed status - info circle with placeholder popover -->
+      <brn-popover
+        [state]="reviewStatusPopoverState()"
+        (stateChanged)="onReviewStatusPopoverStateChange($event)"
+        sideOffset="5"
+      >
+        <button
+          hlmBtn
+          variant="ghost"
+          size="icon"
+          type="button"
+          class="text-muted-foreground flex h-6 w-6 items-center justify-center opacity-70 transition-opacity hover:opacity-100"
+          brnPopoverTrigger
+          (click)="$event.stopPropagation(); $event.preventDefault()"
+        >
+          <nucleo-icon [icon]="Info" [size]="16" />
+        </button>
+
+        <div *brnPopoverContent="let ctx" hlmPopoverContent class="w-[200px] p-3">
+          <p class="text-muted-foreground text-sm">This transaction has been reviewed.</p>
+        </div>
+      </brn-popover>
+    } @else {
+      <!-- Needs review or no status - badge check with approve/reject -->
+      <brn-popover
+        [state]="reviewStatusPopoverState()"
+        (stateChanged)="onReviewStatusPopoverStateChange($event)"
+        sideOffset="5"
+      >
+        <button
+          hlmBtn
+          variant="ghost"
+          size="icon"
+          type="button"
+          class="flex h-6 w-6 items-center justify-center"
+          [class]="getReviewStatusButtonClass(transaction().reviewStatus)"
+          brnPopoverTrigger
+          (click)="$event.stopPropagation(); $event.preventDefault()"
+        >
+          <nucleo-icon [icon]="BadgeCheck" [size]="16" />
+        </button>
+
+        <div *brnPopoverContent="let ctx" hlmPopoverContent class="flex w-[200px] flex-col gap-2 p-2">
+          @if (hasTransferSuggestion()) {
+            <!-- Transfer suggestion - Approve / Reject -->
+            <button
+              hlmBtn
+              variant="default"
+              size="sm"
+              type="button"
+              class="w-full justify-start"
+              [disabled]="isSavingReviewStatus()"
+              (click)="$event.stopPropagation(); approveTransferSuggestion(transaction())"
+            >
+              Approve Transfer
+            </button>
+            <button
+              hlmBtn
+              variant="outline"
+              size="sm"
+              type="button"
+              class="w-full justify-start"
+              [disabled]="isSavingReviewStatus()"
+              (click)="$event.stopPropagation(); rejectTransferSuggestion(transaction())"
+            >
+              Not a Transfer
+            </button>
+          } @else if (isPendingLinkApproval()) {
+            <!-- Linked transaction - Confirm Link / Unlink -->
+            <button
+              hlmBtn
+              variant="default"
+              size="sm"
+              type="button"
+              class="w-full justify-start"
+              [disabled]="isSavingReviewStatus()"
+              (click)="$event.stopPropagation(); confirmLink(transaction())"
+            >
+              Confirm Link
+            </button>
+            <button
+              hlmBtn
+              variant="outline"
+              size="sm"
+              type="button"
+              class="w-full justify-start"
+              [disabled]="isSavingReviewStatus()"
+              (click)="$event.stopPropagation(); unlinkTransaction(transaction())"
+            >
+              Unlink
+            </button>
+          } @else {
+            <!-- Regular import - just Approve -->
+            <button
+              hlmBtn
+              variant="default"
+              size="sm"
+              type="button"
+              class="w-full justify-start"
+              [disabled]="isSavingReviewStatus()"
+              (click)="$event.stopPropagation(); approveTransaction(transaction())"
+            >
+              Approve
+            </button>
+          }
+        </div>
+      </brn-popover>
+    }
+  </div>
+
+  <!-- Column 3: Date -->
+  <div class="min-w-0">
+    <app-transaction-date-picker
+      [date]="displayDate()"
+      [disabled]="isSavingDate()"
+      [max]="canScheduleTransaction(transaction()) ? null : undefined"
+      [showMakeRecurring]="canScheduleTransaction(transaction())"
+      variant="ghost"
+      buttonClass="h-7 w-full min-w-0 justify-start overflow-hidden px-1 text-sm font-normal [&>span]:min-w-0 [&>span]:max-w-full [&_nucleo-icon]:hidden"
+      (dateChange)="onDateChange(transaction(), $event)"
+      (makeRecurring)="onMakeRecurring(transaction())"
+    />
+  </div>
+
+  <!-- Column 4: Payee -->
+  <div class="group/payee flex min-w-0 items-center gap-0.5">
+    <!-- Icon with optional link badge -->
+    <div class="relative flex-shrink-0">
+      @if (displayAsTransfer()) {
+        <app-entity-mark
+          [mode]="displayTransferPairVisualIdentityMode()"
+          [logoUrl]="displayTransferPairLogo()"
+          [iconName]="displayTransferPairIconName()"
+          [iconColorId]="displayTransferPairIconColorId()"
+          [defaultIconName]="defaultBankAccountIconName"
+          [alt]="'Transfer'"
+          size="xs"
+        />
+      } @else if (isStartingBalance(transaction()) || isBalanceAdjustment(transaction())) {
+        <div class="bg-accent/50 flex h-5 w-5 items-center justify-center rounded-full border sm:h-7 sm:w-7">
+          <nucleo-icon [icon]="Receipt" class="text-muted-foreground h-3 w-3" />
+        </div>
+      } @else {
+        <app-entity-mark
+          [mode]="displayMerchantVisualIdentityMode()"
+          [logoUrl]="displayMerchantLogo()"
+          [iconName]="displayMerchantIconName()"
+          [iconColorId]="displayMerchantIconColorId()"
+          [defaultIconName]="defaultMerchantIconName"
+          [alt]="getMerchantName(transaction())"
+          size="xs"
+        />
+      }
+      <!-- Transfer suggestion badge -->
+      @if (hasTransferSuggestion()) {
+        <div
+          class="absolute -right-0.5 -bottom-0.5 flex h-2.5 w-2.5 items-center justify-center rounded-full border border-white bg-purple-500 sm:h-3 sm:w-3"
+          title="Transfer suggested"
+        >
+          <nucleo-icon [icon]="ArrowLeftRight" class="h-1.5 w-1.5 text-white sm:h-2 sm:w-2" />
+        </div>
+      } @else if (hasLinkedImport()) {
+        <!-- Link indicator badge -->
+        <div
+          class="absolute -right-0.5 -bottom-0.5 flex h-2.5 w-2.5 items-center justify-center rounded-full border border-white bg-blue-500 sm:h-3 sm:w-3"
+          [attr.title]="isPendingLinkApproval() ? 'Pending link approval' : 'Linked to bank import'"
+        >
+          <nucleo-icon [icon]="LinkIcon" class="h-1.5 w-1.5 text-white sm:h-2 sm:w-2" />
+        </div>
+      }
+    </div>
+
+    <!-- Payee Selector (all transaction types) -->
+    <div class="min-w-0 flex-1">
+      <app-payee-selector
+        [merchantId]="displayMerchantId()"
+        [selectedBankAccountId]="displayTransferPairBankAccountId()"
+        [pendingMerchantName]="displayPendingMerchantName()"
+        [availableBankAccounts]="payeeBankAccounts()"
+        [transactionType]="transaction().type"
+        [transactionAmount]="$any(transaction().amount)"
+        [disabled]="isSavingMerchant()"
+        [transactionImportDetails]="transaction().importDetails ?? null"
+        variant="ghost"
+        buttonClass="h-7 w-full min-w-0 justify-start overflow-hidden px-1 text-sm font-normal [&>span]:min-w-0 [&>span]:max-w-full"
+        [showIcon]="false"
+        [allowNone]="false"
+        (payeeChange)="onPayeeChange(transaction(), $event)"
+      />
+    </div>
+
+    <!-- Payee Link Button -->
+    @if (getPayeeLinkUrl(); as payeeLinkUrl) {
+      <a
+        hlmBtn
+        variant="ghost"
+        size="icon"
+        [routerLink]="payeeLinkUrl"
+        class="text-muted-foreground hover:text-foreground h-7 w-7 flex-shrink-0 opacity-0 transition-opacity group-hover/payee:opacity-100"
+        (click)="$event.stopPropagation()"
+      >
+        <nucleo-icon [icon]="ChevronRight" [size]="14" />
+      </a>
+    }
+  </div>
+
+  <!-- Column 5: Bank Account Selector (conditional) -->
+  @if (showBankAccountBadge()) {
+    <div class="group/bank-account flex min-w-0 items-center">
+      <div class="min-w-0 flex-1">
+        <app-bank-account-selector
+          [bankAccountId]="displayBankAccountId()"
+          [excludeAccountIds]="excludedBankAccountIds()"
+          [disabled]="isSavingBankAccount()"
+          [allowNone]="false"
+          variant="ghost"
+          buttonClass="h-7 w-full min-w-0 justify-start overflow-hidden px-1 text-sm font-normal [&>span]:min-w-0 [&>span]:max-w-full"
+          (bankAccountChange)="onBankAccountChange(transaction(), $event)"
+        />
+      </div>
+      <a
+        hlmBtn
+        variant="ghost"
+        size="icon"
+        [routerLink]="getBankAccountUrl(displayBankAccountId())"
+        class="text-muted-foreground hover:text-foreground h-7 w-7 flex-shrink-0 opacity-0 transition-opacity group-hover/bank-account:opacity-100"
+        (click)="$event.stopPropagation()"
+      >
+        <nucleo-icon [icon]="ChevronRight" [size]="14" />
+      </a>
+    </div>
+  }
+
+  <!-- Column 6: Category -->
+  @if (
+    (!displayAsTransfer() &&
+      !isStartingBalance(transaction()) &&
+      !isBalanceAdjustment(transaction()) &&
+      !isOffBudgetAccount()) ||
+    isCrossBudgetOnBudgetSide()
+  ) {
+    @if (isSplitTransaction(transaction())) {
+      <div class="flex min-w-0 items-center gap-1 overflow-hidden px-1">
+        @for (movement of transaction().movements; track $index) {
+          <span
+            data-testid="transaction-category-tag"
+            class="bg-accent/50 flex h-7 min-w-0 items-center gap-1 rounded-md px-1.5 text-sm"
+            [attr.title]="getMovementCategoryName(movement) + ' ' + formatMovementAmount(movement.amount)"
+          >
+            <span class="min-w-0 truncate" [class.text-destructive]="!hasMovementCategory(movement)">
+              {{ getMovementCategoryName(movement) }}
+            </span>
+            <span class="text-muted-foreground flex-shrink-0 text-xs">
+              {{ formatMovementAmount(movement.amount) }}
+            </span>
+          </span>
+        }
+      </div>
+    } @else {
+      <div class="min-w-0">
+        <app-category-selector
+          [categoryId]="displayCategoryId()"
+          [isReadyToAssign]="displayIsReadyToAssign()"
+          [disabled]="isSaving()"
+          [showSplitButton]="!isCrossBudgetOnBudgetSide()"
+          [yearMonth]="displayYearMonth()"
+          variant="ghost"
+          buttonClass="h-7 w-full min-w-0 justify-start overflow-hidden px-1 text-sm font-normal [&>span]:min-w-0 [&>span]:max-w-full"
+          [allowNone]="true"
+          (categoryChange)="onCategoryChange(transaction(), $event)"
+          (splitClick)="onSplitClick(transaction())"
+        />
+      </div>
+    }
+  } @else {
+    <div class="flex h-7 items-center px-1">
+      <span class="text-muted-foreground text-sm font-light">Not needed</span>
+    </div>
+  }
+
+  <!-- Column 7: Notes (hidden on medium or smaller screens) -->
+  @if (showNotes()) {
+    <div class="text-muted-foreground min-w-0 truncate px-1 text-sm">
+      {{ transaction().notes ?? '' }}
+    </div>
+  }
+
+  <!-- Column 8: Amount -->
+  @let amountData = formatAmount(transaction().amount);
+  @if (hasAmountChange() && originalApprovedAmount() !== undefined) {
+    <div class="flex items-center justify-end gap-1 text-right text-sm">
+      <span class="text-muted-foreground line-through">
+        {{ formatOriginalAmount(originalApprovedAmount()!) }}
+      </span>
+      <span class="text-orange-500">{{ amountData.display }}</span>
+    </div>
+  } @else {
+    <span class="text-right text-sm" [class.text-green-500]="amountData.isPositive">
+      {{ amountData.display }}
+    </span>
+  }
+
+  <!-- Column 9: Status Icon -->
+  <div class="flex items-center justify-end">
+    @if (isReconciled(transaction())) {
+      <nucleo-icon [icon]="Lock" class="text-primary h-3.5 w-3.5" />
+    } @else if (isPending(transaction())) {
+      <nucleo-icon [icon]="ClockFading" class="h-3.5 w-3.5 text-yellow-500" />
+    }
+  </div>
+</a>
+
+<!-- Context Menu Template -->
+<ng-template #transactionContextMenu>
+  <hlm-dropdown-menu class="w-48">
+    @if (!isReconciled(transaction())) {
+      @if (transaction().status !== 'pending') {
+        <button hlmDropdownMenuItem (click)="onContextMenuUpdateStatus('pending')">
+          <nucleo-icon [icon]="ClockFading" [size]="14" />
+          <span class="text-xs">Mark as Pending</span>
+        </button>
+      }
+      @if (transaction().status !== 'cleared') {
+        <button hlmDropdownMenuItem (click)="onContextMenuUpdateStatus('cleared')">
+          <nucleo-icon [icon]="CircleCheck" [size]="14" />
+          <span class="text-xs">Mark as Cleared</span>
+        </button>
+      }
+      <hlm-dropdown-menu-separator />
+    }
+    <button hlmDropdownMenuItem variant="destructive" (click)="onContextMenuDelete()">
+      <nucleo-icon [icon]="Trash2" [size]="14" />
+      <span class="text-xs">Delete</span>
+    </button>
+  </hlm-dropdown-menu>
+</ng-template>

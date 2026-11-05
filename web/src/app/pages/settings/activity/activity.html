@@ -1,0 +1,608 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="Activity" />
+  </div>
+
+  <div
+    class="flex-1 [scrollbar-gutter:stable] overflow-y-auto pb-[200px]"
+    data-testid="activity-scroll-container"
+    appInfiniteScroll
+    [threshold]="0.9"
+    [disabled]="loading() || loadingMore() || !hasMore()"
+    (scrolled)="loadMore()"
+  >
+    <div class="container mx-auto max-w-[640px] p-4 pt-4 transition-all lg:p-6 lg:pt-6 lg:pt-16">
+      <div class="mb-6">
+        <h1 class="text-2xl">Activity</h1>
+        <p class="text-muted-foreground mt-2 text-sm">
+          A permanent record of changes to transactions, accounts, categories, and assigned money.
+        </p>
+      </div>
+
+      @if (error()) {
+        <div
+          class="bg-destructive/10 text-destructive border-destructive/20 mb-4 rounded-lg border p-4 text-sm"
+          role="alert"
+          data-testid="activity-error"
+        >
+          {{ error() }}
+        </div>
+      }
+
+      @if (!loading() && entries().length === 0 && !error()) {
+        <div hlmCard class="fade-in border-dashed p-8 text-center" data-testid="activity-empty">
+          <div class="bg-muted text-muted-foreground mx-auto flex h-10 w-10 items-center justify-center rounded-full">
+            <nucleo-icon [icon]="History" class="h-5 w-5" />
+          </div>
+          <p class="mt-3 font-medium">No activity yet</p>
+          <p class="text-muted-foreground mt-1 text-sm">Changes made in this workspace will appear here.</p>
+        </div>
+      } @else if (!loading() && entries().length > 0) {
+        <div class="space-y-6" data-testid="activity-list">
+          @for (group of activityGroups(); track group.dateKey) {
+            <section [attr.data-testid]="'activity-date-group-' + group.dateKey">
+              <h2 class="text-muted-foreground mb-2 px-1 text-sm font-medium">
+                {{ group.date | date: 'EEEE, MMMM d, y' }}
+              </h2>
+
+              <div hlmCard class="overflow-hidden rounded" [attr.data-testid]="'activity-date-card-' + group.dateKey">
+                <div class="divide-y">
+                  @for (entry of group.entries; track entry._id) {
+                    <article
+                      class="fade-in flex items-start gap-3 p-4 outline-none"
+                      [attr.data-testid]="'activity-entry-' + entry._id"
+                    >
+                      <div
+                        class="bg-muted text-muted-foreground flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+                      >
+                        <nucleo-icon [icon]="entryIcon(entry.entityType)" class="h-4 w-4" />
+                      </div>
+
+                      <div class="min-w-0 flex-1">
+                        <div class="relative">
+                          <div
+                            appActivityOverflow
+                            class="overflow-hidden transition-[max-height] duration-300 ease-out motion-reduce:transition-none"
+                            [attr.data-testid]="'activity-content-' + entry._id"
+                            [style.max-height.px]="activityMaxHeight(entry._id)"
+                            (measured)="updateActivityMeasurement(entry._id, $event)"
+                          >
+                            <div class="text-sm leading-6">
+                              @switch (entry.type) {
+                                @case ('transaction_created') {
+                                  @if (primaryTransaction(entry); as transaction) {
+                                    @if (transaction.type === 'transfer') {
+                                      Transferred
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transactionDisplayAmount(transaction), entry.currencyCode)
+                                      }}</strong>
+                                      from <strong class="font-medium">{{ transferFromName(transaction) }}</strong> to
+                                      <strong class="font-medium">{{ transferToName(transaction) }}</strong
+                                      >.
+                                    } @else if (transaction.type === 'starting_balance') {
+                                      Set the starting balance for
+                                      <strong class="font-medium">{{ transaction.account.name }}</strong> to
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transaction.amount, entry.currencyCode)
+                                      }}</strong
+                                      >.
+                                    } @else {
+                                      Created a
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transaction.amount, entry.currencyCode)
+                                      }}</strong>
+                                      transaction with
+                                      <strong class="font-medium">{{ transactionPayee(transaction) }}</strong> in
+                                      <strong class="font-medium">{{ transaction.account.name }}</strong
+                                      >.
+                                    }
+                                  }
+                                }
+                                @case ('transaction_updated') {
+                                  @if (transactionBefore(entry); as before) {
+                                    @if (transactionAfter(entry); as after) {
+                                      @if (after.type === 'transfer') {
+                                        Updated a transfer from
+                                        <strong class="font-medium">{{ transferFromName(after) }}</strong> to
+                                        <strong class="font-medium">{{ transferToName(after) }}</strong
+                                        >.
+                                      } @else if (after.type === 'starting_balance') {
+                                        Updated the starting balance for
+                                        <strong class="font-medium">{{ after.account.name }}</strong
+                                        >.
+                                      } @else {
+                                        Updated a transaction with
+                                        <strong class="font-medium">{{ transactionPayee(after) }}</strong> in
+                                        <strong class="font-medium">{{ after.account.name }}</strong
+                                        >.
+                                      }
+                                      <ul class="text-muted-foreground mt-1 space-y-1 text-xs">
+                                        @for (
+                                          change of transactionChanges(before, after, entry.currencyCode);
+                                          track change.label
+                                        ) {
+                                          <li>
+                                            {{ change.label }}:
+                                            <strong class="text-foreground font-medium">{{ change.before }}</strong> →
+                                            <strong class="text-foreground font-medium">{{ change.after }}</strong>
+                                          </li>
+                                        } @empty {
+                                          <li>Transaction details were updated.</li>
+                                        }
+                                      </ul>
+                                    }
+                                  }
+                                }
+                                @case ('transaction_deleted') {
+                                  @if (primaryTransaction(entry); as transaction) {
+                                    @if (transaction.type === 'transfer') {
+                                      Deleted a
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transactionDisplayAmount(transaction), entry.currencyCode)
+                                      }}</strong>
+                                      transfer from
+                                      <strong class="font-medium">{{ transferFromName(transaction) }}</strong> to
+                                      <strong class="font-medium">{{ transferToName(transaction) }}</strong
+                                      >.
+                                    } @else if (transaction.type === 'starting_balance') {
+                                      Deleted the starting balance for
+                                      <strong class="font-medium">{{ transaction.account.name }}</strong
+                                      >.
+                                    } @else {
+                                      Deleted a
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transaction.amount, entry.currencyCode)
+                                      }}</strong>
+                                      transaction with
+                                      <strong class="font-medium">{{ transactionPayee(transaction) }}</strong> from
+                                      <strong class="font-medium">{{ transaction.account.name }}</strong
+                                      >.
+                                    }
+                                  }
+                                }
+                                @case ('transaction_restored') {
+                                  @if (primaryTransaction(entry); as transaction) {
+                                    @if (transaction.type === 'transfer') {
+                                      Restored a
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transactionDisplayAmount(transaction), entry.currencyCode)
+                                      }}</strong>
+                                      transfer from
+                                      <strong class="font-medium">{{ transferFromName(transaction) }}</strong> to
+                                      <strong class="font-medium">{{ transferToName(transaction) }}</strong
+                                      >.
+                                    } @else if (transaction.type === 'starting_balance') {
+                                      Restored the starting balance for
+                                      <strong class="font-medium">{{ transaction.account.name }}</strong
+                                      >.
+                                    } @else {
+                                      Restored a
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transaction.amount, entry.currencyCode)
+                                      }}</strong>
+                                      transaction with
+                                      <strong class="font-medium">{{ transactionPayee(transaction) }}</strong> in
+                                      <strong class="font-medium">{{ transaction.account.name }}</strong
+                                      >.
+                                    }
+                                  }
+                                }
+                                @case ('scheduled_transaction_entered') {
+                                  @if (primaryTransaction(entry); as transaction) {
+                                    @if (transaction.type === 'transfer') {
+                                      Entered a scheduled
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transactionDisplayAmount(transaction), entry.currencyCode)
+                                      }}</strong>
+                                      transfer from
+                                      <strong class="font-medium">{{ transferFromName(transaction) }}</strong> to
+                                      <strong class="font-medium">{{ transferToName(transaction) }}</strong
+                                      >.
+                                    } @else {
+                                      Entered a scheduled
+                                      <strong class="font-medium">{{
+                                        formatCurrency(transaction.amount, entry.currencyCode)
+                                      }}</strong>
+                                      transaction with
+                                      <strong class="font-medium">{{ transactionPayee(transaction) }}</strong> in
+                                      <strong class="font-medium">{{ transaction.account.name }}</strong
+                                      >.
+                                    }
+                                  }
+                                }
+                                @case ('bank_account_created') {
+                                  @if (primaryBankAccount(entry); as account) {
+                                    Opened <strong class="font-medium">{{ account.name }}</strong> with a balance of
+                                    <strong class="font-medium">{{
+                                      formatCurrency(account.currentBalance, entry.currencyCode)
+                                    }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('bank_account_updated') {
+                                  @if (bankAccountBefore(entry); as before) {
+                                    @if (bankAccountAfter(entry); as after) {
+                                      Updated bank account <strong class="font-medium">{{ after.name }}</strong
+                                      >.
+                                      <ul class="text-muted-foreground mt-1 space-y-1 text-xs">
+                                        @for (
+                                          change of bankAccountChanges(before, after, entry.currencyCode);
+                                          track change.label
+                                        ) {
+                                          <li>
+                                            {{ change.label }}:
+                                            <strong class="text-foreground font-medium">{{ change.before }}</strong> →
+                                            <strong class="text-foreground font-medium">{{ change.after }}</strong>
+                                          </li>
+                                        } @empty {
+                                          <li>Account details were updated.</li>
+                                        }
+                                      </ul>
+                                    }
+                                  }
+                                }
+                                @case ('bank_account_closed') {
+                                  @if (primaryBankAccount(entry); as account) {
+                                    Closed <strong class="font-medium">{{ account.name }}</strong> with a balance of
+                                    <strong class="font-medium">{{
+                                      formatCurrency(account.currentBalance, entry.currencyCode)
+                                    }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('bank_account_reopened') {
+                                  @if (primaryBankAccount(entry); as account) {
+                                    Reopened <strong class="font-medium">{{ account.name }}</strong> with a balance of
+                                    <strong class="font-medium">{{
+                                      formatCurrency(account.currentBalance, entry.currencyCode)
+                                    }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('bank_account_deleted') {
+                                  @if (primaryBankAccount(entry); as account) {
+                                    Deleted bank account <strong class="font-medium">{{ account.name }}</strong> with a
+                                    balance of
+                                    <strong class="font-medium">{{
+                                      formatCurrency(account.currentBalance, entry.currencyCode)
+                                    }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('bank_account_restored') {
+                                  @if (primaryBankAccount(entry); as account) {
+                                    Restored bank account <strong class="font-medium">{{ account.name }}</strong> with a
+                                    balance of
+                                    <strong class="font-medium">{{
+                                      formatCurrency(account.currentBalance, entry.currencyCode)
+                                    }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('category_created') {
+                                  @if (primaryCategory(entry); as category) {
+                                    Created category <strong class="font-medium">{{ category.name }}</strong>
+                                    @if (category.group) {
+                                      in <strong class="font-medium">{{ category.group.name }}</strong>
+                                    }
+                                    .
+                                  }
+                                }
+                                @case ('category_updated') {
+                                  @if (categoryBefore(entry); as before) {
+                                    @if (categoryAfter(entry); as after) {
+                                      Updated category <strong class="font-medium">{{ after.name }}</strong
+                                      >.
+                                      <ul class="text-muted-foreground mt-1 space-y-1 text-xs">
+                                        @for (
+                                          change of categoryChanges(before, after, entry.currencyCode);
+                                          track change.label
+                                        ) {
+                                          <li>
+                                            {{ change.label }}:
+                                            <strong class="text-foreground font-medium">{{ change.before }}</strong> →
+                                            <strong class="text-foreground font-medium">{{ change.after }}</strong>
+                                          </li>
+                                        } @empty {
+                                          <li>Category details were updated.</li>
+                                        }
+                                      </ul>
+                                    }
+                                  }
+                                }
+                                @case ('category_archived') {
+                                  @if (primaryCategory(entry); as category) {
+                                    Archived category <strong class="font-medium">{{ category.name }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('category_unarchived') {
+                                  @if (primaryCategory(entry); as category) {
+                                    Unarchived category <strong class="font-medium">{{ category.name }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('category_deleted') {
+                                  @if (primaryCategory(entry); as category) {
+                                    Deleted category <strong class="font-medium">{{ category.name }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('category_restored') {
+                                  @if (primaryCategory(entry); as category) {
+                                    Restored category <strong class="font-medium">{{ category.name }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('merchant_created') {
+                                  @if (primaryMerchant(entry); as merchant) {
+                                    Created merchant <strong class="font-medium">{{ merchant.name }}</strong
+                                    >.
+                                  }
+                                }
+                                @case ('merchant_updated') {
+                                  @if (merchantBefore(entry); as before) {
+                                    @if (merchantAfter(entry); as after) {
+                                      Updated merchant <strong class="font-medium">{{ after.name }}</strong
+                                      >.
+                                      <ul class="text-muted-foreground mt-1 space-y-1 text-xs">
+                                        @for (change of merchantChanges(before, after); track change.label) {
+                                          <li>
+                                            {{ change.label }}:
+                                            <strong class="text-foreground font-medium">{{ change.before }}</strong> →
+                                            <strong class="text-foreground font-medium">{{ change.after }}</strong>
+                                          </li>
+                                        } @empty {
+                                          <li>Merchant details were updated.</li>
+                                        }
+                                      </ul>
+                                    }
+                                  }
+                                }
+                                @case ('merchant_deleted') {
+                                  @if (merchantDetails(entry); as details) {
+                                    @if (details.before; as merchant) {
+                                      @if (details.mergeTarget; as target) {
+                                        Deleted merchant <strong class="font-medium">{{ merchant.name }}</strong> and
+                                        moved its transactions to
+                                        <strong class="font-medium">{{ target.name }}</strong>
+                                        .
+                                      } @else {
+                                        Deleted merchant <strong class="font-medium">{{ merchant.name }}</strong
+                                        >.
+                                      }
+                                      @if (merchantMoveSummary(details); as summary) {
+                                        <p class="text-muted-foreground mt-1 text-xs">{{ summary }}</p>
+                                      }
+                                    }
+                                  }
+                                }
+                                @case ('merchant_merged') {
+                                  @if (merchantDetails(entry); as details) {
+                                    @if (details.before; as source) {
+                                      @if (details.mergeTarget; as target) {
+                                        Merged merchant <strong class="font-medium">{{ source.name }}</strong> into
+                                        <strong class="font-medium">{{ target.name }}</strong
+                                        >.
+                                        @if (merchantMoveSummary(details); as summary) {
+                                          <p class="text-muted-foreground mt-1 text-xs">{{ summary }}</p>
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                                @case ('money_moved') {
+                                  @if (moneyMovementDetails(entry); as details) {
+                                    @if (details.movements.length === 1) {
+                                      @for (movement of details.movements; track $index) {
+                                        @if (
+                                          movement.from.type === 'ready_to_assign' && movement.to.type === 'category'
+                                        ) {
+                                          Assigned
+                                          <strong class="font-medium">{{
+                                            formatCurrency(movement.amount, entry.currencyCode)
+                                          }}</strong>
+                                          to
+                                          <strong class="font-medium">{{ moneyLocationName(movement.to) }}</strong> for
+                                        } @else if (
+                                          movement.from.type === 'category' && movement.to.type === 'ready_to_assign'
+                                        ) {
+                                          Unassigned
+                                          <strong class="font-medium">{{
+                                            formatCurrency(movement.amount, entry.currencyCode)
+                                          }}</strong>
+                                          from
+                                          <strong class="font-medium">{{ moneyLocationName(movement.from) }}</strong>
+                                          for
+                                        } @else {
+                                          Moved
+                                          <strong class="font-medium">{{
+                                            formatCurrency(movement.amount, entry.currencyCode)
+                                          }}</strong>
+                                          from
+                                          <strong class="font-medium">{{ moneyLocationName(movement.from) }}</strong> to
+                                          <strong class="font-medium">{{ moneyLocationName(movement.to) }}</strong> for
+                                        }
+                                        <strong class="font-medium">{{ formatYearMonth(details.yearMonth) }}</strong
+                                        >.
+                                      }
+                                    } @else {
+                                      Updated
+                                      <strong class="font-medium">{{ details.movements.length }}</strong> assignments
+                                      for <strong class="font-medium">{{ formatYearMonth(details.yearMonth) }}</strong
+                                      >.
+                                      <ul class="text-muted-foreground mt-1 space-y-1 text-xs">
+                                        @for (movement of details.movements; track $index) {
+                                          <li>
+                                            @if (
+                                              movement.from.type === 'ready_to_assign' &&
+                                              movement.to.type === 'category'
+                                            ) {
+                                              Assigned
+                                              <strong class="text-foreground font-medium">{{
+                                                formatCurrency(movement.amount, entry.currencyCode)
+                                              }}</strong>
+                                              to
+                                              <strong class="text-foreground font-medium">{{
+                                                moneyLocationName(movement.to)
+                                              }}</strong>
+                                            } @else if (
+                                              movement.from.type === 'category' &&
+                                              movement.to.type === 'ready_to_assign'
+                                            ) {
+                                              Unassigned
+                                              <strong class="text-foreground font-medium">{{
+                                                formatCurrency(movement.amount, entry.currencyCode)
+                                              }}</strong>
+                                              from
+                                              <strong class="text-foreground font-medium">{{
+                                                moneyLocationName(movement.from)
+                                              }}</strong>
+                                            } @else {
+                                              Moved
+                                              <strong class="text-foreground font-medium">{{
+                                                formatCurrency(movement.amount, entry.currencyCode)
+                                              }}</strong>
+                                              from
+                                              <strong class="text-foreground font-medium">{{
+                                                moneyLocationName(movement.from)
+                                              }}</strong>
+                                              to
+                                              <strong class="text-foreground font-medium">{{
+                                                moneyLocationName(movement.to)
+                                              }}</strong>
+                                            }
+                                          </li>
+                                        }
+                                      </ul>
+                                    }
+                                  }
+                                }
+                                @case ('bank_connection_added') {
+                                  @if (bankConnectionDetails(entry); as details) {
+                                    Added
+                                    <strong class="font-medium">{{ details.connection.institutionName }}</strong>
+                                    through
+                                    <strong class="font-medium">{{
+                                      bankConnectionProvider(details.connection.provider)
+                                    }}</strong>
+                                    @if (details.connection.accountNames.length > 0) {
+                                      for
+                                      <strong class="font-medium">{{
+                                        details.connection.accountNames.join(', ')
+                                      }}</strong>
+                                    }
+                                    .
+                                  }
+                                }
+                                @case ('bank_connection_disconnected') {
+                                  @if (bankConnectionDetails(entry); as details) {
+                                    Disconnected
+                                    <strong class="font-medium">{{ details.connection.institutionName }}</strong>
+                                    @if (details.connection.accountNames.length > 0) {
+                                      from
+                                      <strong class="font-medium">{{
+                                        details.connection.accountNames.join(', ')
+                                      }}</strong>
+                                    }
+                                    .
+                                  }
+                                }
+                              }
+                            </div>
+
+                            @if (primaryTransaction(entry); as transaction) {
+                              <p class="text-muted-foreground mt-1 text-xs">
+                                {{ formatDateForDisplay(transaction.date) }}
+                                @if (transaction.type !== 'starting_balance' && transaction.type !== 'transfer') {
+                                  · {{ transactionCategories(transaction) }}
+                                }
+                              </p>
+                            } @else if (primaryBankAccount(entry); as account) {
+                              <p class="text-muted-foreground mt-1 text-xs">
+                                {{ formatAccountType(account.accountType) }}
+                              </p>
+                            } @else if (primaryCategory(entry); as category) {
+                              @if (category.group) {
+                                <p class="text-muted-foreground mt-1 text-xs">{{ category.group.name }}</p>
+                              }
+                            }
+                          </div>
+
+                          @if (isActivityOverflowing(entry._id) && !isActivityExpanded(entry._id)) {
+                            <div
+                              class="via-card/85 to-card pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent"
+                              [attr.data-testid]="'activity-fade-' + entry._id"
+                              aria-hidden="true"
+                            ></div>
+                          }
+                        </div>
+
+                        <div class="mt-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                          <div
+                            class="text-muted-foreground flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs"
+                            [attr.data-testid]="'activity-attribution-' + entry._id"
+                          >
+                            <span class="text-foreground font-medium">{{ actorLabel(entry) }}</span>
+                            <span>via</span>
+                            <span hlmBadge variant="outline" class="h-5 px-1.5 py-0 text-[10px] font-normal">
+                              {{ sourceLabel(entry.source) }}
+                            </span>
+                            @if (sourceDetail(entry.source); as detail) {
+                              <span>· {{ detail }}</span>
+                            }
+                            <span>·</span>
+                            <time [attr.datetime]="entry.occurredAt">{{ entry.occurredAt | date: 'medium' }}</time>
+                          </div>
+
+                          <div class="ml-auto flex items-center gap-3">
+                            @if (activityEntityRoute(entry); as entityRoute) {
+                              <a
+                                [routerLink]="entityRoute"
+                                class="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-xs font-medium underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current focus-visible:ring-2 focus-visible:outline-none"
+                                [attr.data-testid]="'activity-entity-link-' + entry._id"
+                                (click)="$event.stopPropagation()"
+                              >
+                                {{ activityEntityLinkLabel(entry) }}
+                              </a>
+                            }
+
+                            @if (isActivityOverflowing(entry._id)) {
+                              <button
+                                type="button"
+                                class="text-muted-foreground hover:text-foreground focus-visible:ring-ring flex items-center gap-1 rounded-sm text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                                [attr.data-testid]="'activity-toggle-' + entry._id"
+                                [attr.aria-expanded]="isActivityExpanded(entry._id)"
+                                (click)="$event.stopPropagation(); toggleActivity(entry._id)"
+                              >
+                                <span>{{ isActivityExpanded(entry._id) ? 'Show less' : 'Show more' }}</span>
+                                <nucleo-icon
+                                  [icon]="ChevronDown"
+                                  class="h-3.5 w-3.5 transition-transform duration-300 motion-reduce:transition-none"
+                                  [class.rotate-180]="isActivityExpanded(entry._id)"
+                                />
+                              </button>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  }
+                </div>
+              </div>
+            </section>
+          }
+        </div>
+
+        @if (loadingMore()) {
+          <div
+            class="text-muted-foreground flex items-center justify-center py-5 text-sm"
+            data-testid="activity-loading-more"
+          >
+            Loading more...
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

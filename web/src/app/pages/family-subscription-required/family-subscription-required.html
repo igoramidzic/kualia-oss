@@ -1,0 +1,18 @@
+<div class="bg-background flex min-h-screen flex-col items-center justify-center px-4">
+  <img [src]="logoPath()" alt="Kualia" class="mb-8 h-10" />
+
+  <div class="w-full max-w-md text-center">
+    <h1 class="text-foreground mb-3 text-2xl font-semibold">Family Subscription Required</h1>
+
+    <p class="text-muted-foreground mb-4">
+      Your access is managed by {{ ownerName() }}. They need an active Kualia subscription before family members can
+      continue using the app.
+    </p>
+
+    @if (ownerEmail(); as email) {
+      <p class="text-muted-foreground mb-4 text-sm">{{ email }}</p>
+    }
+
+    <button hlmBtn variant="ghost" class="text-muted-foreground" (click)="logout()">Sign out</button>
+  </div>
+</div>

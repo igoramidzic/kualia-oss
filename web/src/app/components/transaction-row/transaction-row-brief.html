@@ -1,0 +1,202 @@
+@if (selectionMode()) {
+  <button
+    type="button"
+    [class]="
+      'hover:bg-accent/30 flex h-10 w-full items-center justify-between gap-2 overflow-hidden border-b px-2 py-0 text-left sm:px-3' +
+      (isSelected() ? ' bg-accent' : '') +
+      (isLast() ? ' !border-b-0' : '')
+    "
+    (click)="selected.emit(transaction())"
+  >
+    <div class="flex w-0 flex-1 items-center gap-1.5 overflow-hidden">
+      <!-- Icon -->
+      @if (isTransfer(transaction())) {
+        <app-entity-mark
+          [mode]="transaction().transferPairAccountVisualIdentityMode"
+          [logoUrl]="getTransferPairLogo(transaction())"
+          [iconName]="transaction().transferPairAccountIconName ?? defaultBankAccountIconName"
+          [iconColorId]="transaction().transferPairAccountIconColorId"
+          [defaultIconName]="defaultBankAccountIconName"
+          [alt]="getMerchantName(transaction())"
+          size="xs"
+        />
+      } @else if (isStartingBalance(transaction()) || isBalanceAdjustment(transaction())) {
+        <div
+          class="bg-accent/50 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border sm:h-7 sm:w-7"
+        >
+          <nucleo-icon [icon]="Receipt" class="text-muted-foreground h-3 w-3" />
+        </div>
+      } @else {
+        <app-entity-mark
+          [mode]="transaction().merchantVisualIdentityMode"
+          [logoUrl]="getMerchantLogo(transaction())"
+          [iconName]="transaction().merchantIconName ?? defaultMerchantIconName"
+          [iconColorId]="transaction().merchantIconColorId"
+          [defaultIconName]="defaultMerchantIconName"
+          [alt]="getMerchantName(transaction())"
+          size="xs"
+        />
+      }
+
+      <!-- Merchant/Payee Name -->
+      <span class="min-w-0 truncate text-xs">{{ getMerchantName(transaction()) }}</span>
+    </div>
+
+    <div class="flex min-w-0 items-center gap-1 sm:gap-2">
+      <!-- Category Badge -->
+      @if (
+        showCategoryBadge() &&
+        !isTransfer(transaction()) &&
+        !isStartingBalance(transaction()) &&
+        !isBalanceAdjustment(transaction())
+      ) {
+        <span
+          class="bg-content-background flex h-6 max-w-full shrink-[3] items-center gap-1.5 truncate rounded-full border px-2 text-xs leading-6"
+        >
+          <nucleo-icon
+            [icon]="hasCategory(transaction()) ? Box : AlertCircle"
+            [size]="14"
+            [class]="
+              hasCategory(transaction()) ? 'text-muted-foreground flex-shrink-0' : 'text-destructive flex-shrink-0'
+            "
+          />
+          <span [class]="hasCategory(transaction()) ? 'truncate' : 'text-destructive truncate'">
+            {{ getCategoryName(transaction()) }}
+          </span>
+        </span>
+      }
+
+      <!-- Bank Account Badge -->
+      @if (showBankAccountBadge()) {
+        <app-transaction-account-badge
+          [accountName]="getBankAccountName(transaction())"
+          [institutionLogo]="getInstitutionLogo(transaction())"
+          [visualIdentityMode]="transaction().bankAccount?.visualIdentityMode"
+          [iconName]="transaction().bankAccount?.iconName"
+          [iconColorId]="transaction().bankAccount?.iconColorId"
+          class="min-w-0 shrink-[2] [&_[hlmBadge]]:rounded-full"
+        />
+      }
+
+      <!-- Amount -->
+      @let amountData = formatAmount(transaction().amount);
+      <span class="flex-shrink-0 text-sm" [class.text-green-500]="amountData.isPositive">
+        {{ amountData.display }}
+      </span>
+
+      <!-- Date -->
+      <span class="text-muted-foreground flex-shrink-0 text-right text-xs" [class]="getDateWidth(transaction().date)">
+        {{ formatDate(transaction().date) }}
+      </span>
+
+      <!-- Status Icons -->
+      @if (showStatusIcons()) {
+        @if (isReconciled(transaction())) {
+          <nucleo-icon [icon]="Lock" class="text-primary h-3.5 w-3.5 flex-shrink-0" />
+        } @else if (isPending(transaction())) {
+          <nucleo-icon [icon]="ClockFading" class="h-3.5 w-3.5 flex-shrink-0 text-yellow-500" />
+        }
+      }
+    </div>
+  </button>
+} @else {
+  <a
+    [class]="
+      'hover:bg-accent/30 flex h-10 items-center justify-between gap-2 overflow-hidden border-b px-2 py-0 sm:px-3' +
+      (isLast() ? ' !border-b-0' : '')
+    "
+    [routerLink]="getTransactionUrl(transaction()._id)"
+    tabindex="0"
+  >
+    <div class="flex w-0 flex-1 items-center gap-1.5 overflow-hidden">
+      <!-- Icon -->
+      @if (isTransfer(transaction())) {
+        <app-entity-mark
+          [mode]="transaction().transferPairAccountVisualIdentityMode"
+          [logoUrl]="getTransferPairLogo(transaction())"
+          [iconName]="transaction().transferPairAccountIconName ?? defaultBankAccountIconName"
+          [iconColorId]="transaction().transferPairAccountIconColorId"
+          [defaultIconName]="defaultBankAccountIconName"
+          [alt]="getMerchantName(transaction())"
+          size="xs"
+        />
+      } @else if (isStartingBalance(transaction()) || isBalanceAdjustment(transaction())) {
+        <div
+          class="bg-accent/50 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border sm:h-7 sm:w-7"
+        >
+          <nucleo-icon [icon]="Receipt" class="text-muted-foreground h-3 w-3" />
+        </div>
+      } @else {
+        <app-entity-mark
+          [mode]="transaction().merchantVisualIdentityMode"
+          [logoUrl]="getMerchantLogo(transaction())"
+          [iconName]="transaction().merchantIconName ?? defaultMerchantIconName"
+          [iconColorId]="transaction().merchantIconColorId"
+          [defaultIconName]="defaultMerchantIconName"
+          [alt]="getMerchantName(transaction())"
+          size="xs"
+        />
+      }
+
+      <!-- Merchant/Payee Name -->
+      <span class="min-w-0 truncate text-xs">{{ getMerchantName(transaction()) }}</span>
+    </div>
+
+    <div class="flex min-w-0 items-center gap-1 sm:gap-2">
+      <!-- Category Badge -->
+      @if (
+        showCategoryBadge() &&
+        !isTransfer(transaction()) &&
+        !isStartingBalance(transaction()) &&
+        !isBalanceAdjustment(transaction())
+      ) {
+        <span
+          class="bg-content-background flex h-6 max-w-full shrink-[3] items-center gap-1.5 truncate rounded-full border px-2 text-xs leading-6"
+        >
+          <nucleo-icon
+            [icon]="hasCategory(transaction()) ? Box : AlertCircle"
+            [size]="14"
+            [class]="
+              hasCategory(transaction()) ? 'text-muted-foreground flex-shrink-0' : 'text-destructive flex-shrink-0'
+            "
+          />
+          <span [class]="hasCategory(transaction()) ? 'truncate' : 'text-destructive truncate'">
+            {{ getCategoryName(transaction()) }}
+          </span>
+        </span>
+      }
+
+      <!-- Bank Account Badge -->
+      @if (showBankAccountBadge()) {
+        <app-transaction-account-badge
+          [accountName]="getBankAccountName(transaction())"
+          [institutionLogo]="getInstitutionLogo(transaction())"
+          [visualIdentityMode]="transaction().bankAccount?.visualIdentityMode"
+          [iconName]="transaction().bankAccount?.iconName"
+          [iconColorId]="transaction().bankAccount?.iconColorId"
+          class="min-w-0 shrink-[2] [&_[hlmBadge]]:rounded-full"
+        />
+      }
+
+      <!-- Amount -->
+      @let amountData = formatAmount(transaction().amount);
+      <span class="flex-shrink-0 text-sm" [class.text-green-500]="amountData.isPositive">
+        {{ amountData.display }}
+      </span>
+
+      <!-- Date -->
+      <span class="text-muted-foreground flex-shrink-0 text-right text-xs" [class]="getDateWidth(transaction().date)">
+        {{ formatDate(transaction().date) }}
+      </span>
+
+      <!-- Status Icons -->
+      @if (showStatusIcons()) {
+        @if (isReconciled(transaction())) {
+          <nucleo-icon [icon]="Lock" class="text-primary h-3.5 w-3.5 flex-shrink-0" />
+        } @else if (isPending(transaction())) {
+          <nucleo-icon [icon]="ClockFading" class="h-3.5 w-3.5 flex-shrink-0 text-yellow-500" />
+        }
+      }
+    </div>
+  </a>
+}

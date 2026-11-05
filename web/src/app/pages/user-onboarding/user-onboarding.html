@@ -1,0 +1,69 @@
+<div class="flex h-screen flex-col overflow-hidden">
+  <!-- Navbar -->
+  <app-user-navbar />
+
+  <!-- Main Content -->
+  <div class="flex flex-1 flex-col items-center overflow-y-auto px-4 py-8">
+    <div class="w-full max-w-md">
+      <!-- Progress Bar -->
+      <div class="mb-8">
+        <hlm-progress class="h-2" [value]="progress()">
+          <hlm-progress-indicator class="bg-primary transition-all duration-300" />
+        </hlm-progress>
+        <p class="text-muted-foreground mt-2 text-center text-sm">Step {{ currentStep() + 1 }} of {{ 6 }}</p>
+      </div>
+
+      <!-- Step Header -->
+      <div class="mb-8 text-center">
+        @if (canGoBack()) {
+          <button
+            class="text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1 text-sm transition-colors"
+            (click)="goBack()"
+          >
+            <nucleo-icon [icon]="ArrowLeft" class="h-4 w-4" />
+            Back
+          </button>
+        }
+        <h1 class="text-2xl font-semibold">{{ stepConfig().title }}</h1>
+        @if (stepConfig().subtitle) {
+          <p class="text-muted-foreground mt-2">{{ stepConfig().subtitle }}</p>
+        }
+      </div>
+
+      <!-- Step Content -->
+      <div class="step-content mb-8">
+        @switch (currentStep()) {
+          @case (OnboardingStep.Name) {
+            <app-name-step [name]="name()" (nameChange)="onNameChange($event)" (enterPressed)="continue()" />
+          }
+          @case (OnboardingStep.Housing) {
+            <app-housing-step [housing]="housing()" (housingChange)="onHousingChange($event)" />
+          }
+          @case (OnboardingStep.Transportation) {
+            <app-transportation-step
+              [transportation]="transportation()"
+              (transportationChange)="onTransportationChange($event)"
+            />
+          }
+          @case (OnboardingStep.Household) {
+            <app-household-step [household]="household()" (householdChange)="onHouseholdChange($event)" />
+          }
+          @case (OnboardingStep.FinancialGoals) {
+            <app-financial-goals-step
+              [financialGoals]="financialGoals()"
+              (financialGoalsChange)="onFinancialGoalsChange($event)"
+            />
+          }
+          @case (OnboardingStep.Complete) {
+            <app-complete-step />
+          }
+        }
+      </div>
+
+      <!-- Continue Button -->
+      <button hlmBtn class="w-full" [disabled]="!canContinue() || loading()" (click)="continue()">
+        {{ continueButtonText() }}
+      </button>
+    </div>
+  </div>
+</div>

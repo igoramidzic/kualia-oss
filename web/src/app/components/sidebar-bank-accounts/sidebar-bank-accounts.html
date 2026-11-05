@@ -1,0 +1,111 @@
+@if (hasBankAccounts()) {
+  <div class="flex flex-col gap-2">
+    @for (group of groupedBankAccounts(); track group.label) {
+      <div
+        hlmCollapsible
+        [expanded]="isGroupExpanded(group.label)"
+        (expandedChange)="onGroupExpandedChange(group.label, $event)"
+      >
+        <!-- Group Header -->
+        <button
+          type="button"
+          hlmCollapsibleTrigger
+          class="hover:bg-accent/50 group flex h-8 w-full items-center justify-between gap-1 rounded-md px-3 text-xs font-medium"
+        >
+          <div class="flex items-center gap-1">
+            <nucleo-icon
+              [icon]="isGroupExpanded(group.label) ? ChevronDown : ChevronRight"
+              class="text-muted-foreground h-3.5 w-3.5"
+            />
+            <span class="text-muted-foreground">{{ formatAccountTypeCategory(group.label) }}</span>
+          </div>
+          <span class="text-muted-foreground font-mono text-xs font-normal tabular-nums">
+            @if (groupTotals()[group.label]; as total) {
+              {{ formatCurrency(total) }}
+            }
+          </span>
+        </button>
+
+        <!-- Group Content -->
+        <hlm-collapsible-content
+          class="grid transition-[grid-template-rows] duration-200 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]"
+        >
+          <div class="overflow-hidden">
+            @for (account of group.accounts; track account._id) {
+              <a
+                [routerLink]="getBankAccountUrl(account)"
+                (click)="handleAccountClick()"
+                hlmBtn
+                size="sm"
+                variant="ghost"
+                [class]="
+                  'group/nav-item text-normal w-full justify-start font-light transition-none ' +
+                  (isAccountActive(account) ? 'bg-accent/50 text-accent-foreground' : '')
+                "
+                [attr.aria-label]="account.name"
+                [attr.aria-current]="isAccountActive(account) ? 'page' : null"
+              >
+                <div class="flex w-full items-center justify-between">
+                  <div class="flex min-w-0 items-center gap-2">
+                    <app-entity-mark
+                      [mode]="account.visualIdentityMode"
+                      [logoUrl]="account.resolvedLogoUrl"
+                      [iconName]="account.iconName ?? defaultBankAccountIconName"
+                      [iconColorId]="account.iconColorId"
+                      [defaultIconName]="defaultBankAccountIconName"
+                      [alt]="account.name"
+                      size="xxs"
+                    />
+                    <span class="min-w-0 truncate">{{ account.name }}</span>
+                  </div>
+                  <span class="text-muted-foreground shrink-0 font-mono text-xs tabular-nums">
+                    {{ formatCurrency(account.currentBalance) }}
+                  </span>
+                </div>
+              </a>
+            }
+          </div>
+        </hlm-collapsible-content>
+      </div>
+    }
+
+    <!-- Net Worth Card -->
+    <div class="border-border mt-2 border-t pt-2">
+      <div hlmCollapsible [expanded]="netWorthCardExpanded()" (expandedChange)="onNetWorthCardExpandedChange($event)">
+        <button
+          type="button"
+          hlmCollapsibleTrigger
+          class="hover:bg-accent/50 group flex h-8 w-full items-center justify-between gap-1 rounded-md px-3 text-xs font-medium"
+        >
+          <div class="flex items-center gap-1">
+            <nucleo-icon
+              [icon]="netWorthCardExpanded() ? ChevronDown : ChevronRight"
+              class="text-muted-foreground h-3.5 w-3.5"
+            />
+            <span class="text-muted-foreground">Net Worth</span>
+          </div>
+          <span class="text-muted-foreground font-mono font-normal tabular-nums">
+            {{ formatCurrency(netWorth()) }}
+          </span>
+        </button>
+
+        <hlm-collapsible-content
+          class="grid transition-[grid-template-rows] duration-200 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]"
+        >
+          <div class="overflow-hidden">
+            <div class="px-2 py-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-muted-foreground">Assets</span>
+                <span class="font-mono tabular-nums">{{ formatCurrency(totalAssets()) }}</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-muted-foreground">Liabilities</span>
+                <span class="font-mono tabular-nums">{{ formatCurrency(totalLiabilities()) }}</span>
+              </div>
+            </div>
+          </div>
+        </hlm-collapsible-content>
+      </div>
+    </div>
+  </div>
+}

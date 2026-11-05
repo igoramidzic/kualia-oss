@@ -1,0 +1,225 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="Family" />
+  </div>
+
+  <div class="flex-1 overflow-y-auto pb-[200px]">
+    <div class="container mx-auto max-w-[640px] p-4 pt-4 transition-all select-none lg:p-6 lg:pt-16">
+      @if (!isLoading()) {
+        <div class="fade-in">
+          @if (!familyGroup()) {
+            <div class="mb-6">
+              <div class="flex items-center gap-2">
+                <h1 class="text-2xl">Family</h1>
+              </div>
+              <p class="text-muted-foreground mt-2 text-sm">
+                Create a family group before inviting people to share workspaces and budgets with you.
+              </p>
+            </div>
+
+            <div hlmCard class="p-6">
+              <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-primary/10 text-primary flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-md"
+                  >
+                    <nucleo-icon [icon]="UsersRound" class="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h2 class="font-medium">Set Up Family</h2>
+                    <p class="text-muted-foreground mt-1 max-w-[440px] text-sm">
+                      Everyone in a family can see each other's workspaces and budgets once they join.
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  hlmBtn
+                  type="button"
+                  class="w-full sm:w-auto"
+                  (click)="createGroup()"
+                  [disabled]="creatingGroup()"
+                  data-testid="create-family-group"
+                >
+                  @if (creatingGroup()) {
+                    <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+                    Creating...
+                  } @else {
+                    Create Family Group
+                  }
+                </button>
+              </div>
+            </div>
+          } @else {
+            <div class="mb-8" data-testid="together-page-heading">
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center gap-2">
+                  <h1 class="text-2xl">Family</h1>
+                  <span
+                    hlmBadge
+                    variant="outline"
+                    class="border-transparent bg-white text-[10px] text-black uppercase"
+                    data-testid="family-beta-badge"
+                  >
+                    Beta
+                  </span>
+                </div>
+
+                @if (currentUserIsOwner()) {
+                  <div class="flex flex-shrink-0 flex-col items-stretch gap-2 sm:items-end">
+                    <button
+                      hlmBtn
+                      type="button"
+                      size="sm"
+                      (click)="openInviteDialog()"
+                      [disabled]="!canInvite()"
+                      data-testid="invite-member"
+                    >
+                      <nucleo-icon [icon]="MailPlus" class="h-4 w-4" />
+                      Invite Member
+                    </button>
+                  </div>
+                } @else if (currentUserIsMember()) {
+                  <button
+                    hlmBtn
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    class="text-muted-foreground hover:text-destructive flex-shrink-0"
+                    (click)="openLeaveDialog()"
+                    data-testid="leave-family-group"
+                  >
+                    <nucleo-icon [icon]="LogOut" class="h-4 w-4" />
+                    Leave Family
+                  </button>
+                }
+              </div>
+
+              <p class="text-muted-foreground mt-5 text-base leading-7">
+                Invite the people you budget with. Everyone in your family can see each other's workspaces and budgets,
+                so only invite people you want to share this financial information with.
+              </p>
+            </div>
+
+            <section class="mb-8">
+              <h2 class="mb-3 text-xl font-medium">Group Manager</h2>
+
+              <div class="space-y-2">
+                @for (manager of groupManagers(); track manager._id) {
+                  <a
+                    hlmCard
+                    [routerLink]="['members', manager._id]"
+                    class="hover:bg-accent/50 focus-visible:ring-ring flex min-h-[76px] flex-row items-center gap-4 p-4 no-underline transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                    [attr.data-testid]="'family-member-' + manager._id"
+                  >
+                    <div
+                      class="bg-primary text-primary-foreground flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-lg font-medium"
+                    >
+                      {{ getInitials(manager.name, manager.email) }}
+                    </div>
+
+                    <div class="min-w-0 flex-1">
+                      <div class="truncate font-medium">
+                        {{ displayMemberName(manager) }}
+                        @if (manager.isCurrentUser) {
+                          <span>(you)</span>
+                        }
+                      </div>
+                      <p class="text-muted-foreground truncate text-sm">{{ displayMemberEmail(manager) }}</p>
+                    </div>
+
+                    <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+                  </a>
+                }
+              </div>
+            </section>
+
+            <section class="mb-8">
+              <div class="mb-3 flex items-center justify-between gap-3" data-testid="members-section-heading">
+                <h2 class="text-xl font-medium">Members</h2>
+                @if (currentUserIsOwner()) {
+                  <div class="flex flex-shrink-0 flex-col items-end gap-1 text-right">
+                    <p class="text-muted-foreground text-sm" data-testid="invites-remaining">
+                      {{ inviteLimitLabel() }}
+                    </p>
+                    @if (inviteEmailQuotaMessage(); as quotaMessage) {
+                      <p class="text-destructive max-w-[260px] text-xs" data-testid="invite-email-quota-message">
+                        {{ quotaMessage }}
+                      </p>
+                    }
+                  </div>
+                }
+              </div>
+
+              @if (members().length > 0) {
+                <div class="space-y-2">
+                  @for (member of members(); track member._id) {
+                    <a
+                      hlmCard
+                      [routerLink]="['members', member._id]"
+                      class="hover:bg-accent/50 focus-visible:ring-ring flex min-h-[76px] flex-row items-center gap-4 p-4 no-underline transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                      [attr.data-testid]="'family-member-' + member._id"
+                    >
+                      <div
+                        class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-lime-300 text-lg font-medium text-lime-950 dark:bg-lime-300 dark:text-lime-950"
+                      >
+                        {{ getInitials(member.name, member.email) }}
+                      </div>
+
+                      <div class="min-w-0 flex-1">
+                        <div class="truncate font-medium">
+                          {{ displayMemberName(member) }}
+                          @if (member.isCurrentUser) {
+                            <span>(you)</span>
+                          }
+                        </div>
+                        <p class="text-muted-foreground truncate text-sm">{{ displayMemberEmail(member) }}</p>
+                      </div>
+
+                      <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+                    </a>
+                  }
+                </div>
+              } @else {
+                <div class="border-border text-muted-foreground rounded border border-dashed p-4 text-sm">
+                  No members have joined yet.
+                </div>
+              }
+            </section>
+
+            @if (pendingInvites().length > 0) {
+              <section class="mb-8">
+                <h2 class="mb-3 text-xl font-medium">Pending Invites</h2>
+
+                <div class="space-y-2">
+                  @for (invite of pendingInvites(); track invite._id) {
+                    <a
+                      hlmCard
+                      [routerLink]="['members', invite._id]"
+                      class="hover:bg-accent/50 focus-visible:ring-ring flex min-h-[76px] flex-row items-center gap-4 p-4 no-underline transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                      [attr.data-testid]="'family-invite-' + invite._id"
+                    >
+                      <div
+                        class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-cyan-300 text-lg font-medium text-cyan-950 dark:bg-cyan-300 dark:text-cyan-950"
+                      >
+                        {{ getInitials(invite.invitedName, invite.invitedEmail) }}
+                      </div>
+
+                      <div class="min-w-0 flex-1">
+                        <div class="truncate font-medium">{{ invite.invitedName }}</div>
+                        <p class="text-muted-foreground truncate text-sm">{{ invite.invitedEmail }}</p>
+                      </div>
+
+                      <span class="text-muted-foreground rounded-md border px-2 py-1 text-xs">Pending</span>
+                      <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+                    </a>
+                  }
+                </div>
+              </section>
+            }
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

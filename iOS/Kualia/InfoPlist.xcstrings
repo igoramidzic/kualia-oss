@@ -1,0 +1,77 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Kualia"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Kualia"
+          }
+        }
+      }
+    },
+    "NSUserTrackingUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihre Erlaubnis ermöglicht AppsFlyer und unseren Werbepartnern, die Werbekennung Ihres Geräts zur Messung von Installationen und Registrierungen durch Anzeigen zu nutzen. Finanzdaten und Chatinhalte werden niemals zur Anzeigenmessung übermittelt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your permission lets AppsFlyer and our ad partners use your device’s advertising identifier to measure which ads lead to installs and signups. Your financial records and chat content are never sent for ad measurement."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu permiso permite a AppsFlyer y a nuestros socios publicitarios usar el identificador publicitario del dispositivo para medir qué anuncios generan instalaciones y registros. Tus datos financieros y conversaciones nunca se envían para medir anuncios."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre autorisation permet à AppsFlyer et à nos partenaires publicitaires d’utiliser l’identifiant publicitaire de votre appareil pour mesurer les installations et inscriptions issues des publicités. Vos données financières et conversations ne sont jamais transmises à cette fin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo consenso permette ad AppsFlyer e ai nostri partner pubblicitari di usare l’identificativo pubblicitario del dispositivo per misurare quali annunci portano a installazioni e registrazioni. Dati finanziari e chat non vengono mai inviati per misurare gli annunci."
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaša dozvola omogućava AppsFlyer-u i našim oglašivačkim partnerima da koriste oglašivački identifikator uređaja za merenje instalacija i registracija iz oglasa. Finansijski podaci i sadržaj razgovora nikada se ne šalju radi merenja oglasa."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的许可允许 AppsFlyer 和我们的广告合作伙伴使用设备的广告标识符，衡量哪些广告带来了安装和注册。您的财务记录和聊天内容绝不会用于广告衡量。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

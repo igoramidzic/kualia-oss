@@ -1,0 +1,94 @@
+<div class="select-none">
+  <div class="p-3">
+    <p class="text-sm select-none">New merchant</p>
+    <button
+      type="button"
+      hlmBtn
+      variant="ghost"
+      size="icon"
+      class="absolute top-2 right-2 h-8 w-8"
+      [disabled]="creating()"
+      (click)="dialogRef.close()"
+    >
+      <nucleo-icon [icon]="X" size="16" />
+      <span class="sr-only">Close</span>
+    </button>
+  </div>
+
+  <div class="p-3">
+    <div class="flex items-center gap-3">
+      <brn-popover
+        [state]="logoPickerState()"
+        (stateChanged)="onLogoPickerStateChanged($event)"
+        class="h-9"
+        align="start"
+      >
+        <button
+          type="button"
+          brnPopoverTrigger
+          class="cursor-pointer transition-opacity hover:opacity-80"
+          [disabled]="creating()"
+        >
+          <app-entity-mark
+            [mode]="visualIdentityMode()"
+            [logoUrl]="logoUrl()"
+            [iconName]="iconName()"
+            [iconColorId]="iconColorId()"
+            [defaultIconName]="defaultMerchantIconName"
+            [alt]="'Merchant logo'"
+          />
+        </button>
+        <div *brnPopoverContent="let ctx" class="mt-2 w-[440px] p-0" hlmPopoverContent>
+          <app-logo-picker
+            [isOpen]="logoPickerState() === 'open'"
+            [currentLogoUrl]="logoUrl()"
+            [pickerMode]="visualIdentityMode()"
+            [selectedIconName]="iconName()"
+            [selectedIconColorId]="iconColorId()"
+            [defaultIconName]="defaultMerchantIconName"
+            (logoSelected)="onLogoChange($event)"
+            (modeChange)="onIdentityModeChange($event)"
+            (iconSelected)="onIconChange($event)"
+            (iconColorSelected)="onIconColorChange($event)"
+            (closeRequested)="closeLogoPicker()"
+          />
+        </div>
+      </brn-popover>
+
+      <div class="flex-1 space-y-2">
+        <app-contenteditable-input
+          [placeholder]="'Merchant name'"
+          [ariaLabel]="'Merchant name'"
+          [className]="'text-2xl'"
+          [disabled]="creating()"
+          [autoFocus]="true"
+          (valueChange)="onNameChange($event)"
+          (enterPressed)="createMerchant()"
+          (escapePressed)="dialogRef.close()"
+        />
+      </div>
+    </div>
+
+    @if (nameError()) {
+      <p class="text-destructive mt-2 text-sm">{{ nameError() }}</p>
+    }
+  </div>
+
+  <hlm-dialog-footer class="flex-col flex-row justify-end">
+    <button
+      hlmBtn
+      type="button"
+      variant="default"
+      class="w-auto"
+      [disabled]="!canSave() || creating()"
+      (click)="createMerchant()"
+    >
+      @if (creating()) {
+        <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+        Creating...
+      } @else {
+        Create Merchant
+      }
+    </button>
+  </hlm-dialog-footer>
+</div>

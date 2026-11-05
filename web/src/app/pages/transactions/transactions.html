@@ -1,0 +1,115 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <!-- Header with sidebar toggle, title, filter buttons (lg+), and search -->
+  <div class="flex flex-shrink-0 flex-col border-b select-none">
+    <div class="flex h-10 items-center gap-2 px-1.5 sm:px-3">
+      <app-sidebar-toggle class="shrink-0 lg:hidden" />
+      <nav class="flex shrink-0 items-center space-x-1 text-sm">
+        <span class="m-0 p-1">Transactions</span>
+      </nav>
+
+      <!-- Desktop filters (inline) -->
+      <app-responsive-filter-row
+        class="hidden min-w-0 flex-1 lg:block"
+        containerClass="flex w-full min-w-0 items-center gap-1 overflow-hidden"
+        [filters]="responsiveFilters()"
+      />
+
+      <div class="ml-auto flex shrink-0 items-center justify-end">
+        <!-- Separator and Search -->
+        <div class="flex shrink-0 items-center gap-2">
+          <!-- Search input - expands on focus or when has content -->
+          <div
+            class="focus-within:border-ring focus-within:ring-ring/50 flex h-7 cursor-text items-center gap-1.5 rounded-md border bg-transparent px-2 text-xs transition-all duration-200 ease-in-out focus-within:ring-[3px]"
+            [class.w-24]="!isSearchExpanded()"
+            [class.w-40]="isSearchExpanded()"
+            [class.border-transparent]="!isSearchExpanded()"
+            [class.border-input]="isSearchExpanded()"
+            tabindex="0"
+            (click)="focusSearch()"
+            (keydown.enter)="focusSearch()"
+            (keydown.space)="onWrapperSpaceKey($event)"
+          >
+            <nucleo-icon [icon]="Search" [size]="14" class="text-muted-foreground shrink-0" />
+            <input
+              #searchInput
+              type="text"
+              autocomplete="off"
+              [ngModel]="searchQuery()"
+              (ngModelChange)="searchQuery.set($event)"
+              (keydown.escape)="onSearchEscape()"
+              (keydown.space)="$event.stopPropagation()"
+              (focus)="onSearchFocus()"
+              (blur)="onSearchBlur()"
+              class="placeholder:text-muted-foreground h-full min-w-0 flex-1 bg-transparent text-xs outline-none"
+              placeholder="Search..."
+            />
+            @if (hasSearchQuery()) {
+              <button
+                type="button"
+                class="text-muted-foreground hover:text-foreground shrink-0"
+                (click)="clearSearch()"
+                aria-label="Clear search"
+              >
+                <nucleo-icon [icon]="X" [size]="14" />
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile filters (separate row) -->
+    <app-responsive-filter-row class="block lg:hidden" [filters]="responsiveFilters()" />
+
+    <!-- Second row: add transaction and undo/redo -->
+    <div class="flex items-center gap-3 border-t px-1.5 py-1 sm:px-3">
+      <button
+        hlmBtn
+        variant="ghost"
+        size="sm"
+        class="group hover:text-foreground px-1 transition-colors"
+        (click)="openCreateTransactionDialog()"
+      >
+        <nucleo-icon
+          [icon]="Plus"
+          class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
+        />
+        <span class="text-xs">Add transaction</span>
+      </button>
+      <div class="flex items-center gap-1">
+        <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canUndo()" (click)="undo()" class="px-1">
+          <nucleo-icon [icon]="Undo2" class="h-4 w-4" />
+          <span class="hidden text-xs min-[480px]:inline">Undo</span>
+        </button>
+        <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canRedo()" (click)="redo()" class="px-1">
+          <nucleo-icon [icon]="Redo2" class="h-4 w-4" />
+          <span class="hidden text-xs min-[480px]:inline">Redo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-hidden">
+    <app-transactions-table
+      [transactions]="transactions()"
+      [loading]="loading()"
+      [loadingMore]="loadingMore()"
+      [error]="error()"
+      [hasMore]="hasMore()"
+      [showHeader]="false"
+      [headerTemplate]="registerHeader"
+      (loadMore)="loadMore()"
+    />
+  </div>
+</div>
+
+<!-- Rendered inside the table's scroll area: the column header sticks to the top while the
+     scheduled section scrolls together with the register rows below it. -->
+<ng-template #registerHeader>
+  <div class="bg-content-background sticky top-0 z-20">
+    <app-transactions-column-header />
+  </div>
+  @if (activeFilter() === 'all' && !hasSearchQuery()) {
+    <app-scheduled-transactions-section />
+  }
+</ng-template>

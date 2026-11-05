@@ -1,0 +1,239 @@
+<div class="select-none">
+  <div class="relative p-4">
+    <h2 class="text-lg font-semibold">{{ dialogTitle() }}</h2>
+    <button
+      type="button"
+      hlmBtn
+      variant="ghost"
+      size="icon"
+      class="absolute top-2 right-2 h-8 w-8"
+      [disabled]="saving()"
+      (click)="dialogContext.close()"
+    >
+      <nucleo-icon [icon]="X" size="16" />
+      <span class="sr-only">Close</span>
+    </button>
+  </div>
+
+  <div class="p-4">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div class="min-w-0">
+        <h3 class="text-muted-foreground mb-4 text-sm font-medium tracking-wide">If transaction matches criteria...</h3>
+
+        <hlm-accordion type="multiple" class="space-y-3">
+          <hlm-accordion-item [isOpened]="originalStatementCondition().enabled" hlmCard>
+            <h3>
+              <button type="button" class="w-full p-4" tabindex="-1" (click)="toggleOriginalStatement()">
+                <div class="flex w-full items-center justify-between">
+                  <span class="text-sm font-medium">Original Statement</span>
+                  <hlm-switch
+                    [checked]="originalStatementCondition().enabled"
+                    (checkedChange)="toggleOriginalStatement()"
+                    (click)="$event.stopPropagation()"
+                    (keydown.space)="$event.stopPropagation()"
+                    (keydown.enter)="$event.stopPropagation()"
+                  />
+                </div>
+              </button>
+            </h3>
+            <hlm-accordion-content>
+              <div class="flex gap-2 border-t px-4 pt-4" hlmCardContent>
+                <hlm-select
+                  [value]="originalStatementCondition().matchType"
+                  (valueChange)="updateOriginalStatementMatchType($event)"
+                >
+                  <hlm-select-trigger class="h-9 w-44">
+                    <hlm-select-value />
+                  </hlm-select-trigger>
+                  <hlm-select-content *hlmSelectPortal>
+                    <hlm-select-item value="contains">Contains</hlm-select-item>
+                    <hlm-select-item value="exactlyMatches">Exactly Matches</hlm-select-item>
+                  </hlm-select-content>
+                </hlm-select>
+
+                <input
+                  hlmInput
+                  type="text"
+                  placeholder="Original statement..."
+                  class="h-9 flex-1"
+                  [value]="originalStatementCondition().value"
+                  (input)="updateOriginalStatementValue($any($event.target).value)"
+                />
+              </div>
+            </hlm-accordion-content>
+          </hlm-accordion-item>
+
+          <hlm-accordion-item [isOpened]="merchantNameCondition().enabled" hlmCard>
+            <h3>
+              <button type="button" class="w-full p-4" tabindex="-1" (click)="toggleMerchantName()">
+                <div class="flex w-full items-center justify-between">
+                  <span class="text-sm font-medium">Merchant Name</span>
+                  <hlm-switch
+                    [checked]="merchantNameCondition().enabled"
+                    (checkedChange)="toggleMerchantName()"
+                    (click)="$event.stopPropagation()"
+                    (keydown.space)="$event.stopPropagation()"
+                    (keydown.enter)="$event.stopPropagation()"
+                  />
+                </div>
+              </button>
+            </h3>
+            <hlm-accordion-content>
+              <div class="flex gap-2 border-t px-4 pt-4" hlmCardContent>
+                <hlm-select
+                  [value]="merchantNameCondition().matchType"
+                  (valueChange)="updateMerchantNameMatchType($event)"
+                >
+                  <hlm-select-trigger class="h-9 w-44">
+                    <hlm-select-value />
+                  </hlm-select-trigger>
+                  <hlm-select-content *hlmSelectPortal>
+                    <hlm-select-item value="contains">Contains</hlm-select-item>
+                    <hlm-select-item value="exactlyMatches">Exactly Matches</hlm-select-item>
+                  </hlm-select-content>
+                </hlm-select>
+
+                <input
+                  hlmInput
+                  type="text"
+                  placeholder="Merchant name..."
+                  class="h-9 flex-1"
+                  [value]="merchantNameCondition().value"
+                  (input)="updateMerchantNameValue($any($event.target).value)"
+                />
+              </div>
+            </hlm-accordion-content>
+          </hlm-accordion-item>
+        </hlm-accordion>
+      </div>
+
+      <div class="min-w-0">
+        <h3 class="text-muted-foreground mb-4 text-sm font-medium tracking-wide">Then apply these updates...</h3>
+
+        <hlm-accordion type="multiple" class="space-y-3">
+          <hlm-accordion-item [isOpened]="merchantAction().enabled" hlmCard>
+            <h3>
+              <button type="button" class="w-full p-4" tabindex="-1" (click)="toggleMerchant()">
+                <div class="flex w-full items-center justify-between">
+                  <span class="text-sm font-medium">Rename merchant</span>
+                  <hlm-switch
+                    [checked]="merchantAction().enabled"
+                    (checkedChange)="toggleMerchant()"
+                    (click)="$event.stopPropagation()"
+                    (keydown.space)="$event.stopPropagation()"
+                    (keydown.enter)="$event.stopPropagation()"
+                  />
+                </div>
+              </button>
+            </h3>
+            <hlm-accordion-content>
+              <div class="border-t px-4 pt-4" hlmCardContent>
+                <app-rule-merchant-picker
+                  [merchantId]="merchantAction().merchantId"
+                  (merchantChange)="onMerchantActionChange($event)"
+                />
+              </div>
+            </hlm-accordion-content>
+          </hlm-accordion-item>
+
+          <hlm-accordion-item [isOpened]="categoryAction().enabled" hlmCard>
+            <h3>
+              <button type="button" class="w-full p-4" tabindex="-1" (click)="toggleCategory()">
+                <div class="flex w-full items-center justify-between">
+                  <span class="text-sm font-medium">Update category</span>
+                  <hlm-switch
+                    [checked]="categoryAction().enabled"
+                    (checkedChange)="toggleCategory()"
+                    (click)="$event.stopPropagation()"
+                    (keydown.space)="$event.stopPropagation()"
+                    (keydown.enter)="$event.stopPropagation()"
+                  />
+                </div>
+              </button>
+            </h3>
+            <hlm-accordion-content>
+              <div class="border-t px-4 pt-4" hlmCardContent>
+                <app-rule-category-picker
+                  [categoryId]="categoryAction().categoryId"
+                  (categoryChange)="updateCategoryActionValue($event)"
+                />
+              </div>
+            </hlm-accordion-content>
+          </hlm-accordion-item>
+        </hlm-accordion>
+      </div>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="px-4 pb-3">
+      <div class="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
+        {{ error() }}
+      </div>
+    </div>
+  }
+
+  @if (!isEditMode()) {
+    <div class="px-6 pb-4">
+      @if (countingMatches()) {
+        <div class="bg-accent flex items-center gap-2 rounded-md p-3 text-sm">
+          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          Counting matching transactions...
+        </div>
+      } @else if (matchedCount() !== null) {
+        <div class="space-y-3">
+          <div class="bg-accent rounded-md p-3 text-sm">
+            This rule will affect <strong class="text-foreground">{{ matchedCount() }}</strong> existing
+            {{ matchedCount() === 1 ? 'transaction' : 'transactions' }}
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+<hlm-dialog-footer [class]="isEditMode() ? 'flex-row justify-between gap-2' : 'flex-row justify-end gap-2'">
+  @if (isEditMode()) {
+    @if (confirmingDelete()) {
+      <div class="mr-auto flex items-center gap-2">
+        <span class="text-muted-foreground text-sm">Delete this rule?</span>
+        <button hlmBtn variant="outline" size="sm" [disabled]="deleting()" (click)="cancelDelete()">Cancel</button>
+        <button hlmBtn variant="destructive" size="sm" [disabled]="deleting()" (click)="confirmDelete()">
+          @if (deleting()) {
+            <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+            Deleting...
+          } @else {
+            Confirm
+          }
+        </button>
+      </div>
+    } @else {
+      <button hlmBtn variant="destructive" size="sm" [disabled]="deleting()" (click)="promptDelete()" class="mr-auto">
+        <nucleo-icon [icon]="Trash2" class="mr-2 h-4 w-4" />
+        Delete
+      </button>
+    }
+  }
+
+  <div class="flex gap-4">
+    @if (matchedCount() !== null && matchedCount()! > 0) {
+      <div class="flex items-center gap-3">
+        <hlm-checkbox
+          id="applyToExisting"
+          [checked]="applyToExisting()"
+          (checkedChange)="toggleApplyToExisting($event)"
+        />
+        <label for="applyToExisting" class="cursor-pointer text-sm"
+          >Apply this rule to ({{ matchedCount() }}) existing transactions
+        </label>
+      </div>
+    }
+    <button hlmBtn variant="default" size="sm" [disabled]="!canSave()" (click)="save()">
+      @if (saving()) {
+        <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+        {{ isEditMode() ? 'Updating...' : 'Creating...' }}
+      } @else {
+        {{ isEditMode() ? 'Save' : 'Create' }}
+      }
+    </button>
+  </div>
+</hlm-dialog-footer>

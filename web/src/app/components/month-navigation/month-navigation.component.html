@@ -1,0 +1,44 @@
+<div class="flex items-center justify-between border-b px-2 py-2 sm:px-3">
+  <h2 class="text-sm font-semibold">{{ monthDisplay() }}</h2>
+
+  <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1">
+      @if (!isCurrentMonth()) {
+        <a
+          [routerLink]="[]"
+          [queryParams]="{ month: null }"
+          queryParamsHandling="merge"
+          hlmBtn
+          variant="outline"
+          size="sm"
+          class="h-8 text-xs"
+          >Today</a
+        >
+      }
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ month: previousMonthParam() }"
+        queryParamsHandling="merge"
+        hlmBtn
+        variant="ghost"
+        size="icon"
+        class="h-8 w-8"
+        aria-label="Previous month"
+      >
+        <nucleo-icon [icon]="ArrowLeft" class="h-4 w-4" />
+      </a>
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ month: nextMonthParam() }"
+        queryParamsHandling="merge"
+        hlmBtn
+        variant="ghost"
+        size="icon"
+        class="h-8 w-8"
+        aria-label="Next month"
+      >
+        <nucleo-icon [icon]="ArrowRight" class="h-4 w-4" />
+      </a>
+    </div>
+  </div>
+</div>

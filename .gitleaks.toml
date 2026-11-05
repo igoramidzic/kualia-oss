@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Synthetic API key display prefix used by authorization tests"
+condition = "AND"
+paths = ['''(?:^|/)convex/apiKeys/auth\.spec\.ts$''']
+regexTarget = "secret"
+regexes = ['''^kualia_a1b2c3d4$''']

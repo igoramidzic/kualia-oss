@@ -1,0 +1,182 @@
+@if (error()) {
+  <div class="bg-destructive/10 text-destructive border-destructive/20 mb-6 rounded-lg border p-4">
+    {{ error() }}
+  </div>
+}
+
+@if (headerTemplate()) {
+  <div class="flex h-full flex-col">
+    <div
+      #scrollContainer
+      cdkVirtualScrollingElement
+      class="h-full min-h-0 flex-1 overflow-auto select-none"
+      appInfiniteScroll
+      [threshold]="0.98"
+      [disabled]="loadingMore() || !hasMore()"
+      (scrolled)="onScrolled()"
+    >
+      <ng-container *ngTemplateOutlet="headerTemplate()!" />
+      @if (toolbarTemplate()) {
+        <div #toolbarContainer class="bg-content-background sticky top-0 z-20 border-b py-1.5">
+          <ng-container *ngTemplateOutlet="toolbarTemplate()!" />
+        </div>
+      }
+      @if (showHeader()) {
+        <div
+          class="group bg-content-background sticky z-10 grid h-10 shrink-0 items-center border-b pl-0 text-sm"
+          [class.top-0]="!toolbarTemplate()"
+          [style.top]="toolbarTemplate() ? toolbarHeight() : undefined"
+          [style.grid-template-columns]="
+            showBankAccountBadge() && showNotes()
+              ? '2rem 2rem 7.5rem 1fr 1fr 1fr 1fr 5.5rem 1.5rem'
+              : showBankAccountBadge()
+                ? '2rem 2rem 7.5rem 1fr 1fr 1fr 5.5rem 1.5rem'
+                : showNotes()
+                  ? '2rem 2rem 7.5rem 1fr 1fr 1fr 5.5rem 1.5rem'
+                  : '2rem 2rem 7.5rem 1fr 1fr 5.5rem 1.5rem'
+          "
+          [style.padding-right]="headerPaddingRight()"
+        >
+          <div
+            class="flex h-full cursor-default items-center justify-center"
+            tabindex="-1"
+            (click)="$event.stopPropagation(); onHeaderCheckboxClick($event)"
+            (keydown.enter)="$event.stopPropagation(); onHeaderCheckboxClick($event)"
+            (keydown.space)="$event.stopPropagation(); onHeaderCheckboxClick($event); $event.preventDefault()"
+          >
+            <hlm-checkbox
+              [checked]="headerCheckboxState() === true"
+              [indeterminate]="headerCheckboxState() === 'indeterminate'"
+              class="group-hover:border-primary"
+            />
+          </div>
+          <div class="flex items-center justify-center">
+            <nucleo-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
+          </div>
+          <div class="text-muted-foreground">Date</div>
+          <div class="text-muted-foreground pl-0">Payee</div>
+          @if (showBankAccountBadge()) {
+            <div class="text-muted-foreground">Account</div>
+          }
+          <div class="text-muted-foreground">Category</div>
+          @if (showNotes()) {
+            <div class="text-muted-foreground">Notes</div>
+          }
+          <div class="text-muted-foreground text-right">Amount</div>
+          <div></div>
+        </div>
+      }
+      @if (!loading() && transactions().length > 0) {
+        <cdk-virtual-scroll-viewport #viewport [itemSize]="itemSize" class="fade-in">
+          <div>
+            <app-transaction-row
+              *cdkVirtualFor="let transaction of transactions(); trackBy: trackByTransactionId"
+              [transaction]="transaction"
+              [showBankAccountBadge]="showBankAccountBadge()"
+              [showNotes]="showNotes()"
+              [isSelected]="isTransactionSelected(transaction._id)()"
+              (checkboxChange)="onTransactionCheckboxChange($event.id, $event.event)"
+            />
+            @if (loadingMore()) {
+              <div class="flex items-center justify-center py-4">
+                <div class="text-muted-foreground text-sm">Loading more...</div>
+              </div>
+            }
+          </div>
+        </cdk-virtual-scroll-viewport>
+      } @else if (!loading() && transactions().length === 0) {
+        <div class="fade-in py-12 text-center">
+          <nucleo-icon [icon]="ArrowLeftRight" class="text-muted-foreground mx-auto h-12 w-12" />
+          <h3 class="mt-2 text-sm font-semibold">No transactions</h3>
+          <p class="text-muted-foreground mt-1 text-sm">There are no transactions to display.</p>
+        </div>
+      }
+    </div>
+  </div>
+} @else if (!loading() && transactions().length > 0) {
+  <div class="fade-in flex h-full flex-col">
+    <div
+      #scrollContainer
+      cdkVirtualScrollingElement
+      class="h-full min-h-0 flex-1 overflow-auto select-none"
+      appInfiniteScroll
+      [threshold]="0.98"
+      [disabled]="loadingMore() || !hasMore()"
+      (scrolled)="onScrolled()"
+    >
+      @if (showHeader()) {
+        <div
+          class="group bg-content-background sticky top-0 z-10 grid h-10 shrink-0 items-center border-b pl-0 text-sm"
+          [style.grid-template-columns]="
+            showBankAccountBadge() && showNotes()
+              ? '2rem 2rem 7.5rem 1fr 1fr 1fr 1fr 5.5rem 1.5rem'
+              : showBankAccountBadge()
+                ? '2rem 2rem 7.5rem 1fr 1fr 1fr 5.5rem 1.5rem'
+                : showNotes()
+                  ? '2rem 2rem 7.5rem 1fr 1fr 1fr 5.5rem 1.5rem'
+                  : '2rem 2rem 7.5rem 1fr 1fr 5.5rem 1.5rem'
+          "
+          [style.padding-right]="headerPaddingRight()"
+        >
+          <div
+            class="flex h-full cursor-default items-center justify-center"
+            tabindex="-1"
+            (click)="$event.stopPropagation(); onHeaderCheckboxClick($event)"
+            (keydown.enter)="$event.stopPropagation(); onHeaderCheckboxClick($event)"
+            (keydown.space)="$event.stopPropagation(); onHeaderCheckboxClick($event); $event.preventDefault()"
+          >
+            <hlm-checkbox
+              [checked]="headerCheckboxState() === true"
+              [indeterminate]="headerCheckboxState() === 'indeterminate'"
+              class="group-hover:border-primary"
+            />
+          </div>
+          <div class="flex items-center justify-center">
+            <nucleo-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
+          </div>
+          <div class="text-muted-foreground">Date</div>
+          <div class="text-muted-foreground pl-0">Payee</div>
+          @if (showBankAccountBadge()) {
+            <div class="text-muted-foreground">Account</div>
+          }
+          <div class="text-muted-foreground">Category</div>
+          @if (showNotes()) {
+            <div class="text-muted-foreground">Notes</div>
+          }
+          <div class="text-muted-foreground text-right">Amount</div>
+          <div></div>
+        </div>
+      }
+      <cdk-virtual-scroll-viewport #viewport [itemSize]="itemSize">
+        <div>
+          <app-transaction-row
+            *cdkVirtualFor="let transaction of transactions(); trackBy: trackByTransactionId"
+            [transaction]="transaction"
+            [showBankAccountBadge]="showBankAccountBadge()"
+            [showNotes]="showNotes()"
+            [isSelected]="isTransactionSelected(transaction._id)()"
+            (checkboxChange)="onTransactionCheckboxChange($event.id, $event.event)"
+          />
+          @if (loadingMore()) {
+            <div class="flex items-center justify-center py-4">
+              <div class="text-muted-foreground text-sm">Loading more...</div>
+            </div>
+          }
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </div>
+}
+
+<!-- Floating Bulk Action Toolbar -->
+@if (hasSelections()) {
+  <app-bulk-actions-toolbar [transactions]="transactions()" />
+}
+
+@if (!loading() && transactions().length === 0 && !error() && !headerTemplate()) {
+  <div class="fade-in py-12 text-center">
+    <nucleo-icon [icon]="ArrowLeftRight" class="text-muted-foreground mx-auto h-12 w-12" />
+    <h3 class="mt-2 text-sm font-semibold">No transactions</h3>
+    <p class="text-muted-foreground mt-1 text-sm">There are no transactions to display.</p>
+  </div>
+}

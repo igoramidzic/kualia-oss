@@ -1,0 +1,95 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.stagger-1 {
+  opacity: 0;
+  animation: fade-up 500ms ease-out 100ms forwards;
+}
+
+.stagger-2 {
+  opacity: 0;
+  animation: fade-up 500ms ease-out 250ms forwards;
+}
+
+.stagger-3 {
+  opacity: 0;
+  animation: fade-up 500ms ease-out 400ms forwards;
+}
+
+.stagger-4 {
+  opacity: 0;
+  animation: fade-up 500ms ease-out 550ms forwards;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bank-link-enter {
+  animation: slide-fade-in 300ms ease-out;
+}
+
+.bank-link-leave {
+  animation: slide-fade-out 200ms ease-in;
+}
+
+@keyframes slide-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-fade-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+.continue-button-enter {
+  animation: scale-fade-in 400ms ease-out;
+}
+
+.continue-button-leave {
+  animation: scale-fade-out 300ms ease-in;
+}
+
+@keyframes scale-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes scale-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+}

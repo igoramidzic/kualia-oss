@@ -1,0 +1,635 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-1 overflow-hidden">
+    <div class="fade-in h-full overflow-y-auto px-4 pt-4 pb-[200px] select-none sm:px-6 sm:pt-6">
+      <div class="mx-auto max-w-[805px]">
+        @if (!isLoading() && !transaction()) {
+          <div class="mb-4 flex items-center gap-3 select-none">
+            <div class="bg-accent flex h-9 w-9 items-center justify-center rounded-full">
+              <nucleo-icon [icon]="FileQuestion" class="text-muted-foreground h-5 w-5" />
+            </div>
+            <h3 class="text-lg font-semibold">Transaction Not Found</h3>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-6">
+            <p class="text-muted-foreground text-sm">
+              This transaction may have been deleted or the link may be incorrect.
+            </p>
+          </div>
+
+          <!-- Action Button -->
+          <div class="mb-4">
+            <a [routerLink]="getTransactionsLink()" hlmBtn variant="default" size="sm">
+              <nucleo-icon [icon]="ArrowLeft" class="h-4 w-4" />
+              Back to Transactions
+            </a>
+          </div>
+        } @else if (transaction()) {
+          <div class="fade-in">
+            <!-- Needs Review Banner (only for non-linked and non-transfer-suggestion transactions) -->
+            @if (
+              transaction()?.reviewStatus === 'needs_review' && !isPendingLinkApproval() && !hasTransferSuggestion()
+            ) {
+              <div class="mb-3">
+                <div class="flex items-center gap-2">
+                  <nucleo-icon [icon]="BadgeCheck" class="text-primary h-5 w-5 flex-shrink-0" />
+                  <span class="text-primary text-sm font-medium">This transaction needs review</span>
+                </div>
+                <div class="mt-3 flex items-center gap-2">
+                  <button
+                    hlmBtn
+                    variant="default"
+                    size="sm"
+                    type="button"
+                    [disabled]="savingReviewStatus()"
+                    (click)="approveTransaction()"
+                  >
+                    Approve
+                  </button>
+                </div>
+                <div hlmSeparator></div>
+              </div>
+            }
+
+            <!-- Deleted Transaction Banner -->
+            @if (isDeleted()) {
+              <div class="mb-3">
+                <div class="flex items-center gap-2">
+                  <nucleo-icon [icon]="Trash2" class="text-destructive/80 h-5 w-5 flex-shrink-0" />
+                  <span class="text-destructive/80 text-sm">This transaction has been deleted</span>
+                </div>
+                <div class="mt-3 flex items-center gap-2">
+                  <button
+                    hlmBtn
+                    variant="outline"
+                    size="sm"
+                    type="button"
+                    class="text-primary"
+                    [disabled]="savingRestore()"
+                    (click)="restoreTransaction()"
+                  >
+                    <nucleo-icon [icon]="Undo2" class="h-4 w-4" />
+                    Restore Transaction
+                  </button>
+                </div>
+                <div hlmSeparator></div>
+              </div>
+            }
+
+            <!-- Amount Change Banner (when Plaid updates amount on reviewed transaction) -->
+            @if (hasAmountChange() && originalApprovedAmount() !== undefined) {
+              <div
+                class="mb-3 rounded-lg border border-orange-300 bg-orange-50 p-3 dark:border-orange-700 dark:bg-orange-900/20"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30"
+                  >
+                    <nucleo-icon [icon]="TriangleAlert" class="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-sm font-semibold text-orange-800 dark:text-orange-200"
+                      >Amount Updated by Bank</span
+                    >
+                    <div class="flex items-center gap-2 text-sm">
+                      <span class="text-orange-600 line-through dark:text-orange-300">
+                        {{ formatAmount(Number(originalApprovedAmount()!)) }}
+                      </span>
+                      <nucleo-icon [icon]="ArrowRight" class="h-3 w-3 text-orange-500" />
+                      <span class="font-medium text-orange-700 dark:text-orange-200">
+                        {{ formatAmount(Math.abs(transactionAmountValue())) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3 flex gap-2">
+                  <button
+                    hlmBtn
+                    variant="default"
+                    size="sm"
+                    type="button"
+                    [disabled]="savingReviewStatus()"
+                    (click)="approveTransaction()"
+                  >
+                    Approve
+                  </button>
+                </div>
+              </div>
+            }
+
+            <!-- Transfer Suggestion Card -->
+            @if (hasTransferSuggestion()) {
+              <div
+                data-testid="transfer-suggestion-card"
+                class="mb-4 rounded-lg border border-purple-300 bg-purple-50 p-4 dark:border-purple-700 dark:bg-purple-900/20"
+              >
+                <!-- Header with icon and badge -->
+                <div class="mb-3 flex items-center gap-3">
+                  <div
+                    class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30"
+                  >
+                    <nucleo-icon [icon]="ArrowLeftRight" class="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm font-semibold text-purple-800 dark:text-purple-200">
+                        {{ isLinkedTransferPending() ? 'Possible Linked Transfer' : 'Possible Transfer' }}
+                      </span>
+                      <span
+                        class="rounded-full bg-purple-200 px-2 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-800 dark:text-purple-200"
+                      >
+                        {{ transferConfidencePercent() }}% confidence
+                      </span>
+                    </div>
+                    <p class="text-xs text-purple-600 dark:text-purple-300">
+                      {{
+                        isLinkedTransferPending()
+                          ? 'Both sides have been imported. Approve to link them together.'
+                          : 'This transaction appears to be a transfer between your accounts.'
+                      }}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Detection reason and suggested account -->
+                <div class="mb-3 space-y-1 text-xs text-purple-700 dark:text-purple-300">
+                  @if (transferDetectionReason()) {
+                    <div>
+                      <span class="font-medium">Detected via:</span>
+                      {{ formatDetectionReason(transferDetectionReason()) }}
+                    </div>
+                  }
+                  @if (suggestedCounterpartAccountName()) {
+                    <div>
+                      <span class="font-medium">Suggested account:</span> {{ suggestedCounterpartAccountName() }}
+                    </div>
+                  }
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                  <hlm-dialog [closeOnBackdropClick]="true" [closeOnOutsidePointerEvents]="true">
+                    <button
+                      type="button"
+                      brnDialogTrigger
+                      hlmBtn
+                      variant="default"
+                      size="sm"
+                      [disabled]="savingTransferApproval()"
+                    >
+                      {{ isLinkedTransferPending() ? 'Review & Approve' : 'Confirm Transfer' }}
+                    </button>
+                    <hlm-dialog-content *brnDialogContent="let ctx" class="sm:max-w-[500px]">
+                      <app-transfer-approval-dialog
+                        [transaction]="transaction()!"
+                        [currencyCode]="currencyCode()"
+                        (approve)="onTransferApproved($event)"
+                        (reject)="onTransferRejected($event)"
+                        (closed)="ctx.close()"
+                      />
+                    </hlm-dialog-content>
+                  </hlm-dialog>
+
+                  <button
+                    data-testid="reject-transfer-suggestion"
+                    type="button"
+                    hlmBtn
+                    variant="outline"
+                    size="sm"
+                    [disabled]="savingTransferApproval()"
+                    (click)="rejectTransferSuggestionDirectly()"
+                  >
+                    {{ savingTransferApproval() ? 'Updating…' : 'Not a Transfer' }}
+                  </button>
+                </div>
+
+                @if (error()) {
+                  <p class="text-destructive mt-2 text-sm">{{ error() }}</p>
+                }
+              </div>
+            }
+
+            <!-- Amount Sign Toggle -->
+            <app-amount-sign-toggle
+              class="mb-4 block"
+              [value]="amountSign()"
+              [disabled]="saving() || isFormDisabled()"
+              size="sm"
+              (valueChange)="onSignChange($event)"
+            />
+
+            <!-- Amount (Editable) -->
+            <div class="mb-4">
+              <div class="flex items-center">
+                <span class="text-muted-foreground text-2xl select-none">{{ currencySymbol() }}</span>
+                <app-arithmetic-currency-input
+                  #amountEditor
+                  [initialValue]="transactionAmountDisplay()"
+                  [disabled]="saving() || isFormDisabled()"
+                  [allowNegative]="false"
+                  [inputClass]="'w-full border-none bg-transparent text-2xl outline-none focus:outline-none'"
+                  (valueChange)="onAmountChange($event)"
+                  (blurEvent)="onAmountBlur()"
+                  (enterPressed)="onAmountEnter()"
+                />
+              </div>
+              @if (amountError()) {
+                <p class="text-destructive mt-1 text-sm">{{ amountError() }}</p>
+              }
+            </div>
+
+            <!-- Properties: payee / account / category -->
+            <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="properties-row">
+              <span class="text-muted-foreground pr-2 text-xs select-none">Properties</span>
+
+              <div class="flex items-center gap-1">
+                <app-payee-selector
+                  [merchantId]="displayIsTransfer() ? null : displayMerchantId()"
+                  [selectedBankAccountId]="displayIsTransfer() ? transferPairBankAccountId() : null"
+                  [availableBankAccounts]="payeeBankAccounts()"
+                  [pendingMerchantName]="pendingMerchantName()"
+                  [transactionType]="transaction()?.type ?? 'regular'"
+                  [disabled]="savingMerchant() || isFormDisabled()"
+                  [allowNone]="false"
+                  [transactionImportDetails]="transaction()!.importDetails ?? null"
+                  [transactionAmount]="transactionAmountValue()"
+                  variant="ghost"
+                  buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                  (payeeChange)="onPayeeChange($event)"
+                />
+                @if (!isTransfer() && merchantRoute() && !savingMerchant()) {
+                  <!-- Link to merchant details (regular transactions only) -->
+                  <a
+                    [routerLink]="merchantRoute()"
+                    hlmBtn
+                    variant="ghost"
+                    size="icon"
+                    class="h-7 w-7 flex-shrink-0"
+                    [attr.aria-label]="'Go to ' + displayMerchantName() + ' details'"
+                  >
+                    <nucleo-icon [icon]="ChevronRight" size="16" class="text-muted-foreground" />
+                  </a>
+                }
+                @if (isTransfer() && transferPairId()) {
+                  <!-- Link to transfer pair transaction -->
+                  <a
+                    [routerLink]="getTransferPairRoute(transferPairId())"
+                    hlmBtn
+                    variant="ghost"
+                    size="icon"
+                    class="h-7 w-7 flex-shrink-0"
+                    aria-label="Go to paired transfer transaction"
+                  >
+                    <nucleo-icon [icon]="ChevronRight" size="16" class="text-muted-foreground" />
+                  </a>
+                }
+              </div>
+
+              <!-- Bank Account Selector -->
+              <app-bank-account-selector
+                [bankAccountId]="displayBankAccountId()"
+                [disabled]="savingBankAccount() || isFormDisabled()"
+                [allowNone]="false"
+                variant="ghost"
+                buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                (bankAccountChange)="onBankAccountChange($event)"
+              />
+
+              <!-- Category Selector or Split Button -->
+              @if (
+                (!isTransfer() && !isStartingBalance() && !isBalanceAdjustment() && !isOffBudgetAccount()) ||
+                isCrossBudgetTransfer()
+              ) {
+                @if (isSplitMode()) {
+                  <button
+                    type="button"
+                    hlmBtn
+                    variant="ghost"
+                    size="sm"
+                    class="w-fit justify-between px-2 text-xs"
+                    disabled
+                  >
+                    <div class="flex items-center gap-2">
+                      <nucleo-icon
+                        [icon]="SplitIcon"
+                        [size]="16"
+                        class="text-muted-foreground flex-shrink-0 rotate-90"
+                      />
+                      <span>Split transaction</span>
+                    </div>
+                  </button>
+                } @else {
+                  <app-category-selector
+                    [categoryId]="displayCategoryId()"
+                    [isReadyToAssign]="displayReadyToAssign()"
+                    [disabled]="savingCategory() || isFormDisabled()"
+                    [allowNone]="true"
+                    [showSplitButton]="!isCrossBudgetTransfer()"
+                    [yearMonth]="transactionYearMonth()"
+                    variant="ghost"
+                    buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                    (categoryChange)="selectCategory($event)"
+                    (splitClick)="handleEnterSplitMode()"
+                  />
+                }
+              } @else if (isOffBudgetAccount()) {
+                <button
+                  type="button"
+                  hlmBtn
+                  variant="ghost"
+                  size="sm"
+                  class="text-muted-foreground w-fit justify-between px-1 text-xs"
+                  disabled
+                >
+                  <nucleo-icon [icon]="Box" [size]="14" class="flex-shrink-0" />
+                  Not needed
+                </button>
+              }
+            </div>
+
+            <!-- Due date -->
+            <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="due-row">
+              <span class="text-muted-foreground pr-2 text-xs select-none">Due</span>
+              <app-transaction-date-picker
+                [date]="transactionDate()"
+                [disabled]="savingDate() || isFormDisabled()"
+                [max]="canScheduleTransaction() ? null : undefined"
+                [showMakeRecurring]="canScheduleTransaction()"
+                variant="ghost"
+                buttonClass="h-8 w-fit justify-between px-1 text-xs"
+                (dateChange)="selectDate($event)"
+                (makeRecurring)="makeRecurring()"
+              />
+            </div>
+
+            <!-- Status Section -->
+            <div class="mb-4 flex flex-wrap items-center gap-2" data-testid="status-row">
+              <span class="text-muted-foreground pr-2 text-xs select-none">Status</span>
+              @if (isReconciled()) {
+                <!-- Reconciled State: Show status badge + un-reconcile button -->
+                <div class="flex items-center gap-2">
+                  <span class="border-border flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs">
+                    <nucleo-icon [icon]="Lock" [size]="14" class="text-primary" />
+                    Reconciled
+                  </span>
+                  <hlm-dialog [closeOnBackdropClick]="true" [closeOnOutsidePointerEvents]="true">
+                    <button
+                      type="button"
+                      brnDialogTrigger
+                      hlmBtn
+                      variant="ghost"
+                      size="sm"
+                      class="h-7 px-2 text-xs"
+                      [disabled]="savingPending()"
+                    >
+                      Un-reconcile...
+                    </button>
+                    <hlm-dialog-content *brnDialogContent="let ctx" class="sm:max-w-[425px]">
+                      <hlm-dialog-header class="p-4">
+                        <h3 hlmDialogTitle>Un-reconcile Transaction?</h3>
+                        <p hlmDialogDescription>
+                          This transaction was marked as reconciled while reconciling a bank account. Adjusting this
+                          transaction could result in a mismatch in your bank account balance.
+                        </p>
+                      </hlm-dialog-header>
+                      <hlm-dialog-footer>
+                        <button brnDialogClose hlmBtn variant="outline" type="button">Cancel</button>
+                        <button hlmBtn type="button" (click)="unReconcile()">Un-reconcile</button>
+                      </hlm-dialog-footer>
+                    </hlm-dialog-content>
+                  </hlm-dialog>
+                </div>
+              } @else {
+                <!-- Non-reconciled: Toggle between pending and cleared -->
+                <button
+                  type="button"
+                  hlmBtn
+                  variant="ghost"
+                  size="sm"
+                  class="w-fit justify-between px-1 text-xs"
+                  [disabled]="savingPending() || isFormDisabled()"
+                  (click)="togglePending()"
+                >
+                  <div class="flex items-center gap-2">
+                    @if (isPending()) {
+                      <nucleo-icon [icon]="ClockFading" [size]="14" class="flex-shrink-0 text-yellow-500" />
+                      <span>Pending</span>
+                    } @else {
+                      <nucleo-icon [icon]="Check" [size]="14" class="flex-shrink-0 text-green-500" />
+                      <span>Cleared</span>
+                    }
+                  </div>
+                </button>
+              }
+            </div>
+
+            <!-- Splits Section - only show when in split mode -->
+            @if (isSplitMode()) {
+              <div class="mb-6">
+                <app-transaction-splits
+                  [transactionAmount]="BigInt(transactionAmountEdit())"
+                  [amountSign]="amountSign()"
+                  [yearMonth]="transactionYearMonth()"
+                  [splits]="localSplits()"
+                  [initialSplits]="initialSplits()"
+                  [saving]="saving()"
+                  (addSplit)="handleAddSplit($event)"
+                  (removeSplit)="handleRemoveSplit($event)"
+                  (updateSplitCategory)="handleUpdateSplitCategory($event)"
+                  (updateSplitAmount)="handleUpdateSplitAmount($event)"
+                  (save)="handleSaveSplits()"
+                  (cancelSplit)="handleCancelSplits()"
+                />
+              </div>
+            }
+
+            <!-- Planned transaction link (only for on-budget regular transactions) -->
+            @if (showPlannedSection()) {
+              <div class="mb-4 flex flex-wrap items-center gap-2">
+                <span class="text-muted-foreground pr-2 text-xs select-none">Planned</span>
+                @if (hasPlannedLink()) {
+                  <div class="flex items-center gap-1">
+                    <a
+                      [routerLink]="plannedTransactionRoute()"
+                      hlmBtn
+                      variant="ghost"
+                      size="sm"
+                      class="w-fit justify-between px-1 text-xs"
+                    >
+                      <div class="flex items-center gap-2">
+                        <nucleo-icon [icon]="RefreshCwIcon" [size]="14" class="text-muted-foreground flex-shrink-0" />
+                        <span>{{ linkedPlannedName() ?? 'Planned transaction' }}</span>
+                        @if (linkedPlannedOccurrenceLabel(); as occurrenceLabel) {
+                          <span class="text-muted-foreground">For {{ occurrenceLabel }}</span>
+                        }
+                      </div>
+                    </a>
+                    <button
+                      type="button"
+                      hlmBtn
+                      variant="ghost"
+                      size="sm"
+                      class="h-7 w-7"
+                      [disabled]="savingPlannedLink() || isFormDisabled()"
+                      (click)="unlinkFromPlannedTransaction()"
+                      aria-label="Unlink from planned transaction"
+                    >
+                      <nucleo-icon [icon]="UnmatchIcon" [size]="14" class="text-muted-foreground" />
+                    </button>
+                  </div>
+                } @else {
+                  <app-planned-transaction-selector
+                    [disabled]="savingPlannedLink() || isDeleted()"
+                    [transactionMerchantId]="displayMerchantId()"
+                    [transactionAmount]="transaction()?.amount ?? null"
+                    [transactionType]="isTransfer() ? 'transfer' : 'regular'"
+                    [transactionBankAccountId]="transaction()?.bankAccountId ?? null"
+                    [transferPairAccountId]="transaction()?.transferPairBankAccountId ?? null"
+                    variant="ghost"
+                    buttonClass="w-fit justify-between px-1 text-xs"
+                    (plannedTransactionChange)="onPlannedTransactionChange($event)"
+                  />
+                }
+              </div>
+            }
+
+            <!-- Notes (Editable) -->
+            <div class="mb-6">
+              <span class="text-muted-foreground text-xs select-none">Note</span>
+              <textarea
+                #notesEditor
+                hlmTextarea
+                spellcheck="false"
+                [attr.aria-label]="'Transaction notes'"
+                [disabled]="saving() || isFormDisabled()"
+                [value]="transactionNotes()"
+                placeholder="Enter notes..."
+                (input)="onNotesInput($event)"
+                (blur)="onNotesBlur()"
+                (keydown)="onNotesKeydown($event)"
+                class="min-h-0 resize-none border-none bg-transparent px-0 py-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
+                [class.opacity-50]="saving() || isFormDisabled()"
+                rows="1"
+              ></textarea>
+              @if (error()) {
+                <p class="text-destructive mt-1 text-sm">{{ error() }}</p>
+              }
+            </div>
+
+            <!-- Bank Import Details -->
+            @if (hasLinkedImport() || isRegularBankImport()) {
+              <div hlmSeparator class="mb-6"></div>
+              <div [class]="bankImportCardClasses()">
+                <!-- Pending Link Approval Header -->
+                @if (isPendingLinkApproval()) {
+                  <div class="mb-2 flex items-center gap-2">
+                    <nucleo-icon [icon]="BadgeCheck" class="text-primary h-5 w-5 flex-shrink-0" />
+                    <span class="text-primary text-sm font-medium">Matched with bank import</span>
+                    @if (linkConfidencePercent()) {
+                      <span class="bg-primary/10 text-primary ml-auto rounded-full px-2 py-0.5 text-xs font-medium">
+                        {{ linkConfidencePercent() }}% Match
+                      </span>
+                    }
+                  </div>
+                } @else {
+                  <div class="flex items-center gap-2">
+                    @if (hasLinkedImport()) {
+                      <nucleo-icon [icon]="LinkIcon" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+                      <span class="text-sm font-medium">Linked to Bank Import</span>
+                    } @else {
+                      <nucleo-icon [icon]="CloudIcon" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+                      <span class="text-sm font-medium">Bank Import</span>
+                    }
+                  </div>
+                }
+
+                <!-- Import Details -->
+                @if (transaction()?.importDetails; as importDetails) {
+                  <div class="text-muted-foreground mt-2 space-y-1 text-xs">
+                    @if (importDetails.originalStatement) {
+                      <div class="truncate">
+                        <span class="font-medium">Statement:</span> {{ importDetails.originalStatement }}
+                      </div>
+                    }
+                    @if (importDetails.date) {
+                      <div>
+                        <span class="font-medium">Import Date:</span> {{ formatImportDate(importDetails.date) }}
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- Pending Link Approval Actions -->
+                @if (isPendingLinkApproval()) {
+                  <div class="mt-3 flex gap-2">
+                    @if (hasLinkDiscrepancies()) {
+                      <!-- Has discrepancies - show dialog to resolve -->
+                      <hlm-dialog [closeOnBackdropClick]="true" [closeOnOutsidePointerEvents]="true">
+                        <button type="button" brnDialogTrigger hlmBtn variant="default" size="sm">
+                          Resolve & Confirm
+                        </button>
+                        <hlm-dialog-content *brnDialogContent="let ctx" class="sm:max-w-[500px]">
+                          <app-transaction-link-comparison-dialog
+                            [transaction]="transaction()!"
+                            [currencyCode]="currencyCode()"
+                            (approve)="onLinkApproved()"
+                            (unlink)="onLinkUnlinked()"
+                            (closed)="ctx.close()"
+                          />
+                        </hlm-dialog-content>
+                      </hlm-dialog>
+                    } @else {
+                      <!-- No discrepancies - direct confirm button -->
+                      <button
+                        type="button"
+                        hlmBtn
+                        variant="default"
+                        size="sm"
+                        (click)="confirmLinkDirectly()"
+                        [disabled]="savingLinkApproval()"
+                      >
+                        Confirm Link
+                      </button>
+                    }
+                    <!-- Unlink button -->
+                    <button
+                      type="button"
+                      hlmBtn
+                      variant="outline"
+                      size="sm"
+                      (click)="unlinkDirectly()"
+                      [disabled]="savingLinkApproval()"
+                    >
+                      Not the same transaction
+                    </button>
+                  </div>
+                }
+
+                @if (hasLinkedImport() && !isPendingLinkApproval()) {
+                  <button
+                    type="button"
+                    hlmBtn
+                    variant="outline"
+                    size="sm"
+                    class="mt-3"
+                    (click)="unlinkDirectly()"
+                    [disabled]="savingLinkApproval()"
+                  >
+                    Not the same transaction
+                  </button>
+                }
+
+                <!-- Match Reason (only show for confirmed links) -->
+                @if (linkReason() && !isPendingLinkApproval()) {
+                  <div class="text-muted-foreground mt-2 text-xs">
+                    {{ linkReason() }}
+                  </div>
+                }
+              </div>
+            }
+
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

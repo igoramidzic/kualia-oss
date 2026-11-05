@@ -1,0 +1,96 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <div class="flex-shrink-0">
+    <app-settings-page-header pageTitle="Merchants" />
+  </div>
+
+  <div #scrollContainer class="flex-1 overflow-y-auto pb-[200px]">
+    <div class="container mx-auto max-w-[640px] p-4 pt-4 transition-all select-none lg:p-6 lg:pt-6 lg:pt-16">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl">Merchants</h1>
+        <button hlmBtn size="sm" (click)="openCreateMerchantDialog()">
+          <nucleo-icon [icon]="Plus" class="h-4 w-4" />
+          New Merchant
+        </button>
+      </div>
+
+      <div class="mb-4 flex gap-3">
+        <hlm-input-group class="flex-1">
+          <hlm-input-group-addon>
+            <nucleo-icon [icon]="Search" class="h-4 w-4" />
+          </hlm-input-group-addon>
+          <input
+            #searchInput
+            hlmInputGroupInput
+            type="text"
+            placeholder="Search merchants..."
+            (input)="onSearchChange($event)"
+          />
+        </hlm-input-group>
+        <hlm-select [value]="sortOrder()" (valueChange)="onSortChange($event)">
+          <hlm-select-trigger class="w-30">
+            <nucleo-icon [icon]="ArrowUpDown" class="h-4 w-4" />
+            <hlm-select-value class="text-xs" />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-item class="text-xs" value="transactionCount">Count</hlm-select-item>
+            <hlm-select-item class="text-xs" value="totalSpent">Spend</hlm-select-item>
+          </hlm-select-content>
+        </hlm-select>
+      </div>
+
+      @if (loading() && !hasLoaded()) {
+        <div hlmCard class="overflow-hidden rounded">
+          <div class="divide-y">
+            @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track item) {
+              <div class="flex items-center gap-4 p-4">
+                <hlm-skeleton class="h-10 w-10 rounded-full" />
+                <div class="flex-1 space-y-2">
+                  <hlm-skeleton class="h-5 w-32" />
+                  <hlm-skeleton class="h-4 w-24" />
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      } @else if (merchants().length === 0) {
+        <div class="rounded p-7 text-center">
+          <p class="text-muted-foreground">No merchants found</p>
+        </div>
+      } @else {
+        <div hlmCard class="overflow-hidden rounded">
+          <div class="divide-y">
+            @for (merchant of merchants(); track merchant._id) {
+              <a
+                [routerLink]="getMerchantRoute(merchant.name, merchant._id)"
+                class="hover:bg-accent/50 flex items-center justify-between p-4 transition-colors"
+              >
+                <div class="flex min-w-0 items-center gap-4">
+                  <app-entity-mark
+                    [mode]="merchant.visualIdentityMode"
+                    [logoUrl]="merchant.logoUrl"
+                    [iconName]="merchant.iconName ?? defaultMerchantIconName"
+                    [iconColorId]="merchant.iconColorId"
+                    [defaultIconName]="defaultMerchantIconName"
+                    [alt]="merchant.name"
+                  />
+
+                  <div class="min-w-0 flex-1">
+                    <h3 class="truncate font-medium">{{ merchant.name }}</h3>
+                    <p class="text-muted-foreground mt-0.5 text-sm">
+                      @if (sortOrder() === 'totalSpent') {
+                        {{ formatAmount(merchant.totalSpent) }}
+                      } @else {
+                        {{ merchant.transactionCount }}
+                        {{ merchant.transactionCount === 1 ? 'transaction' : 'transactions' }}
+                      }
+                    </p>
+                  </div>
+                </div>
+              </a>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

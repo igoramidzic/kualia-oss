@@ -1,0 +1,110 @@
+<div #container class="flex min-w-0 flex-1 items-center justify-end gap-1 overflow-hidden">
+  @for (thread of visibleThreads(); track thread.threadId) {
+    <div class="group relative" animate.enter="ai-tab-enter" animate.leave="ai-tab-leave">
+      <button
+        hlmBtn
+        type="button"
+        size="sm"
+        variant="ghost"
+        class="group-hover:text-foreground group-hover:bg-accent h-8 max-w-[160px] gap-0 pr-4 pl-1 text-xs font-normal"
+        [class.bg-accent]="activeKey() === thread.threadId"
+        [class.text-foreground]="activeKey() === thread.threadId"
+        [class.text-muted-foreground]="activeKey() !== thread.threadId"
+        [attr.aria-expanded]="activeKey() === thread.threadId"
+        [attr.aria-label]="'Open chat: ' + (thread.title ?? 'New chat')"
+        [attr.data-thread-id]="thread.threadId"
+        (click)="onTabClick($event, thread.threadId, thread.title)"
+      >
+        @if (aiChat.unreadThreads().has(thread.threadId)) {
+          <span
+            class="bg-primary mr-1 inline-block h-2 w-2 shrink-0 rounded-full"
+            animate.enter="ai-unread-dot-enter"
+            animate.leave="ai-unread-dot-leave"
+            aria-hidden="true"
+          ></span>
+        }
+        <span
+          class="truncate"
+          [class.ai-tab-shimmer]="aiChat.pendingThreads().has(thread.threadId) && activeKey() !== thread.threadId"
+        >
+          {{ thread.title ?? 'New chat' }}
+        </span>
+      </button>
+      <div
+        class="from-accent via-accent pointer-events-none absolute inset-y-0 right-0 w-14 rounded-r-md bg-gradient-to-l from-50% via-50% to-transparent opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+        aria-hidden="true"
+      ></div>
+      <button
+        type="button"
+        class="text-muted-foreground/60 hover:text-foreground absolute top-1/2 right-1 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+        [attr.aria-label]="'Archive chat: ' + (thread.title ?? 'New chat')"
+        (click)="archiveChat($event, thread.threadId)"
+      >
+        <nucleo-icon [icon]="X" [size]="12" />
+      </button>
+    </div>
+  }
+
+  <button
+    #askKualiaBtn
+    hlmBtn
+    type="button"
+    size="sm"
+    variant="ghost"
+    class="hover:text-foreground h-8 shrink-0 px-2 text-xs font-normal"
+    [class.bg-accent]="activeKey() === newChatKey"
+    [class.text-foreground]="activeKey() === newChatKey"
+    [class.text-muted-foreground]="activeKey() !== newChatKey"
+    [attr.aria-expanded]="activeKey() === newChatKey"
+    aria-label="Toggle Kualia chat"
+    (click)="onTabClick($event, newChatKey)"
+  >
+    <nucleo-icon [icon]="MessageSquare" [size]="14" />
+    Ask Kualia
+  </button>
+
+  @if (historyThreads().length > 0) {
+    <div #historyWrapper class="shrink-0">
+      <app-ai-chat-history [threads]="historyThreads()" (threadSelect)="onHistorySelect($event)" />
+    </div>
+  }
+
+  <!-- Hidden measurement layer: real DOM, but visually offscreen. Used to read each tab's
+       natural width so we can decide which tabs fit in the bar. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none invisible absolute -top-[9999px] left-0 flex gap-1 whitespace-nowrap"
+  >
+    @for (thread of activeThreads(); track thread.threadId) {
+      <button
+        hlmBtn
+        type="button"
+        size="sm"
+        variant="ghost"
+        class="h-8 max-w-[160px] pr-4 pl-1 text-xs font-normal"
+        [attr.data-measure-thread-id]="thread.threadId"
+        #measureTab
+      >
+        <span class="truncate">{{ thread.title ?? 'New chat' }}</span>
+      </button>
+    }
+    <button #measureHistory aria-label="Chat history" class="text-muted-foreground h-8 w-8">
+      <nucleo-icon [icon]="History" [size]="14" />
+    </button>
+  </div>
+</div>
+
+@if (displayKey()) {
+  <div
+    class="bg-popover text-popover-foreground fixed z-50 flex origin-bottom-right flex-col overflow-hidden rounded-xl border shadow transition-all duration-200 ease-out select-text"
+    [class.opacity-0]="!isOpen()"
+    [class.scale-95]="!isOpen()"
+    role="dialog"
+    aria-modal="false"
+    data-ai-chat-dialog
+    [style]="panelStyles()"
+    [attr.aria-label]="aiChat.title() ?? 'Kualia chat'"
+  >
+    <app-ai-chat-panel [swapping]="isContentSwapping()" />
+  </div>
+}

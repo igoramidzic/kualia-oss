@@ -1,0 +1,107 @@
+<hlm-dialog-header>
+  <h3 class="text-lg font-semibold">Connect Bank Account</h3>
+  <p class="text-muted-foreground text-sm">
+    Select a Kualia account to connect to
+    <span class="font-medium">{{ dialogContext.bankLinkAccount.name }}</span>
+    @if (dialogContext.institution) {
+      from {{ dialogContext.institution.name }}
+    }
+  </p>
+</hlm-dialog-header>
+
+<div class="space-y-4 p-3">
+  <!-- Bank Link Account Info -->
+  <div class="border-border rounded-lg border p-4">
+    <div class="flex items-center gap-3">
+      @if (dialogContext.institution?.logoUrl) {
+        <img
+          [src]="dialogContext.institution?.logoUrl ?? ''"
+          [alt]="dialogContext.institution?.name ?? ''"
+          class="h-10 w-10 rounded-full object-contain"
+        />
+      } @else {
+        <div class="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
+          <nucleo-icon [icon]="Building2" [size]="20" class="text-muted-foreground" />
+        </div>
+      }
+
+      <div class="flex-1">
+        <div class="font-medium">{{ dialogContext.bankLinkAccount.name }}</div>
+        <div class="text-muted-foreground flex items-center gap-2 text-sm">
+          <span>{{ formatAccountType(dialogContext.bankLinkAccount.accountType) }}</span>
+          @if (dialogContext.bankLinkAccount.accountNumberMask) {
+            <span>•</span>
+            <span>{{ dialogContext.bankLinkAccount.accountNumberMask }}</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Workspace Accounts List -->
+  <div class="space-y-2">
+    <h4 class="text-sm font-medium">Select a Kualia account:</h4>
+
+    @if (hasCompatibleAccounts()) {
+      <div class="space-y-2">
+        @for (account of compatibleAccounts(); track account._id) {
+          <button
+            type="button"
+            (click)="connectAccount(account._id)"
+            [disabled]="saving()"
+            class="border-border hover:bg-accent/50 flex w-full items-center justify-between rounded-lg border p-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <div class="flex-1">
+              <div class="font-medium">{{ account.name }}</div>
+              <div class="text-muted-foreground text-sm">{{ formatAccountType(account.accountType) }}</div>
+            </div>
+
+            @if (saving()) {
+              <nucleo-icon [icon]="LoaderCircle" [size]="16" class="text-muted-foreground animate-spin" />
+            } @else {
+              <nucleo-icon [icon]="Check" [size]="16" class="text-muted-foreground opacity-0" />
+            }
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="border-border rounded-lg border border-dashed p-6 text-center">
+        <p class="text-muted-foreground text-sm">No compatible Kualia accounts found</p>
+        <p class="text-muted-foreground mt-1 text-xs">
+          Make sure you have a {{ formatAccountType(dialogContext.bankLinkAccount.accountType) }} account that is not
+          already linked
+        </p>
+      </div>
+    }
+
+    <!-- Create New Account Button -->
+    <button
+      type="button"
+      (click)="createNewAccount()"
+      [disabled]="saving()"
+      class="border-border hover:bg-accent/50 flex w-full items-center gap-3 rounded-lg border border-dashed p-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <div class="bg-accent flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-gray-400">
+        <nucleo-icon [icon]="Plus" [size]="14" />
+      </div>
+      <div class="flex-1">
+        <div class="text-muted-foreground text-sm font-medium">Create new account and link</div>
+      </div>
+
+      @if (saving()) {
+        <nucleo-icon [icon]="LoaderCircle" [size]="16" class="text-muted-foreground animate-spin" />
+      }
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  @if (error()) {
+    <div class="border-destructive bg-destructive/10 text-destructive rounded-lg border p-3 text-sm">
+      {{ error() }}
+    </div>
+  }
+</div>
+
+<!-- <hlm-dialog-footer class="mt-4">
+  <button hlmBtn variant="ghost" (click)="cancel()" [disabled]="saving()">Cancel</button>
+</hlm-dialog-footer> -->
