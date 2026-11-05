@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HlmSidebarService } from '@spartan-ng/helm/sidebar';
 import { UserPreferencesService } from '../core/services/preferences/user-preferences.service';
-import { Command } from '../shared/models/command.model';
+import type { Command } from '../shared/models/command.model';
 import { AiChatService } from './ai-chat.service';
 import { AuthService } from './auth.service';
 import { BudgetCategorySelectionService } from './budget-category-selection.service';
@@ -11,7 +11,6 @@ import { CommandMenuService } from './command-menu.service';
 import { CommandRegistryService } from './command-registry.service';
 import { TransactionSelectionService } from './transaction-selection.service';
 import { UndoRedoService } from './undo-redo.service';
-import { UserJotService } from './userjot.service';
 import { WorkspaceService } from './workspace.service';
 
 interface ShortcutHandler {
@@ -39,7 +38,6 @@ export class KeyboardShortcutService {
   private readonly workspaceService = inject(WorkspaceService);
   private readonly undoRedoService = inject(UndoRedoService);
   private readonly aiChatService = inject(AiChatService);
-  private readonly userJotService = inject(UserJotService);
   private readonly appSidebarService = inject(HlmSidebarService);
 
   private readonly _sheetOpen = signal(false);
@@ -140,14 +138,6 @@ export class KeyboardShortcutService {
     if (typeof window === 'undefined') return;
 
     window.addEventListener('keydown', (event: KeyboardEvent) => {
-      // UserJot is an embedded third-party surface, so its editors are outside the app's normal
-      // input/contenteditable checks. While it is open, let it own the keyboard completely and
-      // discard any partial Kualia shortcut chord that began before the widget opened.
-      if (this.userJotService.isOpen()) {
-        this.clearSequence();
-        return;
-      }
-
       const key = this.getKeyString(event);
       const currentSequence = this.sequenceState();
 

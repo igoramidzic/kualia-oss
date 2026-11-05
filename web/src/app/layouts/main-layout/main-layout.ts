@@ -20,7 +20,6 @@ import {
   nucleoWarningCircle as AlertCircle,
   nucleoTransactions as TransactionsIcon,
   nucleoBadgeCheck as BadgeCheck,
-  nucleoBook as BookOpen,
   nucleoEmail as BudgetIcon,
   nucleoCalendarFilled as PlannedIcon,
   nucleoCheck as Check,
@@ -51,7 +50,6 @@ import { BudgetMonthService } from '../../services/budget-month.service';
 import { CategoryService } from '../../services/category.service';
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionFilterService } from '../../services/transaction-filter.service';
-import { UserJotService } from '../../services/userjot.service';
 import { WorkspaceService } from '../../services/workspace.service';
 import { getCurrentYearMonth } from '../../shared/utils/month.utils';
 import { HlmDropdownMenuImports } from '../../ui/dropdown-menu/src';
@@ -104,7 +102,6 @@ export class MainLayoutComponent {
   private readonly debugLoading =
     isDevMode() && typeof window !== 'undefined' && !navigator.userAgent.includes('jsdom');
   private lastDebugSnapshot = '';
-  protected readonly userJot = inject(UserJotService);
   protected readonly aiChat = inject(AiChatService);
 
   private readonly mainEl = viewChild<ElementRef<HTMLElement>>('mainEl');
@@ -237,7 +234,6 @@ export class MainLayoutComponent {
 
   readonly AlertCircle = AlertCircle;
   readonly BadgeCheck = BadgeCheck;
-  readonly BookOpen = BookOpen;
   readonly Check = Check;
   readonly LifeBuoy = LifeBuoy;
   readonly PanelLeftOpen = PanelLeftOpen;
@@ -263,26 +259,12 @@ export class MainLayoutComponent {
   protected readonly sidebarToggleIcon = computed(() =>
     this.sidebarService.state() === 'collapsed' ? PanelLeftOpen : PanelLeftClose
   );
-  protected readonly helpAndFeedbackLabel = computed(() => {
-    const unreadCount = this.userJot.unreadCount();
-    return unreadCount > 0 ? `Help & feedback, ${unreadCount} unread` : 'Help & feedback';
-  });
-  protected readonly helpAndFeedbackBadge = computed(() => {
-    const unreadCount = this.userJot.unreadCount();
-    return unreadCount > 99 ? '99+' : `${unreadCount}`;
-  });
-
   selectTheme(theme: Theme): void {
     this.userPreferencesService.setTheme(theme);
   }
 
   toggleSidebar(): void {
     this.sidebarService.toggleSidebar();
-  }
-
-  openHelpAndFeedback(): void {
-    this.sidebarService.setOpenMobile(false);
-    this.userJot.open();
   }
 
   // Computed signal for overspent filter route path

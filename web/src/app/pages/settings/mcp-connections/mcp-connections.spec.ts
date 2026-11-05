@@ -72,13 +72,13 @@ describe('McpConnectionsComponent', () => {
     expect(fixture.nativeElement.querySelector('a[href="https://claude.ai/"]')).not.toBeNull();
   });
 
-  it('shows an actionable empty state', () => {
+  it('shows an empty state without a retired hosted documentation link', () => {
     connections.set([]);
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toContain('No MCP connections');
     expect(fixture.nativeElement.textContent).toContain('Apps will appear here after you approve');
-    expect(fixture.nativeElement.querySelector('a[href="https://docs.kualia.com/mcp/overview"]')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('a[href*="docs.kualia.com"]')).toBeNull();
   });
 
   it('opens the revoke confirmation for the selected client', () => {

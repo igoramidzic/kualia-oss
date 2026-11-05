@@ -5,8 +5,7 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { Subject } from 'rxjs';
 import { describe, expect, it, vi } from 'vitest';
 import { MerchantService } from '../../services/merchant.service';
-import { CreateTransactionDialogContext, TransactionService } from '../../services/transaction.service';
-import { UserJotService } from '../../services/userjot.service';
+import { type CreateTransactionDialogContext, TransactionService } from '../../services/transaction.service';
 import { WorkspaceService } from '../../services/workspace.service';
 import { WorkspaceLayoutComponent } from './workspace-layout';
 
@@ -32,7 +31,6 @@ describe('WorkspaceLayoutComponent', () => {
             },
           },
         },
-        { provide: UserJotService, useValue: { init: vi.fn() } },
         { provide: WorkspaceService, useValue: { workspaceShortId: vi.fn() } },
       ],
     }).compileComponents();

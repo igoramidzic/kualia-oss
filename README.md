@@ -13,7 +13,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open **http://127.0.0.1:4200/signup**, create an account with an email address and a password of at least 12 characters, and complete onboarding. The email is an account identifier; local signup does not send mail or require email verification. Use the same origin consistently so your browser can restore your session.
+Open **http://127.0.0.1:4200/signup**, create an account with an email address and a password of at least 8 characters, and complete onboarding. The email is an account identifier; local signup does not send mail or require email verification. Use the same origin consistently so your browser can restore your session.
 
 Turborepo starts the local Convex backend, pushes functions and schema, generates local auth keys, configures password authentication and free self-hosted access, and then starts Angular. First startup needs internet access to download dependencies and the Convex backend binary. Subsequent development keeps your database on disk. Stop both tasks with Ctrl+C.
 
@@ -57,7 +57,6 @@ Use your own credentials. Never paste real secrets into documentation, tests, is
 | Push notifications | Apple APNs: `APNS_KEY`, `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_BUNDLE_ID` | No native push notifications |
 | Analytics / errors | PostHog backend `POSTHOG_API_KEY`, `POSTHOG_API_HOST`; frontend PostHog/Sentry settings | Tracking is disabled by default |
 | Operator notifications | `DISCORD_WEBHOOK_URL` or channel-specific Discord webhook variables in `convex/lib/discord.ts` | No Discord reports |
-| Feedback portals | UserJot: `USERJOT_API_TOKEN`, `USERJOT_PROJECT_ID`, `USERJOT_SECRET_KEY`; legacy Productlane settings | No hosted feedback portal |
 | Hosted billing (legacy) | RevenueCat credentials and webhook secret, optionally `STRIPE_SECRET_KEY` | Not needed for self-hosted budgeting; enabling billing is a separate integration project |
 
 External webhooks cannot reach localhost directly. Bank sync, mail, push, billing, feedback, AI, and telemetry integrations are not validated by the default local setup. Inspect the corresponding backend module before enabling them. Any legacy public-site links in optional features need replacing with your own URLs. Set `KUALIA_APP_URL` to your web origin when enabling generated links.

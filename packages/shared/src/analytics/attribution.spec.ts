@@ -30,7 +30,7 @@ describe('retired browser tracking cleanup', () => {
     for (const name of ['_fbp', '_fbc', '__oppref', '__obref']) expect(document.cookie).toContain(`${name}=current`);
     expect(document.cookie).not.toContain('kualia_ad_click=');
   });
-  it('preserves campaign URL context for AppsFlyer while deleting retired Meta cookies', () => {
+  it('preserves campaign URL context while deleting retired Meta cookies', () => {
     document.cookie = '_fbp=browser; Path=/';
     document.cookie = '_fbc=click; Path=/; Domain=kualia.com';
     document.cookie = 'kualia_ad_click=retired; Path=/';

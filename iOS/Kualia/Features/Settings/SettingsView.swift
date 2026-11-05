@@ -106,42 +106,7 @@ struct SettingsView: View {
                 .accessibilityIdentifier("settings-language")
             }
 
-            SettingsGroup(title: L10n.string("Help shape Kualia")) {
-                Button {
-                    store.openFeedback(.features)
-                } label: {
-                    SettingsRow(
-                        L10n.string("Feature requests"),
-                        detail: L10n.string("Share an idea. Vote on what's next."),
-                        icon: .idea)
-                }
-                .accessibilityIdentifier("settings-userjot")
-                SettingsDivider()
-                Link(destination: SettingsLinks.discord) {
-                    SettingsRow(
-                        L10n.string("Join us on Discord"), icon: .discord, external: true)
-                }
-                .accessibilityIdentifier("settings-discord")
-                SettingsDivider()
-                Button {
-                    store.openFeedback(.updates)
-                } label: {
-                    SettingsRow(
-                        L10n.string("What's new"), detail: L10n.string("The latest improvements"),
-                        icon: .updates,
-                        external: true)
-                }
-            }
             SettingsGroup(title: L10n.string("A helping hand")) {
-                Button {
-                    store.browser = .init(url: SettingsLinks.documentation)
-                } label: {
-                    SettingsRow(
-                        L10n.string("Documentation"),
-                        detail: L10n.string("Get comfortable with your budget"),
-                        icon: .book, external: true)
-                }
-                SettingsDivider()
                 NavigationLink {
                     SettingsSupportView()
                 } label: {
@@ -198,8 +163,6 @@ struct SettingsView: View {
             Group {
                 switch destination.content {
                 case .website(let url): SettingsBrowser(url: url).ignoresSafeArea()
-                case .feedback(let feedback):
-                    SettingsFeedbackSheet(store: store, destination: feedback)
                 }
             }
         }
@@ -616,49 +579,5 @@ struct SettingsOptionRow: View {
         }.padding(18).frame(maxWidth: .infinity, minHeight: 58, alignment: .leading)
             .multilineTextAlignment(.leading).contentShape(Rectangle())
             .accessibilityAddTraits(selected ? .isSelected : [])
-    }
-}
-
-private struct SettingsFeedbackSheet: View {
-    let store: SettingsStore
-    let destination: SettingsFeedbackDestination
-    @Environment(\.dismiss) private var dismiss
-    @State private var url: URL?
-    @State private var error: String?
-    @State private var attempt = 0
-    var body: some View {
-        Group {
-            if let url {
-                SettingsBrowser(url: url).ignoresSafeArea()
-            } else {
-                NavigationStack {
-                    VStack(spacing: 20) {
-                        if let error {
-                            SettingsRetry(message: error, retry: { attempt += 1 })
-                        } else {
-                            ProgressView(L10n.string("Getting things ready…"))
-                        }
-                    }.padding(24).frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(KualiaPalette.canvas).foregroundStyle(KualiaPalette.ink)
-                        .navigationTitle(
-                            destination == .features
-                                ? L10n.string("Feature requests") : L10n.string("What's new")
-                        )
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                KualiaCloseButton(placement: .toolbar) { dismiss() }
-                            }
-                        }
-                }
-            }
-        }.task(id: attempt) {
-            error = nil
-            do { url = try await store.feedbackURL(destination) } catch {
-                if !Task.isCancelled {
-                    self.error = L10n.string("Couldn't open this page. Try again.")
-                }
-            }
-        }
     }
 }

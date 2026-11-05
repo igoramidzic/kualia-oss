@@ -6,9 +6,6 @@ export interface Environment {
     apiKey: string;
     apiHost: string;
   };
-  userjot: {
-    projectId: string;
-  };
   convex: {
     url: string;
     siteUrl: string;

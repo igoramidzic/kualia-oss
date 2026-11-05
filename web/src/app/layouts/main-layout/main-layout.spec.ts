@@ -28,7 +28,6 @@ import { BudgetMonthService } from '../../services/budget-month.service';
 import { CategoryService } from '../../services/category.service';
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionFilterService } from '../../services/transaction-filter.service';
-import { UserJotService } from '../../services/userjot.service';
 import { WorkspaceService } from '../../services/workspace.service';
 import { MainLayoutComponent } from './main-layout';
 import mainLayoutTemplate from './main-layout.html?raw';
@@ -84,11 +83,6 @@ describe('MainLayoutComponent', () => {
     toggleSidebar: ReturnType<typeof vi.fn>;
   };
 
-  let mockUserJotService: {
-    open: ReturnType<typeof vi.fn>;
-    unreadCount: ReturnType<typeof signal<number>>;
-  };
-
   const createComponent = (initialUrl = '/test-workspace/transactions') => {
     currentUrl = initialUrl;
     routerEvents$ = new Subject<NavigationEnd>();
@@ -136,7 +130,6 @@ describe('MainLayoutComponent', () => {
         { provide: TransactionFilterService, useValue: mockTransactionFilterService },
         { provide: TransactionService, useValue: mockTransactionService },
         { provide: HlmSidebarService, useValue: mockSidebarService },
-        { provide: UserJotService, useValue: mockUserJotService },
       ],
     });
     TestBed.overrideComponent(MainLayoutComponent, {
@@ -199,11 +192,6 @@ describe('MainLayoutComponent', () => {
       setOpenMobile: vi.fn(),
       setVariant: vi.fn(),
       toggleSidebar: vi.fn(),
-    };
-
-    mockUserJotService = {
-      open: vi.fn(),
-      unreadCount: signal(0),
     };
 
     createComponent();
@@ -390,39 +378,6 @@ describe('MainLayoutComponent', () => {
   describe('help and feedback', () => {
     it('uses a compact gap between footer actions', () => {
       expect(mainLayoutTemplate.match(/flex-col[^\n]*gap-1/g)).toHaveLength(2);
-    });
-
-    it('opens UserJot and closes the mobile sidebar', () => {
-      component.openHelpAndFeedback();
-
-      expect(mockSidebarService.setOpenMobile).toHaveBeenCalledWith(false);
-      expect(mockUserJotService.open).toHaveBeenCalledOnce();
-    });
-
-    it('includes the unread count in the accessible label', () => {
-      mockUserJotService.unreadCount.set(3);
-
-      expect(component['helpAndFeedbackLabel']()).toBe('Help & feedback, 3 unread');
-      expect(component['helpAndFeedbackBadge']()).toBe('3');
-    });
-
-    it('places documentation after help and feedback in the sidebar footer', () => {
-      const helpAndFeedbackIndex = mainLayoutTemplate.indexOf('<span>Help & feedback</span>');
-      const documentationIndex = mainLayoutTemplate.indexOf('<span>Documentation</span>');
-
-      expect(helpAndFeedbackIndex).toBeGreaterThan(-1);
-      expect(documentationIndex).toBeGreaterThan(helpAndFeedbackIndex);
-    });
-
-    it('uses the life buoy icon for help and feedback', () => {
-      expect(mainLayoutTemplate.match(/\[icon\]="LifeBuoy"/g)).toHaveLength(2);
-      expect(mainLayoutTemplate).not.toContain('[icon]="MessageCircle"');
-    });
-
-    it('renders unread badges as fixed-size circles', () => {
-      expect(mainLayoutTemplate.match(/flex size-5[^\n]*rounded-full/g)).toHaveLength(2);
-      expect(mainLayoutTemplate).not.toContain('min-w-5 rounded-full');
-      expect(mainLayoutTemplate).not.toContain('min-w-4 items-center');
     });
 
     it('places the theme picker to the right of the expanded user menu', () => {

@@ -14,9 +14,6 @@ function createEnvironment(production: boolean): Environment {
       apiKey: '',
       apiHost: '',
     },
-    userjot: {
-      projectId: '',
-    },
     convex: {
       url: '',
       siteUrl: '',

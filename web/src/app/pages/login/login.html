@@ -10,7 +10,7 @@
       <div class="space-y-2">
         <label for="password">Password</label>
         <input hlmInput id="password" type="password" [autocomplete]="signingUp ? 'new-password' : 'current-password'" formControlName="password" class="w-full" />
-        @if (signingUp) { <p class="text-muted-foreground text-sm">Use at least 12 characters. Save it in your password manager.</p> }
+        @if (signingUp) { <p class="text-muted-foreground text-sm">Use at least 8 characters. Save it in your password manager.</p> }
       </div>
       @if (error()) { <p role="alert" class="text-destructive text-sm">{{ error() }}</p> }
       <button hlmBtn type="submit" class="w-full" [disabled]="loading() || form.invalid">

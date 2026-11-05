@@ -199,30 +199,13 @@ struct SettingsWorkspaceValues: Equatable {
 
 struct SettingsResult: Decodable { let success: Bool }
 
-struct SettingsUserJotLinks: Decodable {
-    let featureRequestsUrl: String
-    let changelogUrl: String
-
-    func url(for destination: SettingsFeedbackDestination) -> URL? {
-        let value = destination == .features ? featureRequestsUrl : changelogUrl
-        guard let url = URL(string: value), url.scheme == "https",
-            url.host == "feedback.kualia.com"
-        else { return nil }
-        return url
-    }
-}
-
-enum SettingsFeedbackDestination { case features, updates }
-
 struct SettingsBrowserDestination: Identifiable {
     enum Content {
         case website(URL)
-        case feedback(SettingsFeedbackDestination)
     }
     let id = UUID()
     let content: Content
     init(url: URL) { content = .website(url) }
-    init(feedback: SettingsFeedbackDestination) { content = .feedback(feedback) }
 }
 
 struct SettingsWorkspaceSummary: Decodable, Equatable, Identifiable {
@@ -262,7 +245,6 @@ struct SettingsWorkspaceDraft: Equatable {
 
 enum SettingsLinks {
     static let discord = URL(string: "https://discord.gg/9wZkfjAqca")!
-    static let documentation = URL(string: "https://docs.kualia.com")!
     static let billing = URL(string: "https://app.kualia.com/settings/billing")!
     static let appleSubscriptions = URL(string: "https://apps.apple.com/account/subscriptions")!
     static let privacy = URL(string: "https://kualia.com/privacy")!

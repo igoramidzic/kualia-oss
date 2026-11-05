@@ -20,7 +20,7 @@ export function stripTrackingParameters(url: URL, options: AnalyticsCleanupOptio
   }
 }
 
-/** Remove retired integrations; active pixels handle their own consent and cookie removal. */
+/** Remove identifiers left behind by retired integrations. */
 export function clearLegacyAnalyticsStorage(options: AnalyticsCleanupOptions = {}): void {
   const isLegacyKey = (key: string): boolean =>
     key === 'kualia_campaign' ||

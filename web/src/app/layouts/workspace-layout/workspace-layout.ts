@@ -1,12 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { type AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { toast } from 'ngx-sonner';
 import { CreateMerchantDialogContentComponent } from '../../components/dialogs/create-merchant-dialog/create-merchant-dialog-content';
 import { CreateTransactionDialogContentComponent } from '../../components/dialogs/create-transaction-dialog/create-transaction-dialog-content';
 import { MerchantService } from '../../services/merchant.service';
-import { CreateTransactionDialogContext, TransactionService } from '../../services/transaction.service';
-import { UserJotService } from '../../services/userjot.service';
+import { type CreateTransactionDialogContext, TransactionService } from '../../services/transaction.service';
 import { WorkspaceService } from '../../services/workspace.service';
 
 @Component({
@@ -22,11 +21,8 @@ export class WorkspaceLayoutComponent implements AfterViewInit {
   private readonly dialogService = inject(HlmDialogService);
   private readonly workspaceService = inject(WorkspaceService);
   private readonly router = inject(Router);
-  private readonly userJotService = inject(UserJotService);
 
   ngAfterViewInit(): void {
-    // Initialize UserJot widget for workspace routes
-    this.userJotService.init();
     // Register merchant dialog opener
     this.merchantService.setDialogOpener(() => {
       const dialogRef = this.dialogService.open(CreateMerchantDialogContentComponent, {

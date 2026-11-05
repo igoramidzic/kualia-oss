@@ -11,7 +11,7 @@ const alice = client();
 const bob = client();
 const guest = client();
 const email = `smoke-${randomUUID()}@example.test`;
-const password = randomUUID();
+const password = randomUUID().slice(0, 8);
 async function signIn(c, address, flow = 'signUp', secret = password) {
   const result = await c.action(anyApi.auth.signIn, { provider: 'password', params: { email: address, password: secret, flow } });
   assert.ok(result.tokens?.token);
@@ -19,6 +19,7 @@ async function signIn(c, address, flow = 'signUp', secret = password) {
   await c.mutation(anyApi.userProfiles.ensureCurrentProfile, {});
   return result.tokens;
 }
+await assert.rejects(() => signIn(guest, `short-${email}`, 'signUp', '1234567'), /at least 8 characters/);
 let tokens = await signIn(alice, email);
 const identity = await alice.query(anyApi.auth.getCurrentUser, {});
 const workspaceId = await alice.mutation(anyApi.workspaces.createWorkspace, { name: 'Local smoke test' });

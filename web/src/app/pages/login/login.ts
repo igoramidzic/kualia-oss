@@ -25,7 +25,7 @@ export class LoginComponent {
   protected readonly error = signal<string | null>(null);
   protected readonly form = inject(FormBuilder).nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(this.signingUp ? 12 : 1)]],
+    password: ['', [Validators.required, Validators.minLength(this.signingUp ? 8 : 1)]],
   });
 
   protected async submit(): Promise<void> {

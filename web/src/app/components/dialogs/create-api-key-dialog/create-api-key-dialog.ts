@@ -96,9 +96,7 @@ interface DialogContext {
           <h2 class="text-lg font-semibold">Create API key</h2>
           <p class="text-muted-foreground text-sm">
             API keys let scripts and integrations access your Kualia data through the
-            <a href="https://docs.kualia.com/api/overview" target="_blank" rel="noopener" class="underline"
-              >public API</a
-            >.
+            public API.
           </p>
         </hlm-dialog-header>
 

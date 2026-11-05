@@ -395,24 +395,6 @@ struct SettingsTests {
         #expect(SettingsAppearance.resolve("light") == .light)
     }
 
-    @Test func userJotPreservesSignedLinkAndRoutesUpdatesSeparately() {
-        let links = SettingsUserJotLinks(
-            featureRequestsUrl: "https://feedback.kualia.com?clientToken=signed-token",
-            changelogUrl: "https://feedback.kualia.com/updates?clientToken=signed-token")
-        #expect(links.url(for: .features)?.query == "clientToken=signed-token")
-        #expect(links.url(for: .updates)?.path == "/updates")
-    }
-
-    @Test(arguments: [
-        "http://feedback.kualia.com", "https://example.com/?clientToken=secret",
-        "javascript:alert(1)", "https://feedback.kualia.com.attacker.example",
-    ])
-    func userJotRejectsUnexpectedDestinations(url: String) {
-        let links = SettingsUserJotLinks(featureRequestsUrl: url, changelogUrl: url)
-        #expect(links.url(for: .features) == nil)
-        #expect(links.url(for: .updates) == nil)
-    }
-
     @Test func supportEmailEncodesVersionWithoutIncludingAccountData() throws {
         let url = try #require(SettingsLinks.supportMail(version: "1.0 (7) & test"))
         let components = try #require(URLComponents(url: url, resolvingAgainstBaseURL: false))

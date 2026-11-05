@@ -6,7 +6,7 @@ import { generateText, stepCountIs, type ToolSet } from 'ai';
 import { ConvexError, v } from 'convex/values';
 
 import { components, internal } from '../_generated/api';
-import { Id } from '../_generated/dataModel';
+import type { Id } from '../_generated/dataModel';
 import { internalAction, type ActionCtx } from '../_generated/server';
 import { requireAuthAction } from '../lib/auth';
 import { getPostHogClient } from '../lib/posthog';
@@ -14,7 +14,6 @@ import { chatAgent, chatModel, chatModelId, titleModel } from './agent';
 import { buildKualiaTools } from './kualiaTools';
 import { getDocsTools } from './mcp';
 import { buildSystemPrompt, SYSTEM_PROMPT } from './prompts';
-import { buildUserjotTools } from './userjotTools';
 import { parseKualiaContextTag, stripKualiaContextTag, type WorkspaceContext } from './workspaceContextTag';
 
 // Derive the model type from the concrete OpenRouter model so we don't have
@@ -291,20 +290,7 @@ export const sendMessageImpl = internalAction({
       identity.subject,
       workspaceContext?.workspaceId as Id<'workspace'> | undefined
     );
-    // UserJot feedback tools — internal to in-app chat only; never registered with
-    // the public MCP server, so external clients can't file posts via our API token.
-    const identityEmail =
-      typeof identity.email === 'string'
-        ? identity.email
-        : typeof identity.emailVerified === 'string'
-          ? identity.emailVerified
-          : undefined;
-    const userjotTools = buildUserjotTools({
-      clerkId: identity.subject,
-      email: identityEmail,
-      threadId,
-    });
-    const tools: ToolSet = { ...(docsTools ?? {}), ...kualiaTools, ...userjotTools };
+    const tools: ToolSet = { ...(docsTools ?? {}), ...kualiaTools };
     const hasTools = Object.keys(tools).length > 0;
 
     const agent = buildTracedAgent(ctx, chatModel, {

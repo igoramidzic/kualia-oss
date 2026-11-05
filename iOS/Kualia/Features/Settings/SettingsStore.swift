@@ -374,26 +374,6 @@ final class SettingsStore {
         enqueue(.text(frequency.rawValue), for: .reminderFrequency)
     }
 
-    func openFeedback(_ destination: SettingsFeedbackDestination) {
-        guard !isSaving, sessionID != nil else { return }
-        browser = .init(feedback: destination)
-    }
-
-    func feedbackURL(_ destination: SettingsFeedbackDestination) async throws -> URL {
-        guard let client else { throw SettingsOperationError.unavailable }
-        guard let sessionID else { throw SettingsOperationError.unavailable }
-        let response = try await client.subscribe(
-            to: "userjot:generateSignature", yielding: SettingsUserJotLinks?.self
-        ).first().timeout(.seconds(15), scheduler: DispatchQueue.main).values.first(where: { _ in
-            true
-        }
-        )
-        guard self.sessionID == sessionID, !Task.isCancelled,
-            let response, let links = response, let url = links.url(for: destination)
-        else { throw SettingsOperationError.unavailable }
-        return url
-    }
-
     func workspacePublisher(id: String) -> AnyPublisher<SettingsWorkspace, Error> {
         if let workspace = serverWorkspaces[id], isDemo {
             return Just(workspace).setFailureType(to: Error.self).eraseToAnyPublisher()

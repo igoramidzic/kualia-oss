@@ -140,7 +140,7 @@ export class LocalAuthService implements OnDestroy {
       const error =
         flow === 'signIn'
           ? 'Unable to sign in. Check your email and password.'
-          : 'Unable to create an account. Use a valid email and a password of at least 12 characters, or sign in if you already have an account.';
+          : 'Unable to create an account. Use a valid email and a password of at least 8 characters, or sign in if you already have an account.';
       this._error.set(error);
       return { success: false, error };
     } finally {

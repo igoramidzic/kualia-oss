@@ -32,7 +32,6 @@ vi.mock('../lib/auth', () => ({ requireAuthAction: async () => ({ subject: 'user
 vi.mock('../lib/posthog', () => ({ getPostHogClient: () => null }));
 vi.mock('./mcp', () => ({ getDocsTools: async () => ({}) }));
 vi.mock('./kualiaTools', () => ({ buildKualiaTools: () => ({ kualia_create_transactions: {} }) }));
-vi.mock('./userjotTools', () => ({ buildUserjotTools: () => ({}) }));
 
 type Attachment = { storageId: Id<'_storage'>; mediaType: string; filename: string };
 const send = (

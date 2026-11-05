@@ -44,8 +44,8 @@ describe('MarkdownPipe', () => {
   });
 
   it('renders links and opens them in a new tab safely', () => {
-    const html = render('[docs](https://docs.kualia.com)');
-    expect(html).toContain('href="https://docs.kualia.com"');
+    const html = render('[docs](https://example.com/docs)');
+    expect(html).toContain('href="https://example.com/docs"');
     expect(html).toContain('>docs</a>');
     expect(html).toContain('target="_blank"');
     expect(html).toContain('rel="noopener noreferrer"');

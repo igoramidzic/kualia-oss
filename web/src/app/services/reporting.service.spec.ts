@@ -1,9 +1,4 @@
 import posthog from 'posthog-js';
-import { initializeWebMeasurement, recordWebMilestone } from '@kualia/shared/analytics/appsflyer';
-vi.mock('@kualia/shared/analytics/appsflyer', () => ({
-  initializeWebMeasurement: vi.fn(),
-  recordWebMilestone: vi.fn(),
-}));
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ReportingService, TrackingEvent } from './reporting.service';
 import { environment } from '../../environments/environment';
@@ -60,7 +55,6 @@ describe('ReportingService browser analytics', () => {
     expect(document.cookie).not.toContain('kualia_ad_');
     expect(document.cookie).toContain('_fbp=current');
     expect(location.search).toBe('?utm_source=chatgpt&utm_content=family_sharing');
-    expect(initializeWebMeasurement).toHaveBeenCalled();
     expect(localStorage.getItem('ph_phc_old_posthog')).toBe('visitor');
     expect(history.state).toEqual({ preserved: true });
     expect(location.href).not.toContain('ph_distinct_id');
@@ -74,14 +68,10 @@ describe('ReportingService browser analytics', () => {
     reporting.capture(TrackingEvent.ONBOARDING_COMPLETED, { platform: 'web' });
     reporting.capture(TrackingEvent.TRANSACTION_CREATED, { amount: 200, merchant: 'Private' });
     reporting.capture(TrackingEvent.AI_CHAT_MESSAGE_SENT, { content: 'Private chat' });
-    reporting.recordSignup('session-1');
     expect(posthog.identify).toHaveBeenCalledWith('test-user', {});
     expect(posthog.capture).toHaveBeenCalledWith(TrackingEvent.ONBOARDING_COMPLETED, { platform: 'web' });
     expect(posthog.capture).toHaveBeenCalledWith(TrackingEvent.TRANSACTION_CREATED, {});
     expect(posthog.capture).toHaveBeenCalledWith(TrackingEvent.AI_CHAT_MESSAGE_SENT, {});
-    expect(recordWebMilestone).toHaveBeenCalledTimes(2);
-    expect(recordWebMilestone).toHaveBeenCalledWith('af_tutorial_completion', 'onboarding');
-    expect(recordWebMilestone).toHaveBeenCalledWith('af_complete_registration', 'session-1');
     reporting.setPersonProperties({ email: 'person@example.com' });
     reporting.group('workspace', 'workspace-1');
     reporting.reset();

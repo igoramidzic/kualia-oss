@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { HlmSidebarService } from '@spartan-ng/helm/sidebar';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UserPreferencesService } from '../core/services/preferences/user-preferences.service';
-import { Command } from '../shared/models/command.model';
+import type { Command } from '../shared/models/command.model';
 import { AiChatService } from './ai-chat.service';
 import { AuthService } from './auth.service';
 import { BudgetCategorySelectionService } from './budget-category-selection.service';
@@ -14,14 +14,12 @@ import { CommandRegistryService } from './command-registry.service';
 import { KeyboardShortcutService } from './keyboard-shortcut.service';
 import { TransactionSelectionService } from './transaction-selection.service';
 import { UndoRedoService } from './undo-redo.service';
-import { UserJotService } from './userjot.service';
 import { WorkspaceService } from './workspace.service';
 
 describe('KeyboardShortcutService', () => {
   let service: KeyboardShortcutService;
   let toggleSidebar: ReturnType<typeof vi.fn>;
   let openWithContext: ReturnType<typeof vi.fn>;
-  let userJotOpen: ReturnType<typeof signal<boolean>>;
 
   const toggleSidebarCommand: Command = {
     id: 'action-toggle-sidebar',
@@ -51,7 +49,6 @@ describe('KeyboardShortcutService', () => {
   beforeEach(() => {
     toggleSidebar = vi.fn();
     openWithContext = vi.fn();
-    userJotOpen = signal(false);
 
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
@@ -90,12 +87,6 @@ describe('KeyboardShortcutService', () => {
           provide: AiChatService,
           useValue: {
             shouldCaptureShortcuts: vi.fn(() => false),
-          },
-        },
-        {
-          provide: UserJotService,
-          useValue: {
-            isOpen: userJotOpen.asReadonly(),
           },
         },
         {
@@ -159,24 +150,5 @@ describe('KeyboardShortcutService', () => {
     await shortcut?.handler();
 
     expect(toggleSidebar).toHaveBeenCalledOnce();
-  });
-
-  it('does not run shortcut sequences while the UserJot widget is open', () => {
-    userJotOpen.set(true);
-
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'o', bubbles: true }));
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', bubbles: true }));
-
-    expect(openWithContext).not.toHaveBeenCalled();
-  });
-
-  it('clears a partial shortcut sequence when the UserJot widget opens', () => {
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'o', bubbles: true }));
-    userJotOpen.set(true);
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', bubbles: true }));
-    userJotOpen.set(false);
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', bubbles: true }));
-
-    expect(openWithContext).not.toHaveBeenCalled();
   });
 });

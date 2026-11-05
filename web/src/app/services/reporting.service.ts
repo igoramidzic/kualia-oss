@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { clearLegacyAnalyticsStorage } from '@kualia/shared/analytics/attribution';
-import { initializeWebMeasurement, recordWebMilestone } from '@kualia/shared/analytics/appsflyer';
 import { browserPostHogConfig, productAnalyticsProperties } from '@kualia/shared/analytics/posthog-config';
 import posthog from 'posthog-js';
 import { environment } from '../../environments/environment';
@@ -80,7 +79,6 @@ export class ReportingService {
       preservePostHog: true,
       preservePixelCookies: true,
     });
-    initializeWebMeasurement();
     if (!environment.production || !environment.posthog.apiKey) return;
     posthog.init(environment.posthog.apiKey, {
       ...browserPostHogConfig(),
@@ -95,12 +93,6 @@ export class ReportingService {
 
   capture(eventName: string, properties?: Record<string, unknown>): void {
     if (this.initialized) posthog.capture(eventName, productAnalyticsProperties(properties));
-    if (eventName === TrackingEvent.ONBOARDING_COMPLETED) recordWebMilestone('af_tutorial_completion', 'onboarding');
-    if (eventName === TrackingEvent.CHECKOUT_STARTED) recordWebMilestone('af_initiated_checkout');
-  }
-
-  recordSignup(sessionId: string): void {
-    recordWebMilestone('af_complete_registration', sessionId);
   }
 
   reset(): void {

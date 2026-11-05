@@ -1,14 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
-import {
-  NavigationCancel,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router,
-  RouterOutlet,
-} from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { pauseWebMeasurement, resumeWebMeasurement } from '@kualia/shared/analytics/appsflyer';
+import { Router, RouterOutlet } from '@angular/router';
 import { HlmToaster } from '@spartan-ng/helm/sonner';
 import { KeyboardShortcutsSheetComponent } from './components/keyboard-shortcuts-sheet/keyboard-shortcuts-sheet';
 import { MaintenanceBlockingComponent } from './components/maintenance-blocking/maintenance-blocking.component';
@@ -62,12 +53,6 @@ export class App {
     // Start system status check FIRST (before auth)
     this.systemStatusService.startWatching();
 
-    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
-      if (event instanceof NavigationStart) pauseWebMeasurement(event.url);
-      if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-        resumeWebMeasurement();
-      }
-    });
     this.posthogService.init();
 
     // Watch for subscription changes
