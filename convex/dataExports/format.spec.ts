@@ -1,3 +1,5 @@
+import { prepareImport } from '../kualiaImport/prepare';
+import { createZipArchive, readExportArchive } from './archive';
 import { describe, expect, it } from 'vitest';
 import { buildWorkspaceExportCsvFiles, type WorkspaceExportDataset } from './format';
 
@@ -259,5 +261,83 @@ describe('workspace export CSV formatting', () => {
       .slice(1)
       .map((row) => row.split(',')[0]);
     expect(planMonths).toEqual(['202607', '202608', '202609']);
+  });
+});
+
+describe('importing an original Kualia workspace export', () => {
+  it('reads the ZIP produced by the exporter and reconstructs the budget in exact minor units', () => {
+    const dataset = makeDataset();
+    dataset.bankAccounts[0].notes = 'Commas, "quotes", and\r\nnewlines';
+    dataset.bankAccounts[0].currentBalance = 9007199254740993n;
+    const { files } = buildWorkspaceExportCsvFiles(dataset, 3);
+    const archive = createZipArchive(files);
+    const data = prepareImport(readExportArchive(Uint8Array.from(archive).buffer), 'KWD');
+    expect(data.accounts.get('account_1')).toMatchObject({
+      currentBalance: 9007199254740993n,
+      notes: dataset.bankAccounts[0].notes,
+    });
+    expect(data.categories.get('category_1')).toMatchObject({
+      name: '+SUM(1)',
+      assignments: { '202608': 50000n },
+      transactionCount: 1n,
+    });
+    expect(data.groups.get('group_credit')?.type).toBe('credit_card');
+    expect(data.readyToAssign).toBe(-79500n);
+    expect(data.monthlyIncomeActivity).toEqual({ '202608': { inflowAmount: 500n, outflowAmount: 0n } });
+    expect(data.transactions[1].movements.map((m) => m.amount)).toEqual([-1000n, -2000n]);
+    expect(data.merchants.get('id/merchant_2')?.name).toBe('=HYPERLINK("https://example.com")');
+  });
+
+  it('preserves snoozed targets, credit activity and empty movement lists', () => {
+    const dataset = makeDataset();
+    dataset.categories[0] = {
+      ...dataset.categories[0],
+      targetEnabled: true,
+      targetType: 'recurring',
+      targetFrequency: 'monthly',
+      targetAmount: 10000n,
+    };
+    dataset.plan[0].snoozedTargetMonths = { '202608': true };
+    dataset.plan[1].creditMonthlySpending = {
+      '202608': { priorBalance: -10000n, spendingAmount: -2000n, paymentsAmount: 3000n, refundedSpending: 100n },
+    };
+    dataset.transactions[0].movements = [];
+    const result = prepareImport(buildWorkspaceExportCsvFiles(dataset, 0).files, 'JPY');
+    expect(result.categories.get('category_1')).toMatchObject({
+      enableTarget: true,
+      target_type: 'recurring',
+      target_frequency: 'monthly',
+      target_amount: 10000n,
+      snoozed: { '202608': true },
+    });
+    expect(result.categories.get('category_credit')?.creditMonthlySpending?.['202608']).toEqual(
+      dataset.plan[1].creditMonthlySpending['202608']
+    );
+    expect(result.transactions[0]).toMatchObject({ totalAmount: 500n, movements: [] });
+  });
+
+  it('accepts four header-only CSV files and rejects a missing or repeated file', () => {
+    const dataset = makeDataset();
+    const { files } = buildWorkspaceExportCsvFiles(
+      { ...dataset, transactions: [], plan: [], categories: [], bankAccounts: [] },
+      2
+    );
+    expect(prepareImport(files, 'USD').transactions).toEqual([]);
+    expect(() => prepareImport(files.slice(1), 'USD')).toThrow(/categories.csv/);
+    expect(() => prepareImport([...files, files[0]], 'USD')).toThrow(/categories.csv/);
+  });
+
+  it('rejects partial splits, unrelated category IDs, and precision mismatches', () => {
+    const dataset = makeDataset();
+    const { files } = buildWorkspaceExportCsvFiles(dataset, 2);
+    const partial = files.map((f) =>
+      f.name === 'transactions.csv' ? { ...f, content: f.content.replace(/^transaction_split,2,.*\r\n/m, '') } : f
+    );
+    expect(() => prepareImport(partial, 'USD')).toThrow(/split/);
+    expect(() => prepareImport(files, 'JPY')).toThrow(/fractional/);
+    dataset.transactions[1].movements[0].categoryId = 'foreign-category';
+    expect(() => prepareImport(buildWorkspaceExportCsvFiles(dataset, 2).files, 'USD')).toThrow(
+      /Missing transaction category/
+    );
   });
 });

@@ -1,3 +1,4 @@
+import { EXPORT_COLUMNS } from './columns';
 import { formatBigIntAsDecimal } from '../lib/serialization';
 
 export interface WorkspaceExportRecord {
@@ -188,31 +189,7 @@ function buildCategoriesCsv(
   minorUnit: number
 ): string {
   return buildCsv(
-    [
-      'category_id',
-      'name',
-      'category_group_id',
-      'category_group_name',
-      'sort_order',
-      'icon_name',
-      'is_system_category',
-      'is_archived',
-      'category_type',
-      'bank_account_id',
-      'target_enabled',
-      'target_type',
-      'target_amount',
-      'target_frequency',
-      'target_frequency_interval',
-      'target_day_of_week',
-      'target_due_day',
-      'target_first_due_date',
-      'target_date',
-      'target_monthly_contribution',
-      'target_balance',
-      'created_at',
-      'updated_at',
-    ],
+    EXPORT_COLUMNS['categories.csv'],
     [...categories]
       .sort(
         (left, right) =>
@@ -321,23 +298,7 @@ function buildPlanCsv(
 
   return {
     content: buildCsv(
-      [
-        'year_month',
-        'category_group_id',
-        'category_group_name',
-        'category_id',
-        'category_name',
-        'category_archived',
-        'assigned',
-        'inflow_activity',
-        'outflow_activity',
-        'net_activity',
-        'target_snoozed',
-        'credit_prior_balance',
-        'credit_spending',
-        'credit_payments',
-        'credit_refunded_spending',
-      ],
+      EXPORT_COLUMNS['plan.csv'],
       rows.map((row) => row.cells)
     ),
     rowCount: rows.length,
@@ -346,20 +307,7 @@ function buildPlanCsv(
 
 function buildBankAccountsCsv(accounts: readonly BankAccountExportRecord[], minorUnit: number): string {
   return buildCsv(
-    [
-      'bank_account_id',
-      'name',
-      'account_type',
-      'current_balance',
-      'pending_balance',
-      'cleared_balance',
-      'is_closed',
-      'closed_at',
-      'last_reconciled_at',
-      'notes',
-      'created_at',
-      'updated_at',
-    ],
+    EXPORT_COLUMNS['bank-accounts.csv'],
     [...accounts]
       .sort((left, right) => left.name.localeCompare(right.name))
       .map((account) => [
@@ -429,38 +377,7 @@ function buildTransactionsCsv(
   }
 
   return {
-    content: buildCsv(
-      [
-        'transaction_id',
-        'movement_index',
-        'movement_count',
-        'is_split',
-        'date',
-        'bank_account_id',
-        'bank_account_name',
-        'merchant_id',
-        'merchant_name',
-        'transaction_type',
-        'status',
-        'review_status',
-        'source',
-        'transaction_notes',
-        'transaction_total',
-        'movement_amount',
-        'category_group_id',
-        'category_group_name',
-        'category_id',
-        'category_name',
-        'movement_notes',
-        'transfer_pair_transaction_id',
-        'transfer_bank_account_id',
-        'transfer_bank_account_name',
-        'scheduled_transaction_id',
-        'created_at',
-        'updated_at',
-      ],
-      rows
-    ),
+    content: buildCsv(EXPORT_COLUMNS['transactions.csv'], rows),
     movementRowCount: rows.length,
   };
 }

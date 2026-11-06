@@ -1,3 +1,4 @@
+import { openKualiaImport } from '../../components/dialogs/kualia-import-dialog/kualia-import-dialog';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
@@ -39,6 +40,10 @@ type WorkspaceDisplaySection = {
   styleUrl: './workspaces.css',
 })
 export class WorkspacesComponent {
+  protected openKualiaImportDialog(): void {
+    openKualiaImport(this.dialogService);
+  }
+
   private readonly convexService = inject(ConvexService);
   private readonly workspaceService = inject(WorkspaceService);
   private readonly reportingService = inject(ReportingService);

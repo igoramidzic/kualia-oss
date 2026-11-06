@@ -1,0 +1,77 @@
+<hlm-dialog-header>
+  <h2 class="text-lg font-semibold">Import from Kualia</h2>
+  <p class="text-muted-foreground text-sm">Restore your original Kualia export into a new workspace.</p>
+</hlm-dialog-header>
+
+<div class="max-h-[65vh] space-y-5 overflow-y-auto p-4">
+  <div class="space-y-2">
+    <label class="text-sm font-medium" for="kualia-files">Workspace export</label>
+    <p class="text-muted-foreground text-sm" id="kualia-files-help">
+      Choose the ZIP from Settings → Export, or select its four CSV files together (up to 8 MiB).
+    </p>
+    <input
+      #upload
+      hlmInput
+      id="kualia-files"
+      aria-describedby="kualia-files-help"
+      type="file"
+      accept=".csv,.zip"
+      multiple
+      class="w-full cursor-pointer"
+      [disabled]="busy() || reading()"
+      (change)="selectFiles(upload.files)"
+    />
+  </div>
+  @if (reading()) {
+    <p role="status" class="text-muted-foreground text-sm">Reading export…</p>
+  }
+  @if (preview(); as p) {
+    <p role="status" class="bg-muted rounded-md p-3 text-sm">
+      {{ p.accounts }} {{ p.accounts === 1 ? 'account' : 'accounts' }} ·
+      {{ p.categories }} {{ p.categories === 1 ? 'category' : 'categories' }} ·
+      {{ p.transactions }} {{ p.transactions === 1 ? 'transaction' : 'transactions' }} ·
+      {{ p.months }} {{ p.months === 1 ? 'budget month' : 'budget months' }}
+    </p>
+    <div class="space-y-2">
+      <label class="text-sm font-medium" for="kualia-name">New workspace name</label>
+      <input
+        #workspaceName
+        hlmInput
+        id="kualia-name"
+        class="w-full"
+        maxlength="26"
+        [disabled]="busy()"
+        [value]="name()"
+        (input)="name.set(workspaceName.value)"
+      />
+    </div>
+    <div class="space-y-2">
+      <label class="text-sm font-medium" for="kualia-currency">Original budget currency</label>
+      <app-currency-selector
+        id="kualia-currency"
+        [selectedCurrency]="currency()"
+        [disabled]="busy()"
+        (currencyChange)="currency.set($event)"
+      />
+      <p class="text-muted-foreground text-xs">Choose the currency used for these amounts in Kualia.</p>
+    </div>
+    <p class="text-muted-foreground text-xs">
+      Accounts are restored as manual accounts. Recreate recurring schedules and workspace preferences after importing.
+    </p>
+  }
+  @if (error()) {
+    <p role="alert" class="text-destructive text-sm">{{ error() }}</p>
+  }
+</div>
+
+<hlm-dialog-footer>
+  <button hlmBtn variant="outline" type="button" [disabled]="busy()" (click)="dialog.close()">Cancel</button>
+  <button
+    hlmBtn
+    type="button"
+    [disabled]="busy() || !preview() || !name().trim() || !currency()"
+    (click)="restore()"
+  >
+    {{ busy() ? 'Importing…' : 'Import workspace' }}
+  </button>
+</hlm-dialog-footer>

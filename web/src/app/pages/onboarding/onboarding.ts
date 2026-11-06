@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { HlmDialogService } from '@spartan-ng/helm/dialog';
+import { openKualiaImport } from '../../components/dialogs/kualia-import-dialog/kualia-import-dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { toast } from 'ngx-sonner';
 import { UserNavbarComponent } from '../../components/user-navbar/user-navbar';
@@ -18,6 +20,12 @@ export class OnboardingComponent {
   private readonly router = inject(Router);
   private readonly workspaceService = inject(WorkspaceService);
   private readonly reportingService = inject(ReportingService);
+
+  private readonly dialogs = inject(HlmDialogService);
+
+  protected importFromKualia(): void {
+    openKualiaImport(this.dialogs);
+  }
 
   readonly loading = signal(false);
 

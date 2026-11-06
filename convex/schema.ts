@@ -65,6 +65,7 @@ export default defineSchema({
     .index('by_workspaceId_and_type_and_occurredAt', ['workspaceId', 'type', 'occurredAt']),
 
   bankAccount: defineTable({
+    importedCreatedAt: v.optional(v.number()), // Original creation time from a Kualia workspace export.
     name: v.string(),
     notes: v.optional(v.string()),
     // logoUrl can be: undefined (use institution), string (custom override), or null (explicitly no logo)
@@ -221,6 +222,7 @@ export default defineSchema({
     .index('by_itemId_receivedAt', ['itemId', 'receivedAt']),
 
   category: defineTable({
+    importedCreatedAt: v.optional(v.number()), // Original creation time from a Kualia workspace export.
     name: v.string(),
     workspaceId: v.optional(v.id('workspace')),
     isSystemCategory: v.optional(v.boolean()),
@@ -565,6 +567,7 @@ export default defineSchema({
     }),
 
   transaction: defineTable({
+    importedCreatedAt: v.optional(v.number()), // Original creation time from a Kualia workspace export.
     bankAccountId: v.id('bankAccount'),
     date: v.string(),
     deletedAt: v.optional(v.string()),
@@ -1198,6 +1201,8 @@ export default defineSchema({
     .index('by_clerkId_and_revokedAt', ['clerkId', 'revokedAt']),
 
   workspace: defineTable({
+    kualiaImportRequestId: v.optional(v.string()),
+    kualiaImportPending: v.optional(v.boolean()),
     name: v.string(),
     ownerClerkId: v.string(),
     // Cumulative ready-to-assign amount (total income - total assigned)
@@ -1238,7 +1243,9 @@ export default defineSchema({
     // Archive status - archived workspaces don't sync or send notifications
     isArchived: v.optional(v.boolean()),
     archivedAt: v.optional(v.string()),
-  }).index('by_ownerClerkId_isDeleted', ['ownerClerkId', 'isDeleted']),
+  })
+    .index('by_ownerClerkId_isDeleted', ['ownerClerkId', 'isDeleted'])
+    .index('by_ownerClerkId_kualiaImportRequestId', ['ownerClerkId', 'kualiaImportRequestId']),
 
   familyGroup: defineTable({
     name: v.string(),
