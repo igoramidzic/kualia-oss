@@ -111,6 +111,7 @@ import type * as clerk_webhooks_userWebhook from "../clerk/webhooks/userWebhook.
 import type * as crons from "../crons.js";
 import type * as dataExports from "../dataExports.js";
 import type * as dataExports_archive from "../dataExports/archive.js";
+import type * as dataExports_columns from "../dataExports/columns.js";
 import type * as dataExports_format from "../dataExports/format.js";
 import type * as debug_creditCardDebug from "../debug/creditCardDebug.js";
 import type * as debug_dashboardMutations from "../debug/dashboardMutations.js";
@@ -146,6 +147,10 @@ import type * as internal_bankLinks from "../internal/bankLinks.js";
 import type * as internal_institutions from "../internal/institutions.js";
 import type * as internal_merchants from "../internal/merchants.js";
 import type * as internal_propagateNameChanges from "../internal/propagateNameChanges.js";
+import type * as kualiaImport from "../kualiaImport.js";
+import type * as kualiaImport_csv from "../kualiaImport/csv.js";
+import type * as kualiaImport_prepare from "../kualiaImport/prepare.js";
+import type * as kualiaImport_write from "../kualiaImport/write.js";
 import type * as lib_accountTypes from "../lib/accountTypes.js";
 import type * as lib_appAccess from "../lib/appAccess.js";
 import type * as lib_auth from "../lib/auth.js";
@@ -459,6 +464,7 @@ const fullApi: ApiFromModules<{
   crons: typeof crons;
   dataExports: typeof dataExports;
   "dataExports/archive": typeof dataExports_archive;
+  "dataExports/columns": typeof dataExports_columns;
   "dataExports/format": typeof dataExports_format;
   "debug/creditCardDebug": typeof debug_creditCardDebug;
   "debug/dashboardMutations": typeof debug_dashboardMutations;
@@ -494,6 +500,10 @@ const fullApi: ApiFromModules<{
   "internal/institutions": typeof internal_institutions;
   "internal/merchants": typeof internal_merchants;
   "internal/propagateNameChanges": typeof internal_propagateNameChanges;
+  kualiaImport: typeof kualiaImport;
+  "kualiaImport/csv": typeof kualiaImport_csv;
+  "kualiaImport/prepare": typeof kualiaImport_prepare;
+  "kualiaImport/write": typeof kualiaImport_write;
   "lib/accountTypes": typeof lib_accountTypes;
   "lib/appAccess": typeof lib_appAccess;
   "lib/auth": typeof lib_auth;

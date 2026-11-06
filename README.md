@@ -34,6 +34,15 @@ Email/password accounts, manual accounts and transactions, budget categories and
 
 The optional integration code remains available for people extending the app. An integration's presence in the source does not mean it is configured. Missing API keys mean that feature is unavailable; core manual budgeting remains usable.
 
+## Import an original Kualia budget
+
+1. Sign in to your local Kualia account and open **Workspaces → Import from Kualia**, beside **Import from YNAB**. The same option appears on the workspace welcome screen and under **Settings → Export**.
+2. Choose your original Kualia export ZIP (up to 8 MiB). If you already extracted it, select `bank-accounts.csv`, `categories.csv`, `plan.csv`, and `transactions.csv` together from the same export.
+3. Review the counts, name the new workspace, and choose the currency used in the original budget. The archive stores amounts as decimals and omits the currency code.
+4. Select **Import workspace**. Kualia opens the new workspace once the entire import succeeds. Existing budgets are kept separately.
+
+The import restores account balances, categories and targets, monthly assignments and activity, and transaction history including splits and linked transfers. Accounts become manual accounts. Reconnect bank feeds and recreate recurring schedules, sharing, and workspace preferences separately. The ZIP contains budgeting records only. For a full local instance backup, follow the stopped-instance instructions above.
+
 ## Optional services
 
 Backend secrets belong in **Convex environment variables**, not in Angular source or a frontend `.env` file. While `pnpm dev` is running, manage them from the repository root:
@@ -110,7 +119,7 @@ pnpm scan:secrets
 node scripts/smoke-local.mjs   # optional integration check while pnpm dev is running
 ```
 
-The smoke test creates synthetic accounts and a workspace in the ignored local database; it checks password rejection, token refresh/logout, cross-user isolation, and ownership after a new login.
+The smoke test creates synthetic accounts and a workspace in the ignored local database; it checks password rejection, token refresh/logout, cross-user isolation, ownership after a new login, and an export/import round trip.
 
 `pnpm build` produces `web/dist/`. It does not deploy anything. `pnpm scan:secrets` scans Git-tracked source and checks for sensitive/generated paths; install Gitleaks for the additional full pattern scan (`gitleaks dir . --redact`, or scan a clean export to avoid private local state).
 

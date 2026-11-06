@@ -168,3 +168,40 @@ export function createZipArchive(files: readonly ArchiveFile[], modifiedAt = new
 
   return concatBytes([...localChunks, ...centralChunks, footer]);
 }
+
+// Read the stored ZIP32 format produced by createZipArchive. Repacked archives
+// can be extracted by the user and imported as the four original CSV files.
+export function readExportArchive(buffer: ArrayBuffer): ArchiveFile[] {
+  const view = new DataView(buffer);
+  const bytes = new Uint8Array(buffer);
+  const decoder = new TextDecoder('utf-8', { fatal: true });
+  const footer = bytes.length - 22;
+  const invalid = () =>
+    new Error('Invalid Kualia ZIP. Choose the original download or select all four extracted CSV files.');
+  if (footer < 0 || view.getUint32(footer, true) !== END_OF_CENTRAL_DIRECTORY_SIGNATURE) throw invalid();
+  const directory = view.getUint32(footer + 16, true);
+  if (directory + view.getUint32(footer + 12, true) !== footer) throw invalid();
+  const files: ArchiveFile[] = [];
+  let offset = 0;
+  while (offset < directory) {
+    if (
+      offset + 30 > directory ||
+      view.getUint32(offset, true) !== LOCAL_FILE_HEADER_SIGNATURE ||
+      view.getUint16(offset + 8, true) !== 0
+    )
+      throw invalid();
+    const nameLength = view.getUint16(offset + 26, true);
+    const start = offset + 30 + nameLength + view.getUint16(offset + 28, true);
+    const end = start + view.getUint32(offset + 18, true);
+    if (end > directory || end - start !== view.getUint32(offset + 22, true)) throw invalid();
+    const content = bytes.subarray(start, end);
+    if (calculateCrc32(content) !== view.getUint32(offset + 14, true)) throw invalid();
+    files.push({
+      name: decoder.decode(bytes.subarray(offset + 30, offset + 30 + nameLength)),
+      content: decoder.decode(content),
+    });
+    offset = end;
+  }
+  if (files.length !== view.getUint16(footer + 10, true)) throw invalid();
+  return files;
+}

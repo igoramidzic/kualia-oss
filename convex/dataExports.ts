@@ -245,7 +245,7 @@ export const listCategoriesExportPage = internalQuery({
       page: activeCategories.map(
         (category): CategoryExportRecord => ({
           categoryId: category._id,
-          createdAt: category._creationTime,
+          createdAt: category.importedCreatedAt ?? category._creationTime,
           name: category.name,
           categoryGroupId: category.categoryGroupId,
           categoryGroupName: groupMap.get(category.categoryGroupId)?.name ?? null,
@@ -360,7 +360,7 @@ export const listBankAccountsExportPage = internalQuery({
         .map(
           (account): BankAccountExportRecord => ({
             bankAccountId: account._id,
-            createdAt: account._creationTime,
+            createdAt: account.importedCreatedAt ?? account._creationTime,
             name: account.name,
             accountType: account.accountType,
             currentBalance: account.currentBalance,
@@ -456,7 +456,7 @@ export const listTransactionsExportPage = internalQuery({
 
         return {
           transactionId: transaction._id,
-          createdAt: transaction._creationTime,
+          createdAt: transaction.importedCreatedAt ?? transaction._creationTime,
           date: transaction.date,
           accountId: transaction.bankAccountId,
           accountName: account?.name ?? 'Unknown account',

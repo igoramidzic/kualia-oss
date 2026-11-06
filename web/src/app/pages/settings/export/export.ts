@@ -1,3 +1,5 @@
+import { HlmDialogService } from '@spartan-ng/helm/dialog';
+import { openKualiaImport } from '../../../components/dialogs/kualia-import-dialog/kualia-import-dialog';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmCard } from '@spartan-ng/helm/card';
@@ -27,9 +29,14 @@ type WorkspaceExportResult = FunctionReturnType<typeof api.dataExports.generateW
   host: { class: 'block h-full' },
 })
 export class DataExportComponent {
+  protected openKualiaImportDialog(): void {
+    openKualiaImport(this.dialogService);
+  }
+
   private readonly convexService = inject(ConvexService);
   private readonly workspaceService = inject(WorkspaceService);
 
+  private readonly dialogService = inject(HlmDialogService);
   protected readonly Download = Download;
   protected readonly FileArchive = FileArchive;
   protected readonly FileSpreadsheet = FileSpreadsheet;
