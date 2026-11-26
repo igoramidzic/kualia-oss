@@ -159,7 +159,7 @@
       class="text-destructive mr-auto"
     >
       @if (isSubmitting() && isDeleting()) {
-        <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+        <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
         Removing...
       } @else {
         Remove
@@ -169,7 +169,7 @@
   <button hlmBtn size="sm" variant="outline" (click)="cancel()" [disabled]="isSubmitting()">Cancel</button>
   <button hlmBtn size="sm" (click)="handleSave()" [disabled]="!isFormValid() || isSubmitting()">
     @if (isSubmitting() && !isDeleting()) {
-      <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+      <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
       Saving...
     } @else {
       Save Target

@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoPlus as Plus,
-  nucleoSplit as SplitIcon,
-  nucleoClose as X,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaPlus as Plus,
+  kualiaSplit as SplitIcon,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
@@ -23,7 +23,7 @@ export type SplitAmountSign = 'inflow' | 'outflow';
 
 @Component({
   selector: 'app-transaction-splits',
-  imports: [FormsModule, HlmButton, NucleoIcon, CurrencyInputComponent, CategorySelectorComponent],
+  imports: [FormsModule, HlmButton, KualiaIcon, CurrencyInputComponent, CategorySelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="max-w-lg space-y-3">
@@ -63,7 +63,7 @@ export type SplitAmountSign = 'inflow' | 'outflow';
               [disabled]="saving()"
               (click)="removeSplit.emit($index)"
             >
-              <nucleo-icon [icon]="XIcon" [size]="16" />
+              <kualia-icon [icon]="XIcon" [size]="16" />
             </button>
           </div>
         }
@@ -115,7 +115,7 @@ export type SplitAmountSign = 'inflow' | 'outflow';
               (click)="save.emit()"
             >
               @if (saving()) {
-                <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+                <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
               } @else {
                 Save
               }

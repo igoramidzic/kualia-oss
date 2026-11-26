@@ -13,13 +13,13 @@ import {
 import { FormsModule } from '@angular/forms';
 import { HlmButton } from '@spartan-ng/helm/button';
 import {
-  nucleoWarningCircle as AlertCircle,
-  nucleoArrowUp as ArrowUp,
-  nucleoGrid as LayoutGrid,
-  NucleoIcon,
-  nucleoPaperclip as Paperclip,
-  nucleoStop as Square,
-  nucleoClose as X,
+  kualiaWarningCircle as AlertCircle,
+  kualiaArrowUp as ArrowUp,
+  kualiaGrid as LayoutGrid,
+  KualiaIcon,
+  kualiaPaperclip as Paperclip,
+  kualiaStop as Square,
+  kualiaClose as X,
 } from '@kualia/icons';
 import type { ChatDraftAttachment } from '../../services/ai-chat.service';
 import { AiChatService, MAX_CHAT_ATTACHMENT_BYTES } from '../../services/ai-chat.service';
@@ -34,7 +34,7 @@ const BACK_CARD_MAX_HEIGHT = 32;
 
 @Component({
   selector: 'app-ai-chat-input',
-  imports: [FormsModule, HlmButton, NucleoIcon, HlmTooltip],
+  imports: [FormsModule, HlmButton, KualiaIcon, HlmTooltip],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ai-chat-input.html',
 })

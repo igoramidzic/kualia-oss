@@ -3,7 +3,7 @@ import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoCategory as Box, nucleoCheck as Check, NucleoIcon, type NucleoIconData } from '@kualia/icons';
+import { kualiaCategory as Box, kualiaCheck as Check, KualiaIcon, type KualiaIconData } from '@kualia/icons';
 import { Category, CategoryHierarchy, CategoryService } from '../../../services/category.service';
 import { IconService } from '../../../services/icon.service';
 
@@ -15,7 +15,7 @@ interface GroupedCategory {
 
 @Component({
   selector: 'app-rule-category-picker',
-  imports: [NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -29,12 +29,12 @@ interface GroupedCategory {
         <span class="flex min-w-0 items-center gap-2" [class.text-muted-foreground]="!selectedCategory()">
           @if (selectedCategory()) {
             @if (getCategoryIcon(selectedCategory()!); as iconData) {
-              <nucleo-icon [icon]="iconData" size="14" class="text-muted-foreground flex-shrink-0" />
+              <kualia-icon [icon]="iconData" size="14" class="text-muted-foreground flex-shrink-0" />
             } @else {
-              <nucleo-icon [icon]="Box" size="14" class="text-muted-foreground flex-shrink-0" />
+              <kualia-icon [icon]="Box" size="14" class="text-muted-foreground flex-shrink-0" />
             }
           } @else {
-            <nucleo-icon [icon]="Box" size="14" class="text-muted-foreground flex-shrink-0" />
+            <kualia-icon [icon]="Box" size="14" class="text-muted-foreground flex-shrink-0" />
           }
           <span class="min-w-0 truncate">{{ displayCategory() }}</span>
         </span>
@@ -64,14 +64,14 @@ interface GroupedCategory {
                   <div class="flex w-full min-w-0 items-center justify-between gap-2">
                     <span class="flex min-w-0 items-center gap-2">
                       @if (getCategoryIcon(category); as iconData) {
-                        <nucleo-icon [icon]="iconData" size="16" class="text-muted-foreground flex-shrink-0" />
+                        <kualia-icon [icon]="iconData" size="16" class="text-muted-foreground flex-shrink-0" />
                       } @else {
-                        <nucleo-icon [icon]="Box" size="16" class="text-muted-foreground flex-shrink-0" />
+                        <kualia-icon [icon]="Box" size="16" class="text-muted-foreground flex-shrink-0" />
                       }
                       <span class="min-w-0 truncate">{{ category.name }}</span>
                     </span>
                     @if (category._id === categoryId()) {
-                      <nucleo-icon [icon]="Check" size="14" class="flex-shrink-0" />
+                      <kualia-icon [icon]="Check" size="14" class="flex-shrink-0" />
                     }
                   </div>
                 </hlm-combobox-item>
@@ -151,7 +151,7 @@ export class RuleCategoryPickerComponent {
     }
   }
 
-  getCategoryIcon(category: Category): NucleoIconData | null {
+  getCategoryIcon(category: Category): KualiaIconData | null {
     if (!category.iconName) return null;
     return this.iconService.getIconByName(category.iconName);
   }

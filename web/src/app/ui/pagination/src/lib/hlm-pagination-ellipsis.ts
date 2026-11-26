@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoDots } from '@kualia/icons';
+import { kualiaDots } from '@kualia/icons';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: 'hlm-pagination-ellipsis',
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoDots })],
+  providers: [provideIcons({ kualiaDots })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'data-slot': 'pagination-ellipsis' },
   template: `
-    <ng-icon name="nucleoDots" />
+    <ng-icon name="kualiaDots" />
     <span class="sr-only">{{ srOnlyText() }}</span>
   `,
 })

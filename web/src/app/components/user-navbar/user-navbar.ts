@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { nucleoChevronDown as ChevronDown, NucleoIcon } from '@kualia/icons';
+import { kualiaChevronDown as ChevronDown, KualiaIcon } from '@kualia/icons';
 import { AuthService } from '../../services/auth.service';
 import { HlmDropdownMenu, HlmDropdownMenuItem, HlmDropdownMenuTrigger } from '../../ui/dropdown-menu/src';
 
 @Component({
   selector: 'app-user-navbar',
-  imports: [NucleoIcon, HlmDropdownMenuTrigger, HlmButton, HlmDropdownMenu, HlmDropdownMenuItem],
+  imports: [KualiaIcon, HlmDropdownMenuTrigger, HlmButton, HlmDropdownMenu, HlmDropdownMenuItem],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-navbar.html',
 })

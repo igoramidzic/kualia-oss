@@ -3,12 +3,12 @@ import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoCheck as Check, NucleoIcon, nucleoShop as Store } from '@kualia/icons';
+import { kualiaCheck as Check, KualiaIcon, kualiaShop as Store } from '@kualia/icons';
 import { Merchant, MerchantService } from '../../../services/merchant.service';
 
 @Component({
   selector: 'app-rule-merchant-picker',
-  imports: [NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -28,7 +28,7 @@ import { Merchant, MerchantService } from '../../../services/merchant.service';
             />
           } @else if (selectedMerchant()) {
             <div class="bg-accent/50 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border">
-              <nucleo-icon [icon]="Store" class="text-muted-foreground" size="12" />
+              <kualia-icon [icon]="Store" class="text-muted-foreground" size="12" />
             </div>
           }
           <span class="min-w-0 truncate">{{ displayMerchant() }}</span>
@@ -62,7 +62,7 @@ import { Merchant, MerchantService } from '../../../services/merchant.service';
                       <div
                         class="bg-accent/50 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border"
                       >
-                        <nucleo-icon [icon]="Store" class="text-muted-foreground" size="12" />
+                        <kualia-icon [icon]="Store" class="text-muted-foreground" size="12" />
                       </div>
                     }
                     <span class="min-w-0 truncate text-left">{{ merchant.name }}</span>
@@ -72,7 +72,7 @@ import { Merchant, MerchantService } from '../../../services/merchant.service';
                       <span class="text-muted-foreground text-[10px]">({{ merchant.transactionCount }})</span>
                     }
                     @if (merchant._id === merchantId()) {
-                      <nucleo-icon [icon]="Check" size="14" />
+                      <kualia-icon [icon]="Check" size="14" />
                     }
                   </div>
                 </div>

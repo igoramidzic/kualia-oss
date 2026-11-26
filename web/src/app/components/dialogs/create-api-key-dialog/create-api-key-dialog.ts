@@ -9,13 +9,13 @@ import { api } from 'convex/_generated/api';
 import { FunctionReturnType } from 'convex/server';
 import { ConvexError } from 'convex/values';
 import {
-  nucleoCheck as Check,
-  nucleoCopy as Copy,
-  nucleoEye as Eye,
-  nucleoEyeOff as EyeOff,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoWarning as TriangleAlert,
+  kualiaCheck as Check,
+  kualiaCopy as Copy,
+  kualiaEye as Eye,
+  kualiaEyeOff as EyeOff,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaWarning as TriangleAlert,
 } from '@kualia/icons';
 import { ConvexService } from '../../../services/convex.service';
 
@@ -27,7 +27,7 @@ interface DialogContext {
 
 @Component({
   selector: 'app-create-api-key-dialog',
-  imports: [ReactiveFormsModule, HlmButton, HlmDialogHeader, HlmDialogFooter, HlmInput, HlmLabel, NucleoIcon],
+  imports: [ReactiveFormsModule, HlmButton, HlmDialogHeader, HlmDialogFooter, HlmInput, HlmLabel, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (createdKey()) {
@@ -57,9 +57,9 @@ interface DialogContext {
             data-testid="toggle-api-key-visibility"
           >
             @if (revealed()) {
-              <nucleo-icon [icon]="EyeOff" class="h-4 w-4" />
+              <kualia-icon [icon]="EyeOff" class="h-4 w-4" />
             } @else {
-              <nucleo-icon [icon]="Eye" class="h-4 w-4" />
+              <kualia-icon [icon]="Eye" class="h-4 w-4" />
             }
           </button>
           <button
@@ -72,17 +72,17 @@ interface DialogContext {
             data-testid="copy-api-key"
           >
             @if (copied()) {
-              <nucleo-icon [icon]="Check" class="h-4 w-4 text-green-500" />
+              <kualia-icon [icon]="Check" class="h-4 w-4 text-green-500" />
               Copied
             } @else {
-              <nucleo-icon [icon]="Copy" class="h-4 w-4" />
+              <kualia-icon [icon]="Copy" class="h-4 w-4" />
               Copy
             }
           </button>
         </div>
 
         <div class="text-muted-foreground flex items-start gap-2 text-sm">
-          <nucleo-icon [icon]="TriangleAlert" class="mt-0.5 h-4 w-4 flex-shrink-0" />
+          <kualia-icon [icon]="TriangleAlert" class="mt-0.5 h-4 w-4 flex-shrink-0" />
           <p>Treat this key like a password. Anyone who has it can read and change your budget data.</p>
         </div>
       </div>
@@ -141,7 +141,7 @@ interface DialogContext {
           </button>
           <button hlmBtn type="submit" size="sm" [disabled]="createForm.invalid || creating()">
             @if (creating()) {
-              <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+              <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
               Creating...
             } @else {
               Create Key

@@ -7,7 +7,7 @@
             @if (category.isSystemCategory) {
               <div class="bg-accent flex h-8 w-8 items-center justify-center rounded-lg border sm:h-10 sm:w-10">
                 @if (categoryIcon() && getIconData(categoryIcon())) {
-                  <nucleo-icon [icon]="getIconData(categoryIcon())!" [size]="20" class="text-muted-foreground" />
+                  <kualia-icon [icon]="getIconData(categoryIcon())!" [size]="20" class="text-muted-foreground" />
                 }
               </div>
             } @else {
@@ -28,7 +28,7 @@
                   @if (category.isSystemCategory) {
                     <span hlmBadge variant="outline" class="text-xs">
                       System
-                      <nucleo-icon [icon]="systemCategoryIcon" [size]="14" class="text-muted-foreground" />
+                      <kualia-icon [icon]="systemCategoryIcon" [size]="14" class="text-muted-foreground" />
                     </span>
                   }
                 </div>

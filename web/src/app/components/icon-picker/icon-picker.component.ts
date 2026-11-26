@@ -4,12 +4,12 @@ import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
-import { NucleoIcon, nucleoCategory as Shapes } from '@kualia/icons';
+import { KualiaIcon, kualiaCategory as Shapes } from '@kualia/icons';
 import { IconService } from '../../services/icon.service';
 
 @Component({
   selector: 'app-icon-picker',
-  imports: [HlmButton, FormsModule, NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [HlmButton, FormsModule, KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -21,9 +21,9 @@ import { IconService } from '../../services/icon.service';
       <hlm-combobox-trigger [class]="buttonClass()" [variant]="variant()" [showIcon]="false" [attr.aria-label]="displayText()">
         <span class="flex items-center gap-2">
           @if (selectedIconData()) {
-            <nucleo-icon [icon]="selectedIconData()!" [size]="16" class="text-muted-foreground" />
+            <kualia-icon [icon]="selectedIconData()!" [size]="16" class="text-muted-foreground" />
           } @else {
-            <nucleo-icon [icon]="placeholderIcon" [size]="16" class="text-muted-foreground" />
+            <kualia-icon [icon]="placeholderIcon" [size]="16" class="text-muted-foreground" />
           }
         </span>
       </hlm-combobox-trigger>
@@ -61,7 +61,7 @@ import { IconService } from '../../services/icon.service';
                     [title]="iconName"
                     class="aspect-square transition-none"
                   >
-                    <nucleo-icon [icon]="iconData" [size]="16" />
+                    <kualia-icon [icon]="iconData" [size]="16" />
                   </button>
                 }
               }

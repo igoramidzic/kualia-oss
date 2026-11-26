@@ -16,13 +16,13 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { nucleoChevronDown as ChevronDown, NucleoIcon, type NucleoIconData } from '@kualia/icons';
+import { kualiaChevronDown as ChevronDown, KualiaIcon, type KualiaIconData } from '@kualia/icons';
 import { HlmDropdownMenu, HlmDropdownMenuItem, HlmDropdownMenuTrigger } from '../../ui/dropdown-menu/src';
 
 export interface FilterConfig {
   id: string;
   label: string;
-  icon: NucleoIconData;
+  icon: KualiaIconData;
   queryParams: Record<string, string>;
   isVisible?: boolean;
   isDisabled?: boolean;
@@ -36,7 +36,7 @@ export interface FilterConfig {
 
 @Component({
   selector: 'app-responsive-filter-row',
-  imports: [HlmDropdownMenuTrigger, HlmButton, HlmDropdownMenu, HlmDropdownMenuItem, NucleoIcon, RouterLink],
+  imports: [HlmDropdownMenuTrigger, HlmButton, HlmDropdownMenu, HlmDropdownMenuItem, KualiaIcon, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #container [class]="containerClass()">
@@ -52,7 +52,7 @@ export interface FilterConfig {
           [class.pointer-events-none]="filter.isDisabled ?? false"
           [class.opacity-50]="filter.isDisabled ?? false"
         >
-          <nucleo-icon [icon]="filter.icon" size="14" />
+          <kualia-icon [icon]="filter.icon" size="14" />
           {{ filter.label }}
           @if (filter.showCount && filter.count) {
             <span class="font-light">{{ filter.count }}</span>
@@ -72,10 +72,10 @@ export interface FilterConfig {
           [class]="getMoreButtonClasses()"
         >
           @if (activeHiddenFilter()) {
-            <nucleo-icon [icon]="activeHiddenFilter()!.icon" size="14" />
+            <kualia-icon [icon]="activeHiddenFilter()!.icon" size="14" />
           }
           {{ moreButtonText() }}
-          <nucleo-icon [icon]="ChevronDown" size="14" />
+          <kualia-icon [icon]="ChevronDown" size="14" />
         </button>
 
         <ng-template #moreMenu>
@@ -100,7 +100,7 @@ export interface FilterConfig {
                 [class.opacity-50]="filter.isDisabled ?? false"
               >
                 <div class="flex w-full items-center gap-2">
-                  <nucleo-icon [icon]="filter.icon" size="14" />
+                  <kualia-icon [icon]="filter.icon" size="14" />
                   <span>{{ filter.label }}</span>
                   @if (filter.showCount && filter.count) {
                     <span class="font-light">{{ filter.count }}</span>
@@ -121,7 +121,7 @@ export interface FilterConfig {
             [attr.data-measure-id]="filter.id"
             class="inline-flex h-6 items-center gap-1 border px-2 text-xs"
           >
-            <nucleo-icon [icon]="filter.icon" size="14" />
+            <kualia-icon [icon]="filter.icon" size="14" />
             {{ filter.label }}
             @if (filter.showCount && filter.count) {
               <span class="font-light">{{ filter.count }}</span>
@@ -133,18 +133,18 @@ export interface FilterConfig {
             [attr.data-more-label-id]="filter.id"
             class="inline-flex h-6 items-center gap-1 border px-2 text-xs"
           >
-            <nucleo-icon [icon]="filter.icon" size="14" />
+            <kualia-icon [icon]="filter.icon" size="14" />
             {{ filter.label }}
             @if (filter.showCount && filter.count) {
               <span class="font-light">{{ filter.count }}</span>
             }
-            <nucleo-icon [icon]="ChevronDown" size="14" />
+            <kualia-icon [icon]="ChevronDown" size="14" />
           </span>
         }
         <!-- Measure "X more" button (generic) -->
         <span #measureMoreButton class="inline-flex h-6 items-center gap-1 border px-2 text-xs">
           {{ allFilters().length }} more
-          <nucleo-icon [icon]="ChevronDown" size="14" />
+          <kualia-icon [icon]="ChevronDown" size="14" />
         </span>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronRight } from '@kualia/icons';
+import { kualiaChevronRight } from '@kualia/icons';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: '[hlmBreadcrumbSeparator]',
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoChevronRight })],
+  providers: [provideIcons({ kualiaChevronRight })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-slot': 'breadcrumb-separator',
@@ -15,7 +15,7 @@ import { classes } from '@spartan-ng/helm/utils';
   },
   template: `
     <ng-content>
-      <ng-icon name="nucleoChevronRight" />
+      <ng-icon name="kualiaChevronRight" />
     </ng-content>
   `,
 })

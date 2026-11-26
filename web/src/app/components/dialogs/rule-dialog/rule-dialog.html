@@ -10,7 +10,7 @@
       [disabled]="saving()"
       (click)="dialogContext.close()"
     >
-      <nucleo-icon [icon]="X" size="16" />
+      <kualia-icon [icon]="X" size="16" />
       <span class="sr-only">Close</span>
     </button>
   </div>
@@ -177,7 +177,7 @@
     <div class="px-6 pb-4">
       @if (countingMatches()) {
         <div class="bg-accent flex items-center gap-2 rounded-md p-3 text-sm">
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Counting matching transactions...
         </div>
       } @else if (matchedCount() !== null) {
@@ -199,7 +199,7 @@
         <button hlmBtn variant="outline" size="sm" [disabled]="deleting()" (click)="cancelDelete()">Cancel</button>
         <button hlmBtn variant="destructive" size="sm" [disabled]="deleting()" (click)="confirmDelete()">
           @if (deleting()) {
-            <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+            <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
             Deleting...
           } @else {
             Confirm
@@ -208,7 +208,7 @@
       </div>
     } @else {
       <button hlmBtn variant="destructive" size="sm" [disabled]="deleting()" (click)="promptDelete()" class="mr-auto">
-        <nucleo-icon [icon]="Trash2" class="mr-2 h-4 w-4" />
+        <kualia-icon [icon]="Trash2" class="mr-2 h-4 w-4" />
         Delete
       </button>
     }
@@ -229,7 +229,7 @@
     }
     <button hlmBtn variant="default" size="sm" [disabled]="!canSave()" (click)="save()">
       @if (saving()) {
-        <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+        <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
         {{ isEditMode() ? 'Updating...' : 'Creating...' }}
       } @else {
         {{ isEditMode() ? 'Save' : 'Create' }}

@@ -5,7 +5,7 @@
         @if (!isLoading() && !scheduled()) {
           <div class="mb-4 flex items-center gap-3">
             <div class="bg-accent flex h-9 w-9 items-center justify-center rounded-full">
-              <nucleo-icon [icon]="CalendarArrowDown" class="text-muted-foreground h-5 w-5" />
+              <kualia-icon [icon]="CalendarArrowDown" class="text-muted-foreground h-5 w-5" />
             </div>
             <h3 class="text-lg font-semibold">Planned transaction not found</h3>
           </div>
@@ -23,7 +23,7 @@
               <!-- Paused banner (mirrors the old recurring inactive banner) -->
               <div class="bg-accent/40 mb-4 rounded-md border px-3 py-2 text-sm">
                 <div class="flex items-center gap-2">
-                  <nucleo-icon [icon]="Pause" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+                  <kualia-icon [icon]="Pause" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
                   <span class="font-medium">This planned transaction is paused</span>
                 </div>
                 <div class="text-muted-foreground mt-0.5 text-xs">
@@ -39,7 +39,7 @@
                     [disabled]="savingPaused()"
                     (click)="togglePaused()"
                   >
-                    <nucleo-icon [icon]="Play" class="h-4 w-4" />
+                    <kualia-icon [icon]="Play" class="h-4 w-4" />
                     Resume
                   </button>
                 </div>
@@ -56,17 +56,17 @@
                 <div class="flex flex-wrap items-center gap-2">
                   <button hlmBtn variant="default" size="sm" (click)="enterNow()" [disabled]="busy()">
                     @if (entering()) {
-                      <nucleo-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
+                      <kualia-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
                     } @else {
-                      <nucleo-icon [icon]="CalendarArrowDown" [size]="14" />
+                      <kualia-icon [icon]="CalendarArrowDown" [size]="14" />
                     }
                     Enter now
                   </button>
                   <button hlmBtn variant="outline" size="sm" (click)="skip()" [disabled]="busy()">
                     @if (skipping()) {
-                      <nucleo-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
+                      <kualia-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
                     } @else {
-                      <nucleo-icon [icon]="SkipForward" [size]="14" />
+                      <kualia-icon [icon]="SkipForward" [size]="14" />
                     }
                     Skip
                   </button>
@@ -78,9 +78,9 @@
                     [disabled]="savingPaused() || busy()"
                   >
                     @if (savingPaused()) {
-                      <nucleo-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
+                      <kualia-icon [icon]="LoaderCircle" [size]="14" class="animate-spin" />
                     } @else {
-                      <nucleo-icon [icon]="Pause" [size]="14" />
+                      <kualia-icon [icon]="Pause" [size]="14" />
                     }
                     Pause
                   </button>
@@ -203,7 +203,7 @@
                 (valueChange)="selectReminder($any($event))"
               >
                 <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass" aria-label="Reminder">
-                  <nucleo-icon [icon]="BellRing" [size]="14" class="text-muted-foreground" />
+                  <kualia-icon [icon]="BellRing" [size]="14" class="text-muted-foreground" />
                   <hlm-select-value />
                 </hlm-select-trigger>
                 <hlm-select-content *hlmSelectPortal>
@@ -225,7 +225,7 @@
                 (click)="onEntryModeToggle(!isAutoEntry())"
               >
                 <div class="flex items-center gap-2">
-                  <nucleo-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
+                  <kualia-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
                   <span>{{ isAutoEntry() ? 'Enter automatically' : 'Enter manually' }}</span>
                 </div>
               </button>
@@ -245,10 +245,10 @@
               >
                 <div class="flex items-center gap-2">
                   @if (isPending()) {
-                    <nucleo-icon [icon]="ClockFading" [size]="14" class="flex-shrink-0 text-yellow-500" />
+                    <kualia-icon [icon]="ClockFading" [size]="14" class="flex-shrink-0 text-yellow-500" />
                     <span>Pending</span>
                   } @else {
-                    <nucleo-icon [icon]="Check" [size]="14" class="flex-shrink-0 text-green-500" />
+                    <kualia-icon [icon]="Check" [size]="14" class="flex-shrink-0 text-green-500" />
                     <span>Cleared</span>
                   }
                 </div>
@@ -301,7 +301,7 @@
                 class="hover:bg-accent/30 -mx-2 flex h-8 items-center gap-2 rounded-md px-2 text-left"
                 (click)="toggleEnteredExpanded()"
               >
-                <nucleo-icon
+                <kualia-icon
                   [icon]="enteredExpanded() ? ChevronDown : ChevronRight"
                   [size]="14"
                   class="text-muted-foreground flex-shrink-0"

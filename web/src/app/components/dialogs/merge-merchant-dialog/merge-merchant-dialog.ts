@@ -6,14 +6,14 @@ import { HlmCommandImports } from '@spartan-ng/helm/command';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoArrowDown as ArrowDown,
-  nucleoSort as ArrowUpDown,
-  nucleoChevronRight as ChevronRight,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoPlus as Plus,
-  nucleoShop as Store,
-  nucleoTrash as Trash2,
+  kualiaArrowDown as ArrowDown,
+  kualiaSort as ArrowUpDown,
+  kualiaChevronRight as ChevronRight,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaPlus as Plus,
+  kualiaShop as Store,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { Merchant, MerchantService } from '../../../services/merchant.service';
 import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-message';
@@ -25,7 +25,7 @@ type MerchantDialogMode = 'merge' | 'delete';
   selector: 'app-merge-merchant-dialog',
   imports: [
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     HlmDialogHeader,
     HlmDialogFooter,
     BrnCommand,
@@ -57,7 +57,7 @@ type MerchantDialogMode = 'merge' | 'delete';
                 />
               } @else {
                 <div class="bg-accent flex h-10 w-10 items-center justify-center rounded-full border">
-                  <nucleo-icon [icon]="Store" class="text-muted-foreground" size="16" />
+                  <kualia-icon [icon]="Store" class="text-muted-foreground" size="16" />
                 </div>
               }
 
@@ -70,7 +70,7 @@ type MerchantDialogMode = 'merge' | 'delete';
               </div>
 
               <!-- Delete indicator -->
-              <nucleo-icon [icon]="Trash2" class="text-warning flex-shrink-0" size="20" />
+              <kualia-icon [icon]="Trash2" class="text-warning flex-shrink-0" size="20" />
             </div>
 
             <!-- Warning text -->
@@ -82,11 +82,11 @@ type MerchantDialogMode = 'merge' | 'delete';
         <div class="flex justify-center">
           @if (currentTarget() && !isDeleteMode()) {
             <button hlmBtn size="sm" variant="outline" class="gap-2" (click)="swapMerchants()" [disabled]="merging()">
-              <nucleo-icon [icon]="ArrowUpDown" size="14" />
+              <kualia-icon [icon]="ArrowUpDown" size="14" />
               Swap
             </button>
           } @else {
-            <nucleo-icon [icon]="ArrowDown" class="text-muted-foreground" size="20" />
+            <kualia-icon [icon]="ArrowDown" class="text-muted-foreground" size="20" />
           }
         </div>
 
@@ -107,7 +107,7 @@ type MerchantDialogMode = 'merge' | 'delete';
                   <img [src]="target.logoUrl" [alt]="target.name" class="h-10 w-10 rounded-full border object-cover" />
                 } @else {
                   <div class="bg-accent flex h-10 w-10 items-center justify-center rounded-full border">
-                    <nucleo-icon [icon]="Store" class="text-muted-foreground" size="16" />
+                    <kualia-icon [icon]="Store" class="text-muted-foreground" size="16" />
                   </div>
                 }
 
@@ -121,7 +121,7 @@ type MerchantDialogMode = 'merge' | 'delete';
                 </div>
 
                 <!-- Chevron -->
-                <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground flex-shrink-0" size="16" />
+                <kualia-icon [icon]="ChevronRight" class="text-muted-foreground flex-shrink-0" size="16" />
               </div>
             </button>
           } @else {
@@ -132,13 +132,13 @@ type MerchantDialogMode = 'merge' | 'delete';
             >
               <div class="flex items-center gap-3">
                 <div class="bg-accent flex h-10 w-10 items-center justify-center rounded-full border">
-                  <nucleo-icon [icon]="Plus" class="text-muted-foreground" size="16" />
+                  <kualia-icon [icon]="Plus" class="text-muted-foreground" size="16" />
                 </div>
                 <div class="min-w-0 flex-1">
                   <p class="font-medium">Select Merchant</p>
                   <p class="text-muted-foreground text-sm">{{ selectTargetDescription() }}</p>
                 </div>
-                <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground flex-shrink-0" size="16" />
+                <kualia-icon [icon]="ChevronRight" class="text-muted-foreground flex-shrink-0" size="16" />
               </div>
             </button>
           }
@@ -156,7 +156,7 @@ type MerchantDialogMode = 'merge' | 'delete';
         @if (currentTarget()) {
           <button hlmBtn size="sm" (click)="confirmAction()" [disabled]="merging()">
             @if (merging()) {
-              <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+              <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
               {{ loadingText() }}
             } @else {
               {{ primaryActionText() }}
@@ -195,7 +195,7 @@ type MerchantDialogMode = 'merge' | 'delete';
                       />
                     } @else {
                       <div class="bg-accent/50 flex h-6 w-6 items-center justify-center rounded-full border">
-                        <nucleo-icon [icon]="Store" class="text-muted-foreground" size="12" />
+                        <kualia-icon [icon]="Store" class="text-muted-foreground" size="12" />
                       </div>
                     }
                     <span>{{ merchant.name }}</span>

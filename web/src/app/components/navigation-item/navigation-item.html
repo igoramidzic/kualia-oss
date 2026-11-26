@@ -13,7 +13,7 @@
 >
   <div class="flex w-full items-center justify-between group-data-[collapsible=icon]:justify-center">
     <div class="flex min-w-0 items-center gap-2">
-      <nucleo-icon
+      <kualia-icon
         [icon]="icon()"
         [size]="16"
         class="group-hover/nav-item:!text-foreground dark:group-hover/nav-item:!text-foreground flex-shrink-0"
@@ -35,7 +35,7 @@
     </div>
     <div class="flex items-center gap-2 group-data-[collapsible=icon]:hidden">
       @if (alertIcon()) {
-        <nucleo-icon [icon]="alertIcon()!" [size]="16" class="text-destructive flex-shrink-0" />
+        <kualia-icon [icon]="alertIcon()!" [size]="16" class="text-destructive flex-shrink-0" />
       }
       @if (badgeText() && badgeTextPosition() === 'end') {
         <span hlmBadge variant="outline" class="px-1.5 py-0 text-[10px] font-normal" [ngClass]="badgeTextClass()">

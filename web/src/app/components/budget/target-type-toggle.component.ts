@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output, si
 import { BrnPopover, BrnPopoverContent, BrnPopoverTrigger } from '@spartan-ng/brain/popover';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
-import { nucleoCheck as Check, nucleoChevronDown as ChevronDown, NucleoIcon } from '@kualia/icons';
+import { kualiaCheck as Check, kualiaChevronDown as ChevronDown, KualiaIcon } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 
 export type TargetTypeSelection = 'set_aside' | 'fill_up' | 'maintain_balance' | 'one_time';
@@ -15,7 +15,7 @@ interface TargetTypeOption {
 
 @Component({
   selector: 'app-target-type-toggle',
-  imports: [BrnPopover, BrnPopoverContent, BrnPopoverTrigger, HlmButton, HlmPopoverContent, NucleoIcon],
+  imports: [BrnPopover, BrnPopoverContent, BrnPopoverTrigger, HlmButton, HlmPopoverContent, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <brn-popover [state]="popoverState()" (stateChanged)="popoverState.set($event)" sideOffset="5">
@@ -31,7 +31,7 @@ interface TargetTypeOption {
         <span class="min-w-0 flex-1 truncate text-left">
           {{ selectedOption()?.label ?? 'Select target type...' }}
         </span>
-        <nucleo-icon [icon]="ChevronDown" [size]="14" class="text-muted-foreground flex-shrink-0" />
+        <kualia-icon [icon]="ChevronDown" [size]="14" class="text-muted-foreground flex-shrink-0" />
       </button>
       <div *brnPopoverContent hlmPopoverContent class="w-80 p-0">
         @for (option of options(); track option.value) {
@@ -45,7 +45,7 @@ interface TargetTypeOption {
               <div class="text-muted-foreground text-xs">{{ option.description }}</div>
             </div>
             @if (value() === option.value) {
-              <nucleo-icon [icon]="Check" [size]="16" class="text-primary mt-0.5 flex-shrink-0" />
+              <kualia-icon [icon]="Check" [size]="16" class="text-primary mt-0.5 flex-shrink-0" />
             }
           </button>
         }

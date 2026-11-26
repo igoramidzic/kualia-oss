@@ -4,7 +4,7 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { api } from 'convex/_generated/api';
 import type { Id } from 'convex/_generated/dataModel';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import type { BankAccountWithRelations } from '../../../services/bank-account.service';
 import { ConvexService } from '../../../services/convex.service';
 import { WorkspaceService } from '../../../services/workspace.service';
@@ -12,7 +12,7 @@ import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-me
 
 @Component({
   selector: 'app-reopen-bank-account-dialog',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, HlmDialogFooter],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, HlmDialogFooter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -39,7 +39,7 @@ import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-me
       <button hlmBtn size="sm" variant="outline" (click)="cancel()" [disabled]="reopening()">Cancel</button>
       <button hlmBtn size="sm" (click)="confirmReopen()" [disabled]="reopening()">
         @if (reopening()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Reopening...
         } @else {
           Reopen Account

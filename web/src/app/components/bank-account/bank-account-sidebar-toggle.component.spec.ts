@@ -82,8 +82,8 @@ describe('BankAccountSidebarToggleComponent', () => {
       expect(button.getAttribute('aria-label')).toBe('Open sidebar');
     });
 
-    it('should render Nucleo icon', () => {
-      const icon = fixture.nativeElement.querySelector('nucleo-icon');
+    it('should render the Kualia icon', () => {
+      const icon = fixture.nativeElement.querySelector('kualia-icon');
       expect(icon).toBeTruthy();
     });
 

@@ -29,7 +29,7 @@
             (keydown.enter)="focusSearch()"
             (keydown.space)="onWrapperSpaceKey($event)"
           >
-            <nucleo-icon [icon]="Search" [size]="14" class="text-muted-foreground shrink-0" />
+            <kualia-icon [icon]="Search" [size]="14" class="text-muted-foreground shrink-0" />
             <input
               #searchInput
               type="text"
@@ -50,7 +50,7 @@
                 (click)="clearSearch()"
                 aria-label="Clear search"
               >
-                <nucleo-icon [icon]="X" [size]="14" />
+                <kualia-icon [icon]="X" [size]="14" />
               </button>
             }
           </div>
@@ -70,7 +70,7 @@
         class="group hover:text-foreground px-1 transition-colors"
         (click)="openCreateTransactionDialog()"
       >
-        <nucleo-icon
+        <kualia-icon
           [icon]="Plus"
           class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
         />
@@ -78,11 +78,11 @@
       </button>
       <div class="flex items-center gap-1">
         <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canUndo()" (click)="undo()" class="px-1">
-          <nucleo-icon [icon]="Undo2" class="h-4 w-4" />
+          <kualia-icon [icon]="Undo2" class="h-4 w-4" />
           <span class="hidden text-xs min-[480px]:inline">Undo</span>
         </button>
         <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canRedo()" (click)="redo()" class="px-1">
-          <nucleo-icon [icon]="Redo2" class="h-4 w-4" />
+          <kualia-icon [icon]="Redo2" class="h-4 w-4" />
           <span class="hidden text-xs min-[480px]:inline">Redo</span>
         </button>
       </div>

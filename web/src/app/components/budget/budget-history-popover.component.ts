@@ -6,7 +6,7 @@ import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import { FunctionReturnType } from 'convex/server';
-import { nucleoHistory as History, NucleoIcon } from '@kualia/icons';
+import { kualiaHistory as History, KualiaIcon } from '@kualia/icons';
 import { ConvexService } from '../../services/convex.service';
 import { WorkspaceService } from '../../services/workspace.service';
 import { formatCurrency, formatMonth } from '../../shared/utils/formatters';
@@ -26,7 +26,7 @@ function isMoneyMovementEntry(entry: BudgetHistoryEntry): entry is MoneyMovement
 
 @Component({
   selector: 'app-budget-history-popover',
-  imports: [BrnPopover, BrnPopoverContent, BrnPopoverTrigger, DatePipe, HlmButton, HlmPopoverContent, NucleoIcon],
+  imports: [BrnPopover, BrnPopoverContent, BrnPopoverTrigger, DatePipe, HlmButton, HlmPopoverContent, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block',
@@ -59,7 +59,7 @@ function isMoneyMovementEntry(entry: BudgetHistoryEntry): entry is MoneyMovement
         aria-label="Budget history"
         data-testid="budget-history-trigger"
       >
-        <nucleo-icon [icon]="History" [size]="14" class="text-muted-foreground" />
+        <kualia-icon [icon]="History" [size]="14" class="text-muted-foreground" />
       </button>
 
       <div
@@ -94,7 +94,7 @@ function isMoneyMovementEntry(entry: BudgetHistoryEntry): entry is MoneyMovement
               class="flex h-full flex-col items-center justify-center px-6 text-center"
               data-testid="budget-history-empty"
             >
-              <nucleo-icon [icon]="History" class="text-muted-foreground h-5 w-5" />
+              <kualia-icon [icon]="History" class="text-muted-foreground h-5 w-5" />
               <p class="mt-2 text-sm font-medium">No assignment history</p>
               <p class="text-muted-foreground mt-1 text-xs">
                 Assignments and moves from the last 34 days will appear here.

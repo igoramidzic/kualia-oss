@@ -7,7 +7,7 @@ import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import { CategoryTarget } from 'convex/categoryTargets/types';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { ConvexService } from '../../../services/convex.service';
 import { CurrencyService } from '../../../services/currency.service';
 import { ReportingService, TrackingEvent } from '../../../services/reporting.service';
@@ -68,7 +68,7 @@ function parseDateAsLocal(dateStr: string): Date {
     HlmDialogHeader,
     HlmDialogFooter,
     DatePickerComponent,
-    NucleoIcon,
+    KualiaIcon,
     CurrencyInputComponent,
     TargetTypeToggleComponent,
     CategoryTargetDescriptionComponent,

@@ -3,17 +3,17 @@ import { ChangeDetectionStrategy, Component, output, signal } from '@angular/cor
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import {
-  nucleoChevronRight as ChevronRight,
-  nucleoPlusCircle as CirclePlus,
-  nucleoBank as Landmark,
-  NucleoIcon,
+  kualiaChevronRight as ChevronRight,
+  kualiaPlusCircle as CirclePlus,
+  kualiaBank as Landmark,
+  KualiaIcon,
 } from '@kualia/icons';
 
 export type ConnectionType = 'linked' | 'manual';
 
 @Component({
   selector: 'app-bank-account-connection-type',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, NgTemplateOutlet],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -43,7 +43,7 @@ export type ConnectionType = 'linked' | 'manual';
         (click)="selectConnectionType('linked')"
       >
         <div class="flex w-full items-center gap-3">
-          <nucleo-icon
+          <kualia-icon
             [icon]="linkIcon"
             class="mt-0.5 h-5 w-5 flex-shrink-0 self-start"
             [class.text-primary]="isBankLinkingRegion()"
@@ -59,7 +59,7 @@ export type ConnectionType = 'linked' | 'manual';
               }
             </div>
           </div>
-          <nucleo-icon [icon]="chevronIcon" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+          <kualia-icon [icon]="chevronIcon" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
         </div>
       </button>
     </ng-template>
@@ -73,14 +73,14 @@ export type ConnectionType = 'linked' | 'manual';
         (click)="selectConnectionType('manual')"
       >
         <div class="flex w-full items-center gap-3">
-          <nucleo-icon [icon]="manualIcon" class="text-primary mt-0.5 h-5 w-5 flex-shrink-0 self-start" />
+          <kualia-icon [icon]="manualIcon" class="text-primary mt-0.5 h-5 w-5 flex-shrink-0 self-start" />
           <div class="min-w-0 flex-1 text-left">
             <div class="font-medium">Manual Bank Account</div>
             <div class="text-muted-foreground mt-1 text-sm whitespace-normal">
               Create a bank account manually for tracking cash or other assets
             </div>
           </div>
-          <nucleo-icon [icon]="chevronIcon" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+          <kualia-icon [icon]="chevronIcon" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
         </div>
       </button>
     </ng-template>

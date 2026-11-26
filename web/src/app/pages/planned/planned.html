@@ -23,7 +23,7 @@
           class="group hover:text-foreground transition-colors"
           (click)="openCreateDialog()"
         >
-          <nucleo-icon
+          <kualia-icon
             [icon]="Plus"
             class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
           />
@@ -60,11 +60,11 @@
             <div class="border-border border-l pl-3">
               <div hlmToggleGroup variant="outline" [value]="viewMode()" (valueChange)="onViewModeChange($event)">
                 <button hlmToggleGroupItem value="calendar" size="sm" class="w-30">
-                  <nucleo-icon [icon]="CalendarDays" [size]="14" />
+                  <kualia-icon [icon]="CalendarDays" [size]="14" />
                   Calendar
                 </button>
                 <button hlmToggleGroupItem value="list" size="sm" class="w-20">
-                  <nucleo-icon [icon]="List" [size]="14" />
+                  <kualia-icon [icon]="List" [size]="14" />
                   List
                 </button>
               </div>
@@ -80,7 +80,7 @@
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-1">
                   <span class="text-muted-foreground text-sm font-medium">Income</span>
-                  <nucleo-icon
+                  <kualia-icon
                     [icon]="Info"
                     class="text-muted-foreground h-3 w-3 cursor-help"
                     [hlmTooltip]="'Received ' + summary.inflow.paidCount + ' of ' + summary.inflow.count + ' expected'"
@@ -106,7 +106,7 @@
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-1">
                   <span class="text-muted-foreground text-sm font-medium">Expenses</span>
-                  <nucleo-icon
+                  <kualia-icon
                     [icon]="Info"
                     class="text-muted-foreground h-3 w-3 cursor-help"
                     [hlmTooltip]="'Paid ' + summary.outflow.paidCount + ' of ' + summary.outflow.count + ' expected'"
@@ -154,7 +154,7 @@
               <div
                 class="overdue-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
               >
-                <nucleo-icon [icon]="ClockAlert" class="h-4 w-4 text-red-500" />
+                <kualia-icon [icon]="ClockAlert" class="h-4 w-4 text-red-500" />
                 <span>Overdue ({{ overdueEntries().length }})</span>
               </div>
               @for (view of overdueEntries(); track view.key; let last = $last) {
@@ -172,7 +172,7 @@
               <div
                 class="skipped-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
               >
-                <nucleo-icon [icon]="SkipForward" class="text-muted-foreground h-4 w-4" />
+                <kualia-icon [icon]="SkipForward" class="text-muted-foreground h-4 w-4" />
                 <span>Skipped ({{ skippedEntries().length }})</span>
               </div>
               @for (view of skippedEntries(); track view.key; let last = $last) {
@@ -190,7 +190,7 @@
               <div
                 class="upcoming-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
               >
-                <nucleo-icon [icon]="Clock" class="h-4 w-4 text-yellow-500" />
+                <kualia-icon [icon]="Clock" class="h-4 w-4 text-yellow-500" />
                 <span>Upcoming ({{ upcomingEntries().length }})</span>
               </div>
               @for (view of upcomingEntries(); track view.key; let last = $last) {
@@ -208,7 +208,7 @@
               <div
                 class="paid-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
               >
-                <nucleo-icon [icon]="CircleCheck" class="h-4 w-4 text-green-500" />
+                <kualia-icon [icon]="CircleCheck" class="h-4 w-4 text-green-500" />
                 <span>Paid ({{ paidEntries().length }})</span>
               </div>
               @for (view of paidEntries(); track view.key; let last = $last) {
@@ -224,7 +224,7 @@
 
           @if (!loading() && !hasMonthlyTransactions() && !error()) {
             <div class="py-12 text-center">
-              <nucleo-icon [icon]="Clock" class="text-muted-foreground mx-auto h-12 w-12" />
+              <kualia-icon [icon]="Clock" class="text-muted-foreground mx-auto h-12 w-12" />
               <h3 class="mt-2 text-sm font-semibold">No planned transactions this month</h3>
               <p class="text-muted-foreground mt-1 text-sm">
                 Create planned transactions to track your regular bills and subscriptions.
@@ -270,7 +270,7 @@
             <div
               class="active-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
             >
-              <nucleo-icon [icon]="Play" class="h-4 w-4 text-green-500" />
+              <kualia-icon [icon]="Play" class="h-4 w-4 text-green-500" />
               <span>Active ({{ allActivePlanned().length }})</span>
             </div>
             @for (planned of allActivePlanned(); track planned._id; let last = $last) {
@@ -289,7 +289,7 @@
             <div
               class="paused-header sticky top-10 z-10 flex h-10 shrink-0 items-center gap-2 border-t border-b px-3 text-sm font-medium"
             >
-              <nucleo-icon [icon]="Pause" class="text-muted-foreground h-4 w-4" />
+              <kualia-icon [icon]="Pause" class="text-muted-foreground h-4 w-4" />
               <span>Paused ({{ allPausedPlanned().length }})</span>
             </div>
             @for (planned of allPausedPlanned(); track planned._id; let last = $last) {
@@ -307,7 +307,7 @@
 
       @if (!loading() && !hasAllTransactions() && !error()) {
         <div class="fade-in py-12 text-center">
-          <nucleo-icon [icon]="Clock" class="text-muted-foreground mx-auto h-12 w-12" />
+          <kualia-icon [icon]="Clock" class="text-muted-foreground mx-auto h-12 w-12" />
           <h3 class="mt-2 text-sm font-semibold">No planned transactions</h3>
           <p class="text-muted-foreground mt-1 text-sm">
             Create planned transactions to track your regular bills and subscriptions.

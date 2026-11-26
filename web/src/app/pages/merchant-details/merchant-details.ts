@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { BrnDialogState } from '@spartan-ng/brain/dialog';
 import { BrnPopover, BrnPopoverContent, BrnPopoverTrigger } from '@spartan-ng/brain/popover';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
-import { nucleoTransfer as ArrowLeftRight, NucleoIcon } from '@kualia/icons';
+import { kualiaTransfer as ArrowLeftRight, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { EntityMarkComponent } from '../../components/entity-mark/entity-mark.component';
 import { LogoPickerComponent } from '../../components/logo-picker/logo-picker.component';
@@ -92,7 +92,7 @@ interface MerchantIdentitySaveOptions {
   imports: [
     RouterLink,
     FormsModule,
-    NucleoIcon,
+    KualiaIcon,
     EntityMarkComponent,
     LogoPickerComponent,
     BrnPopover,

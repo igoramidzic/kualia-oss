@@ -70,7 +70,7 @@
               [disabled]="creating()"
             >
               <div class="flex items-center gap-2">
-                <nucleo-icon [icon]="SplitIcon" [size]="14" class="flex-shrink-0 -rotate-90" />
+                <kualia-icon [icon]="SplitIcon" [size]="14" class="flex-shrink-0 -rotate-90" />
                 <span>Split</span>
               </div>
             </button>
@@ -119,7 +119,7 @@
             (valueChange)="reminderSelection.set($any($event))"
           >
             <hlm-select-trigger size="sm" [class]="compactSelectTriggerClass" aria-label="Reminder">
-              <nucleo-icon [icon]="BellRing" [size]="14" class="text-muted-foreground" />
+              <kualia-icon [icon]="BellRing" [size]="14" class="text-muted-foreground" />
               <hlm-select-value />
             </hlm-select-trigger>
             <hlm-select-content *hlmSelectPortal>
@@ -141,7 +141,7 @@
             (click)="enterAutomatically.set(!enterAutomatically())"
           >
             <div class="flex items-center gap-2">
-              <nucleo-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
+              <kualia-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
               <span>{{ enterAutomatically() ? 'Enter automatically' : 'Enter manually' }}</span>
             </div>
           </button>
@@ -162,10 +162,10 @@
         >
           <div class="flex items-center gap-2">
             @if (isPending()) {
-              <nucleo-icon [icon]="ClockFading" [size]="14" class="flex-shrink-0 text-yellow-500" />
+              <kualia-icon [icon]="ClockFading" [size]="14" class="flex-shrink-0 text-yellow-500" />
               <span>Pending</span>
             } @else {
-              <nucleo-icon [icon]="Check" [size]="14" class="flex-shrink-0 text-green-500" />
+              <kualia-icon [icon]="Check" [size]="14" class="flex-shrink-0 text-green-500" />
               <span>Cleared</span>
             }
           </div>
@@ -215,7 +215,7 @@
     <div class="flex w-full flex-col items-end gap-3">
       <button hlmBtn type="button" variant="default" [disabled]="creating()" (click)="createTransaction()">
         @if (creating()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           {{ isScheduling() ? 'Scheduling...' : 'Creating...' }}
         } @else {
           {{ isScheduling() ? 'Schedule transaction' : 'Create transaction' }}

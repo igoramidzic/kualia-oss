@@ -6,13 +6,13 @@ import { api } from 'convex/_generated/api';
 import { FunctionReturnType } from 'convex/server';
 import { ConvexError } from 'convex/values';
 import {
-  nucleoWarningCircle as AlertCircle,
-  nucleoArrowRight as ArrowRight,
-  nucleoCheckCircle as CheckCircle2,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoEmail as Mail,
-  nucleoUsers as UsersRound,
+  kualiaWarningCircle as AlertCircle,
+  kualiaArrowRight as ArrowRight,
+  kualiaCheckCircle as CheckCircle2,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaEmail as Mail,
+  kualiaUsers as UsersRound,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { UserNavbarComponent } from '../../components/user-navbar/user-navbar';
@@ -26,7 +26,7 @@ const WAIT_INTERVAL_MS = 100;
 
 @Component({
   selector: 'app-family-join',
-  imports: [RouterLink, HlmButton, HlmCard, NucleoIcon, UserNavbarComponent],
+  imports: [RouterLink, HlmButton, HlmCard, KualiaIcon, UserNavbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="bg-background flex h-screen flex-col overflow-hidden select-none">
@@ -38,7 +38,7 @@ const WAIT_INTERVAL_MS = 100;
             @if (loading()) {
               <div hlmCard class="flex min-h-[280px] items-center justify-center p-6">
                 <div class="text-muted-foreground flex items-center gap-2 text-sm">
-                  <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+                  <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
                   Loading family invite...
                 </div>
               </div>
@@ -48,7 +48,7 @@ const WAIT_INTERVAL_MS = 100;
                   <div
                     class="bg-destructive/10 text-destructive flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-md"
                   >
-                    <nucleo-icon [icon]="AlertCircle" class="h-5 w-5" />
+                    <kualia-icon [icon]="AlertCircle" class="h-5 w-5" />
                   </div>
                   <div class="min-w-0 flex-1">
                     <h1 class="text-xl font-medium">Family invite unavailable</h1>
@@ -68,9 +68,9 @@ const WAIT_INTERVAL_MS = 100;
                       class="bg-primary/10 text-primary flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-md"
                     >
                       @if (invite.canAccept) {
-                        <nucleo-icon [icon]="CheckCircle2" class="h-6 w-6" />
+                        <kualia-icon [icon]="CheckCircle2" class="h-6 w-6" />
                       } @else {
-                        <nucleo-icon [icon]="UsersRound" class="h-6 w-6" />
+                        <kualia-icon [icon]="UsersRound" class="h-6 w-6" />
                       }
                     </div>
 
@@ -117,7 +117,7 @@ const WAIT_INTERVAL_MS = 100;
                           <div
                             class="bg-accent text-muted-foreground flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
                           >
-                            <nucleo-icon [icon]="UsersRound" class="h-4 w-4" />
+                            <kualia-icon [icon]="UsersRound" class="h-4 w-4" />
                           </div>
                           <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ currentFamily.name }}</p>
@@ -132,7 +132,7 @@ const WAIT_INTERVAL_MS = 100;
 
                   @if (actionMessage()) {
                     <div class="bg-accent/50 flex items-start gap-3 rounded-md border p-4">
-                      <nucleo-icon [icon]="Mail" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
+                      <kualia-icon [icon]="Mail" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
                       <p class="text-muted-foreground text-sm leading-6">{{ actionMessage() }}</p>
                     </div>
                   }
@@ -157,11 +157,11 @@ const WAIT_INTERVAL_MS = 100;
                       data-testid="accept-family-invite"
                     >
                       @if (accepting()) {
-                        <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+                        <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
                         Joining...
                       } @else {
                         Join Family
-                        <nucleo-icon [icon]="ArrowRight" class="h-4 w-4" />
+                        <kualia-icon [icon]="ArrowRight" class="h-4 w-4" />
                       }
                     </button>
                   }

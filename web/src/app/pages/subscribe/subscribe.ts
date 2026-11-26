@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { nucleoLoader as LoaderCircle, NucleoIcon, nucleoSparkles as Sparkles } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon, kualiaSparkles as Sparkles } from '@kualia/icons';
 import { HlmButton } from '@spartan-ng/helm/button';
 
 import { environment } from '../../../environments/environment';
@@ -20,7 +20,7 @@ import { ReportingService, TrackingEvent, WEB_ONBOARDING_ANALYTICS_PROPERTIES } 
 
 @Component({
   selector: 'app-subscribe',
-  imports: [HlmButton, NucleoIcon],
+  imports: [HlmButton, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './subscribe.html',
   styleUrl: './subscribe.css',

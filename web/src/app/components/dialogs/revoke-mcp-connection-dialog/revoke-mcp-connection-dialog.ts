@@ -4,7 +4,7 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { api } from 'convex/_generated/api';
 import { ConvexError } from 'convex/values';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { ConvexService } from '../../../services/convex.service';
 
@@ -17,7 +17,7 @@ interface DialogContext {
 
 @Component({
   selector: 'app-revoke-mcp-connection-dialog',
-  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, NucleoIcon],
+  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -55,7 +55,7 @@ interface DialogContext {
         data-testid="confirm-revoke-mcp-connection"
       >
         @if (revoking()) {
-          <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
           Revoking…
         } @else {
           Revoke connection

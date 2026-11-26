@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output } f
 import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
-import { NucleoIcon, nucleoBank as Wallet } from '@kualia/icons';
+import { KualiaIcon, kualiaBank as Wallet } from '@kualia/icons';
 import { BankAccountService } from '../../services/bank-account.service';
 import { DEFAULT_BANK_ACCOUNT_ICON_NAME } from '../../shared/utils/entity-identity';
 import { EntityMarkComponent } from '../entity-mark/entity-mark.component';
@@ -11,7 +11,7 @@ const NO_ACCOUNT_VALUE = '__NO_ACCOUNT__';
 
 @Component({
   selector: 'app-bank-account-selector',
-  imports: [NucleoIcon, EntityMarkComponent, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, EntityMarkComponent, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -36,7 +36,7 @@ const NO_ACCOUNT_VALUE = '__NO_ACCOUNT__';
               size="xxs"
             />
           } @else {
-            <nucleo-icon [icon]="Wallet" [size]="14" class="text-muted-foreground" />
+            <kualia-icon [icon]="Wallet" [size]="14" class="text-muted-foreground" />
           }
           <span>{{ displayBankAccount() }}</span>
         </span>

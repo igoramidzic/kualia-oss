@@ -3,21 +3,21 @@ import { FormsModule } from '@angular/forms';
 import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
 import {
-  nucleoMoney as Banknote,
-  nucleoBank as Building2,
-  nucleoCreditCard as CreditCard,
-  NucleoIcon,
-  nucleoPiggyBank as PiggyBank,
-  nucleoTrendUp as TrendingUp,
-  nucleoAccounts as Wallet,
-  type NucleoIconData,
+  kualiaMoney as Banknote,
+  kualiaBank as Building2,
+  kualiaCreditCard as CreditCard,
+  KualiaIcon,
+  kualiaPiggyBank as PiggyBank,
+  kualiaTrendUp as TrendingUp,
+  kualiaAccounts as Wallet,
+  type KualiaIconData,
 } from '@kualia/icons';
 import { CurrencySelectorComponent } from '../../../components/currency-selector/currency-selector.component';
 import type { AccountTypeMapping, ImportPreview } from '../../../services/ynab-import.service';
 import { ACCOUNT_TYPE_OPTIONS } from '../types';
 
 // Account type prefix to icon mapping
-const ACCOUNT_TYPE_ICONS: Record<string, NucleoIconData> = {
+const ACCOUNT_TYPE_ICONS: Record<string, KualiaIconData> = {
   credit_: CreditCard,
   investment_: TrendingUp,
   loan_: Building2,
@@ -27,7 +27,7 @@ const ACCOUNT_TYPE_ICONS: Record<string, NucleoIconData> = {
 
 @Component({
   selector: 'app-account-mapping-step',
-  imports: [FormsModule, HlmSelectImports, NucleoIcon, HlmInput, CurrencySelectorComponent],
+  imports: [FormsModule, HlmSelectImports, KualiaIcon, HlmInput, CurrencySelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-col gap-6">
@@ -90,7 +90,7 @@ const ACCOUNT_TYPE_ICONS: Record<string, NucleoIconData> = {
             <div class="border-border flex items-center gap-4 rounded-lg border p-4">
               <!-- Account Icon -->
               <div class="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
-                <nucleo-icon [icon]="getAccountIcon(mapping.confirmedType)" class="h-5 w-5" />
+                <kualia-icon [icon]="getAccountIcon(mapping.confirmedType)" class="h-5 w-5" />
               </div>
 
               <!-- Account Name -->
@@ -147,7 +147,7 @@ export class AccountMappingStepComponent {
     return option?.label ?? type;
   }
 
-  getAccountIcon(type: string | null): NucleoIconData {
+  getAccountIcon(type: string | null): KualiaIconData {
     if (type === null) {
       return Banknote;
     }

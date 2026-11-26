@@ -5,28 +5,28 @@ import { Id } from 'convex/_generated/dataModel';
 import type { CategoryTargetInfo } from 'convex/categoryBudgets/types';
 import { CategoryTarget } from 'convex/categoryTargets/types';
 import {
-  nucleoCircleOutline as Circle,
-  nucleoWarningCircle as CircleAlert,
-  nucleoCheckCircle as CircleCheck,
-  nucleoCircleDashed as CircleDotDashed,
-  nucleoArrowUp as CircleFadingArrowUp,
-  NucleoIcon,
-  type NucleoIconData,
-  nucleoMoon as Moon,
+  kualiaCircleOutline as Circle,
+  kualiaWarningCircle as CircleAlert,
+  kualiaCheckCircle as CircleCheck,
+  kualiaCircleDashed as CircleDotDashed,
+  kualiaArrowUp as CircleFadingArrowUp,
+  KualiaIcon,
+  type KualiaIconData,
+  kualiaMoon as Moon,
 } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 import { CategoryTargetDialogComponent } from '../dialogs/category-target-dialog/category-target-dialog';
 
 @Component({
   selector: 'app-category-target-indicator',
-  imports: [NucleoIcon, HlmButton],
+  imports: [KualiaIcon, HlmButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button hlmBtn variant="ghost" size="sm" type="button" class="w-7 shrink-0" (click)="handleClick($event)">
       @if (isSnoozed()) {
-        <nucleo-icon [icon]="Moon" [size]="16" class="text-muted-foreground" />
+        <kualia-icon [icon]="Moon" [size]="16" class="text-muted-foreground" />
       } @else {
-        <nucleo-icon [icon]="targetIcon()" [size]="16" [class]="progressColorClass()" />
+        <kualia-icon [icon]="targetIcon()" [size]="16" [class]="progressColorClass()" />
       }
     </button>
   `,
@@ -124,7 +124,7 @@ export class CategoryTargetIndicatorComponent {
   });
 
   // Determine which icon to show based on state
-  readonly targetIcon = computed((): NucleoIconData => {
+  readonly targetIcon = computed((): KualiaIconData => {
     const targetInfo = this.target();
     const hasTarget = targetInfo?.targetAmount !== undefined;
 

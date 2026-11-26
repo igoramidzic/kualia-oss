@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoCheck } from '@kualia/icons';
+import { kualiaCheck } from '@kualia/icons';
 import { BrnAutocompleteItem } from '@spartan-ng/brain/autocomplete';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: 'hlm-autocomplete-item',
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoCheck })],
+  providers: [provideIcons({ kualiaCheck })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [{ directive: BrnAutocompleteItem, inputs: ['id', 'disabled', 'value'] }],
   host: { 'data-slot': 'autocomplete-item' },
@@ -15,7 +15,7 @@ import { classes } from '@spartan-ng/helm/utils';
     <ng-content />
     @if (_active()) {
       <ng-icon
-        name="nucleoCheck"
+        name="kualiaCheck"
         class="absolute start-2 flex items-center justify-center text-[calc(var(--spacing)*4)]"
         aria-hidden="true"
       />

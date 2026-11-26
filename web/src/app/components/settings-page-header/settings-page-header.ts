@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { nucleoChevronRight as ChevronRight, NucleoIcon } from '@kualia/icons';
+import { kualiaChevronRight as ChevronRight, KualiaIcon } from '@kualia/icons';
 import { WorkspaceService } from '../../services/workspace.service';
 import { SidebarToggleComponent } from '../sidebar-toggle/sidebar-toggle';
 
 @Component({
   selector: 'app-settings-page-header',
-  imports: [RouterLink, SidebarToggleComponent, NucleoIcon],
+  imports: [RouterLink, SidebarToggleComponent, KualiaIcon],
   templateUrl: './settings-page-header.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -18,7 +18,7 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
-import { nucleoSort as ArrowUpDown, NucleoIcon, nucleoPlus as Plus, nucleoSearch as Search } from '@kualia/icons';
+import { kualiaSort as ArrowUpDown, KualiaIcon, kualiaPlus as Plus, kualiaSearch as Search } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { filter } from 'rxjs';
 import { CreateMerchantDialogContentComponent } from '../../../components/dialogs/create-merchant-dialog/create-merchant-dialog-content';
@@ -40,7 +40,7 @@ const SCROLL_POSITION_KEY = 'merchants-scroll-position';
     HlmInputGroupImports,
     HlmSkeleton,
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     SettingsPageHeaderComponent,
     EntityMarkComponent,
     RouterLink,

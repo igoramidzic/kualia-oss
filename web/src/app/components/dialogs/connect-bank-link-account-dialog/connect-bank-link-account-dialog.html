@@ -21,7 +21,7 @@
         />
       } @else {
         <div class="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
-          <nucleo-icon [icon]="Building2" [size]="20" class="text-muted-foreground" />
+          <kualia-icon [icon]="Building2" [size]="20" class="text-muted-foreground" />
         </div>
       }
 
@@ -57,9 +57,9 @@
             </div>
 
             @if (saving()) {
-              <nucleo-icon [icon]="LoaderCircle" [size]="16" class="text-muted-foreground animate-spin" />
+              <kualia-icon [icon]="LoaderCircle" [size]="16" class="text-muted-foreground animate-spin" />
             } @else {
-              <nucleo-icon [icon]="Check" [size]="16" class="text-muted-foreground opacity-0" />
+              <kualia-icon [icon]="Check" [size]="16" class="text-muted-foreground opacity-0" />
             }
           </button>
         }
@@ -82,14 +82,14 @@
       class="border-border hover:bg-accent/50 flex w-full items-center gap-3 rounded-lg border border-dashed p-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50"
     >
       <div class="bg-accent flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-gray-400">
-        <nucleo-icon [icon]="Plus" [size]="14" />
+        <kualia-icon [icon]="Plus" [size]="14" />
       </div>
       <div class="flex-1">
         <div class="text-muted-foreground text-sm font-medium">Create new account and link</div>
       </div>
 
       @if (saving()) {
-        <nucleo-icon [icon]="LoaderCircle" [size]="16" class="text-muted-foreground animate-spin" />
+        <kualia-icon [icon]="LoaderCircle" [size]="16" class="text-muted-foreground animate-spin" />
       }
     </button>
   </div>

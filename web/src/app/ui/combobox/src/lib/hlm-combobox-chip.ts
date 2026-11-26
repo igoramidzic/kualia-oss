@@ -1,7 +1,7 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoClose } from '@kualia/icons';
+import { kualiaClose } from '@kualia/icons';
 import { BrnComboboxChip } from '@spartan-ng/brain/combobox';
 import { classes } from '@spartan-ng/helm/utils';
 import { HlmComboboxChipRemove } from './hlm-combobox-chip-remove';
@@ -9,7 +9,7 @@ import { HlmComboboxChipRemove } from './hlm-combobox-chip-remove';
 @Component({
   selector: 'hlm-combobox-chip',
   imports: [NgIcon, HlmComboboxChipRemove],
-  providers: [provideIcons({ nucleoClose })],
+  providers: [provideIcons({ kualiaClose })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [{ directive: BrnComboboxChip, inputs: ['value'] }],
   host: { 'data-slot': 'combobox-chip' },
@@ -18,7 +18,7 @@ import { HlmComboboxChipRemove } from './hlm-combobox-chip-remove';
 
     @if (showRemove()) {
       <button hlmComboboxChipRemove>
-        <ng-icon name="nucleoClose" />
+        <ng-icon name="kualiaClose" />
       </button>
     }
   `,
