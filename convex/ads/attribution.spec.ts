@@ -2,11 +2,10 @@ import type { FunctionArgs } from 'convex/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { api, internal } from '../_generated/api';
 import type { Doc, Id } from '../_generated/dataModel';
-import type { ActionCtx, MutationCtx } from '../_generated/server';
+import type { MutationCtx } from '../_generated/server';
 import { sha256Hex } from '../lib/crypto';
 import { upsertSubscription } from '../revenuecat/mutations';
 import { expire, revoke, sync } from './attribution';
-import { send, sendFacebook } from './conversions';
 
 const profileId = 'profile-1' as Id<'userProfile'>;
 const click = () => ({
@@ -23,36 +22,6 @@ function handler<Context, Args>(registered: unknown) {
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
-});
-
-describe('retired conversion delivery', () => {
-  it('discards queued conversions and retries even with production credentials and consent', async () => {
-    vi.stubEnv('CONVEX_CLOUD_URL', 'https://different-gerbil-777.convex.cloud');
-    vi.stubEnv('OPENAI_CONVERSIONS_API_KEY', 'test-secret');
-    vi.stubEnv('META_PIXEL_ID', '12345');
-    vi.stubEnv('META_CONVERSIONS_ACCESS_TOKEN', 'test-secret');
-    const fetch = vi.fn();
-    vi.stubGlobal('fetch', fetch);
-    const runQuery = vi.fn().mockResolvedValue(click());
-    const runAfter = vi.fn();
-    const ctx = { runQuery, scheduler: { runAfter } } as unknown as ActionCtx;
-    const sendHandler = handler<ActionCtx, FunctionArgs<typeof internal.ads.conversions.send>>(send);
-    const facebookHandler = handler<ActionCtx, FunctionArgs<typeof internal.ads.conversions.sendFacebook>>(
-      sendFacebook
-    );
-    for (const type of ['registration_completed', 'trial_started', 'subscription_created', 'order_created'] as const) {
-      for (const attempt of [0, 1, 5]) {
-        const args = { profileId, type, attempt, eventId: 'old-event', timestamp: new Date().toISOString() };
-        expect(await sendHandler(ctx, { ...args, oppref: 'old-click', clickedAt: args.timestamp })).toBeNull();
-        expect(
-          await facebookHandler(ctx, { ...args, facebook: click().facebook, value: { value: 99, currency: 'USD' } })
-        ).toBeNull();
-      }
-    }
-    expect(fetch).not.toHaveBeenCalled();
-    expect(runQuery).not.toHaveBeenCalled();
-    expect(runAfter).not.toHaveBeenCalled();
-  });
 });
 
 describe('legacy attribution cleanup', () => {

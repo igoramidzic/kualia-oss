@@ -8,7 +8,7 @@ The `AGENTS.md` files are the single source of truth. Each directory's `CLAUDE.m
 
 Kualia is a local-first envelope budgeting app. The web client is Angular 21; Convex provides the database, reactive queries, mutations, actions, file storage, and password authentication. This is a pnpm/Turborepo workspace with root-managed dependencies and existing `web/` and `convex/` source paths. iOS is archived and is not wired to the new auth system. Marketing sites and production release infrastructure are intentionally excluded.
 
-Use Node 24 and pnpm 12. `pnpm install --frozen-lockfile`, then `pnpm dev`, starts anonymous local Convex and Angular. No cloud account, Docker, Clerk, Logo.dev, Plaid, or payment provider is required for core budgeting. Read the optional-services table in README before enabling an integration. Custom logo uploads use Convex storage and need no Logo.dev account.
+Use Node 24 and pnpm 12; `pnpm install` rejects other Node versions through `devEngines.runtime` in the root `package.json`. `pnpm install --frozen-lockfile`, then `pnpm dev`, starts anonymous local Convex and Angular. No cloud account, Docker, Clerk, Logo.dev, Plaid, or payment provider is required for core budgeting. Read the optional-services table in README before enabling an integration. Custom logo uploads use Convex storage and need no Logo.dev account.
 
 For UI review or bug reproduction, `pnpm seed` (while `pnpm dev` runs) loads a synthetic demo budget and prints its local login (`demo@example.test` / `kualia-demo-budget`). Its data comes from `scripts/seed-data.mjs` and is imported through `kualiaImport.restore`; keep the generator in sync with schema or import changes, and keep it local-only via `assertLocalDeployment`.
 
@@ -40,7 +40,7 @@ For UI review or bug reproduction, `pnpm seed` (while `pnpm dev` runs) loads a s
 
 ## Validation
 
-Before a commit run `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`, `pnpm test:ci`, and `pnpm scan:secrets`. `pnpm check` runs the same list in one command (it uses `format:check`, so run `pnpm format` first to apply fixes). Scoped guides defer to this list rather than keeping their own.
+CI (`.github/workflows/ci.yml`) runs `pnpm check` on every pull request and push to `main`. Before a commit run `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`, `pnpm test:ci`, and `pnpm scan:secrets`. `pnpm check` runs the same list in one command (it uses `format:check`, so run `pnpm format` first to apply fixes). Scoped guides defer to this list rather than keeping their own.
 
 With `pnpm dev` running, `pnpm smoke` runs `scripts/smoke-local.mjs` against the local database: password rejection, token refresh/logout, cross-user isolation, and an export/import round trip. Run it after auth, access, or export changes. After backend changes verify the running local `pnpm dev` pushes successfully and refresh generated types. Verify auth changes with separate users and sessions, including unauthorized access attempts. Use synthetic data only.
 

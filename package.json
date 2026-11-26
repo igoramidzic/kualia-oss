@@ -99,5 +99,12 @@
   "engines": {
     "node": ">=24 <25",
     "pnpm": ">=12 <13"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24 <25",
+      "onFail": "error"
+    }
   }
 }
