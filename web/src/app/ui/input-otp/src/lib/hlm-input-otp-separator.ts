@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoMinus } from '@kualia/icons';
+import { kualiaMinus } from '@kualia/icons';
 import { HlmIcon } from '@spartan-ng/helm/icon';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: 'hlm-input-otp-separator',
   imports: [HlmIcon, NgIcon],
-  providers: [provideIcons({ nucleoMinus })],
+  providers: [provideIcons({ kualiaMinus })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'separator',
     'data-slot': 'input-otp-separator',
   },
-  template: ` <ng-icon hlm name="nucleoMinus" /> `,
+  template: ` <ng-icon hlm name="kualiaMinus" /> `,
 })
 export class HlmInputOtpSeparator {
   constructor() {

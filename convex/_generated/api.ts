@@ -154,6 +154,7 @@ import type * as kualiaImport_prepare from "../kualiaImport/prepare.js";
 import type * as kualiaImport_write from "../kualiaImport/write.js";
 import type * as lib_accountTypes from "../lib/accountTypes.js";
 import type * as lib_appAccess from "../lib/appAccess.js";
+import type * as lib_appUrl from "../lib/appUrl.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_crypto from "../lib/crypto.js";
 import type * as lib_dates from "../lib/dates.js";
@@ -508,6 +509,7 @@ const fullApi: ApiFromModules<{
   "kualiaImport/write": typeof kualiaImport_write;
   "lib/accountTypes": typeof lib_accountTypes;
   "lib/appAccess": typeof lib_appAccess;
+  "lib/appUrl": typeof lib_appUrl;
   "lib/auth": typeof lib_auth;
   "lib/crypto": typeof lib_crypto;
   "lib/dates": typeof lib_dates;

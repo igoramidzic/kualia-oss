@@ -11,7 +11,8 @@ import { isApiErrorData, type ApiErrorName } from './lib';
 import { DEFAULT_TRANSACTIONS_PAGE_SIZE, MAX_TRANSACTIONS_PAGE_SIZE } from './reads';
 
 /**
- * Public REST API (https://api.kualia.com/v1).
+ * Public REST API, served under `/v1/` on this deployment's Convex HTTP actions
+ * origin (for local `pnpm dev`, `http://127.0.0.1:3211/v1/`).
  *
  * Authentication: `Authorization: Bearer <api key>` where keys are created in
  * the web app under Settings → API Keys. Responses follow a YNAB-style

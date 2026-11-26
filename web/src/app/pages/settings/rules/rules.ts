@@ -3,11 +3,11 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmCard } from '@spartan-ng/helm/card';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import {
-  nucleoArrowDown as ArrowDown,
-  nucleoArrowRight as ArrowRight,
-  NucleoIcon,
-  nucleoPlus as Plus,
-  nucleoShop as Store,
+  kualiaArrowDown as ArrowDown,
+  kualiaArrowRight as ArrowRight,
+  KualiaIcon,
+  kualiaPlus as Plus,
+  kualiaShop as Store,
 } from '@kualia/icons';
 import { RuleDialogComponent } from '../../../components/dialogs/rule-dialog/rule-dialog';
 import { SettingsPageHeaderComponent } from '../../../components/settings-page-header/settings-page-header';
@@ -25,7 +25,7 @@ interface RuleAction {
 
 @Component({
   selector: 'app-rules',
-  imports: [NucleoIcon, HlmButton, HlmCard, SettingsPageHeaderComponent],
+  imports: [KualiaIcon, HlmButton, HlmCard, SettingsPageHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './rules.html',
   host: {

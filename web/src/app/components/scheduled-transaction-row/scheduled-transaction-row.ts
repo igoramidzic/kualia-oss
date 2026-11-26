@@ -3,10 +3,10 @@ import { RouterLink } from '@angular/router';
 import { HlmCheckbox } from '@spartan-ng/helm/checkbox';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoCalendarClock as CalendarClock,
-  nucleoHistory as ClockFading,
-  NucleoIcon,
-  nucleoTrash as Trash2,
+  kualiaCalendarClock as CalendarClock,
+  kualiaHistory as ClockFading,
+  KualiaIcon,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService } from '../../services/bank-account.service';
@@ -42,7 +42,7 @@ import { TransactionDatePickerComponent } from '../transaction/transaction-date-
   selector: 'app-scheduled-transaction-row',
   imports: [
     RouterLink,
-    NucleoIcon,
+    KualiaIcon,
     HlmCheckbox,
     ...HlmContextMenuImports,
     ...HlmDropdownMenuImports,

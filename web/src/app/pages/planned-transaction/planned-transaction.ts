@@ -5,11 +5,11 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoCalendarClock as CalendarClock,
-  nucleoChevronRight as ChevronRight,
-  nucleoDots as Ellipsis,
-  NucleoIcon,
-  nucleoTrash as Trash2,
+  kualiaCalendarClock as CalendarClock,
+  kualiaChevronRight as ChevronRight,
+  kualiaDots as Ellipsis,
+  KualiaIcon,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { SidebarToggleComponent } from '../../components/sidebar-toggle/sidebar-toggle';
@@ -28,7 +28,7 @@ import { PlannedTransactionPageService } from './planned-transaction-page.servic
     CommonModule,
     RouterOutlet,
     RouterLink,
-    NucleoIcon,
+    KualiaIcon,
     SidebarToggleComponent,
     HlmSkeleton,
     HlmButton,

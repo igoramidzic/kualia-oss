@@ -59,16 +59,19 @@ Use your own credentials. Never paste real secrets into documentation, tests, is
 | Authentication | Convex Auth; `JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` are generated/configured by `pnpm dev` | No hosted identity provider needed |
 | App access | `SELF_HOSTED=true` is set by the local launcher | This is the default free local mode |
 | Logo search | Logo.dev: `LOGO_DEV_SECRET_TOKEN` and `LOGO_DEV_PUBLIC_TOKEN`; browser `logoDev.token` for direct image URLs | Upload images or use the bundled icons |
+| Generated app links | `KUALIA_APP_URL`: your web app's origin (for example `https://budget.example.test`), used in invite and bank-connection emails, MCP transaction links, the MCP OAuth redirect, and the Apple Wallet logo | Links point at the local app, `http://127.0.0.1:4200` |
 | Bank sync | Plaid: `PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_ENV`, `PLAID_TRANSACTIONS_WEBHOOK` | Manual accounts, file imports, and manual transactions |
+| Plaid OAuth return link (archived iOS app) | `PLAID_REDIRECT_URI`: an `https` URL you registered in your own Plaid dashboard | iOS Link tokens are created without a redirect URI, so OAuth-only institutions cannot complete Link on iOS |
 | Alternate bank provider | Salt Edge: `SALTEDGE_APP_ID`, `SALTEDGE_SECRET`, `SALTEDGE_PRIVATE_KEY`, `SALTEDGE_ENV` | No Salt Edge connections |
-| AI assistant | OpenRouter: `OPENROUTER_API_KEY`; optional `KUALIA_DOCS_MCP_URL`; some features use `TYPESAFE_API_KEY` | Standard budgeting UI remains available |
+| AI assistant | OpenRouter: `OPENROUTER_API_KEY`; some features use `TYPESAFE_API_KEY` | Standard budgeting UI remains available |
+| AI assistant docs tools | `KUALIA_DOCS_MCP_URL`: an MCP server you run or trust. Its tools are given to the AI assistant | The assistant runs without docs tools. It makes no network call for docs and is told not to link to documentation sites |
 | Email / family invitation delivery | Loops: `LOOPS_API_KEY`, `LOOPS_FAMILY_INVITE_TRANSACTIONAL_ID` | Local password signup works; automated mail is unavailable |
 | Push notifications | Apple APNs: `APNS_KEY`, `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_BUNDLE_ID` | No native push notifications |
 | Analytics / errors | PostHog backend `POSTHOG_API_KEY`, `POSTHOG_API_HOST`; frontend PostHog/Sentry settings | Tracking is disabled by default |
 | Operator notifications | `DISCORD_WEBHOOK_URL` or channel-specific Discord webhook variables in `convex/lib/discord.ts` | No Discord reports |
 | Hosted billing (legacy) | RevenueCat credentials and webhook secret, optionally `STRIPE_SECRET_KEY` | Not needed for self-hosted budgeting; enabling billing is a separate integration project |
 
-External webhooks cannot reach localhost directly. Bank sync, mail, push, billing, feedback, AI, and telemetry integrations are not validated by the default local setup. Inspect the corresponding backend module before enabling them. Any legacy public-site links in optional features need replacing with your own URLs. Set `KUALIA_APP_URL` to your web origin when enabling generated links.
+External webhooks cannot reach localhost directly. Bank sync, mail, push, billing, feedback, AI, and telemetry integrations are not validated by the default local setup. Inspect the corresponding backend module before enabling them. The retired hosted domains are never used as fallbacks. Set `KUALIA_APP_URL` to your web origin whenever the app is reached anywhere other than `http://127.0.0.1:4200`, such as another host, port, or HTTPS.
 
 ## Repository map
 
@@ -80,6 +83,8 @@ public/               web assets and fonts (font licenses retained)
 scripts/              local startup, safety checks, and validation scripts
 iOS/                  archived SwiftUI client (see below)
 .agents/skills/convex* generated Convex skills retained for coding agents
+.claude/skills        symlink to .agents/skills for Claude Code
+CLAUDE.md             imports AGENTS.md for Claude Code (also in web/, convex/, iOS/)
 ```
 
 Root `angular.json`, `tsconfig*.json`, and `vite.config.ts` configure the existing Angular source layout and shared test suite. Dependencies are managed at the root; the web, backend, and shared workspace manifests expose the Turborepo task graph. `turbo.json` coordinates long-running dev tasks and build/typecheck dependencies.
@@ -104,7 +109,7 @@ Convex Auth's JWT subject includes both user and session IDs. `convex/lib/identi
 | Database schema | `convex/schema.ts`; keep generated API types in sync |
 | Local startup or ports | `scripts/dev-backend.mjs`, `local-ready.mjs`, `dev-web.mjs`, web environments |
 | Uploaded / searched logos | `web/src/app/services/logo-*`, `convex/storage/`, `convex/logoDev.ts` |
-| Icons | Existing `nucleo*` exports now contain Lucide artwork; `LICENSE-LUCIDE` applies |
+| Icons | `web/src/app/icons/`: `kualia*` artwork exports (`KualiaIconData`), the `<kualia-icon>` component, and the `kualiaIcons` catalog / `KualiaIconName` type. Artwork is Lucide; `LICENSE-LUCIDE` applies |
 
 ## Development and checks
 
@@ -116,9 +121,12 @@ pnpm typecheck
 pnpm build
 pnpm test:ci
 pnpm scan:secrets
-pnpm seed                      # optional: load a synthetic demo budget while pnpm dev is running
-node scripts/smoke-local.mjs   # optional integration check while pnpm dev is running
+pnpm check   # all of the above except dev, with format:check instead of format
+pnpm seed    # optional: load a synthetic demo budget while pnpm dev is running
+pnpm smoke   # optional integration check (scripts/smoke-local.mjs) while pnpm dev is running
 ```
+
+Run `pnpm check` before committing; it is the same list the root `AGENTS.md` requires. Run `pnpm format` first if `format:check` reports differences.
 
 `pnpm seed` fills the local database with a fictional demo budget for reviewing UI changes and reproducing bugs. It signs up (or signs in) `demo@example.test` with the password `kualia-demo-budget`, prints both, and imports a "Demo Budget" workspace through the regular Kualia backup import: checking, savings, and credit card accounts; Bills, Everyday, and Savings Goals categories with targets; assignments for the current and previous three months; and dated transactions including paychecks, a split receipt, a card refund, savings transfers, and card payments. It then runs the workspace integrity validator. Re-running reports the existing demo workspace instead of adding a second one; delete the workspace in Settings and rerun to start over. It only targets the anonymous local backend at `127.0.0.1:3210` and refuses to run when a remote deployment is configured. These credentials are for the local database only.
 
@@ -126,7 +134,7 @@ The smoke test creates synthetic accounts and a workspace in the ignored local d
 
 `pnpm build` produces `web/dist/`. It does not deploy anything. `pnpm scan:secrets` scans Git-tracked source and checks for sensitive/generated paths; install Gitleaks for the additional full pattern scan (`gitleaks dir . --redact`, or scan a clean export to avoid private local state).
 
-Agents should read `AGENTS.md`, then the scoped guide in `web/`, `convex/`, or `iOS/`. For backend changes also read `convex/_generated/ai/guidelines.md` and the relevant `.agents/skills/convex*/SKILL.md`. The generated files can be refreshed with `pnpm exec convex ai-files install`; review its diff and keep project-specific guidance in `AGENTS.md` rather than overwriting generated skills. Ordinary development must remain local unless explicitly asked to configure a different deployment.
+Agents should read `AGENTS.md`, then the scoped guide in `web/`, `convex/`, or `iOS/`. Claude Code reads `CLAUDE.md` instead, so each of those directories has a `CLAUDE.md` that imports its sibling `AGENTS.md` (`@AGENTS.md`); edit `AGENTS.md`, which stays the single source of truth. Claude Code finds skills under `.claude/skills/`, a relative symlink to `.agents/skills/`, so the generated Convex skills are shared without copies. On Windows, enable Git symlinks (`git config core.symlinks true` with Developer Mode) or the link checks out as a plain text file. For backend changes also read `convex/_generated/ai/guidelines.md` and the relevant `.agents/skills/convex*/SKILL.md`. The generated files can be refreshed with `pnpm exec convex ai-files install`; review its diff and keep project-specific guidance in `AGENTS.md` rather than overwriting generated skills. Ordinary development must remain local unless explicitly asked to configure a different deployment.
 
 ## Archived iOS app
 

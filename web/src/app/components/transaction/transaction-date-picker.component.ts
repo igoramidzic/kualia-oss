@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
-import { nucleoCalendarFilled as Calendar, NucleoIcon, nucleoRecurrence as Repeat } from '@kualia/icons';
+import { kualiaCalendarFilled as Calendar, KualiaIcon, kualiaRecurrence as Repeat } from '@kualia/icons';
 import { BrnCommand } from '@spartan-ng/brain/command';
 import type { BrnDialogState } from '@spartan-ng/brain/dialog';
 import { BrnPopover, BrnPopoverContent, BrnPopoverTrigger } from '@spartan-ng/brain/popover';
@@ -16,7 +16,7 @@ import { RECURRENCE_OPTIONS, type Recurrence, recurrenceLabel } from '../../shar
   imports: [
     HlmSelectImports,
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     BrnPopover,
     BrnPopoverTrigger,
     BrnPopoverContent,
@@ -39,10 +39,10 @@ import { RECURRENCE_OPTIONS, type Recurrence, recurrenceLabel } from '../../shar
         (click)="$event.stopPropagation(); $event.preventDefault()"
       >
         <span class="flex items-center gap-2">
-          <nucleo-icon [icon]="Calendar" [size]="14" class="text-muted-foreground" />
+          <kualia-icon [icon]="Calendar" [size]="14" class="text-muted-foreground" />
           {{ displayDate() }}
           @if (showRecurrence() && recurrence() !== 'once') {
-            <nucleo-icon [icon]="Repeat" [size]="14" class="text-muted-foreground" />
+            <kualia-icon [icon]="Repeat" [size]="14" class="text-muted-foreground" />
           }
         </span>
       </button>
@@ -68,7 +68,7 @@ import { RECURRENCE_OPTIONS, type Recurrence, recurrenceLabel } from '../../shar
                 [for]="recurrenceSelectId"
                 class="text-muted-foreground mb-1.5 flex items-center gap-1.5 text-xs select-none"
               >
-                <nucleo-icon [icon]="Repeat" [size]="12" />
+                <kualia-icon [icon]="Repeat" [size]="12" />
                 Frequency
               </label>
               <hlm-select
@@ -97,7 +97,7 @@ import { RECURRENCE_OPTIONS, type Recurrence, recurrenceLabel } from '../../shar
                 class="w-full justify-start px-2 text-xs"
                 (click)="onMakeRecurringClick()"
               >
-                <nucleo-icon [icon]="Repeat" [size]="14" class="text-muted-foreground" />
+                <kualia-icon [icon]="Repeat" [size]="14" class="text-muted-foreground" />
                 Make recurring
               </button>
             </div>

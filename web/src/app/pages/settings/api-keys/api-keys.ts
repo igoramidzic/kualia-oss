@@ -5,7 +5,7 @@ import { HlmCard } from '@spartan-ng/helm/card';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { api } from 'convex/_generated/api';
 import { FunctionReturnType } from 'convex/server';
-import { nucleoKey as KeyRound, NucleoIcon, nucleoPlus as Plus, nucleoTrash as Trash2 } from '@kualia/icons';
+import { kualiaKey as KeyRound, KualiaIcon, kualiaPlus as Plus, kualiaTrash as Trash2 } from '@kualia/icons';
 import { CreateApiKeyDialogComponent } from '../../../components/dialogs/create-api-key-dialog/create-api-key-dialog';
 import { RevokeApiKeyDialogComponent } from '../../../components/dialogs/revoke-api-key-dialog/revoke-api-key-dialog';
 import { SettingsPageHeaderComponent } from '../../../components/settings-page-header/settings-page-header';
@@ -16,7 +16,7 @@ type ApiKeyEntry = ApiKeyList[number];
 
 @Component({
   selector: 'app-api-keys',
-  imports: [DatePipe, HlmButton, HlmCard, NucleoIcon, SettingsPageHeaderComponent],
+  imports: [DatePipe, HlmButton, HlmCard, KualiaIcon, SettingsPageHeaderComponent],
   templateUrl: './api-keys.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block h-full' },

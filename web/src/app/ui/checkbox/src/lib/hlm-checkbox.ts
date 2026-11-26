@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoCheck, nucleoMinus } from '@kualia/icons';
+import { kualiaCheck, kualiaMinus } from '@kualia/icons';
 import { BrnCheckbox } from '@spartan-ng/brain/checkbox';
 import { BrnFieldControlDescribedBy } from '@spartan-ng/brain/field';
 import type { ChangeFn, TouchFn } from '@spartan-ng/brain/forms';
@@ -31,7 +31,7 @@ export const HLM_CHECKBOX_VALUE_ACCESSOR = {
   selector: 'hlm-checkbox',
   imports: [BrnCheckbox, NgIcon, HlmIcon],
   providers: [HLM_CHECKBOX_VALUE_ACCESSOR],
-  viewProviders: [provideIcons({ nucleoCheck, nucleoMinus })],
+  viewProviders: [provideIcons({ kualiaCheck, kualiaMinus })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [BrnFieldControlDescribedBy],
   host: {
@@ -59,11 +59,11 @@ export const HLM_CHECKBOX_VALUE_ACCESSOR = {
     >
       @if (indeterminate()) {
         <span class="flex items-center justify-center text-current transition-none">
-          <ng-icon hlm size="12px" name="nucleoMinus" />
+          <ng-icon hlm size="12px" name="kualiaMinus" />
         </span>
       } @else if (checked()) {
         <span class="flex items-center justify-center text-current transition-none">
-          <ng-icon hlm size="12px" name="nucleoCheck" />
+          <ng-icon hlm size="12px" name="kualiaCheck" />
         </span>
       }
     </brn-checkbox>

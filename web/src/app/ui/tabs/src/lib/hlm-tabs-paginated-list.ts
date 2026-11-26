@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronLeft, nucleoChevronRight } from '@kualia/icons';
+import { kualiaChevronLeft, kualiaChevronRight } from '@kualia/icons';
 import { type BrnPaginatedTabHeaderItem, BrnTabsPaginatedList, BrnTabsTrigger } from '@spartan-ng/brain/tabs';
 import { buttonVariants } from '@spartan-ng/helm/button';
 import { HlmIcon } from '@spartan-ng/helm/icon';
@@ -22,7 +22,7 @@ import { listVariants } from './hlm-tabs-list';
 @Component({
   selector: 'hlm-paginated-tabs-list',
   imports: [CdkObserveContent, NgIcon, HlmIcon],
-  providers: [provideIcons({ nucleoChevronRight, nucleoChevronLeft })],
+  providers: [provideIcons({ kualiaChevronRight, kualiaChevronLeft })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-slot': 'tabs-paginated-list',
@@ -42,7 +42,7 @@ import { listVariants } from './hlm-tabs-list';
       (mousedown)="_handlePaginatorPress('before', $event)"
       (touchend)="_stopInterval()"
     >
-      <ng-icon hlm size="base" name="nucleoChevronLeft" />
+      <ng-icon hlm size="base" name="kualiaChevronLeft" />
     </button>
 
     <div #tabListContainer class="z-[1] flex grow overflow-hidden" (keydown)="_handleKeydown($event)">
@@ -67,7 +67,7 @@ import { listVariants } from './hlm-tabs-list';
       (mousedown)="_handlePaginatorPress('after', $event)"
       (touchend)="_stopInterval()"
     >
-      <ng-icon hlm size="base" name="nucleoChevronRight" />
+      <ng-icon hlm size="base" name="kualiaChevronRight" />
     </button>
   `,
 })

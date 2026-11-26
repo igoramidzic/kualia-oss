@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import {
-  nucleoCheck as Check,
-  nucleoTable as FileSpreadsheet,
-  NucleoIcon,
-  nucleoUpload as Upload,
+  kualiaCheck as Check,
+  kualiaTable as FileSpreadsheet,
+  KualiaIcon,
+  kualiaUpload as Upload,
 } from '@kualia/icons';
 
 @Component({
   selector: 'app-upload-step',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-col gap-6">
@@ -36,7 +36,7 @@ import {
 
         @if (planFileName()) {
           <div class="bg-primary/10 flex h-16 w-16 items-center justify-center rounded-full">
-            <nucleo-icon [icon]="Check" class="text-primary h-8 w-8" />
+            <kualia-icon [icon]="Check" class="text-primary h-8 w-8" />
           </div>
           <div class="text-center">
             <p class="text-primary font-medium">plan.csv uploaded</p>
@@ -44,14 +44,14 @@ import {
           </div>
         } @else {
           <div class="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-            <nucleo-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-8 w-8" />
+            <kualia-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-8 w-8" />
           </div>
           <div class="text-center">
             <p class="font-medium">Upload plan.csv</p>
             <p class="text-muted-foreground text-sm">Budget assignments and category targets</p>
           </div>
           <div class="text-muted-foreground flex items-center gap-2 text-sm">
-            <nucleo-icon [icon]="Upload" class="h-4 w-4" />
+            <kualia-icon [icon]="Upload" class="h-4 w-4" />
             <span>Click or drag and drop</span>
           </div>
         }
@@ -71,7 +71,7 @@ import {
 
         @if (registerFileName()) {
           <div class="bg-primary/10 flex h-16 w-16 items-center justify-center rounded-full">
-            <nucleo-icon [icon]="Check" class="text-primary h-8 w-8" />
+            <kualia-icon [icon]="Check" class="text-primary h-8 w-8" />
           </div>
           <div class="text-center">
             <p class="text-primary font-medium">register.csv uploaded</p>
@@ -79,14 +79,14 @@ import {
           </div>
         } @else {
           <div class="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-            <nucleo-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-8 w-8" />
+            <kualia-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-8 w-8" />
           </div>
           <div class="text-center">
             <p class="font-medium">Upload register.csv</p>
             <p class="text-muted-foreground text-sm">All your transactions</p>
           </div>
           <div class="text-muted-foreground flex items-center gap-2 text-sm">
-            <nucleo-icon [icon]="Upload" class="h-4 w-4" />
+            <kualia-icon [icon]="Upload" class="h-4 w-4" />
             <span>Click or drag and drop</span>
           </div>
         }

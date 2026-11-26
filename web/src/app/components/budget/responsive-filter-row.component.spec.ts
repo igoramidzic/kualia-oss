@@ -2,11 +2,11 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import {
-  nucleoArrowUp as ArrowUp,
-  nucleoWarningCircle as CircleAlert,
-  nucleoPlusCircle as CirclePlus,
-  nucleoLayers as Layers,
-  nucleoTrendDown as TrendingDown,
+  kualiaArrowUp as ArrowUp,
+  kualiaWarningCircle as CircleAlert,
+  kualiaPlusCircle as CirclePlus,
+  kualiaLayers as Layers,
+  kualiaTrendDown as TrendingDown,
 } from '@kualia/icons';
 import { describe, expect, it } from 'vitest';
 import { FilterConfig, ResponsiveFilterRowComponent } from './responsive-filter-row.component';

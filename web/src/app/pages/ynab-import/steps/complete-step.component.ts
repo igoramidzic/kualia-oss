@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { nucleoCheckCircle as CheckCircle2, NucleoIcon, nucleoParty as PartyPopper } from '@kualia/icons';
+import { kualiaCheckCircle as CheckCircle2, KualiaIcon, kualiaParty as PartyPopper } from '@kualia/icons';
 import type { ImportStatus } from '../../../services/ynab-import.service';
 
 @Component({
   selector: 'app-complete-step',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-col items-center gap-8 py-8">
       <!-- Success Icon -->
       <div class="bg-success/10 flex h-24 w-24 items-center justify-center rounded-full">
-        <nucleo-icon [icon]="PartyPopper" class="text-success h-12 w-12" />
+        <kualia-icon [icon]="PartyPopper" class="text-success h-12 w-12" />
       </div>
 
       <!-- Success Message -->
@@ -24,15 +24,15 @@ import type { ImportStatus } from '../../../services/ynab-import.service';
         <h3 class="mb-4 font-medium">What's next?</h3>
         <ul class="space-y-3">
           <li class="flex items-start gap-3">
-            <nucleo-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-5 w-5 shrink-0" />
+            <kualia-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-5 w-5 shrink-0" />
             <span class="text-sm">Your accounts and balances are ready</span>
           </li>
           <li class="flex items-start gap-3">
-            <nucleo-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-5 w-5 shrink-0" />
+            <kualia-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-5 w-5 shrink-0" />
             <span class="text-sm">Categories and budget assignments imported</span>
           </li>
           <li class="flex items-start gap-3">
-            <nucleo-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-5 w-5 shrink-0" />
+            <kualia-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-5 w-5 shrink-0" />
             <span class="text-sm">All transactions are in place</span>
           </li>
         </ul>
@@ -45,11 +45,6 @@ import type { ImportStatus } from '../../../services/ynab-import.service';
           YNAB resets negative category balances to zero each month. Kualia carries over negative balances, so you'll
           see overspending reflected in future months. This gives you a more accurate picture of your actual budget
           situation.
-        </p>
-        <p class="text-muted-foreground mt-4 text-sm">
-          If something doesn't look right, reach out to us at
-          <a href="mailto:support@kualia.com" class="text-primary hover:underline">support&#64;kualia.com</a>
-          and we'll help you get it sorted out.
         </p>
       </div>
 

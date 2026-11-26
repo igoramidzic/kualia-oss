@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoDots } from '@kualia/icons';
+import { kualiaDots } from '@kualia/icons';
 import { HlmIcon } from '@spartan-ng/helm/icon';
 import { hlm } from '@spartan-ng/helm/utils';
 import type { ClassValue } from 'clsx';
@@ -8,11 +8,11 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'hlm-breadcrumb-ellipsis',
   imports: [NgIcon, HlmIcon],
-  providers: [provideIcons({ nucleoDots })],
+  providers: [provideIcons({ kualiaDots })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <span data-slot="breadcrumb-ellipsis" role="presentation" aria-hidden="true" [class]="_computedClass()">
-      <ng-icon hlm size="sm" name="nucleoDots" />
+      <ng-icon hlm size="sm" name="kualiaDots" />
       <span class="sr-only">{{ srOnlyText() }}</span>
     </span>
   `,

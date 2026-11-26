@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input, OnDestroy, signal } from '@angular/core';
 import { HlmBadge } from '@spartan-ng/helm/badge';
-import { nucleoFile as FileText, NucleoIcon, nucleoRefresh as RefreshCw } from '@kualia/icons';
+import { kualiaFile as FileText, KualiaIcon, kualiaRefresh as RefreshCw } from '@kualia/icons';
 import type { BankAccountWithRelations } from '../../services/bank-account.service';
 
 @Component({
   selector: 'app-last-synced-badge',
-  imports: [HlmBadge, NucleoIcon],
+  imports: [HlmBadge, KualiaIcon],
   template: `
     @if (connectionData()) {
       <span
@@ -13,7 +13,7 @@ import type { BankAccountWithRelations } from '../../services/bank-account.servi
         variant="outline"
         class="bg-content-background flex h-6 items-center gap-1.5 font-normal select-none"
       >
-        <nucleo-icon [icon]="RefreshCw" class="h-3 w-3" [class.animate-spin]="isInitialSync()" />
+        <kualia-icon [icon]="RefreshCw" class="h-3 w-3" [class.animate-spin]="isInitialSync()" />
         {{ lastSyncedText() }}
       </span>
     } @else {
@@ -22,7 +22,7 @@ import type { BankAccountWithRelations } from '../../services/bank-account.servi
         variant="outline"
         class="bg-content-background flex h-6 items-center gap-1.5 font-normal select-none"
       >
-        <nucleo-icon [icon]="FileText" class="h-3 w-3" />
+        <kualia-icon [icon]="FileText" class="h-3 w-3" />
         Manual entry
       </span>
     }

@@ -23,7 +23,7 @@
                   <div
                     class="bg-primary/10 text-primary flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-md"
                   >
-                    <nucleo-icon [icon]="UsersRound" class="h-5 w-5" />
+                    <kualia-icon [icon]="UsersRound" class="h-5 w-5" />
                   </div>
                   <div>
                     <h2 class="font-medium">Set Up Family</h2>
@@ -42,7 +42,7 @@
                   data-testid="create-family-group"
                 >
                   @if (creatingGroup()) {
-                    <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+                    <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
                     Creating...
                   } @else {
                     Create Family Group
@@ -75,7 +75,7 @@
                       [disabled]="!canInvite()"
                       data-testid="invite-member"
                     >
-                      <nucleo-icon [icon]="MailPlus" class="h-4 w-4" />
+                      <kualia-icon [icon]="MailPlus" class="h-4 w-4" />
                       Invite Member
                     </button>
                   </div>
@@ -89,7 +89,7 @@
                     (click)="openLeaveDialog()"
                     data-testid="leave-family-group"
                   >
-                    <nucleo-icon [icon]="LogOut" class="h-4 w-4" />
+                    <kualia-icon [icon]="LogOut" class="h-4 w-4" />
                     Leave Family
                   </button>
                 }
@@ -128,7 +128,7 @@
                       <p class="text-muted-foreground truncate text-sm">{{ displayMemberEmail(manager) }}</p>
                     </div>
 
-                    <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+                    <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
                   </a>
                 }
               </div>
@@ -176,7 +176,7 @@
                         <p class="text-muted-foreground truncate text-sm">{{ displayMemberEmail(member) }}</p>
                       </div>
 
-                      <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+                      <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
                     </a>
                   }
                 </div>
@@ -211,7 +211,7 @@
                       </div>
 
                       <span class="text-muted-foreground rounded-md border px-2 py-1 text-xs">Pending</span>
-                      <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
+                      <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5 flex-shrink-0" />
                     </a>
                   }
                 </div>

@@ -7,11 +7,11 @@ import { api } from 'convex/_generated/api';
 import type { Id } from 'convex/_generated/dataModel';
 import type { FunctionReturnType } from 'convex/server';
 import {
-  nucleoDownload as Download,
-  nucleoFileArchive as FileArchive,
-  nucleoTable as FileSpreadsheet,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
+  kualiaDownload as Download,
+  kualiaFileArchive as FileArchive,
+  kualiaTable as FileSpreadsheet,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { SettingsPageHeaderComponent } from '../../../components/settings-page-header/settings-page-header';
@@ -23,7 +23,7 @@ type WorkspaceExportResult = FunctionReturnType<typeof api.dataExports.generateW
 
 @Component({
   selector: 'app-data-export',
-  imports: [HlmButton, HlmCard, NucleoIcon, SettingsPageHeaderComponent],
+  imports: [HlmButton, HlmCard, KualiaIcon, SettingsPageHeaderComponent],
   templateUrl: './export.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block h-full' },

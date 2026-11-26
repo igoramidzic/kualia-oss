@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmSidebarService } from '@spartan-ng/helm/sidebar';
-import { NucleoIcon, nucleoSidebarLeftOpen as PanelLeftOpen } from '@kualia/icons';
+import { KualiaIcon, kualiaSidebarLeftOpen as PanelLeftOpen } from '@kualia/icons';
 
 @Component({
   selector: 'app-sidebar-toggle',
-  imports: [NucleoIcon, HlmButton],
+  imports: [KualiaIcon, HlmButton],
   template: `
     <button
       hlmBtn
@@ -15,7 +15,7 @@ import { NucleoIcon, nucleoSidebarLeftOpen as PanelLeftOpen } from '@kualia/icon
       aria-label="Open sidebar"
       (click)="toggle()"
     >
-      <nucleo-icon [icon]="openIcon" [size]="16" />
+      <kualia-icon [icon]="openIcon" [size]="16" />
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

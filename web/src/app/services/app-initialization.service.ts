@@ -74,7 +74,7 @@ export class AppInitializationService {
       '/settings',
       '/subscribe',
       '/user-onboarding',
-      // Landing page, privacy, and terms-of-service are served by kualia.com (marketing site)
+      // The open-source app has no landing, privacy, or terms pages (the hosted marketing site is retired)
     ];
     const isNonWorkspace = nonWorkspaceRoutes.some((route) => url.startsWith(route));
 

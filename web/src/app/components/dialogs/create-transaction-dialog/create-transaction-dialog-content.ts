@@ -18,14 +18,14 @@ import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoBell as BellRing,
-  nucleoCalendarClock as CalendarClock,
-  nucleoCheck as Check,
-  nucleoHistory as ClockFading,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoSplit as SplitIcon,
-  nucleoClose as X,
+  kualiaBell as BellRing,
+  kualiaCalendarClock as CalendarClock,
+  kualiaCheck as Check,
+  kualiaHistory as ClockFading,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaSplit as SplitIcon,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService, BankAccountWithRelations } from '../../../services/bank-account.service';
@@ -84,7 +84,7 @@ export function buildPlannedOptionsUpdate(
   selector: 'app-create-transaction-dialog-content',
   imports: [
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     HlmDialogFooter,
     ArithmeticCurrencyInputComponent,
     TransactionDatePickerComponent,

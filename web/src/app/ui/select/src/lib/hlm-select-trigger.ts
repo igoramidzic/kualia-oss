@@ -1,7 +1,7 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronDown } from '@kualia/icons';
+import { kualiaChevronDown } from '@kualia/icons';
 import { BrnFieldControlDescribedBy } from '@spartan-ng/brain/field';
 import { BrnSelectTrigger } from '@spartan-ng/brain/select';
 import { hlm } from '@spartan-ng/helm/utils';
@@ -10,7 +10,7 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'hlm-select-trigger',
   imports: [NgIcon, BrnSelectTrigger, BrnFieldControlDescribedBy],
-  providers: [provideIcons({ nucleoChevronDown })],
+  providers: [provideIcons({ kualiaChevronDown })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
@@ -23,7 +23,7 @@ import type { ClassValue } from 'clsx';
       data-slot="select-trigger"
     >
       <ng-content />
-      <ng-icon name="nucleoChevronDown" class="text-muted-foreground ms-auto text-[calc(var(--spacing)*4)]" />
+      <ng-icon name="kualiaChevronDown" class="text-muted-foreground ms-auto text-[calc(var(--spacing)*4)]" />
     </button>
   `,
 })

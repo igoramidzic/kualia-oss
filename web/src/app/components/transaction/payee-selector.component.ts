@@ -12,7 +12,7 @@ import {
 import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
-import { NucleoIcon, nucleoPlus as Plus, nucleoTransactions as Receipt, nucleoShop as Store } from '@kualia/icons';
+import { KualiaIcon, kualiaPlus as Plus, kualiaTransactions as Receipt, kualiaShop as Store } from '@kualia/icons';
 import { BankAccountWithRelations } from '../../services/bank-account.service';
 import { Merchant, MerchantService } from '../../services/merchant.service';
 import { DEFAULT_BANK_ACCOUNT_ICON_NAME, DEFAULT_MERCHANT_ICON_NAME } from '../../shared/utils/entity-identity';
@@ -38,7 +38,7 @@ const SYSTEM_PAYEES: readonly SystemPayee[] = [
 
 @Component({
   selector: 'app-payee-selector',
-  imports: [NucleoIcon, EntityMarkComponent, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, EntityMarkComponent, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -53,7 +53,7 @@ const SYSTEM_PAYEES: readonly SystemPayee[] = [
           @if (showIcon()) {
             @if (displayIcon() === 'system') {
               <div class="bg-accent/50 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border">
-                <nucleo-icon [icon]="Receipt" class="text-muted-foreground" size="12" />
+                <kualia-icon [icon]="Receipt" class="text-muted-foreground" size="12" />
               </div>
             } @else if (displayIcon() === 'bank') {
               <app-entity-mark
@@ -101,7 +101,7 @@ const SYSTEM_PAYEES: readonly SystemPayee[] = [
               <hlm-combobox-item value="original-statement">
                 <div class="flex min-w-0 items-center gap-2">
                   <div class="bg-accent/50 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border">
-                    <nucleo-icon [icon]="Store" class="text-muted-foreground h-3 w-3" />
+                    <kualia-icon [icon]="Store" class="text-muted-foreground h-3 w-3" />
                   </div>
                   <span class="min-w-0 truncate text-left">{{ originalStatementName() }}</span>
                 </div>
@@ -168,7 +168,7 @@ const SYSTEM_PAYEES: readonly SystemPayee[] = [
             @if (showAddOption()) {
               <hlm-combobox-item value="add-new">
                 <div class="flex min-w-0 items-center gap-2">
-                  <nucleo-icon [icon]="Plus" [size]="14" class="flex-shrink-0" />
+                  <kualia-icon [icon]="Plus" [size]="14" class="flex-shrink-0" />
                   <span class="min-w-0 truncate">Add "{{ normalizedSearchTerm() }}"</span>
                 </div>
               </hlm-combobox-item>
@@ -181,7 +181,7 @@ const SYSTEM_PAYEES: readonly SystemPayee[] = [
               class="text-foreground hover:bg-accent hover:text-accent-foreground flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-sm p-2"
               (click)="selectNewMerchant(searchTerm())"
             >
-              <nucleo-icon [icon]="Plus" [size]="14" class="flex-shrink-0" />
+              <kualia-icon [icon]="Plus" [size]="14" class="flex-shrink-0" />
               <span class="min-w-0 truncate">Add "{{ normalizedSearchTerm() }}"</span>
             </button>
           } @else {

@@ -8,12 +8,12 @@ import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoChevronRight as ChevronRight,
-  nucleoDots as Ellipsis,
-  NucleoIcon,
-  nucleoReports as SquareChartGantt,
-  nucleoTrash as Trash2,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaChevronRight as ChevronRight,
+  kualiaDots as Ellipsis,
+  KualiaIcon,
+  kualiaReports as SquareChartGantt,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { DeleteCategoryDialogComponent } from '../../components/dialogs/delete-category-dialog/delete-category-dialog';
@@ -31,7 +31,7 @@ import { CategoryOverviewPageService } from '../category-details/category-overvi
   imports: [
     CommonModule,
     RouterOutlet,
-    NucleoIcon,
+    KualiaIcon,
     HlmButton,
     RouterLink,
     RouterLinkActive,

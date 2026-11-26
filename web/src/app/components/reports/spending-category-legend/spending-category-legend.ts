@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { nucleoChevronDown as ChevronDown, nucleoChevronUp as ChevronUp, NucleoIcon } from '@kualia/icons';
+import { kualiaChevronDown as ChevronDown, kualiaChevronUp as ChevronUp, KualiaIcon } from '@kualia/icons';
 import { CurrencyService } from '../../../services/currency.service';
 import { CategorySpendingData } from '../../../services/spending-report.service';
 
@@ -29,7 +29,7 @@ const EVERYTHING_ELSE_COLOR = CATEGORY_COLORS[11]; // purple-500
 
 @Component({
   selector: 'app-spending-category-legend',
-  imports: [DecimalPipe, HlmButton, NucleoIcon],
+  imports: [DecimalPipe, HlmButton, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div>
@@ -76,10 +76,10 @@ const EVERYTHING_ELSE_COLOR = CATEGORY_COLORS[11]; // purple-500
           >
             @if (showAll()) {
               Show less
-              <nucleo-icon [icon]="ChevronUp" class="ml-1 h-4 w-4" />
+              <kualia-icon [icon]="ChevronUp" class="ml-1 h-4 w-4" />
             } @else {
               Show all categories
-              <nucleo-icon [icon]="ChevronDown" class="ml-1 h-4 w-4" />
+              <kualia-icon [icon]="ChevronDown" class="ml-1 h-4 w-4" />
             }
           </button>
         </div>

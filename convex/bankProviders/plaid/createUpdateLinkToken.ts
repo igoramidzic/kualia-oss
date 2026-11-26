@@ -4,7 +4,13 @@ import { CountryCode } from 'plaid';
 
 import { internal } from '../../_generated/api';
 import { action, internalQuery } from '../../_generated/server';
-import { getSafePlaidErrorDetails, isPlaidRedirectConfigurationError, plaidClient, plaidConfig } from './plaidClient';
+import {
+  getPlaidRedirectUri,
+  getSafePlaidErrorDetails,
+  isPlaidRedirectConfigurationError,
+  plaidClient,
+  plaidConfig,
+} from './plaidClient';
 
 /**
  * Internal query to get bank link with access token
@@ -54,6 +60,8 @@ export const createUpdateLinkToken = action({
       throw new ConvexError('Bank link not found');
     }
 
+    const redirectUri = platform === 'ios' ? getPlaidRedirectUri() : undefined;
+
     try {
       const linkTokenResponse = await plaidClient.linkTokenCreate({
         client_name: plaidConfig.clientName,
@@ -65,7 +73,7 @@ export const createUpdateLinkToken = action({
         },
         access_token: bankLink.accessToken, // Include access token for update mode
         webhook: plaidConfig.webhook,
-        ...(platform === 'ios' ? { redirect_uri: 'https://kualia.com/plaid/oauth' } : {}),
+        ...(redirectUri ? { redirect_uri: redirectUri } : {}),
       });
 
       return {
@@ -77,7 +85,7 @@ export const createUpdateLinkToken = action({
 
       if (platform === 'ios' && isPlaidRedirectConfigurationError(error)) {
         throw new ConvexError(
-          'Bank connection setup is incomplete. Please contact Kualia support to enable the iOS return link, then try again.'
+          'Bank connection setup is incomplete. Ask the administrator of this Kualia instance to configure the iOS return link, then try again.'
         );
       }
 

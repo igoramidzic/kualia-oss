@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, untracked } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoArrowRight } from '@kualia/icons';
+import { kualiaArrowRight } from '@kualia/icons';
 import { HlmButton, provideBrnButtonConfig } from '@spartan-ng/helm/button';
 import { HlmIcon } from '@spartan-ng/helm/icon';
 import { hlm } from '@spartan-ng/helm/utils';
@@ -9,7 +9,7 @@ import { HlmCarousel } from './hlm-carousel';
 @Component({
   selector: 'button[hlm-carousel-next], button[hlmCarouselNext]',
   imports: [NgIcon, HlmIcon],
-  providers: [provideIcons({ nucleoArrowRight }), provideBrnButtonConfig({ variant: 'outline', size: 'icon' })],
+  providers: [provideIcons({ kualiaArrowRight }), provideBrnButtonConfig({ variant: 'outline', size: 'icon' })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [{ directive: HlmButton, inputs: ['variant', 'size'] }],
   host: {
@@ -18,7 +18,7 @@ import { HlmCarousel } from './hlm-carousel';
     '(click)': '_carousel.scrollNext()',
   },
   template: `
-    <ng-icon hlm size="sm" name="nucleoArrowRight" class="rtl:rotate-180" />
+    <ng-icon hlm size="sm" name="kualiaArrowRight" class="rtl:rotate-180" />
     <span class="sr-only">Next slide</span>
   `,
 })

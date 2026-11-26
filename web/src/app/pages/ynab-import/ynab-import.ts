@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { nucleoArrowLeft as ArrowLeft, NucleoIcon } from '@kualia/icons';
+import { kualiaArrowLeft as ArrowLeft, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { UserNavbarComponent } from '../../components/user-navbar/user-navbar';
 import { YnabImportService } from '../../services/ynab-import.service';
@@ -18,7 +18,7 @@ import { STEP_CONFIGS, TOTAL_STEPS, YnabImportStep } from './types';
     HlmButton,
     HlmProgress,
     HlmProgressIndicator,
-    NucleoIcon,
+    KualiaIcon,
     UserNavbarComponent,
     UploadStepComponent,
     AccountMappingStepComponent,

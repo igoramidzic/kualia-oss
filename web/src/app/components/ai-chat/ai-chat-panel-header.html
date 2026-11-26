@@ -20,12 +20,12 @@
         aria-label="Chat options"
         aria-haspopup="menu"
       >
-        <nucleo-icon [icon]="MoreHorizontal" [size]="14" />
+        <kualia-icon [icon]="MoreHorizontal" [size]="14" />
       </button>
       <ng-template #chatActionsMenu>
         <hlm-dropdown-menu class="w-44">
           <button hlmDropdownMenuItem variant="destructive" (click)="deleteChat.emit()">
-            <nucleo-icon [icon]="Trash2" [size]="14" />
+            <kualia-icon [icon]="Trash2" [size]="14" />
             <span class="text-xs">Delete chat</span>
             <span hlmDropdownMenuShortcut>{{ deleteShortcutLabel() }}</span>
           </button>
@@ -43,7 +43,7 @@
       aria-label="Minimize chat"
       (click)="minimizeChat.emit()"
     >
-      <nucleo-icon [icon]="Minus" [size]="14" />
+      <kualia-icon [icon]="Minus" [size]="14" />
     </button>
     <button
       hlmBtn
@@ -54,7 +54,7 @@
       [attr.aria-label]="expanded() ? 'Collapse chat' : 'Expand chat'"
       (click)="toggleExpand.emit()"
     >
-      <nucleo-icon [icon]="expanded() ? Minimize2 : Maximize2" [size]="14" />
+      <kualia-icon [icon]="expanded() ? Minimize2 : Maximize2" [size]="14" />
     </button>
     <button
       hlmBtn
@@ -65,7 +65,7 @@
       aria-label="Close chat"
       (click)="closeChat.emit()"
     >
-      <nucleo-icon [icon]="X" [size]="14" />
+      <kualia-icon [icon]="X" [size]="14" />
     </button>
   </div>
 </div>

@@ -1,9 +1,9 @@
 import type { Doc, Id } from '../_generated/dataModel';
 import type { MutationCtx, QueryCtx } from '../_generated/server';
+import { buildAppUrl } from '../lib/appUrl';
 import { DISCORD_NOTIFICATIONS_CHANNEL, type DiscordNotificationArgs } from '../lib/discord';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const DEFAULT_APP_BASE_URL = 'https://app.kualia.com';
 const MAX_FAMILY_GROUP_MEMBERS_FOR_JOIN_CHECK = 7;
 
 export const FAMILY_GROUP_MAX_ADDITIONAL_MEMBERS = 5;
@@ -145,20 +145,7 @@ export function getFamilyGroupInviteEmailQuotaState(
 }
 
 export function buildFamilyGroupInviteUrl(inviteToken: string, appBaseUrl?: string): string {
-  const rawBaseUrl = appBaseUrl?.trim() ?? DEFAULT_APP_BASE_URL;
-
-  try {
-    const parsedBaseUrl = new URL(rawBaseUrl);
-    parsedBaseUrl.hash = '';
-    parsedBaseUrl.search = '';
-
-    const inviteUrl = new URL(`/family/join/${encodeURIComponent(inviteToken)}`, parsedBaseUrl.toString());
-    return inviteUrl.toString();
-  } catch (error: unknown) {
-    void error;
-    const inviteUrl = new URL(`/family/join/${encodeURIComponent(inviteToken)}`, DEFAULT_APP_BASE_URL);
-    return inviteUrl.toString();
-  }
+  return buildAppUrl(`/family/join/${encodeURIComponent(inviteToken)}`, appBaseUrl);
 }
 
 function formatInvitePerson(name: string, email: string): string {

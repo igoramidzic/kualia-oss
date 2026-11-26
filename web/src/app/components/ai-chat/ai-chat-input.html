@@ -12,7 +12,7 @@
         class="bg-destructive/10 border-destructive/30 text-destructive mx-0.5 flex items-center gap-1.5 rounded-t-xl border border-b-0 px-3 pt-1 pb-3"
         role="status"
       >
-        <nucleo-icon [icon]="AlertCircle" [size]="12" class="shrink-0" />
+        <kualia-icon [icon]="AlertCircle" [size]="12" class="shrink-0" />
         <span class="truncate text-xs font-medium">Monthly AI usage limit reached — resets on the 1st.</span>
       </div>
     } @else {
@@ -21,7 +21,7 @@
         [class.translate-y-full]="workspaceName() === null"
         [attr.aria-hidden]="workspaceName() === null ? 'true' : null"
       >
-        <nucleo-icon [icon]="LayoutGrid" [size]="12" class="text-primary shrink-0" />
+        <kualia-icon [icon]="LayoutGrid" [size]="12" class="text-primary shrink-0" />
         <span class="text-foreground truncate text-xs font-medium">{{ workspaceName() ?? ' ' }}</span>
       </div>
     }
@@ -37,7 +37,7 @@
         aria-hidden="true"
       >
         <div class="text-foreground flex flex-col items-center gap-1 text-xs font-medium">
-          <nucleo-icon [icon]="Paperclip" [size]="20" class="text-primary" />
+          <kualia-icon [icon]="Paperclip" [size]="20" class="text-primary" />
           <span>Drop files to attach</span>
         </div>
       </div>
@@ -54,7 +54,7 @@
               class="border-border bg-accent text-foreground flex max-w-[220px] items-center gap-1.5 rounded-md border px-2 py-1 text-xs"
               [class.border-destructive]="attachment.status === 'error'"
             >
-              <nucleo-icon [icon]="Paperclip" [size]="12" class="text-muted-foreground shrink-0" />
+              <kualia-icon [icon]="Paperclip" [size]="12" class="text-muted-foreground shrink-0" />
               <span class="truncate" [title]="attachment.filename">{{ attachment.filename }}</span>
               @if (attachment.status === 'uploading') {
                 <span class="text-muted-foreground shrink-0">Uploading…</span>
@@ -70,7 +70,7 @@
                 [attr.aria-label]="'Remove ' + attachment.filename"
                 (click)="removeAttachment(attachment.id)"
               >
-                <nucleo-icon [icon]="X" [size]="10" />
+                <kualia-icon [icon]="X" [size]="10" />
               </button>
             </li>
           }
@@ -112,7 +112,7 @@
           [disabled]="limitReached()"
           (click)="openFilePicker()"
         >
-          <nucleo-icon [icon]="Paperclip" [size]="14" />
+          <kualia-icon [icon]="Paperclip" [size]="14" />
         </button>
         @if (isResponding()) {
           <button
@@ -123,7 +123,7 @@
             (click)="onSendOrStop($event)"
             aria-label="Stop response"
           >
-            <nucleo-icon [icon]="Square" [size]="12" class="fill-current" />
+            <kualia-icon [icon]="Square" [size]="12" class="fill-current" />
           </button>
         } @else {
           <button
@@ -135,7 +135,7 @@
             [disabled]="!canSend()"
             aria-label="Send message"
           >
-            <nucleo-icon [icon]="ArrowUp" [size]="14" />
+            <kualia-icon [icon]="ArrowUp" [size]="14" />
           </button>
         }
       </div>

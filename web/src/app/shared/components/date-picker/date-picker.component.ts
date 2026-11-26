@@ -8,14 +8,14 @@ import { HlmCalendar } from '@spartan-ng/helm/calendar';
 import { HlmCommandImports } from '@spartan-ng/helm/command';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import * as chrono from 'chrono-node';
-import { nucleoCalendarFilled as Calendar, NucleoIcon } from '@kualia/icons';
+import { kualiaCalendarFilled as Calendar, KualiaIcon } from '@kualia/icons';
 
 @Component({
   selector: 'app-date-picker',
   imports: [
     FormsModule,
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     BrnPopover,
     BrnPopoverTrigger,
     BrnPopoverContent,
@@ -37,7 +37,7 @@ import { nucleoCalendarFilled as Calendar, NucleoIcon } from '@kualia/icons';
         brnPopoverTrigger
       >
         <span class="flex items-center gap-2">
-          <nucleo-icon [icon]="Calendar" [size]="14" class="text-muted-foreground" />
+          <kualia-icon [icon]="Calendar" [size]="14" class="text-muted-foreground" />
           {{ displayDate() }}
         </span>
       </button>

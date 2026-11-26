@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter } from '@spartan-ng/helm/dialog';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { formatAccountType } from '../../../shared/utils/account-type-utils';
 import type { BankLinkAccount, BankLinkGroup } from './bank-link-list';
 
 @Component({
   selector: 'app-account-confirmation',
-  imports: [HlmButton, HlmDialogFooter, NucleoIcon, CurrencyPipe],
+  imports: [HlmButton, HlmDialogFooter, KualiaIcon, CurrencyPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-3">
@@ -49,7 +49,7 @@ import type { BankLinkAccount, BankLinkGroup } from './bank-link-list';
     <hlm-dialog-footer class="flex-row justify-end gap-2">
       <button hlmBtn (click)="confirmClicked.emit()" [disabled]="isProcessing()">
         @if (isProcessing()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Creating...
         } @else {
           Create {{ selectedAccounts().length }} Account{{ selectedAccounts().length > 1 ? 's' : '' }}

@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { HlmButton } from '@spartan-ng/helm/button';
 import type { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoBank as Building2,
-  nucleoChevronRight as ChevronRight,
-  NucleoIcon,
-  nucleoPlus as Plus,
+  kualiaBank as Building2,
+  kualiaChevronRight as ChevronRight,
+  KualiaIcon,
+  kualiaPlus as Plus,
 } from '@kualia/icons';
 import type { BankLinkAccountGroup, BankLinkAccountGroupAccount } from '../../../services/bank-connection.service';
 import { isSupportedForLinking } from '../../../shared/utils/account-type-utils';
@@ -16,7 +16,7 @@ export type BankLinkAccount = BankLinkAccountGroupAccount;
 
 @Component({
   selector: 'app-bank-link-list',
-  imports: [NucleoIcon, HlmButton],
+  imports: [KualiaIcon, HlmButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-3">
@@ -29,7 +29,7 @@ export type BankLinkAccount = BankLinkAccountGroupAccount;
       } @else if (bankLinks().length === 0) {
         <div class="py-8 text-center">
           <div class="bg-muted mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-            <nucleo-icon [icon]="Building2" class="text-muted-foreground h-8 w-8" />
+            <kualia-icon [icon]="Building2" class="text-muted-foreground h-8 w-8" />
           </div>
           <p class="text-muted-foreground text-sm">No bank connections yet</p>
           <p class="text-muted-foreground mt-1 text-xs">Connect your bank to import accounts automatically</p>
@@ -54,7 +54,7 @@ export type BankLinkAccount = BankLinkAccountGroupAccount;
                   />
                 } @else {
                   <div class="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
-                    <nucleo-icon [icon]="Building2" class="text-muted-foreground h-5 w-5" />
+                    <kualia-icon [icon]="Building2" class="text-muted-foreground h-5 w-5" />
                   </div>
                 }
                 <div class="min-w-0 flex-1 text-left">
@@ -68,7 +68,7 @@ export type BankLinkAccount = BankLinkAccountGroupAccount;
                   </div>
                 </div>
                 @if (linkableCount > 0) {
-                  <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5" />
+                  <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5" />
                 }
               </div>
             </button>
@@ -86,13 +86,13 @@ export type BankLinkAccount = BankLinkAccountGroupAccount;
         >
           <div class="flex w-full items-center gap-3">
             <div class="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-full">
-              <nucleo-icon [icon]="Plus" class="text-primary h-5 w-5" />
+              <kualia-icon [icon]="Plus" class="text-primary h-5 w-5" />
             </div>
             <div class="min-w-0 flex-1 text-left">
               <div class="font-medium">Connect New Bank</div>
               <div class="text-muted-foreground text-sm font-light">Link a new bank via Plaid</div>
             </div>
-            <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5" />
+            <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-5 w-5" />
           </div>
         </button>
       </div>

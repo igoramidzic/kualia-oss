@@ -16,17 +16,17 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoBadgeCheck as BadgeCheck,
-  nucleoHistory as ClockFading,
-  nucleoInfo as Info,
-  nucleoLayers as Layers,
-  NucleoIcon,
-  nucleoPlus as Plus,
-  nucleoRedo as Redo2,
-  nucleoSearch as Search,
-  nucleoUndo as Undo2,
-  nucleoClose as X,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaBadgeCheck as BadgeCheck,
+  kualiaHistory as ClockFading,
+  kualiaInfo as Info,
+  kualiaLayers as Layers,
+  KualiaIcon,
+  kualiaPlus as Plus,
+  kualiaRedo as Redo2,
+  kualiaSearch as Search,
+  kualiaUndo as Undo2,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { debounceTime, distinctUntilChanged, skip } from 'rxjs';
 import { FilterConfig, ResponsiveFilterRowComponent } from '../../components/budget/responsive-filter-row.component';
@@ -44,7 +44,7 @@ import { UndoRedoService } from '../../services/undo-redo.service';
   imports: [
     FormsModule,
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     ResponsiveFilterRowComponent,
     ScheduledTransactionsSectionComponent,
     SidebarToggleComponent,

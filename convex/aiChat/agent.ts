@@ -7,8 +7,9 @@ import { SYSTEM_PROMPT } from './prompts';
 
 export const openrouter = createOpenRouter({
   apiKey: process.env['OPENROUTER_API_KEY'] ?? '',
+  // No appUrl: OpenRouter's optional referer attribution would otherwise
+  // advertise a self-hosted instance's origin (or the retired hosted domain).
   appName: 'Kualia Finance',
-  appUrl: 'https://kualia.com',
 });
 
 export const chatModelId = 'google/gemini-3.8-flash';

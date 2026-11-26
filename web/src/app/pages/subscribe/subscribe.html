@@ -19,7 +19,7 @@
     <!-- Subscribe Button -->
     <button hlmBtn class="mb-4 w-full" (click)="openPaywall()" [disabled]="loading() || isInitializing()">
       @if (loading() || isInitializing()) {
-        <nucleo-icon [icon]="LoaderCircle" class="mr-2 size-4 animate-spin" />
+        <kualia-icon [icon]="LoaderCircle" class="mr-2 size-4 animate-spin" />
         Loading...
       } @else {
         View Subscription Options

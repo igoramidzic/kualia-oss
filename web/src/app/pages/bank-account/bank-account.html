@@ -6,7 +6,7 @@
       <nav class="flex min-w-0 items-center space-x-1 text-sm">
         <a routerLink="../" class="text-muted-foreground/60 hover:text-foreground m-0 shrink-0 p-1"> Bank Accounts </a>
         @if (bankAccount()) {
-          <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 shrink-0" />
+          <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 shrink-0" />
           <span class="max-w-[200px] min-w-0 truncate sm:max-w-[300px]">{{ bankAccount()?.name }}</span>
 
           <div class="relative ml-2">
@@ -20,7 +20,7 @@
               aria-haspopup="menu"
               class="h-6 w-6"
             >
-              <nucleo-icon [icon]="Ellipsis" [size]="16" />
+              <kualia-icon [icon]="Ellipsis" [size]="16" />
               <span class="sr-only">Open menu</span>
             </button>
 
@@ -29,37 +29,37 @@
                 @if (!bankAccount()?.isClosed) {
                   @if (isPlaidConnected()) {
                     <button hlmDropdownMenuItem (click)="openLinkDialog()">
-                      <nucleo-icon [icon]="PlugZap" [size]="14" />
+                      <kualia-icon [icon]="PlugZap" [size]="14" />
                       <span class="text-xs">Disconnect institution...</span>
                     </button>
                   } @else if (isFinanceKitConnected()) {
                     <button hlmDropdownMenuItem (click)="openLinkDialog()">
-                      <nucleo-icon [icon]="Smartphone" [size]="14" />
+                      <kualia-icon [icon]="Smartphone" [size]="14" />
                       <span class="text-xs">Manage from iOS</span>
                     </button>
                   } @else {
                     <button hlmDropdownMenuItem (click)="openLinkDialog()">
-                      <nucleo-icon [icon]="Plug" [size]="14" />
+                      <kualia-icon [icon]="Plug" [size]="14" />
                       <span class="text-xs">Connect institution...</span>
                     </button>
                   }
                   <button hlmDropdownMenuItem (click)="openReconcileDialog()">
-                    <nucleo-icon [icon]="CheckCircle2" [size]="14" />
+                    <kualia-icon [icon]="CheckCircle2" [size]="14" />
                     <span class="text-xs">Reconcile balance...</span>
                   </button>
                   <hlm-dropdown-menu-separator />
                   <button hlmDropdownMenuItem variant="destructive" (click)="openCloseAccountDialog()">
-                    <nucleo-icon [icon]="XCircle" [size]="14" />
+                    <kualia-icon [icon]="XCircle" [size]="14" />
                     <span class="text-xs">Close account...</span>
                   </button>
                 } @else {
                   <button hlmDropdownMenuItem (click)="openReopenAccountDialog()">
-                    <nucleo-icon [icon]="CheckCircle2" [size]="14" />
+                    <kualia-icon [icon]="CheckCircle2" [size]="14" />
                     <span class="text-xs">Re-open account...</span>
                   </button>
                   <hlm-dropdown-menu-separator />
                   <button hlmDropdownMenuItem variant="destructive" (click)="openDeleteDialog()">
-                    <nucleo-icon [icon]="Trash2" [size]="14" />
+                    <kualia-icon [icon]="Trash2" [size]="14" />
                     <span class="text-xs">Delete account...</span>
                   </button>
                 }
@@ -86,7 +86,7 @@
           <div class="flex items-start justify-between gap-4">
             <div class="flex items-start gap-3">
               <div class="bg-muted-foreground/10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full">
-                <nucleo-icon [icon]="Info" class="text-muted-foreground h-5 w-5" />
+                <kualia-icon [icon]="Info" class="text-muted-foreground h-5 w-5" />
               </div>
               <div class="flex flex-col gap-1">
                 <h3 class="text-sm font-semibold">This account is closed</h3>
@@ -276,7 +276,7 @@
         class="group hover:text-foreground px-1 transition-colors"
         (click)="openCreateTransactionDialog()"
       >
-        <nucleo-icon
+        <kualia-icon
           [icon]="Plus"
           class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
         />
@@ -284,11 +284,11 @@
       </button>
       <div class="flex items-center gap-1">
         <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canUndo()" (click)="undo()" class="px-1">
-          <nucleo-icon [icon]="Undo2" class="h-4 w-4" />
+          <kualia-icon [icon]="Undo2" class="h-4 w-4" />
           <span class="hidden text-xs min-[480px]:inline">Undo</span>
         </button>
         <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canRedo()" (click)="redo()" class="px-1">
-          <nucleo-icon [icon]="Redo2" class="h-4 w-4" />
+          <kualia-icon [icon]="Redo2" class="h-4 w-4" />
           <span class="hidden text-xs min-[480px]:inline">Redo</span>
         </button>
       </div>
@@ -304,7 +304,7 @@
           (keydown.enter)="focusSearch()"
           (keydown.space)="onWrapperSpaceKey($event)"
         >
-          <nucleo-icon [icon]="Search" [size]="14" class="text-muted-foreground shrink-0" />
+          <kualia-icon [icon]="Search" [size]="14" class="text-muted-foreground shrink-0" />
           <input
             #searchInput
             type="text"
@@ -325,7 +325,7 @@
               (click)="clearSearch()"
               aria-label="Clear search"
             >
-              <nucleo-icon [icon]="X" [size]="14" />
+              <kualia-icon [icon]="X" [size]="14" />
             </button>
           }
         </div>

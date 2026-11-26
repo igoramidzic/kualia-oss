@@ -4,7 +4,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmCollapsibleImports } from '@spartan-ng/helm/collapsible';
 import { HlmSidebarService } from '@spartan-ng/helm/sidebar';
-import { nucleoChevronDown as ChevronDown, nucleoChevronRight as ChevronRight, NucleoIcon } from '@kualia/icons';
+import { kualiaChevronDown as ChevronDown, kualiaChevronRight as ChevronRight, KualiaIcon } from '@kualia/icons';
 import { filter, map, startWith } from 'rxjs/operators';
 import type { Id } from '../../../../../convex/_generated/dataModel';
 import { UserPreferencesService } from '../../core/services/preferences/user-preferences.service';
@@ -23,7 +23,7 @@ interface BankAccountGroup {
 
 @Component({
   selector: 'app-sidebar-bank-accounts',
-  imports: [RouterLink, HlmButton, NucleoIcon, EntityMarkComponent, ...HlmCollapsibleImports],
+  imports: [RouterLink, HlmButton, KualiaIcon, EntityMarkComponent, ...HlmCollapsibleImports],
   templateUrl: './sidebar-bank-accounts.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

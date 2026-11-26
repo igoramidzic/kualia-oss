@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import {
-  nucleoWarningCircle as AlertCircle,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoRefresh as RefreshCw,
+  kualiaWarningCircle as AlertCircle,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaRefresh as RefreshCw,
 } from '@kualia/icons';
 
 @Component({
   selector: 'app-splash',
   templateUrl: './splash.component.html',
-  imports: [HlmButton, NucleoIcon],
+  imports: [HlmButton, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SplashComponent {

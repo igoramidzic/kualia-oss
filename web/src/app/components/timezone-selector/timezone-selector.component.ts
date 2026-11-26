@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
-import { nucleoGlobe as Globe, NucleoIcon } from '@kualia/icons';
+import { kualiaGlobe as Globe, KualiaIcon } from '@kualia/icons';
 import { getAllTimezones, getTimezoneInfo, TimezoneInfo } from '../../shared/utils/timezone-info';
 
 @Component({
   selector: 'app-timezone-selector',
-  imports: [NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -21,7 +21,7 @@ import { getAllTimezones, getTimezoneInfo, TimezoneInfo } from '../../shared/uti
     >
       <hlm-combobox-trigger class="w-full max-w-full min-w-0 justify-between font-normal">
         <span class="flex min-w-0 flex-1 items-center gap-2">
-          <nucleo-icon [icon]="Globe" [size]="14" class="shrink-0" />
+          <kualia-icon [icon]="Globe" [size]="14" class="shrink-0" />
           <span class="min-w-0 truncate">{{ timezoneToString(selectedTimezone()) }}</span>
         </span>
       </hlm-combobox-trigger>

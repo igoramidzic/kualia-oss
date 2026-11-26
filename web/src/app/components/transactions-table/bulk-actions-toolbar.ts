@@ -4,14 +4,14 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoBadgeCheck as BadgeCheck,
-  nucleoCalendarCheck as CalendarArrowDown,
-  nucleoCheckCircle as CircleCheck,
-  nucleoHistory as ClockFading,
-  nucleoDots as Ellipsis,
-  NucleoIcon,
-  nucleoTrash as Trash2,
-  nucleoClose as X,
+  kualiaBadgeCheck as BadgeCheck,
+  kualiaCalendarCheck as CalendarArrowDown,
+  kualiaCheckCircle as CircleCheck,
+  kualiaHistory as ClockFading,
+  kualiaDots as Ellipsis,
+  KualiaIcon,
+  kualiaTrash as Trash2,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { ScheduledTransactionService } from '../../services/scheduled-transaction.service';
@@ -21,7 +21,7 @@ import { UndoRedoService } from '../../services/undo-redo.service';
 
 @Component({
   selector: 'app-bulk-actions-toolbar',
-  imports: [NucleoIcon, HlmButton, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent],
+  imports: [KualiaIcon, HlmButton, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bulk-actions-toolbar.html',
 })

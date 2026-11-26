@@ -72,7 +72,6 @@ export function getTrackedOpenAIClient(): PostHogOpenAI | null {
       baseURL: 'https://openrouter.ai/api/v1',
       posthog,
       defaultHeaders: {
-        'HTTP-Referer': 'https://kualia.com',
         'X-Title': 'Kualia Finance',
       },
     });
@@ -99,7 +98,6 @@ export function getUntrackedOpenAIClient(): OpenAI | null {
     apiKey: openrouterApiKey,
     baseURL: 'https://openrouter.ai/api/v1',
     defaultHeaders: {
-      'HTTP-Referer': 'https://kualia.com',
       'X-Title': 'Kualia Finance',
     },
   });

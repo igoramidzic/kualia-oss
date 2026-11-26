@@ -5,7 +5,7 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader, HlmDialogService, HlmDialogTitle } from '@spartan-ng/helm/dialog';
 import { HlmLabel } from '@spartan-ng/helm/label';
 import { HlmRadioGroupImports } from '@spartan-ng/helm/radio-group';
-import { nucleoCheckCircle as CheckCircle2, NucleoIcon } from '@kualia/icons';
+import { kualiaCheckCircle as CheckCircle2, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 
 import { api } from 'convex/_generated/api';
@@ -32,7 +32,7 @@ interface DialogContext {
     HlmButton,
     HlmLabel,
     HlmRadioGroupImports,
-    NucleoIcon,
+    KualiaIcon,
     CurrencyInputComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

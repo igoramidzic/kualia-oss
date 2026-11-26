@@ -3,7 +3,7 @@ import { BrnPopover, BrnPopoverContent, BrnPopoverTrigger } from '@spartan-ng/br
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoChevronDown as ChevronDown, NucleoIcon } from '@kualia/icons';
+import { kualiaChevronDown as ChevronDown, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BudgetMonthService } from '../../services/budget-month.service';
 import { BudgetService } from '../../services/budget.service';
@@ -15,7 +15,7 @@ import { AssignMoneyFormComponent } from './assign-money-form.component';
 
 @Component({
   selector: 'app-ready-to-assign-card',
-  imports: [AssignMoneyFormComponent, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent, NucleoIcon],
+  imports: [AssignMoneyFormComponent, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <brn-popover [state]="popoverState()" (stateChanged)="popoverState.set($event)" sideOffset="5">
@@ -31,7 +31,7 @@ import { AssignMoneyFormComponent } from './assign-money-form.component';
         <span class="text-sm font-semibold" [class]="isNegative() ? 'text-destructive' : ''">
           {{ formattedAmount() }}
         </span>
-        <nucleo-icon
+        <kualia-icon
           [icon]="ChevronDown"
           class="h-4 w-4"
           [class]="isNegative() ? 'text-destructive' : 'text-muted-foreground'"

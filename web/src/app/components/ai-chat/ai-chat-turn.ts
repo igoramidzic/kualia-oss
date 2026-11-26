@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import {
-  nucleoChevronRight as ChevronRight,
-  nucleoCopy as Copy,
-  nucleoGrid as LayoutGrid,
-  NucleoIcon,
-  nucleoPaperclip as Paperclip,
+  kualiaChevronRight as ChevronRight,
+  kualiaCopy as Copy,
+  kualiaGrid as LayoutGrid,
+  KualiaIcon,
+  kualiaPaperclip as Paperclip,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import type { ThreadWorkspaceContext } from '../../services/ai-chat.service';
@@ -17,7 +17,7 @@ import { TransactionLinkCardComponent } from './transaction-link-card';
 
 @Component({
   selector: 'app-ai-chat-turn',
-  imports: [HlmButton, NucleoIcon, HlmCollapsibleImports, MarkdownPipe, TransactionLinkCardComponent],
+  imports: [HlmButton, KualiaIcon, HlmCollapsibleImports, MarkdownPipe, TransactionLinkCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ai-chat-turn.html',
   styleUrl: './ai-chat-turn.css',

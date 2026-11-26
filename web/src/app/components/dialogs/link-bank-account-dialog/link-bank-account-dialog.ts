@@ -6,11 +6,11 @@ import { api } from 'convex/_generated/api';
 import type { Id } from 'convex/_generated/dataModel';
 import { FunctionReturnType } from 'convex/server';
 import {
-  nucleoBank as Building2,
-  nucleoCheck as Check,
-  nucleoUnlink as Link2Off,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
+  kualiaBank as Building2,
+  kualiaCheck as Check,
+  kualiaUnlink as Link2Off,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService, BankAccountWithRelations } from '../../../services/bank-account.service';
@@ -42,7 +42,7 @@ interface BankLinkGroup {
 
 @Component({
   selector: 'app-link-bank-account-dialog',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, HlmDialogFooter],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, HlmDialogFooter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './link-bank-account-dialog.html',
 })

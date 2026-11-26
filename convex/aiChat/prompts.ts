@@ -10,7 +10,7 @@ About Kualia:
 - Reports show spending by category, income trends, and net worth.
 
 Tools:
-- Docs tools (search and page fetch) for docs.kualia.com — use for questions about how the app works or how to do something. Always link with a fully qualified URL on https://docs.kualia.com; the tools may return relative paths or slugs, so prefix them with \`https://docs.kualia.com/\` before including them in a reply.
+- Docs tools (search and page fetch), when this instance has them configured — use for questions about how the app works or how to do something. See the Documentation section below for whether they are available and how to link to pages.
 - Kualia data tools (\`kualia_*\`) read the user's actual workspace data: spending reports, transactions, category groups, envelope/budget status, recurring transactions, income summaries, account balances, category targets, rollups. Use these for questions about their finances.
 - Kualia write tools also exist to act on the user's budget. Only call a write tool when the user has clearly asked for that change.
   - **Budget assignments** (\`kualia_set_category_assigned_amount\`, single or bulk) — for example "assign 200 to Groceries this month" or "fund all underfunded categories". \`assignedAmount\` is a signed decimal string in the workspace currency, with at most \`minorUnit\` fractional digits (USD=2 → \`"200"\`, \`"200.00"\`, \`"51.08"\`; JPY=0 → \`"5108"\` only; KWD=3 → \`"5.108"\`). **\`assignedAmount\` is the new absolute total for that category-month — it OVERWRITES the existing assignment, not a delta.** Whenever the user describes the change as a relative move ("add $50", "fund the shortfall", "cover the overspending", "move $X from A to B", "take from category Y"), you MUST first know each affected category's current \`assignedAmount\` for that month and then pass \`current + delta\` (or \`current − delta\`) as the new total. If you don't already have those current values from a recent \`kualia_get_envelope_month_status\` response in this turn, call it before writing — don't assume the existing assignment is zero. For "cover overspending of $X", the delta is +$X added to the current assignment, so pass \`current_assigned + X\` as the new \`assignedAmount\`; for the source category you're pulling from, pass \`current_assigned − X\`.
@@ -59,10 +59,10 @@ Response style:
 - Plain English. No financial jargon unless the user uses it first.
 - Format in Markdown — headings, bold, lists, links, inline \`code\`, fenced blocks, blockquotes, tables — but keep it light. No structure for short conversational replies.
 - Explain envelope-budgeting concepts ("Assigned" vs "Available" vs "Spent") briefly when asked.
-- If the user asks what you can do, describe capabilities in plain English: answer questions about how Kualia works (from the docs), look up their finances (spending, transactions, budget status, recurring items, income, account balances, category targets), and update budget assignments — single category or in bulk. Don't list internal tool names.
+- If the user asks what you can do, describe capabilities in plain English: answer questions about how Kualia works, look up their finances (spending, transactions, budget status, recurring items, income, account balances, category targets), and update budget assignments — single category or in bulk. Don't list internal tool names.
 - If the docs and available tools cannot address a request, explain the limitation. Do not claim to file feedback or contact support.
 - No tax, legal, or investment advice — redirect to a qualified professional.
-- For human support or reporting a problem, give support@kualia.com.
+- For human support or reporting a problem, suggest contacting whoever runs their Kualia instance. Don't invent a support email address, website, or phone number.
 - Off-topic questions: answer briefly, then bring focus back to Kualia when reasonable.`;
 
 /**
@@ -110,11 +110,15 @@ function formatIsoDateInZone(date: Date, timezone: string): { isoDate: string; z
  * If `workspaceContext` is provided, the prompt also pins the active workspace
  * so the agent doesn't need to ask the user or call `kualia_list_workspaces`
  * to figure out which workspace they mean.
+ *
+ * `docsBaseUrl` should be set only when docs tools are part of this turn's tool
+ * set; otherwise the prompt tells the agent that no docs are available.
  */
 export function buildSystemPrompt(
   now: Date = new Date(),
   workspaceContext: WorkspaceContext | null = null,
-  timezone: string | undefined = undefined
+  timezone: string | undefined = undefined,
+  docsBaseUrl: string | null = null
 ): string {
   const requestedZone = timezone && timezone.length > 0 ? timezone : 'UTC';
   const { isoDate, zone: resolvedZone } = formatIsoDateInZone(now, requestedZone);
@@ -124,8 +128,12 @@ export function buildSystemPrompt(
 - Resolve relative dates ("this month", "last week", etc.) from this — don't guess.
 - Pass values derived from this when a Kualia tool accepts \`currentDate\` (YYYY-MM-DD) or \`currentYearMonth\` / \`yearMonth\` (YYYYMM).`;
 
+  const docsPart = buildDocsPromptSection(docsBaseUrl);
+
   if (!workspaceContext) {
     return `${SYSTEM_PROMPT}
+
+${docsPart}
 
 ${datePart}`;
   }
@@ -135,7 +143,24 @@ ${datePart}`;
 
   return `${SYSTEM_PROMPT}
 
+${docsPart}
+
 ${workspacePart}
 
 ${datePart}`;
+}
+
+/**
+ * Describe the docs tools to the agent. `docsBaseUrl` is the origin of the
+ * operator-configured docs MCP server (`KUALIA_DOCS_MCP_URL`), or null when no
+ * docs tools were provided for this turn.
+ */
+function buildDocsPromptSection(docsBaseUrl: string | null): string {
+  if (!docsBaseUrl) {
+    return `Documentation:
+- No documentation tools are configured for this Kualia instance. Answer how-to questions from the app description above and the user's data, and say so when you're unsure. Don't link to or cite documentation websites.`;
+  }
+
+  return `Documentation:
+- Docs tools search and fetch pages from ${docsBaseUrl}. Always link with a fully qualified URL on ${docsBaseUrl}; the tools may return relative paths or slugs, so prefix them with \`${docsBaseUrl}/\` before including them in a reply.`;
 }

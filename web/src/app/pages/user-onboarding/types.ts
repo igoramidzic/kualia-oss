@@ -1,20 +1,20 @@
-import type { NucleoIconData } from '@kualia/icons';
+import type { KualiaIconData } from '@kualia/icons';
 import {
-  nucleoKey,
-  nucleoHouse,
-  nucleoFamily,
-  nucleoCar,
-  nucleoBus,
-  nucleoBicycle,
-  nucleoUser,
-  nucleoUsers,
-  nucleoChild,
-  nucleoPaw,
-  nucleoShield,
-  nucleoPlane,
-  nucleoArrowDownRight,
-  nucleoLeaf,
-  nucleoGraduation,
+  kualiaKey,
+  kualiaHouse,
+  kualiaFamily,
+  kualiaCar,
+  kualiaBus,
+  kualiaBicycle,
+  kualiaUser,
+  kualiaUsers,
+  kualiaChild,
+  kualiaPaw,
+  kualiaShield,
+  kualiaPlane,
+  kualiaArrowDownRight,
+  kualiaLeaf,
+  kualiaGraduation,
 } from '@kualia/icons';
 
 // Step definitions
@@ -51,7 +51,7 @@ export interface OnboardingOption<T extends string> {
   value: T;
   title: string;
   description: string;
-  icon: NucleoIconData;
+  icon: KualiaIconData;
 }
 
 // Housing types (single select)
@@ -62,19 +62,19 @@ export const HOUSING_OPTIONS: OnboardingOption<HousingType>[] = [
     value: 'rent',
     title: 'I rent',
     description: 'Apartment, house, or other rental',
-    icon: nucleoKey,
+    icon: kualiaKey,
   },
   {
     value: 'own',
     title: 'I own my home',
     description: 'Mortgage or paid off',
-    icon: nucleoHouse,
+    icon: kualiaHouse,
   },
   {
     value: 'family',
     title: 'I live with family',
     description: 'Living with parents or relatives',
-    icon: nucleoFamily,
+    icon: kualiaFamily,
   },
 ];
 
@@ -86,19 +86,19 @@ export const TRANSPORTATION_OPTIONS: OnboardingOption<TransportationType>[] = [
     value: 'car',
     title: 'Car',
     description: 'Own or lease a vehicle',
-    icon: nucleoCar,
+    icon: kualiaCar,
   },
   {
     value: 'transit',
     title: 'Public transit',
     description: 'Bus, train, or subway',
-    icon: nucleoBus,
+    icon: kualiaBus,
   },
   {
     value: 'walk_bike',
     title: 'Walk or bike',
     description: 'Primarily walk or bicycle',
-    icon: nucleoBicycle,
+    icon: kualiaBicycle,
   },
 ];
 
@@ -110,25 +110,25 @@ export const HOUSEHOLD_OPTIONS: OnboardingOption<HouseholdType>[] = [
     value: 'just_me',
     title: 'Just me',
     description: 'Living solo',
-    icon: nucleoUser,
+    icon: kualiaUser,
   },
   {
     value: 'partner',
     title: 'Partner/Spouse',
     description: 'Living with a significant other',
-    icon: nucleoUsers,
+    icon: kualiaUsers,
   },
   {
     value: 'children',
     title: 'Children',
     description: 'Have kids at home',
-    icon: nucleoChild,
+    icon: kualiaChild,
   },
   {
     value: 'pets',
     title: 'Pets',
     description: 'Have furry family members',
-    icon: nucleoPaw,
+    icon: kualiaPaw,
   },
 ];
 
@@ -140,43 +140,43 @@ export const FINANCIAL_GOALS_OPTIONS: OnboardingOption<FinancialGoal>[] = [
     value: 'emergency',
     title: 'Emergency fund',
     description: 'Build a safety net',
-    icon: nucleoShield,
+    icon: kualiaShield,
   },
   {
     value: 'vacation',
     title: 'Vacation',
     description: 'Save for travel',
-    icon: nucleoPlane,
+    icon: kualiaPlane,
   },
   {
     value: 'debt',
     title: 'Pay off debt',
     description: 'Pay down credit cards or loans',
-    icon: nucleoArrowDownRight,
+    icon: kualiaArrowDownRight,
   },
   {
     value: 'home',
     title: 'Save for a home',
     description: 'Down payment savings',
-    icon: nucleoHouse,
+    icon: kualiaHouse,
   },
   {
     value: 'retirement',
     title: 'Retirement',
     description: 'Long-term investing',
-    icon: nucleoLeaf,
+    icon: kualiaLeaf,
   },
   {
     value: 'education',
     title: 'Education',
     description: 'School or training',
-    icon: nucleoGraduation,
+    icon: kualiaGraduation,
   },
   {
     value: 'car',
     title: 'Car fund',
     description: 'Save for a vehicle',
-    icon: nucleoCar,
+    icon: kualiaCar,
   },
 ];
 
