@@ -2,6 +2,8 @@
 
 Read `README.md` first for setup, architecture, optional services, and the archived iOS limitations. Use the most specific guide: `web/AGENTS.md`, `convex/AGENTS.md`, or `iOS/AGENTS.md`.
 
+The `AGENTS.md` files are the single source of truth. Each directory's `CLAUDE.md` only imports its sibling `AGENTS.md` for Claude Code, and `.claude/skills` is a relative symlink to `.agents/skills`; edit the `AGENTS.md` files, not the wrappers.
+
 ## Scope and defaults
 
 Kualia is a local-first envelope budgeting app. The web client is Angular 21; Convex provides the database, reactive queries, mutations, actions, file storage, and password authentication. This is a pnpm/Turborepo workspace with root-managed dependencies and existing `web/` and `convex/` source paths. iOS is archived and is not wired to the new auth system. Marketing sites and production release infrastructure are intentionally excluded.
@@ -12,7 +14,7 @@ Use Node 24 and pnpm 12. `pnpm install --frozen-lockfile`, then `pnpm dev`, star
 
 1. Locate the feature's page/service, backend barrel file and domain folder, schema tables, and neighboring tests.
 2. Follow existing patterns and reuse components. Keep changes small and explicit.
-3. For backend work, read `convex/_generated/ai/guidelines.md` first, then the relevant generated `.agents/skills/convex*/SKILL.md`. Keep these files; refresh using `pnpm exec convex ai-files install` only when needed and review the changes.
+3. For backend work, read `convex/_generated/ai/guidelines.md` first, then the relevant generated `.agents/skills/convex*/SKILL.md`. Keep these files; refresh using `pnpm exec convex ai-files install` only when needed and review the changes. Claude Code finds the same skills through the `.claude/skills` symlink.
 4. Inspect actual schema and access helpers. Historical generated guides may describe orgId; this app's financial data is scoped by workspaceId. The code and this guide take precedence over stale generic examples.
 
 ## Authentication and ownership
@@ -36,7 +38,9 @@ Use Node 24 and pnpm 12. `pnpm install --frozen-lockfile`, then `pnpm dev`, star
 
 ## Validation
 
-Before a commit run `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`, `pnpm test:ci`, and `pnpm scan:secrets`. After backend changes verify the running local `pnpm dev` pushes successfully and refresh generated types. Verify auth changes with separate users and sessions, including unauthorized access attempts. Use synthetic data only.
+Before a commit run `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`, `pnpm test:ci`, and `pnpm scan:secrets`. `pnpm check` runs the same list in one command (it uses `format:check`, so run `pnpm format` first to apply fixes). Scoped guides defer to this list rather than keeping their own.
+
+With `pnpm dev` running, `pnpm smoke` runs `scripts/smoke-local.mjs` against the local database: password rejection, token refresh/logout, cross-user isolation, and an export/import round trip. Run it after auth, access, or export changes. After backend changes verify the running local `pnpm dev` pushes successfully and refresh generated types. Verify auth changes with separate users and sessions, including unauthorized access attempts. Use synthetic data only.
 
 Do not run iOS simulators unless explicitly requested for the current task. Archived iOS changes use source review and build-only validation when applicable.
 

@@ -80,6 +80,8 @@ public/               web assets and fonts (font licenses retained)
 scripts/              local startup, safety checks, and validation scripts
 iOS/                  archived SwiftUI client (see below)
 .agents/skills/convex* generated Convex skills retained for coding agents
+.claude/skills        symlink to .agents/skills for Claude Code
+CLAUDE.md             imports AGENTS.md for Claude Code (also in web/, convex/, iOS/)
 ```
 
 Root `angular.json`, `tsconfig*.json`, and `vite.config.ts` configure the existing Angular source layout and shared test suite. Dependencies are managed at the root; the web, backend, and shared workspace manifests expose the Turborepo task graph. `turbo.json` coordinates long-running dev tasks and build/typecheck dependencies.
@@ -116,14 +118,17 @@ pnpm typecheck
 pnpm build
 pnpm test:ci
 pnpm scan:secrets
-node scripts/smoke-local.mjs   # optional integration check while pnpm dev is running
+pnpm check   # all of the above except dev, with format:check instead of format
+pnpm smoke   # optional integration check (scripts/smoke-local.mjs) while pnpm dev is running
 ```
+
+Run `pnpm check` before committing; it is the same list the root `AGENTS.md` requires. Run `pnpm format` first if `format:check` reports differences.
 
 The smoke test creates synthetic accounts and a workspace in the ignored local database; it checks password rejection, token refresh/logout, cross-user isolation, ownership after a new login, and an export/import round trip.
 
 `pnpm build` produces `web/dist/`. It does not deploy anything. `pnpm scan:secrets` scans Git-tracked source and checks for sensitive/generated paths; install Gitleaks for the additional full pattern scan (`gitleaks dir . --redact`, or scan a clean export to avoid private local state).
 
-Agents should read `AGENTS.md`, then the scoped guide in `web/`, `convex/`, or `iOS/`. For backend changes also read `convex/_generated/ai/guidelines.md` and the relevant `.agents/skills/convex*/SKILL.md`. The generated files can be refreshed with `pnpm exec convex ai-files install`; review its diff and keep project-specific guidance in `AGENTS.md` rather than overwriting generated skills. Ordinary development must remain local unless explicitly asked to configure a different deployment.
+Agents should read `AGENTS.md`, then the scoped guide in `web/`, `convex/`, or `iOS/`. Claude Code reads `CLAUDE.md` instead, so each of those directories has a `CLAUDE.md` that imports its sibling `AGENTS.md` (`@AGENTS.md`); edit `AGENTS.md`, which stays the single source of truth. Claude Code finds skills under `.claude/skills/`, a relative symlink to `.agents/skills/`, so the generated Convex skills are shared without copies. On Windows, enable Git symlinks (`git config core.symlinks true` with Developer Mode) or the link checks out as a plain text file. For backend changes also read `convex/_generated/ai/guidelines.md` and the relevant `.agents/skills/convex*/SKILL.md`. The generated files can be refreshed with `pnpm exec convex ai-files install`; review its diff and keep project-specific guidance in `AGENTS.md` rather than overwriting generated skills. Ordinary development must remain local unless explicitly asked to configure a different deployment.
 
 ## Archived iOS app
 
