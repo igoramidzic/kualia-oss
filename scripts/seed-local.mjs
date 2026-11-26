@@ -31,7 +31,7 @@ async function completeOnboarding(workspaceId) {
         'node_modules/convex/bin/main.js',
         'run',
         'devSeed:completeSeededUserOnboarding',
-        JSON.stringify({ workspaceId, name: 'Demo' }),
+        JSON.stringify({ workspaceId, ownerEmail: DEMO_EMAIL, name: 'Demo' }),
         '--env-file',
         '.env.local',
       ],
@@ -101,8 +101,9 @@ async function validate(workspaceId) {
 const createdUser = await authenticate();
 console.log(createdUser ? `Created demo user ${DEMO_EMAIL}.` : `Demo user ${DEMO_EMAIL} already exists.`);
 
-const workspaces = await client.query(anyApi.workspaces.getUserWorkspaces, {});
-const existing = workspaces.find((w) => w?.name === DEMO_WORKSPACE_NAME && !w.isDeleted && !w.isArchived);
+// Only reuse a workspace the demo user owns; shared workspaces belong to someone else.
+const { ownWorkspaces } = await client.query(anyApi.workspaces.getWorkspaceSections, {});
+const existing = ownWorkspaces.find((w) => w?.name === DEMO_WORKSPACE_NAME && !w.isDeleted && !w.isArchived);
 if (existing) {
   console.log(`Demo workspace "${DEMO_WORKSPACE_NAME}" already exists; no data was added.`);
   console.log('To start over, delete the workspace in Settings and rerun `pnpm seed`.');
