@@ -19,6 +19,6 @@ pnpm format   # apply formatting fixes
 pnpm check    # format:check, lint, typecheck, build, test:ci, scan:secrets
 ```
 
-CI runs `pnpm check` on every pull request. After auth, access, or export changes, also run `pnpm smoke` while `pnpm dev` is running. See [README → Development and checks](README.md#development-and-checks).
+CI runs `pnpm check` on every pull request. After auth, access, or export changes, also run `pnpm smoke` while `pnpm dev` is running. To review UI changes or reproduce a bug with realistic data, run `pnpm seed` while `pnpm dev` is running; it loads a synthetic demo budget and prints its local login. See [README → Development and checks](README.md#development-and-checks).
 
 Keep changes small and follow the existing patterns. Add or update tests for behavior changes, and use synthetic data only. If you change startup, auth, environment variables, or integrations, update README and the relevant guide in the same pull request. The pull request template has the full checklist.

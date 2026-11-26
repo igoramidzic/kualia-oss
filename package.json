@@ -14,6 +14,7 @@
     "typecheck": "turbo run typecheck",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm build && pnpm test:ci && pnpm scan:secrets",
     "scan:secrets": "node scripts/scan-secrets.mjs",
+    "seed": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/seed-local.mjs",
     "smoke": "node scripts/smoke-local.mjs"
   },
   "private": true,

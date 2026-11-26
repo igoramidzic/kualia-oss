@@ -110,6 +110,7 @@ import type * as dataExports from "../dataExports.js";
 import type * as dataExports_archive from "../dataExports/archive.js";
 import type * as dataExports_columns from "../dataExports/columns.js";
 import type * as dataExports_format from "../dataExports/format.js";
+import type * as devSeed from "../devSeed.js";
 import type * as devUtils from "../devUtils.js";
 import type * as discord from "../discord.js";
 import type * as discord_actions from "../discord/actions.js";
@@ -457,6 +458,7 @@ const fullApi: ApiFromModules<{
   "dataExports/archive": typeof dataExports_archive;
   "dataExports/columns": typeof dataExports_columns;
   "dataExports/format": typeof dataExports_format;
+  devSeed: typeof devSeed;
   devUtils: typeof devUtils;
   discord: typeof discord;
   "discord/actions": typeof discord_actions;
