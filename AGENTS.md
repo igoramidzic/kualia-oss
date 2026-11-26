@@ -6,7 +6,7 @@ Read `README.md` first for setup, architecture, optional services, and the archi
 
 Kualia is a local-first envelope budgeting app. The web client is Angular 21; Convex provides the database, reactive queries, mutations, actions, file storage, and password authentication. This is a pnpm/Turborepo workspace with root-managed dependencies and existing `web/` and `convex/` source paths. iOS is archived and is not wired to the new auth system. Marketing sites and production release infrastructure are intentionally excluded.
 
-Use Node 24 and pnpm 12. `pnpm install --frozen-lockfile`, then `pnpm dev`, starts anonymous local Convex and Angular. No cloud account, Docker, Clerk, Logo.dev, Plaid, or payment provider is required for core budgeting. Read the optional-services table in README before enabling an integration. Custom logo uploads use Convex storage and need no Logo.dev account.
+Use Node 24 and pnpm 12; `pnpm install` rejects other Node versions through `devEngines.runtime` in the root `package.json`. `pnpm install --frozen-lockfile`, then `pnpm dev`, starts anonymous local Convex and Angular. No cloud account, Docker, Clerk, Logo.dev, Plaid, or payment provider is required for core budgeting. Read the optional-services table in README before enabling an integration. Custom logo uploads use Convex storage and need no Logo.dev account.
 
 ## Before changing code
 
@@ -36,7 +36,7 @@ Use Node 24 and pnpm 12. `pnpm install --frozen-lockfile`, then `pnpm dev`, star
 
 ## Validation
 
-Before a commit run `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`, `pnpm test:ci`, and `pnpm scan:secrets`. After backend changes verify the running local `pnpm dev` pushes successfully and refresh generated types. Verify auth changes with separate users and sessions, including unauthorized access attempts. Use synthetic data only.
+CI (`.github/workflows/ci.yml`) runs these checks on every pull request. Before a commit run `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`, `pnpm test:ci`, and `pnpm scan:secrets`. After backend changes verify the running local `pnpm dev` pushes successfully and refresh generated types. Verify auth changes with separate users and sessions, including unauthorized access attempts. Use synthetic data only.
 
 Do not run iOS simulators unless explicitly requested for the current task. Archived iOS changes use source review and build-only validation when applicable.
 
