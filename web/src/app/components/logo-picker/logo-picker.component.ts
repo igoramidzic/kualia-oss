@@ -15,13 +15,13 @@ import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoCheck as Check,
-  nucleoPhoto as Image,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoShop as Store,
-  nucleoUpload as Upload,
-  nucleoClose as X,
+  kualiaCheck as Check,
+  kualiaPhoto as Image,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaShop as Store,
+  kualiaUpload as Upload,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -38,18 +38,18 @@ import { HlmTabsImports } from '../../ui/tabs/src';
 
 @Component({
   selector: 'app-logo-picker',
-  imports: [BrnComboboxImports, HlmComboboxImports, HlmTabsImports, NucleoIcon],
+  imports: [BrnComboboxImports, HlmComboboxImports, HlmTabsImports, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-tabs class="gap-0" [tab]="activeMode()" (tabActivated)="onTabActivated($event)">
       <div class="border-border border-b p-2">
         <hlm-tabs-list class="grid w-full grid-cols-2">
           <button type="button" hlmTabsTrigger="logo" class="gap-2">
-            <nucleo-icon [icon]="Image" [size]="14" />
+            <kualia-icon [icon]="Image" [size]="14" />
             <span>Logo</span>
           </button>
           <button type="button" hlmTabsTrigger="icon" class="gap-2">
-            <nucleo-icon [icon]="Store" [size]="14" />
+            <kualia-icon [icon]="Store" [size]="14" />
             <span>Icon</span>
           </button>
         </hlm-tabs-list>
@@ -75,9 +75,9 @@ import { HlmTabsImports } from '../../ui/tabs/src';
               class="hover:bg-accent hover:text-accent-foreground flex h-10 w-full items-center gap-2 px-2 text-sm disabled:opacity-50"
             >
               @if (isUploading()) {
-                <nucleo-icon [icon]="LoaderCircle" [size]="14" class="flex-shrink-0 animate-spin" />
+                <kualia-icon [icon]="LoaderCircle" [size]="14" class="flex-shrink-0 animate-spin" />
               } @else {
-                <nucleo-icon [icon]="Upload" [size]="14" class="flex-shrink-0" />
+                <kualia-icon [icon]="Upload" [size]="14" class="flex-shrink-0" />
               }
               <span>{{ isUploading() ? uploadProgressText() : 'Upload custom image' }}</span>
             </button>
@@ -94,11 +94,11 @@ import { HlmTabsImports } from '../../ui/tabs/src';
               (click)="removeDefaultLogo()"
               class="hover:bg-accent hover:text-accent-foreground text-destructive flex h-10 w-full items-center gap-2 px-2 text-sm"
             >
-              <nucleo-icon [icon]="X" [size]="14" class="flex-shrink-0" />
+              <kualia-icon [icon]="X" [size]="14" class="flex-shrink-0" />
               <div
                 class="bg-accent/50 text-muted-foreground flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border"
               >
-                <nucleo-icon [icon]="Store" [size]="12" />
+                <kualia-icon [icon]="Store" [size]="12" />
               </div>
               <span>Remove logo</span>
             </button>
@@ -108,7 +108,7 @@ import { HlmTabsImports } from '../../ui/tabs/src';
                 (click)="removeCustomLogo()"
                 class="hover:bg-accent hover:text-accent-foreground flex h-10 w-full items-center gap-2 px-2 text-sm"
               >
-                <nucleo-icon [icon]="X" [size]="14" class="flex-shrink-0" />
+                <kualia-icon [icon]="X" [size]="14" class="flex-shrink-0" />
                 @if (defaultLogoUrl()) {
                   <img
                     [src]="defaultLogoUrl()"
@@ -126,11 +126,11 @@ import { HlmTabsImports } from '../../ui/tabs/src';
               (click)="removeDefaultLogo()"
               class="hover:bg-accent hover:text-accent-foreground flex h-10 w-full items-center gap-2 px-2 text-sm"
             >
-              <nucleo-icon [icon]="X" [size]="14" class="flex-shrink-0" />
+              <kualia-icon [icon]="X" [size]="14" class="flex-shrink-0" />
               <div
                 class="bg-accent/50 text-muted-foreground flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border"
               >
-                <nucleo-icon [icon]="Store" [size]="12" />
+                <kualia-icon [icon]="Store" [size]="12" />
               </div>
               <span class="text-destructive">Remove logo</span>
             </button>
@@ -141,7 +141,7 @@ import { HlmTabsImports } from '../../ui/tabs/src';
               (click)="resetDefaultLogo()"
               class="hover:bg-accent hover:text-accent-foreground flex h-10 w-full items-center gap-2 px-2 text-sm"
             >
-              <nucleo-icon [icon]="X" [size]="14" class="flex-shrink-0" />
+              <kualia-icon [icon]="X" [size]="14" class="flex-shrink-0" />
               @if (defaultLogoUrl()) {
                 <img
                   [src]="defaultLogoUrl()"
@@ -207,7 +207,7 @@ import { HlmTabsImports } from '../../ui/tabs/src';
                 (click)="selectIconColor(color.id)"
               >
                 @if (selectedIconColorId() === color.id) {
-                  <nucleo-icon
+                  <kualia-icon
                     [icon]="Check"
                     [size]="14"
                     class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -235,7 +235,7 @@ import { HlmTabsImports } from '../../ui/tabs/src';
                     [title]="iconName"
                     (click)="selectIcon(iconName)"
                   >
-                    <nucleo-icon [icon]="iconData" [size]="16" />
+                    <kualia-icon [icon]="iconData" [size]="16" />
                   </button>
                 }
               }

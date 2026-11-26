@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import type { NucleoIconData } from '@kualia/icons';
-import { nucleoCheck as Check, NucleoIcon } from '@kualia/icons';
+import type { KualiaIconData } from '@kualia/icons';
+import { kualiaCheck as Check, KualiaIcon } from '@kualia/icons';
 
 @Component({
   selector: 'app-selection-card',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -22,7 +22,7 @@ import { nucleoCheck as Check, NucleoIcon } from '@kualia/icons';
         class="bg-accent flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
         [class.bg-primary/10]="selected()"
       >
-        <nucleo-icon
+        <kualia-icon
           [icon]="icon()"
           class="h-6 w-6"
           [class.text-muted-foreground]="!selected()"
@@ -63,7 +63,7 @@ import { nucleoCheck as Check, NucleoIcon } from '@kualia/icons';
             [class.bg-primary]="selected()"
           >
             @if (selected()) {
-              <nucleo-icon [icon]="Check" class="h-3 w-3 text-white" />
+              <kualia-icon [icon]="Check" class="h-3 w-3 text-white" />
             }
           </div>
         }
@@ -76,7 +76,7 @@ export class SelectionCardComponent {
 
   readonly title = input.required<string>();
   readonly description = input<string>();
-  readonly icon = input.required<NucleoIconData>();
+  readonly icon = input.required<KualiaIconData>();
   readonly selected = input.required<boolean>();
   readonly selectionType = input<'single' | 'multi'>('single');
 

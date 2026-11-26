@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, SecurityContext, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { nucleoChevronDown as ChevronDown, nucleoInfo as Info, NucleoIcon } from '@kualia/icons';
+import { kualiaChevronDown as ChevronDown, kualiaInfo as Info, KualiaIcon } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 import { formatDateForDisplay, formatDateToString } from '../../shared/utils/date-utils';
 import { TargetTypeSelection } from './target-type-toggle.component';
@@ -10,13 +10,13 @@ type Frequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
 @Component({
   selector: 'app-category-target-description',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   template: `
     <div class="border-border rounded-lg border p-2">
       <button type="button" class="flex w-full items-center gap-3 text-left" (click)="toggleOpen()">
-        <nucleo-icon [icon]="Info" size="14" class="text-primary shrink-0" />
+        <kualia-icon [icon]="Info" size="14" class="text-primary shrink-0" />
         <h1 class="text-primary flex-1 text-xs">How it works</h1>
-        <nucleo-icon
+        <kualia-icon
           [icon]="ChevronDown"
           size="16"
           class="text-primary shrink-0 transition-transform duration-200"

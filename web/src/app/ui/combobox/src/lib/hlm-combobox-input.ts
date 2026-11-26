@@ -1,14 +1,14 @@
 import { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronDown, nucleoClose } from '@kualia/icons';
+import { kualiaChevronDown, kualiaClose } from '@kualia/icons';
 import { BrnComboboxImports, BrnComboboxPopoverTrigger } from '@spartan-ng/brain/combobox';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 
 @Component({
   selector: 'hlm-combobox-input',
   imports: [HlmInputGroupImports, NgIcon, BrnComboboxImports, BrnComboboxPopoverTrigger],
-  providers: [provideIcons({ nucleoChevronDown, nucleoClose })],
+  providers: [provideIcons({ kualiaChevronDown, kualiaClose })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-input-group brnComboboxAnchor class="w-auto">
@@ -34,7 +34,7 @@ import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
             variant="ghost"
             class="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
           >
-            <ng-icon name="nucleoChevronDown" />
+            <ng-icon name="kualiaChevronDown" />
           </button>
         }
 
@@ -47,7 +47,7 @@ import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
             size="icon-xs"
             variant="ghost"
           >
-            <ng-icon name="nucleoClose" />
+            <ng-icon name="kualiaClose" />
           </button>
         }
       </hlm-input-group-addon>

@@ -2,7 +2,7 @@ import type { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import type { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronLeft } from '@kualia/icons';
+import { kualiaChevronLeft } from '@kualia/icons';
 import type { ButtonVariants } from '@spartan-ng/helm/button';
 import { hlm } from '@spartan-ng/helm/utils';
 import type { ClassValue } from 'clsx';
@@ -11,7 +11,7 @@ import { HlmPaginationLink } from './hlm-pagination-link';
 @Component({
   selector: 'hlm-pagination-previous',
   imports: [HlmPaginationLink, NgIcon],
-  providers: [provideIcons({ nucleoChevronLeft })],
+  providers: [provideIcons({ kualiaChevronLeft })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a
@@ -23,7 +23,7 @@ import { HlmPaginationLink } from './hlm-pagination-link';
       [size]="_size()"
       [attr.aria-label]="ariaLabel()"
     >
-      <ng-icon name="nucleoChevronLeft" class="rtl:rotate-180" />
+      <ng-icon name="kualiaChevronLeft" class="rtl:rotate-180" />
       <span [class]="_labelClass()">{{ text() }}</span>
     </a>
   `,

@@ -7,7 +7,7 @@ import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmLabel } from '@spartan-ng/helm/label';
 import { api } from 'convex/_generated/api';
 import { ConvexError } from 'convex/values';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { ConvexService } from '../../../services/convex.service';
 
@@ -17,7 +17,7 @@ interface DialogContext {
 
 @Component({
   selector: 'app-invite-family-member-dialog',
-  imports: [ReactiveFormsModule, HlmButton, HlmDialogHeader, HlmDialogFooter, HlmInput, HlmLabel, NucleoIcon],
+  imports: [ReactiveFormsModule, HlmButton, HlmDialogHeader, HlmDialogFooter, HlmInput, HlmLabel, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <form [formGroup]="inviteForm" (ngSubmit)="sendInvite()">
@@ -72,7 +72,7 @@ interface DialogContext {
         </button>
         <button hlmBtn type="submit" size="sm" [disabled]="inviteForm.invalid || sending()">
           @if (sending()) {
-            <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+            <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
             Sending...
           } @else {
             Send Invite

@@ -40,7 +40,7 @@
         [attr.aria-label]="'Archive chat: ' + (thread.title ?? 'New chat')"
         (click)="archiveChat($event, thread.threadId)"
       >
-        <nucleo-icon [icon]="X" [size]="12" />
+        <kualia-icon [icon]="X" [size]="12" />
       </button>
     </div>
   }
@@ -59,7 +59,7 @@
     aria-label="Toggle Kualia chat"
     (click)="onTabClick($event, newChatKey)"
   >
-    <nucleo-icon [icon]="MessageSquare" [size]="14" />
+    <kualia-icon [icon]="MessageSquare" [size]="14" />
     Ask Kualia
   </button>
 
@@ -89,7 +89,7 @@
       </button>
     }
     <button #measureHistory aria-label="Chat history" class="text-muted-foreground h-8 w-8">
-      <nucleo-icon [icon]="History" [size]="14" />
+      <kualia-icon [icon]="History" [size]="14" />
     </button>
   </div>
 </div>

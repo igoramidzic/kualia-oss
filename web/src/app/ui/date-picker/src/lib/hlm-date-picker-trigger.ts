@@ -1,7 +1,7 @@
 import { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronDown } from '@kualia/icons';
+import { kualiaChevronDown } from '@kualia/icons';
 import { BrnFieldControl, BrnFieldControlDescribedBy } from '@spartan-ng/brain/field';
 import { ButtonVariants, HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmPopoverTrigger } from '@spartan-ng/helm/popover';
@@ -13,7 +13,7 @@ import { injectHlmDatePicker } from './hlm-date-picker.token';
 @Component({
   selector: 'hlm-date-picker-trigger',
   imports: [HlmButtonImports, HlmPopoverTrigger, NgIcon, BrnFieldControlDescribedBy],
-  providers: [provideIcons({ nucleoChevronDown }), provideHlmDatePickerTrigger(HlmDatePickerTrigger)],
+  providers: [provideIcons({ kualiaChevronDown }), provideHlmDatePickerTrigger(HlmDatePickerTrigger)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'data-slot': 'date-picker-trigger' },
   template: `
@@ -43,7 +43,7 @@ import { injectHlmDatePicker } from './hlm-date-picker.token';
       </span>
 
       @if (showTrigger()) {
-        <ng-icon name="nucleoChevronDown" />
+        <ng-icon name="kualiaChevronDown" />
       }
     </button>
   `,

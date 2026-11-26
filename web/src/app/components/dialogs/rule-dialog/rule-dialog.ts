@@ -9,7 +9,7 @@ import { HlmDialogFooter } from '@spartan-ng/helm/dialog';
 import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoLoader as LoaderCircle, NucleoIcon, nucleoTrash as Trash2, nucleoClose as X } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon, kualiaTrash as Trash2, kualiaClose as X } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -47,7 +47,7 @@ interface CategoryActionForm {
     HlmDialogFooter,
     HlmInput,
     ...HlmSwitchImports,
-    NucleoIcon,
+    KualiaIcon,
     HlmSelectImports,
     ...HlmAccordionImports,
     HlmCard,

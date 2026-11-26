@@ -34,7 +34,7 @@ Use Node 24 and pnpm 12. `pnpm install --frozen-lockfile`, then `pnpm dev`, star
 - Financial amounts use the existing bigint/currency helpers; do not introduce floating-point money arithmetic.
 - Preserve soft-delete, ISO timestamp, and activity-log patterns.
 - Add/update tests for behavior changes. Do not turn off failing tests to hide a regression.
-- Lucide artwork replaces the historical Nucleo assets; preserve license notices and existing typed icon names.
+- Icons live in `web/src/app/icons/`: use `kualia*` exports, `<kualia-icon>`, and `kualiaIcons` / `KualiaIconName`. The artwork is Lucide (`LICENSE-LUCIDE`); preserve license notices and the saved catalog names (`KualiaIconName` keys and `legacyIconNames`).
 
 ## Validation
 

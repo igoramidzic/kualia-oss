@@ -8,7 +8,7 @@ import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmLabel } from '@spartan-ng/helm/label';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoArchive as Archive, nucleoInfo as Info, NucleoIcon } from '@kualia/icons';
+import { kualiaArchive as Archive, kualiaInfo as Info, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { CurrencySelectorComponent } from '../../../components/currency-selector/currency-selector.component';
 import { ArchiveWorkspaceDialogComponent } from '../../../components/dialogs/archive-workspace-dialog/archive-workspace-dialog';
@@ -27,7 +27,7 @@ import { HlmAlertImports } from '../../../ui/alert/src';
     HlmCard,
     HlmInput,
     HlmLabel,
-    NucleoIcon,
+    KualiaIcon,
     ...HlmAlertImports,
     SettingsPageHeaderComponent,
     CurrencySelectorComponent,

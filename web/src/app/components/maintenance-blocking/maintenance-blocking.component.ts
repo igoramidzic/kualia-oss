@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { NucleoIcon, nucleoMaintenance as Wrench } from '@kualia/icons';
+import { KualiaIcon, kualiaMaintenance as Wrench } from '@kualia/icons';
 
 @Component({
   selector: 'app-maintenance-blocking',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   styles: `
     @keyframes pulse {
       0%,
@@ -22,7 +22,7 @@ import { NucleoIcon, nucleoMaintenance as Wrench } from '@kualia/icons';
   template: `
     <div class="bg-background flex h-screen w-screen items-center justify-center">
       <div class="flex max-w-md flex-col items-center gap-6 px-4 text-center">
-        <nucleo-icon [icon]="WrenchIcon" class="text-muted-foreground h-16 w-16" />
+        <kualia-icon [icon]="WrenchIcon" class="text-muted-foreground h-16 w-16" />
 
         <div class="space-y-2">
           <h1 class="text-2xl font-semibold tracking-tight">Under Maintenance</h1>

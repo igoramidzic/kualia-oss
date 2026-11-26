@@ -3,7 +3,7 @@ import { BrnDialogRef, injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import type { Id } from 'convex/_generated/dataModel';
-import { nucleoArrowLeft as ArrowLeft, NucleoIcon } from '@kualia/icons';
+import { kualiaArrowLeft as ArrowLeft, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService } from '../../../services/bank-account.service';
 import { BankConnectionService } from '../../../services/bank-connection.service';
@@ -37,7 +37,7 @@ export interface CreateBankAccountDialogConfig {
   selector: 'app-create-bank-account-dialog-orchestrator',
   imports: [
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     BankAccountConnectionTypeComponent,
     BankAccountManualFormComponent,
     BankAccountPlaidLoadingComponent,
@@ -52,7 +52,7 @@ export interface CreateBankAccountDialogConfig {
       <hlm-dialog-header>
         <div class="flex items-center gap-2 select-none">
           <button hlmBtn variant="ghost" size="icon" class="h-6 w-6" (click)="goBack()" [disabled]="isProcessing()">
-            <nucleo-icon [icon]="ArrowLeft" class="h-4 w-4" />
+            <kualia-icon [icon]="ArrowLeft" class="h-4 w-4" />
           </button>
           <h2>{{ headerTitle() }}</h2>
         </div>

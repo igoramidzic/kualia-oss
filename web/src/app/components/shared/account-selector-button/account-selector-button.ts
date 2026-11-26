@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import type { Id } from 'convex/_generated/dataModel';
-import { nucleoCheck as Check, NucleoIcon } from '@kualia/icons';
+import { kualiaCheck as Check, KualiaIcon } from '@kualia/icons';
 import { CurrencyService } from '../../../services/currency.service';
 import { formatAccountType } from '../../../shared/utils/account-type-utils';
 
@@ -15,7 +15,7 @@ export interface BankAccountForSelection {
 
 @Component({
   selector: 'app-account-selector-button',
-  imports: [HlmButton, NucleoIcon],
+  imports: [HlmButton, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
@@ -30,7 +30,7 @@ export interface BankAccountForSelection {
           <div class="flex items-center gap-2">
             <p class="font-medium">{{ account().name }}</p>
             @if (isSelected()) {
-              <nucleo-icon [icon]="Check" [size]="16" class="text-primary" />
+              <kualia-icon [icon]="Check" [size]="16" class="text-primary" />
             }
           </div>
           <p class="text-muted-foreground text-xs">

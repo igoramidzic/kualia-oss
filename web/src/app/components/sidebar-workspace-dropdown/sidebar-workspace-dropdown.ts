@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { nucleoChevronDown as ChevronDown, NucleoIcon } from '@kualia/icons';
+import { kualiaChevronDown as ChevronDown, KualiaIcon } from '@kualia/icons';
 import { api } from '../../../../../convex/_generated/api';
 import { Id } from '../../../../../convex/_generated/dataModel';
 import { ConvexService } from '../../services/convex.service';
@@ -26,7 +26,7 @@ type Workspace = {
   imports: [
     RouterLink,
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     HlmDropdownMenuTrigger,
     HlmDropdownMenu,
     HlmDropdownMenuItem,

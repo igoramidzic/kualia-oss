@@ -1,7 +1,7 @@
 import type { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, numberAttribute } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoCheckCircle, nucleoInfo, nucleoLoader, nucleoCloseCircle, nucleoWarning } from '@kualia/icons';
+import { kualiaCheckCircle, kualiaInfo, kualiaLoader, kualiaCloseCircle, kualiaWarning } from '@kualia/icons';
 import { BrnSonnerImports, type ToasterProps } from '@spartan-ng/brain/sonner';
 import { hlm } from '@spartan-ng/helm/utils';
 import type { ClassValue } from 'clsx';
@@ -9,7 +9,7 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'hlm-toaster',
   imports: [BrnSonnerImports, NgIcon],
-  providers: [provideIcons({ nucleoCheckCircle, nucleoInfo, nucleoWarning, nucleoCloseCircle, nucleoLoader })],
+  providers: [provideIcons({ kualiaCheckCircle, kualiaInfo, kualiaWarning, kualiaCloseCircle, kualiaLoader })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <brn-sonner-toaster
@@ -28,19 +28,19 @@ import type { ClassValue } from 'clsx';
       [style]="userStyle()"
     >
       <ng-template #loadingIcon>
-        <ng-icon name="nucleoLoader" class="overflow-visible! text-base [&>svg]:motion-safe:animate-spin" />
+        <ng-icon name="kualiaLoader" class="overflow-visible! text-base [&>svg]:motion-safe:animate-spin" />
       </ng-template>
       <ng-template #successIcon>
-        <ng-icon name="nucleoCheckCircle" class="overflow-visible! text-base" />
+        <ng-icon name="kualiaCheckCircle" class="overflow-visible! text-base" />
       </ng-template>
       <ng-template #errorIcon>
-        <ng-icon name="nucleoCloseCircle" class="overflow-visible! text-base" />
+        <ng-icon name="kualiaCloseCircle" class="overflow-visible! text-base" />
       </ng-template>
       <ng-template #infoIcon>
-        <ng-icon name="nucleoInfo" class="overflow-visible! text-base" />
+        <ng-icon name="kualiaInfo" class="overflow-visible! text-base" />
       </ng-template>
       <ng-template #warningIcon>
-        <ng-icon name="nucleoWarning" class="overflow-visible! text-base" />
+        <ng-icon name="kualiaWarning" class="overflow-visible! text-base" />
       </ng-template>
     </brn-sonner-toaster>
   `,

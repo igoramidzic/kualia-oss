@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { nucleoArrowLeft as ArrowLeft, nucleoArrowRight as ArrowRight, NucleoIcon } from '@kualia/icons';
+import { kualiaArrowLeft as ArrowLeft, kualiaArrowRight as ArrowRight, KualiaIcon } from '@kualia/icons';
 
 @Component({
   selector: 'app-month-navigation',
-  imports: [NucleoIcon, HlmButton, RouterLink],
+  imports: [KualiaIcon, HlmButton, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './month-navigation.component.html',
 })

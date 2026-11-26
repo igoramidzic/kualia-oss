@@ -1,6 +1,6 @@
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { nucleoShop as Store } from '@kualia/icons';
+import { kualiaShop as Store } from '@kualia/icons';
 import { describe, expect, it, vi } from 'vitest';
 import { IconService } from '../../services/icon.service';
 import { LogoSearchService } from '../../services/logo-search.service';

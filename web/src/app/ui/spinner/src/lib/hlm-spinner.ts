@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoLoader } from '@kualia/icons';
+import { kualiaLoader } from '@kualia/icons';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: 'hlm-spinner',
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoLoader })],
+  providers: [provideIcons({ kualiaLoader })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'status',
@@ -19,7 +19,7 @@ export class HlmSpinner {
    * The name of the icon to be used as the spinner.
    * Use provideIcons({ ... }) to register custom icons.
    */
-  public readonly icon = input<string>('nucleoLoader');
+  public readonly icon = input<string>('kualiaLoader');
 
   /** Aria label for the spinner for accessibility. */
   public readonly ariaLabel = input<string>('Loading', { alias: 'aria-label' });

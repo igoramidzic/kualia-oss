@@ -7,12 +7,12 @@ import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
 import { api } from 'convex/_generated/api';
 import type { FunctionReturnType } from 'convex/server';
 import {
-  nucleoArchive as Archive,
-  nucleoWorkspace as Building2,
-  nucleoChevronRight as ChevronRight,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoUpload as Upload,
+  kualiaArchive as Archive,
+  kualiaWorkspace as Building2,
+  kualiaChevronRight as ChevronRight,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaUpload as Upload,
 } from '@kualia/icons';
 import { ArchivedWorkspacesDialogComponent } from '../../components/dialogs/archived-workspaces-dialog/archived-workspaces-dialog';
 import { CreateWorkspaceDialogComponent } from '../../components/dialogs/create-workspace-dialog/create-workspace-dialog';
@@ -34,7 +34,7 @@ type WorkspaceDisplaySection = {
 
 @Component({
   selector: 'app-workspaces',
-  imports: [HlmButton, UserNavbarComponent, NucleoIcon, HlmSkeleton],
+  imports: [HlmButton, UserNavbarComponent, KualiaIcon, HlmSkeleton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './workspaces.html',
   styleUrl: './workspaces.css',

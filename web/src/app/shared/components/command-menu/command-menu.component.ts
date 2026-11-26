@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  nucleoWorkspace,
-  nucleoCheck,
-  nucleoLogout,
-  nucleoAssistant,
-  nucleoArrowRight,
-  nucleoPlus,
-  nucleoShop,
+  kualiaWorkspace,
+  kualiaCheck,
+  kualiaLogout,
+  kualiaAssistant,
+  kualiaArrowRight,
+  kualiaPlus,
+  kualiaShop,
 } from '@kualia/icons';
 import { BrnCommand, BrnCommandImports } from '@spartan-ng/brain/command';
 import { BrnDialogImports } from '@spartan-ng/brain/dialog';
@@ -22,13 +22,13 @@ import { Command } from '../../models/command.model';
   imports: [...BrnDialogImports, ...BrnCommandImports, ...HlmCommandImports, NgIcon, HlmIcon],
   providers: [
     provideIcons({
-      nucleoCheck,
-      nucleoArrowRight,
-      nucleoShop,
-      nucleoPlus,
-      nucleoWorkspace,
-      nucleoLogout,
-      nucleoAssistant,
+      kualiaCheck,
+      kualiaArrowRight,
+      kualiaShop,
+      kualiaPlus,
+      kualiaWorkspace,
+      kualiaLogout,
+      kualiaAssistant,
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

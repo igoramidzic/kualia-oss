@@ -106,7 +106,7 @@ Convex Auth's JWT subject includes both user and session IDs. `convex/lib/identi
 | Database schema | `convex/schema.ts`; keep generated API types in sync |
 | Local startup or ports | `scripts/dev-backend.mjs`, `local-ready.mjs`, `dev-web.mjs`, web environments |
 | Uploaded / searched logos | `web/src/app/services/logo-*`, `convex/storage/`, `convex/logoDev.ts` |
-| Icons | Existing `nucleo*` exports now contain Lucide artwork; `LICENSE-LUCIDE` applies |
+| Icons | `web/src/app/icons/`: `kualia*` artwork exports (`KualiaIconData`), the `<kualia-icon>` component, and the `kualiaIcons` catalog / `KualiaIconName` type. Artwork is Lucide; `LICENSE-LUCIDE` applies |
 
 ## Development and checks
 

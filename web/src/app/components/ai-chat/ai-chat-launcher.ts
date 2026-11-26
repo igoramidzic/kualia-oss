@@ -17,10 +17,10 @@ import {
 } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import {
-  nucleoHistory as History,
-  NucleoIcon,
-  nucleoAssistant as MessageSquare,
-  nucleoClose as X,
+  kualiaHistory as History,
+  KualiaIcon,
+  kualiaAssistant as MessageSquare,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { AiChatService, ThreadSummary } from '../../services/ai-chat.service';
 import { ReportingService, TrackingEvent } from '../../services/reporting.service';
@@ -38,7 +38,7 @@ const DEFAULT_RIGHT_PADDING = 16;
 
 @Component({
   selector: 'app-ai-chat-launcher',
-  imports: [HlmButton, NucleoIcon, AiChatPanelComponent, AiChatHistoryComponent],
+  imports: [HlmButton, KualiaIcon, AiChatPanelComponent, AiChatHistoryComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ai-chat-launcher.html',
   styleUrl: './ai-chat-launcher.css',

@@ -5,7 +5,7 @@ import { HlmCheckbox } from '@spartan-ng/helm/checkbox';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoWorkspace as Building2, nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaWorkspace as Building2, kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { ConvexService } from '../../../services/convex.service';
 
 interface DialogContext {
@@ -23,7 +23,7 @@ type Workspace = {
 
 @Component({
   selector: 'app-archived-workspaces-dialog',
-  imports: [HlmButton, HlmCheckbox, HlmDialogHeader, HlmDialogFooter, NucleoIcon],
+  imports: [HlmButton, HlmCheckbox, HlmDialogHeader, HlmDialogFooter, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -50,7 +50,7 @@ type Workspace = {
                 [checked]="selectedIds().has(workspace._id)"
                 (checkedChange)="toggleSelection(workspace._id)"
               />
-              <nucleo-icon [icon]="Building2" class="text-muted-foreground h-5 w-5" />
+              <kualia-icon [icon]="Building2" class="text-muted-foreground h-5 w-5" />
               <span class="flex-1 font-medium">{{ workspace.name }}</span>
             </div>
           }
@@ -68,7 +68,7 @@ type Workspace = {
       <button hlmBtn size="sm" variant="outline" (click)="dialogContext.onClose()">Cancel</button>
       <button hlmBtn size="sm" [disabled]="selectedIds().size === 0 || unarchiving()" (click)="unarchiveSelected()">
         @if (unarchiving()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
         }
         Unarchive{{ selectedIds().size > 0 ? ' (' + selectedIds().size + ')' : '' }}
       </button>

@@ -1,2 +1,2 @@
-export { NucleoIcon } from './nucleo-icon.component';
-export * from './nucleo-icons';
+export { KualiaIcon } from './kualia-icon.component';
+export * from './kualia-icons';

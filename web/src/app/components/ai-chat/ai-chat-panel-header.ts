@@ -2,20 +2,20 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { HlmBadge } from '@spartan-ng/helm/badge';
 import { HlmButton } from '@spartan-ng/helm/button';
 import {
-  NucleoIcon,
-  nucleoExpand as Maximize2,
-  nucleoCollapse as Minimize2,
-  nucleoMinus as Minus,
-  nucleoDots as MoreHorizontal,
-  nucleoTrash as Trash2,
-  nucleoClose as X,
+  KualiaIcon,
+  kualiaExpand as Maximize2,
+  kualiaCollapse as Minimize2,
+  kualiaMinus as Minus,
+  kualiaDots as MoreHorizontal,
+  kualiaTrash as Trash2,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { HlmDropdownMenuImports } from '../../ui/dropdown-menu/src';
 import { HlmTooltip } from '../../ui/tooltip/src';
 
 @Component({
   selector: 'app-ai-chat-panel-header',
-  imports: [HlmBadge, HlmButton, NucleoIcon, HlmTooltip, HlmDropdownMenuImports],
+  imports: [HlmBadge, HlmButton, KualiaIcon, HlmTooltip, HlmDropdownMenuImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ai-chat-panel-header.html',
 })

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader, HlmDialogService } from '@spartan-ng/helm/dialog';
-import { NucleoIcon, nucleoSkip as SkipForward } from '@kualia/icons';
+import { KualiaIcon, kualiaSkip as SkipForward } from '@kualia/icons';
 
 export interface SkippablePlannedTransaction {
   merchantName?: string;
@@ -18,7 +18,7 @@ interface SkipPlannedTransactionDialogContext {
 
 @Component({
   selector: 'app-skip-planned-transaction-dialog',
-  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, NucleoIcon],
+  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -27,7 +27,7 @@ interface SkipPlannedTransactionDialogContext {
 
     <div class="space-y-3 p-4">
       <div class="bg-accent/50 flex items-start gap-3 rounded-md border p-3">
-        <nucleo-icon [icon]="SkipForward" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
+        <kualia-icon [icon]="SkipForward" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
         <div class="min-w-0">
           <p class="text-sm font-medium">{{ payeeName() }}</p>
           <p class="text-muted-foreground text-sm">{{ dueDateLabel() }} will be skipped without entering it.</p>

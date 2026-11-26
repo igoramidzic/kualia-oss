@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronDown, nucleoChevronUp } from '@kualia/icons';
+import { kualiaChevronDown, kualiaChevronUp } from '@kualia/icons';
 import { BrnAccordionImports } from '@spartan-ng/brain/accordion';
 import { hlm } from '@spartan-ng/helm/utils';
 import type { ClassValue } from 'clsx';
@@ -8,19 +8,19 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'hlm-accordion-trigger',
   imports: [BrnAccordionImports, NgIcon],
-  providers: [provideIcons({ nucleoChevronDown, nucleoChevronUp })],
+  providers: [provideIcons({ kualiaChevronDown, kualiaChevronUp })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h3 brnAccordionHeader class="flex">
       <button brnAccordionTrigger data-slot="accordion-trigger" [class]="_computedTriggerClass()">
         <ng-content />
         <ng-icon
-          name="nucleoChevronDown"
+          name="kualiaChevronDown"
           data-slot="accordion-trigger-icon"
           class="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden"
         />
         <ng-icon
-          name="nucleoChevronUp"
+          name="kualiaChevronUp"
           data-slot="accordion-trigger-icon"
           class="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:inline group-aria-[expanded=false]/accordion-trigger:hidden"
         />

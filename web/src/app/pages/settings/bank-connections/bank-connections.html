@@ -8,7 +8,7 @@
       <div class="mb-6 flex items-center justify-between">
         <h1 class="text-2xl">Bank Connections</h1>
         <button hlmBtn size="sm" (click)="addNewBankConnection()">
-          <nucleo-icon [icon]="Plus" class="h-4 w-4" />
+          <kualia-icon [icon]="Plus" class="h-4 w-4" />
           Add Connection
         </button>
       </div>
@@ -41,7 +41,7 @@
                           } @else {
                             <div class="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
                               @if (connection.provider === 'apple_wallet') {
-                                <nucleo-icon [icon]="WalletCards" [size]="20" class="text-muted-foreground" />
+                                <kualia-icon [icon]="WalletCards" [size]="20" class="text-muted-foreground" />
                               } @else {
                                 <span class="text-sm font-medium">{{ connection.displayName.charAt(0) }}</span>
                               }
@@ -57,7 +57,7 @@
                             }
                             @if (connection.management.type === 'ios') {
                               <span class="text-muted-foreground flex items-center gap-1 text-xs">
-                                <nucleo-icon [icon]="Smartphone" [size]="12" />
+                                <kualia-icon [icon]="Smartphone" [size]="12" />
                                 {{ connection.management.label }}
                               </span>
                             }
@@ -84,7 +84,7 @@
                                 [class]="getStatusCircleClass(connection.status)"
                               ></span>
                               <span>{{ connection.statusLabel }}</span>
-                              <nucleo-icon [icon]="ChevronDown" [size]="16" />
+                              <kualia-icon [icon]="ChevronDown" [size]="16" />
                             </button>
                           </div>
 
@@ -96,7 +96,7 @@
                                   (click)="reconnectConnection(connection)"
                                   class="font-light"
                                 >
-                                  <nucleo-icon [icon]="ReconnectIcon" [size]="16" />
+                                  <kualia-icon [icon]="ReconnectIcon" [size]="16" />
                                   Reconnect
                                 </button>
                               }
@@ -106,7 +106,7 @@
                                 variant="destructive"
                                 class="w-52 text-left font-light"
                               >
-                                <nucleo-icon [icon]="DisconnectIcon" [size]="16" />
+                                <kualia-icon [icon]="DisconnectIcon" [size]="16" />
                                 Disconnect...
                               </button>
                             </hlm-dropdown-menu>
@@ -175,7 +175,7 @@
                               </p>
                             </div>
 
-                            <nucleo-icon [icon]="ChevronRight" [size]="16" class="text-muted-foreground" />
+                            <kualia-icon [icon]="ChevronRight" [size]="16" class="text-muted-foreground" />
                           </div>
                         } @empty {
                           <div class="text-muted-foreground p-4 text-center text-sm">

@@ -14,7 +14,7 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoEye as Eye, nucleoEyeOff as EyeOff, NucleoIcon, nucleoPencil as Pencil } from '@kualia/icons';
+import { kualiaEye as Eye, kualiaEyeOff as EyeOff, KualiaIcon, kualiaPencil as Pencil } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { CategoryService } from '../../services/category.service';
 
@@ -28,7 +28,7 @@ import { CategoryService } from '../../services/category.service';
     HlmButton,
     HlmInput,
     HlmPopoverContent,
-    NucleoIcon,
+    KualiaIcon,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -49,7 +49,7 @@ import { CategoryService } from '../../services/category.service';
         brnPopoverTrigger
         aria-label="Edit category name"
       >
-        <nucleo-icon [icon]="Pencil" [size]="14" class="text-muted-foreground" />
+        <kualia-icon [icon]="Pencil" [size]="14" class="text-muted-foreground" />
       </button>
       <div *brnPopoverContent="let ctx" class="w-[280px] p-4" hlmPopoverContent>
         <div class="space-y-4">
@@ -81,10 +81,10 @@ import { CategoryService } from '../../services/category.service';
               [disabled]="archiving() || saving()"
             >
               @if (isArchived()) {
-                <nucleo-icon [icon]="Eye" [size]="14" class="mr-1" />
+                <kualia-icon [icon]="Eye" [size]="14" class="mr-1" />
                 Unhide
               } @else {
-                <nucleo-icon [icon]="EyeOff" [size]="14" class="mr-1" />
+                <kualia-icon [icon]="EyeOff" [size]="14" class="mr-1" />
                 Hide
               }
             </button>

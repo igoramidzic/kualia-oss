@@ -5,13 +5,13 @@ import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoArchive as Archive,
-  nucleoTransfer as ArrowRightLeft,
-  nucleoBell as Bell,
-  nucleoCreditCard as CreditCard,
-  nucleoHardDrive as HardDrive,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
+  kualiaArchive as Archive,
+  kualiaTransfer as ArrowRightLeft,
+  kualiaBell as Bell,
+  kualiaCreditCard as CreditCard,
+  kualiaHardDrive as HardDrive,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { ConvexService } from '../../../services/convex.service';
@@ -41,7 +41,7 @@ function toFriendlyWorkspaceArchiveError(message: string): string {
 
 @Component({
   selector: 'app-archive-workspace-dialog',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, HlmDialogFooter],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, HlmDialogFooter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -62,19 +62,19 @@ function toFriendlyWorkspaceArchiveError(message: string): string {
 
       <div class="text-muted-foreground mt-4 space-y-2 text-sm">
         <div class="flex items-center gap-2">
-          <nucleo-icon [icon]="ArrowRightLeft" class="h-4 w-4" />
+          <kualia-icon [icon]="ArrowRightLeft" class="h-4 w-4" />
           <span>Bank syncing will be paused</span>
         </div>
         <div class="flex items-center gap-2">
-          <nucleo-icon [icon]="CreditCard" class="h-4 w-4" />
+          <kualia-icon [icon]="CreditCard" class="h-4 w-4" />
           <span>No new transactions will be imported</span>
         </div>
         <div class="flex items-center gap-2">
-          <nucleo-icon [icon]="Bell" class="h-4 w-4" />
+          <kualia-icon [icon]="Bell" class="h-4 w-4" />
           <span>Budget notifications will stop</span>
         </div>
         <div class="flex items-center gap-2">
-          <nucleo-icon [icon]="HardDrive" class="h-4 w-4" />
+          <kualia-icon [icon]="HardDrive" class="h-4 w-4" />
           <span>All data will be preserved</span>
         </div>
       </div>
@@ -96,10 +96,10 @@ function toFriendlyWorkspaceArchiveError(message: string): string {
         [disabled]="archiving()"
       >
         @if (archiving()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Archiving...
         } @else {
-          <nucleo-icon [icon]="Archive" class="mr-1 h-4 w-4" />
+          <kualia-icon [icon]="Archive" class="mr-1 h-4 w-4" />
           Archive
         }
       </button>

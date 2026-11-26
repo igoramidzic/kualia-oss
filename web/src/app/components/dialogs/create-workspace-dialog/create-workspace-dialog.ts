@@ -11,11 +11,11 @@ import { HlmRadio, HlmRadioGroup, HlmRadioIndicator } from '@spartan-ng/helm/rad
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoWorkspace as Building2,
-  nucleoCheck as Check,
-  nucleoChevronDown as ChevronDown,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
+  kualiaWorkspace as Building2,
+  kualiaCheck as Check,
+  kualiaChevronDown as ChevronDown,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
 } from '@kualia/icons';
 import { ConvexService } from '../../../services/convex.service';
 import { ReportingService, TrackingEvent } from '../../../services/reporting.service';
@@ -48,7 +48,7 @@ type CategoryOption = 'default' | 'copy';
     HlmRadio,
     HlmRadioGroup,
     HlmRadioIndicator,
-    NucleoIcon,
+    KualiaIcon,
     CurrencySelectorComponent,
     BrnPopover,
     BrnPopoverTrigger,
@@ -156,13 +156,13 @@ type CategoryOption = 'default' | 'copy';
               >
                 @if (selectedSourceWorkspace()) {
                   <span class="flex items-center gap-2">
-                    <nucleo-icon [icon]="Building2" [size]="14" />
+                    <kualia-icon [icon]="Building2" [size]="14" />
                     <span>{{ selectedSourceWorkspace()?.name }}</span>
                   </span>
                 } @else {
                   <span class="text-muted-foreground">Select workspace to copy from...</span>
                 }
-                <nucleo-icon [icon]="ChevronDown" [size]="14" class="text-muted-foreground" />
+                <kualia-icon [icon]="ChevronDown" [size]="14" class="text-muted-foreground" />
               </button>
               <div *brnPopoverContent="let ctx" hlmPopoverContent class="w-[300px] p-1">
                 @if (workspacesLoading()) {
@@ -176,10 +176,10 @@ type CategoryOption = 'default' | 'copy';
                       class="hover:bg-accent flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors"
                       (click)="selectSourceWorkspace(workspace)"
                     >
-                      <nucleo-icon [icon]="Building2" [size]="14" class="text-muted-foreground" />
+                      <kualia-icon [icon]="Building2" [size]="14" class="text-muted-foreground" />
                       <span class="flex-1">{{ workspace.name }}</span>
                       @if (selectedSourceWorkspaceId() === workspace._id) {
-                        <nucleo-icon [icon]="Check" [size]="14" class="text-primary" />
+                        <kualia-icon [icon]="Check" [size]="14" class="text-primary" />
                       }
                     </button>
                   }
@@ -201,7 +201,7 @@ type CategoryOption = 'default' | 'copy';
       <button hlmBtn size="sm" variant="outline" (click)="cancel()" [disabled]="creating()">Cancel</button>
       <button hlmBtn size="sm" (click)="create()" [disabled]="!canCreate() || creating()">
         @if (creating()) {
-          <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
           Creating...
         } @else {
           Create Workspace

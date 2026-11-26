@@ -4,7 +4,7 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { ConvexService } from '../../../services/convex.service';
 import { extractMappedConvexErrorMessage } from '../../../shared/utils/convex-error-message';
@@ -33,7 +33,7 @@ function toFriendlyWorkspaceDeleteError(message: string): string {
 
 @Component({
   selector: 'app-delete-workspace-dialog',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, HlmDialogFooter],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, HlmDialogFooter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -66,7 +66,7 @@ function toFriendlyWorkspaceDeleteError(message: string): string {
       <button hlmBtn size="sm" variant="outline" (click)="cancel()">Cancel</button>
       <button hlmBtn size="sm" variant="destructive" (click)="confirmDelete()" [disabled]="deleting()">
         @if (deleting()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Deleting...
         } @else {
           Delete

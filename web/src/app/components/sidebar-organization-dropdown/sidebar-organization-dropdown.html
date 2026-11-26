@@ -17,13 +17,13 @@
           <img hlmAvatarImage [src]="imageUrl" alt="" />
         }
         <span hlmAvatarFallback data-testid="user-avatar-fallback">
-          <nucleo-icon [icon]="UserIcon" [size]="14" />
+          <kualia-icon [icon]="UserIcon" [size]="14" />
         </span>
       </hlm-avatar>
 
       @if (!iconOnly()) {
         <span class="flex-1 truncate text-left text-sm">{{ userDisplayName() }}</span>
-        <nucleo-icon
+        <kualia-icon
           [icon]="ChevronDown"
           [size]="16"
           class="text-muted-foreground transition-transform duration-200"

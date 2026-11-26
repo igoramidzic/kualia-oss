@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronUp } from '@kualia/icons';
+import { kualiaChevronUp } from '@kualia/icons';
 import { BrnSelectScrollUp } from '@spartan-ng/brain/select';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: 'hlm-select-scroll-up',
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoChevronUp })],
+  providers: [provideIcons({ kualiaChevronUp })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [BrnSelectScrollUp],
-  template: ` <ng-icon name="nucleoChevronUp" /> `,
+  template: ` <ng-icon name="kualiaChevronUp" /> `,
 })
 export class HlmSelectScrollUp {
   constructor() {

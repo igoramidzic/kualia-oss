@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoCalendarCheck as CalendarArrowDown,
-  nucleoCalendarClock as CalendarClock,
-  NucleoIcon,
-  nucleoPause as Pause,
-  nucleoPlay as Play,
-  nucleoSkip as SkipForward,
-  nucleoTrash as Trash2,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaCalendarCheck as CalendarArrowDown,
+  kualiaCalendarClock as CalendarClock,
+  KualiaIcon,
+  kualiaPause as Pause,
+  kualiaPlay as Play,
+  kualiaSkip as SkipForward,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 import { MerchantService } from '../../services/merchant.service';
@@ -25,7 +25,7 @@ export type PlannedTransactionAction = 'enter' | 'pause' | 'skip' | 'delete';
  */
 @Component({
   selector: 'app-planned-transaction-row',
-  imports: [NucleoIcon, ...HlmContextMenuImports, ...HlmDropdownMenuImports],
+  imports: [KualiaIcon, ...HlmContextMenuImports, ...HlmDropdownMenuImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './planned-transaction-row.html',
 })

@@ -4,10 +4,10 @@ import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoCalendarClock as CalendarClock,
-  NucleoIcon,
-  nucleoShop as Store,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaCalendarClock as CalendarClock,
+  KualiaIcon,
+  kualiaShop as Store,
 } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 import { MerchantService } from '../../services/merchant.service';
@@ -29,13 +29,13 @@ export interface PlannedTransactionSelection {
  */
 @Component({
   selector: 'app-planned-transaction-selector',
-  imports: [NgTemplateOutlet, NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [NgTemplateOutlet, KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox sideOffset="5" autoFocus="first-tabbable" [disabled]="disabled()">
       <hlm-combobox-trigger [class]="buttonClass() + ' h-8'" [variant]="variant()" [showIcon]="false" stopPropagation>
         <span class="flex min-w-0 flex-1 items-center gap-2">
-          <nucleo-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
+          <kualia-icon [icon]="CalendarClock" [size]="14" class="text-muted-foreground flex-shrink-0" />
           <span class="text-muted-foreground min-w-0 truncate">Link to planned transaction</span>
         </span>
       </hlm-combobox-trigger>
@@ -91,7 +91,7 @@ export interface PlannedTransactionSelection {
             />
           } @else {
             <div class="bg-accent flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full">
-              <nucleo-icon
+              <kualia-icon
                 [icon]="isTransfer(planned) ? ArrowLeftRight : StoreIcon"
                 [size]="12"
                 class="text-muted-foreground"

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, signal } from '@angular/core';
 import { HlmCheckbox } from '@spartan-ng/helm/checkbox';
-import { nucleoInfo as Info, NucleoIcon } from '@kualia/icons';
+import { kualiaInfo as Info, KualiaIcon } from '@kualia/icons';
 import { TransactionSelectionService } from '../../services/transaction-selection.service';
 
 /**
@@ -14,7 +14,7 @@ import { TransactionSelectionService } from '../../services/transaction-selectio
  */
 @Component({
   selector: 'app-transactions-column-header',
-  imports: [NucleoIcon, HlmCheckbox],
+  imports: [KualiaIcon, HlmCheckbox],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -43,7 +43,7 @@ import { TransactionSelectionService } from '../../services/transaction-selectio
         />
       </div>
       <div class="flex items-center justify-center">
-        <nucleo-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
+        <kualia-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
       </div>
       <div class="text-muted-foreground">Date</div>
       <div class="text-muted-foreground pl-0">Payee</div>

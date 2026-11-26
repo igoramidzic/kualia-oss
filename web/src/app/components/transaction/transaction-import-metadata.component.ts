@@ -2,16 +2,16 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmCard } from '@spartan-ng/helm/card';
 import {
-  nucleoChevronDown as ChevronDown,
-  nucleoChevronUp as ChevronUp,
-  nucleoFile as FileText,
-  NucleoIcon,
+  kualiaChevronDown as ChevronDown,
+  kualiaChevronUp as ChevronUp,
+  kualiaFile as FileText,
+  KualiaIcon,
 } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-transaction-import-metadata',
-  imports: [NucleoIcon, HlmCard, HlmButton],
+  imports: [KualiaIcon, HlmCard, HlmButton],
   template: `
     @if (importMetadata()) {
       <div hlmCard class="w-fit">
@@ -20,7 +20,7 @@ import { CurrencyService } from '../../services/currency.service';
           <div class="mb-3 flex items-start justify-between">
             <div class="flex-1">
               <div class="mb-1 flex items-center gap-2">
-                <nucleo-icon [icon]="FileText" class="text-muted-foreground h-4 w-4" />
+                <kualia-icon [icon]="FileText" class="text-muted-foreground h-4 w-4" />
                 <h4 class="text-sm font-medium">Import Details</h4>
               </div>
               @if (originalStatementText()) {
@@ -31,7 +31,7 @@ import { CurrencyService } from '../../services/currency.service';
               }
             </div>
             <button hlmBtn variant="ghost" size="sm" type="button" class="h-8 w-8 p-0" (click)="toggleExpanded()">
-              <nucleo-icon [icon]="isExpanded() ? ChevronUp : ChevronDown" class="h-4 w-4" />
+              <kualia-icon [icon]="isExpanded() ? ChevronUp : ChevronDown" class="h-4 w-4" />
             </button>
           </div>
 
@@ -99,7 +99,7 @@ export class TransactionImportMetadataComponent {
     return metadata.originalStatement ?? metadata.name ?? null;
   });
 
-  // Nucleo icons
+  // Icons
   ChevronDown = ChevronDown;
   ChevronUp = ChevronUp;
   FileText = FileText;

@@ -3,7 +3,7 @@ import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoCategory as Box, NucleoIcon } from '@kualia/icons';
+import { kualiaCategory as Box, KualiaIcon } from '@kualia/icons';
 import { BudgetService } from '../../../services/budget.service';
 import { Category, CategoryGroup, CategoryService } from '../../../services/category.service';
 import { CurrencyService } from '../../../services/currency.service';
@@ -24,7 +24,7 @@ const READY_TO_ASSIGN_VALUE = '__READY_TO_ASSIGN__';
 
 @Component({
   selector: 'app-move-money-category-picker',
-  imports: [NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -38,7 +38,7 @@ const READY_TO_ASSIGN_VALUE = '__READY_TO_ASSIGN__';
     >
       <hlm-combobox-trigger class="w-full justify-between">
         <span class="flex min-w-0 flex-1 items-center gap-2">
-          <nucleo-icon [icon]="Box" [size]="14" class="text-muted-foreground flex-shrink-0" />
+          <kualia-icon [icon]="Box" [size]="14" class="text-muted-foreground flex-shrink-0" />
           <span [class]="(selectedCategoryId() ? '' : 'text-muted-foreground') + ' min-w-0 flex-1 truncate text-left'">
             {{ getSelectedCategoryName() ?? 'Select category...' }}
           </span>

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NucleoIcon, nucleoPaperclip as Paperclip } from '@kualia/icons';
+import { KualiaIcon, kualiaPaperclip as Paperclip } from '@kualia/icons';
 import { AiChatService } from '../../services/ai-chat.service';
 
 interface Suggestion {
@@ -15,7 +15,7 @@ interface Suggestion {
  */
 @Component({
   selector: 'app-ai-chat-empty-state',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="mx-auto flex h-full w-full max-w-sm flex-col justify-center px-1 py-6">
@@ -37,7 +37,7 @@ interface Suggestion {
       </div>
 
       <p class="text-muted-foreground mt-5 flex items-start gap-1.5 text-[11px] leading-snug">
-        <nucleo-icon [icon]="Paperclip" [size]="11" class="mt-0.5 shrink-0" />
+        <kualia-icon [icon]="Paperclip" [size]="11" class="mt-0.5 shrink-0" />
         <span>Tip: attach a CSV, PDF, or image of a statement and I'll import the transactions for you.</span>
       </p>
     </div>

@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { ActivatedRoute } from '@angular/router';
 import { api } from 'convex/_generated/api';
 import {
-  nucleoArrowRight as ArrowRight,
-  nucleoConnection as Cable,
-  nucleoCheck as Check,
-  NucleoIcon,
-  nucleoShield as ShieldCheck,
+  kualiaArrowRight as ArrowRight,
+  kualiaConnection as Cable,
+  kualiaCheck as Check,
+  KualiaIcon,
+  kualiaShield as ShieldCheck,
 } from '@kualia/icons';
 import { ConvexService } from '../../services/convex.service';
 
@@ -58,7 +58,7 @@ const OAUTH_SCOPE_DESCRIPTIONS: Record<string, OAuthScopeDescription> = {
 
 @Component({
   selector: 'app-oauth-authorize',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   template: `
     <div class="bg-muted/25 flex min-h-screen items-center justify-center p-4 sm:p-8">
       <main class="bg-card w-full max-w-[560px] overflow-hidden rounded-2xl border shadow-lg shadow-black/5">
@@ -76,7 +76,7 @@ const OAUTH_SCOPE_DESCRIPTIONS: Record<string, OAuthScopeDescription> = {
               <div
                 class="bg-destructive/10 text-destructive mx-auto flex h-12 w-12 items-center justify-center rounded-full"
               >
-                <nucleo-icon [icon]="ShieldCheck" class="h-6 w-6" />
+                <kualia-icon [icon]="ShieldCheck" class="h-6 w-6" />
               </div>
               <h1 class="mt-4 text-xl font-semibold">This connection request is not valid</h1>
               <p class="text-muted-foreground mt-2 text-sm leading-6">{{ error }}</p>
@@ -90,11 +90,11 @@ const OAUTH_SCOPE_DESCRIPTIONS: Record<string, OAuthScopeDescription> = {
 
               <div class="mx-auto mt-6 flex max-w-sm items-center justify-center gap-3" aria-hidden="true">
                 <div class="bg-muted flex h-14 w-14 items-center justify-center rounded-2xl border">
-                  <nucleo-icon [icon]="Cable" class="text-muted-foreground h-6 w-6" />
+                  <kualia-icon [icon]="Cable" class="text-muted-foreground h-6 w-6" />
                 </div>
                 <div class="text-muted-foreground flex min-w-20 items-center gap-2">
                   <div class="border-border h-px flex-1 border-t border-dashed"></div>
-                  <nucleo-icon [icon]="ArrowRight" class="h-4 w-4" />
+                  <kualia-icon [icon]="ArrowRight" class="h-4 w-4" />
                   <div class="border-border h-px flex-1 border-t border-dashed"></div>
                 </div>
                 <img src="/images/kualiaAppIconOrange-min.png" alt="" class="h-14 w-14 rounded-2xl" />
@@ -109,7 +109,7 @@ const OAUTH_SCOPE_DESCRIPTIONS: Record<string, OAuthScopeDescription> = {
                     <div
                       class="bg-background text-primary mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border"
                     >
-                      <nucleo-icon [icon]="Check" class="h-3.5 w-3.5" />
+                      <kualia-icon [icon]="Check" class="h-3.5 w-3.5" />
                     </div>
                     <div class="min-w-0 flex-1">
                       <div class="flex flex-wrap items-center gap-2">

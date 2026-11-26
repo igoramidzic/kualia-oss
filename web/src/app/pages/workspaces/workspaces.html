@@ -50,7 +50,7 @@
                               <div
                                 class="bg-accent/50 text-muted-foreground group-hover:bg-accent group-hover:text-foreground flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition-colors"
                               >
-                                <nucleo-icon [icon]="Building2" [size]="20" />
+                                <kualia-icon [icon]="Building2" [size]="20" />
                               </div>
                               <div class="flex min-w-0 flex-1 flex-col items-start gap-0.5">
                                 <span class="text-foreground truncate font-medium">{{ workspace.name }}</span>
@@ -59,13 +59,13 @@
                                 </span>
                               </div>
                               @if (isLoadingWorkspace(workspace._id)) {
-                                <nucleo-icon
+                                <kualia-icon
                                   [icon]="LoaderCircle"
                                   [size]="16"
                                   class="text-primary ml-auto shrink-0 animate-spin"
                                 />
                               } @else {
-                                <nucleo-icon
+                                <kualia-icon
                                   [icon]="ChevronRight"
                                   [size]="16"
                                   class="text-muted-foreground group-hover:text-foreground ml-auto shrink-0 transition-transform group-hover:translate-x-0.5"
@@ -94,7 +94,7 @@
                     (click)="openArchivedWorkspacesDialog()"
                     class="text-muted-foreground hover:text-foreground"
                   >
-                    <nucleo-icon [icon]="Archive" [size]="16" class="mr-2" />
+                    <kualia-icon [icon]="Archive" [size]="16" class="mr-2" />
                     Archived ({{ archivedCount() }})
                   </button>
                 </div>
@@ -106,7 +106,7 @@
                   Create a new workspace
                 </button>
                 <button hlmBtn type="button" variant="ghost" class="text-muted-foreground w-full" (click)="openKualiaImportDialog()">
-                  <nucleo-icon [icon]="Upload" [size]="16" class="mr-2" />
+                  <kualia-icon [icon]="Upload" [size]="16" class="mr-2" />
                   Import from Kualia
                 </button>
                 <button
@@ -116,7 +116,7 @@
                   (click)="openYnabImportDialog()"
                   class="text-muted-foreground w-full"
                 >
-                  <nucleo-icon [icon]="Upload" [size]="16" class="mr-2" />
+                  <kualia-icon [icon]="Upload" [size]="16" class="mr-2" />
                   Import from YNAB
                   <span
                     class="bg-primary/10 text-primary ml-2 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase"

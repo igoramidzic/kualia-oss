@@ -3,14 +3,14 @@ import { BrnSwitch } from '@spartan-ng/brain/switch';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { HlmSwitch } from '@spartan-ng/helm/switch';
-import { nucleoInfo as Info, nucleoLink as Link, nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaInfo as Info, kualiaLink as Link, kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { TransactionService, TransactionWithRelations } from '../../../services/transaction.service';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-message';
 
 @Component({
   selector: 'app-transaction-link-comparison-dialog',
-  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, HlmSwitch, BrnSwitch, NucleoIcon, CurrencyPipe],
+  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, HlmSwitch, BrnSwitch, KualiaIcon, CurrencyPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -23,7 +23,7 @@ import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-me
       <!-- Confidence Badge -->
       <div class="flex flex-col items-center gap-2">
         <div class="bg-accent text-foreground flex items-center gap-1.5 rounded-full px-3 py-1.5">
-          <nucleo-icon [icon]="LinkIcon" class="h-4 w-4" />
+          <kualia-icon [icon]="LinkIcon" class="h-4 w-4" />
           <span class="text-sm font-semibold">{{ confidencePercent() }}% Match</span>
         </div>
         <p class="text-muted-foreground text-center text-sm">
@@ -124,14 +124,14 @@ import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-me
       <!-- Match Reason -->
       @if (linkReasonValue()) {
         <div class="bg-accent/30 flex items-start gap-2 rounded-lg p-3">
-          <nucleo-icon [icon]="InfoIcon" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+          <kualia-icon [icon]="InfoIcon" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
           <p class="text-muted-foreground text-xs">{{ linkReasonValue() }}</p>
         </div>
       }
 
       <!-- Info Section -->
       <div class="bg-accent/50 flex items-start gap-2 rounded-lg p-3">
-        <nucleo-icon [icon]="InfoIcon" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+        <kualia-icon [icon]="InfoIcon" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
         <p class="text-muted-foreground text-xs">{{ infoMessage() }}</p>
       </div>
 
@@ -146,7 +146,7 @@ import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-me
       <!-- Primary: Confirm Link -->
       <button hlmBtn size="default" class="w-full" (click)="confirmLink()" [disabled]="processing()">
         @if (processing()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
         }
         {{ hasDiscrepancies() ? 'Confirm & Link' : 'Confirm Link' }}
       </button>

@@ -24,31 +24,31 @@ import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import { CategoryTarget, CategoryWithTarget, extractTarget } from 'convex/categoryTargets/types';
 import {
-  nucleoArchive as Archive,
-  nucleoArrowUp as ArrowUp,
-  nucleoEmail as Box,
-  nucleoChevronDown as ChevronDown,
-  nucleoChevronLeft as ChevronLeft,
-  nucleoChevronRight as ChevronRight,
-  nucleoWarningCircle as CircleAlert,
-  nucleoPlusCircle as CirclePlus,
-  nucleoDots as Ellipsis,
-  nucleoEye as Eye,
-  nucleoEyeOff as EyeOff,
-  nucleoHeart as Heart,
-  nucleoLayers as Layers,
-  NucleoIcon,
-  type NucleoIconData,
-  nucleoMoon as Moon,
-  nucleoPlusCircle as PlusCircle,
-  nucleoRedo as Redo2,
-  nucleoRowsTwo as Rows2,
-  nucleoRowsThree as Rows3,
-  nucleoSearch as Search,
-  nucleoTrash as Trash2,
-  nucleoTrendDown as TrendingDown,
-  nucleoUndo as Undo2,
-  nucleoClose as X,
+  kualiaArchive as Archive,
+  kualiaArrowUp as ArrowUp,
+  kualiaEmail as Box,
+  kualiaChevronDown as ChevronDown,
+  kualiaChevronLeft as ChevronLeft,
+  kualiaChevronRight as ChevronRight,
+  kualiaWarningCircle as CircleAlert,
+  kualiaPlusCircle as CirclePlus,
+  kualiaDots as Ellipsis,
+  kualiaEye as Eye,
+  kualiaEyeOff as EyeOff,
+  kualiaHeart as Heart,
+  kualiaLayers as Layers,
+  KualiaIcon,
+  type KualiaIconData,
+  kualiaMoon as Moon,
+  kualiaPlusCircle as PlusCircle,
+  kualiaRedo as Redo2,
+  kualiaRowsTwo as Rows2,
+  kualiaRowsThree as Rows3,
+  kualiaSearch as Search,
+  kualiaTrash as Trash2,
+  kualiaTrendDown as TrendingDown,
+  kualiaUndo as Undo2,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { filter } from 'rxjs';
@@ -124,7 +124,7 @@ const SCROLL_POSITION_KEY = 'budget-scroll-position';
     ...HlmCollapsibleImports,
     ...HlmContextMenuImports,
     ...HlmDropdownMenuImports,
-    NucleoIcon,
+    KualiaIcon,
     ReadyToAssignCardComponent,
     ResponsiveFilterRowComponent,
     SidebarToggleComponent,
@@ -1392,7 +1392,7 @@ export class BudgetComponent {
     return categoryBudget ? this.isCategorySnoozed(categoryBudget) : false;
   }
 
-  getCategoryIcon(category: { iconName?: string | null }): NucleoIconData | null {
+  getCategoryIcon(category: { iconName?: string | null }): KualiaIconData | null {
     if (!category.iconName) return null;
     return this.iconService.getIconByName(category.iconName);
   }

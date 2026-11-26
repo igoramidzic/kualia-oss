@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import {
-  nucleoCalendarCheck as CalendarArrowDown,
-  nucleoCheck as Check,
-  NucleoIcon,
-  nucleoPause as Pause,
-  nucleoPlus as Plus,
-  nucleoSkip as SkipForward,
-  nucleoTrash as Trash2,
+  kualiaCalendarCheck as CalendarArrowDown,
+  kualiaCheck as Check,
+  KualiaIcon,
+  kualiaPause as Pause,
+  kualiaPlus as Plus,
+  kualiaSkip as SkipForward,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 import { MerchantService } from '../../services/merchant.service';
@@ -33,7 +33,7 @@ interface CalendarWeek {
  */
 @Component({
   selector: 'app-planned-calendar-view',
-  imports: [NucleoIcon, ...HlmContextMenuImports, ...HlmDropdownMenuImports],
+  imports: [KualiaIcon, ...HlmContextMenuImports, ...HlmDropdownMenuImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- Weekday headers -->
@@ -72,7 +72,7 @@ interface CalendarWeek {
                   class="hover:bg-accent flex h-5 w-5 cursor-pointer items-center justify-center rounded opacity-0 transition-opacity group-hover/day:opacity-100"
                   (click)="$event.stopPropagation(); onAddClick(day.dateString)"
                 >
-                  <nucleo-icon [icon]="Plus" [size]="14" class="text-muted-foreground" />
+                  <kualia-icon [icon]="Plus" [size]="14" class="text-muted-foreground" />
                 </button>
               </div>
 
@@ -97,7 +97,7 @@ interface CalendarWeek {
                     />
                   }
                   @if (view.entry.coverage.status === 'paid') {
-                    <nucleo-icon [icon]="Check" class="h-3 w-3 shrink-0 text-green-600" />
+                    <kualia-icon [icon]="Check" class="h-3 w-3 shrink-0 text-green-600" />
                   }
                   <span class="min-w-0 flex-1 truncate">{{ displayName(view) }}</span>
                   <span
@@ -111,19 +111,19 @@ interface CalendarWeek {
                 <ng-template #entryContextMenu>
                   <hlm-dropdown-menu class="w-48">
                     <button hlmDropdownMenuItem [disabled]="!canActOnOccurrence(view)" (click)="onAction('enter', view)">
-                      <nucleo-icon [icon]="CalendarArrowDown" [size]="14" />
+                      <kualia-icon [icon]="CalendarArrowDown" [size]="14" />
                       <span class="text-xs">Enter now</span>
                     </button>
                     <button hlmDropdownMenuItem [disabled]="view.base.status === 'completed'" (click)="onAction('pause', view)">
-                      <nucleo-icon [icon]="Pause" [size]="14" />
+                      <kualia-icon [icon]="Pause" [size]="14" />
                       <span class="text-xs">Pause schedule</span>
                     </button>
                     <button hlmDropdownMenuItem [disabled]="!canActOnOccurrence(view)" (click)="onAction('skip', view)">
-                      <nucleo-icon [icon]="SkipForward" [size]="14" />
+                      <kualia-icon [icon]="SkipForward" [size]="14" />
                       <span class="text-xs">Skip</span>
                     </button>
                     <button hlmDropdownMenuItem variant="destructive" (click)="onAction('delete', view)">
-                      <nucleo-icon [icon]="Trash2" [size]="14" />
+                      <kualia-icon [icon]="Trash2" [size]="14" />
                       <span class="text-xs">Delete schedule</span>
                     </button>
                   </hlm-dropdown-menu>

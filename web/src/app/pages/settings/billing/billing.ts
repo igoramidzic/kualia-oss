@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } 
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmCard } from '@spartan-ng/helm/card';
 import {
-  nucleoCreditCard as CreditCard,
-  nucleoLoader as Loader2,
-  NucleoIcon,
-  nucleoArrowRight as MoveRight,
-  nucleoSparkles as Sparkles,
+  kualiaCreditCard as CreditCard,
+  kualiaLoader as Loader2,
+  KualiaIcon,
+  kualiaArrowRight as MoveRight,
+  kualiaSparkles as Sparkles,
 } from '@kualia/icons';
 import { environment } from '../../../../environments/environment';
 import { SettingsPageHeaderComponent } from '../../../components/settings-page-header/settings-page-header';
@@ -66,7 +66,7 @@ export function resolveManagementURL({
 
 @Component({
   selector: 'app-billing',
-  imports: [HlmButton, HlmCard, SettingsPageHeaderComponent, NucleoIcon],
+  imports: [HlmButton, HlmCard, SettingsPageHeaderComponent, KualiaIcon],
   templateUrl: './billing.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

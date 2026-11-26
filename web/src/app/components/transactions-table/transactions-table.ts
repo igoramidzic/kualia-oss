@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { HlmCheckbox } from '@spartan-ng/helm/checkbox';
-import { nucleoTransfer as ArrowLeftRight, nucleoInfo as Info, NucleoIcon } from '@kualia/icons';
+import { kualiaTransfer as ArrowLeftRight, kualiaInfo as Info, KualiaIcon } from '@kualia/icons';
 import { filter } from 'rxjs';
 import { InfiniteScrollDirective } from '../../directives/infinite-scroll.directive';
 import { TransactionSelectionService } from '../../services/transaction-selection.service';
@@ -31,7 +31,7 @@ const SCROLL_POSITION_KEY = 'transactions-scroll-position';
   selector: 'app-transactions-table',
   imports: [
     CommonModule,
-    NucleoIcon,
+    KualiaIcon,
     HlmCheckbox,
     TransactionRowComponent,
     ScrollingModule,

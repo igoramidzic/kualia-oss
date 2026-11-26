@@ -5,7 +5,7 @@ import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmLabel } from '@spartan-ng/helm/label';
 import { api } from 'convex/_generated/api';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../../services/auth.service';
 import { ConvexService } from '../../../services/convex.service';
@@ -15,7 +15,7 @@ const DELETE_CONFIRMATION = 'DELETE';
 
 @Component({
   selector: 'app-delete-account-dialog',
-  imports: [HlmButton, HlmDialogFooter, HlmDialogHeader, HlmInput, HlmLabel, NucleoIcon],
+  imports: [HlmButton, HlmDialogFooter, HlmDialogHeader, HlmInput, HlmLabel, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -74,7 +74,7 @@ const DELETE_CONFIRMATION = 'DELETE';
         data-testid="delete-account-confirm-button"
       >
         @if (deleting()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Deleting...
         } @else {
           Delete Account
