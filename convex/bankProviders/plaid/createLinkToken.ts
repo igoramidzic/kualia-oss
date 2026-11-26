@@ -3,7 +3,13 @@ import { ConvexError, v } from 'convex/values';
 import { CountryCode, Products } from 'plaid';
 
 import { action } from '../../_generated/server';
-import { getSafePlaidErrorDetails, isPlaidRedirectConfigurationError, plaidClient, plaidConfig } from './plaidClient';
+import {
+  getPlaidRedirectUri,
+  getSafePlaidErrorDetails,
+  isPlaidRedirectConfigurationError,
+  plaidClient,
+  plaidConfig,
+} from './plaidClient';
 
 /**
  * Create a Plaid Link token for the current user
@@ -20,6 +26,8 @@ export const createLinkToken = action({
       throw new ConvexError('User not authenticated');
     }
 
+    const redirectUri = platform === 'ios' ? getPlaidRedirectUri() : undefined;
+
     try {
       const linkTokenResponse = await plaidClient.linkTokenCreate({
         client_name: plaidConfig.clientName,
@@ -34,7 +42,7 @@ export const createLinkToken = action({
           days_requested: plaidConfig.transactionsDaysRequested,
         },
         webhook: plaidConfig.webhook,
-        ...(platform === 'ios' ? { redirect_uri: 'https://kualia.com/plaid/oauth' } : {}),
+        ...(redirectUri ? { redirect_uri: redirectUri } : {}),
       });
 
       return {
@@ -45,13 +53,13 @@ export const createLinkToken = action({
       const needsRedirectRegistration = platform === 'ios' && isPlaidRedirectConfigurationError(error);
       console.error(
         needsRedirectRegistration
-          ? 'Plaid iOS OAuth redirect is not configured. Register https://kualia.com/plaid/oauth in the Plaid dashboard.'
+          ? 'Plaid iOS OAuth redirect is not configured. Set PLAID_REDIRECT_URI to an https URL registered in your Plaid dashboard.'
           : 'Error creating Plaid link token:',
         getSafePlaidErrorDetails(error)
       );
       if (needsRedirectRegistration) {
         throw new ConvexError(
-          'Bank connection setup is incomplete. Please contact Kualia support to enable the iOS return link, then try again.'
+          'Bank connection setup is incomplete. Ask the administrator of this Kualia instance to configure the iOS return link, then try again.'
         );
       }
 

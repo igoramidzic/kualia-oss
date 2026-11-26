@@ -47,6 +47,7 @@ Do not run iOS simulators unless explicitly requested for the current task. Arch
 - Backend secrets go into the target Convex environment. Angular environments are public build inputs.
 - `.convex/` stores private local data; `.local/auth-keys.json` stores generated private signing material. Both are ignored. Stop the backend before backing them up.
 - Optional integrations require the user's own credentials and configuration. Keep them disabled by default and update README when their setup changes.
+- Never hard-code or fall back to the retired hosted domains (`kualia.com`, `app.kualia.com`, `docs.kualia.com`, `api.kualia.com`). Build backend links with `convex/lib/appUrl.ts` (`KUALIA_APP_URL`, default `http://127.0.0.1:4200`), and use app-relative links in the web client. Integrations that call external servers, such as the docs MCP (`KUALIA_DOCS_MCP_URL`) and the Plaid redirect (`PLAID_REDIRECT_URI`), stay off unless configured.
 - Email verification/recovery and public hosting are separate work; do not claim production readiness from a local smoke test.
 
 ## Documentation upkeep

@@ -41,6 +41,28 @@ export function isPlaidRedirectConfigurationError(error: unknown): boolean {
   );
 }
 
+export const PLAID_REDIRECT_URI_ENV_VAR = 'PLAID_REDIRECT_URI';
+
+/**
+ * OAuth redirect URI for Plaid Link on iOS. It must be an https URL that you
+ * registered in your own Plaid dashboard. Returns undefined when unset or
+ * invalid so Link tokens are created without a redirect (no OAuth return link)
+ * instead of pointing at a domain you do not control.
+ */
+export function getPlaidRedirectUri(
+  raw: string | undefined = process.env[PLAID_REDIRECT_URI_ENV_VAR]
+): string | undefined {
+  const trimmed = raw?.trim();
+  if (!trimmed) return undefined;
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === 'https:' ? parsed.toString() : undefined;
+  } catch (error: unknown) {
+    void error;
+    return undefined;
+  }
+}
+
 // Initialize Plaid client configuration
 const configuration = new Configuration({
   basePath: PlaidEnvironments[process.env['PLAID_ENV'] ?? 'sandbox'],

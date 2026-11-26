@@ -1,5 +1,5 @@
 /**
- * Personal API keys for the public REST API (https://api.kualia.com/v1).
+ * Personal API keys for the public REST API (`/v1/*` on this deployment's Convex HTTP actions origin).
  *
  * Keys are opaque bearer tokens prefixed `kualia_`. Only a SHA-256 hash is
  * stored; the raw value is returned once at creation time.

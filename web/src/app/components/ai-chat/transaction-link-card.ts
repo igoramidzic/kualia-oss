@@ -27,7 +27,13 @@ type PopulatedTransaction = {
   } | null;
 };
 
-const PROD_APP_BASE_URL = 'https://app.kualia.com';
+/**
+ * App-relative path to a transaction's details page. Links to other workspaces
+ * open on this app's own origin, never on a hard-coded hosted domain.
+ */
+export function buildTransactionDetailsPath(workspaceShortId: string, transactionId: string): string {
+  return `/${encodeURIComponent(workspaceShortId)}/transactions/${encodeURIComponent(transactionId)}/details`;
+}
 
 /**
  * Inline pill rendered in place of a `<transactionLink>` tag. Sized like a
@@ -90,8 +96,8 @@ export class TransactionLinkCardComponent {
   readonly workspaceShortId = input.required<string>();
   readonly transactionId = input.required<string>();
 
-  protected readonly externalUrl = computed(
-    () => `${PROD_APP_BASE_URL}/${this.workspaceShortId()}/transactions/${this.transactionId()}/details`
+  protected readonly externalUrl = computed(() =>
+    buildTransactionDetailsPath(this.workspaceShortId(), this.transactionId())
   );
 
   protected readonly sameWorkspace = computed(() => {

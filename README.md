@@ -59,16 +59,19 @@ Use your own credentials. Never paste real secrets into documentation, tests, is
 | Authentication | Convex Auth; `JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` are generated/configured by `pnpm dev` | No hosted identity provider needed |
 | App access | `SELF_HOSTED=true` is set by the local launcher | This is the default free local mode |
 | Logo search | Logo.dev: `LOGO_DEV_SECRET_TOKEN` and `LOGO_DEV_PUBLIC_TOKEN`; browser `logoDev.token` for direct image URLs | Upload images or use the bundled icons |
+| Generated app links | `KUALIA_APP_URL`: your web app's origin (for example `https://budget.example.test`), used in invite and bank-connection emails, MCP transaction links, the MCP OAuth redirect, and the Apple Wallet logo | Links point at the local app, `http://127.0.0.1:4200` |
 | Bank sync | Plaid: `PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_ENV`, `PLAID_TRANSACTIONS_WEBHOOK` | Manual accounts, file imports, and manual transactions |
+| Plaid OAuth return link (archived iOS app) | `PLAID_REDIRECT_URI`: an `https` URL you registered in your own Plaid dashboard | iOS Link tokens are created without a redirect URI, so OAuth-only institutions cannot complete Link on iOS |
 | Alternate bank provider | Salt Edge: `SALTEDGE_APP_ID`, `SALTEDGE_SECRET`, `SALTEDGE_PRIVATE_KEY`, `SALTEDGE_ENV` | No Salt Edge connections |
-| AI assistant | OpenRouter: `OPENROUTER_API_KEY`; optional `KUALIA_DOCS_MCP_URL`; some features use `TYPESAFE_API_KEY` | Standard budgeting UI remains available |
+| AI assistant | OpenRouter: `OPENROUTER_API_KEY`; some features use `TYPESAFE_API_KEY` | Standard budgeting UI remains available |
+| AI assistant docs tools | `KUALIA_DOCS_MCP_URL`: an MCP server you run or trust. Its tools are given to the AI assistant | The assistant runs without docs tools. It makes no network call for docs and is told not to link to documentation sites |
 | Email / family invitation delivery | Loops: `LOOPS_API_KEY`, `LOOPS_FAMILY_INVITE_TRANSACTIONAL_ID` | Local password signup works; automated mail is unavailable |
 | Push notifications | Apple APNs: `APNS_KEY`, `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_BUNDLE_ID` | No native push notifications |
 | Analytics / errors | PostHog backend `POSTHOG_API_KEY`, `POSTHOG_API_HOST`; frontend PostHog/Sentry settings | Tracking is disabled by default |
 | Operator notifications | `DISCORD_WEBHOOK_URL` or channel-specific Discord webhook variables in `convex/lib/discord.ts` | No Discord reports |
 | Hosted billing (legacy) | RevenueCat credentials and webhook secret, optionally `STRIPE_SECRET_KEY` | Not needed for self-hosted budgeting; enabling billing is a separate integration project |
 
-External webhooks cannot reach localhost directly. Bank sync, mail, push, billing, feedback, AI, and telemetry integrations are not validated by the default local setup. Inspect the corresponding backend module before enabling them. Any legacy public-site links in optional features need replacing with your own URLs. Set `KUALIA_APP_URL` to your web origin when enabling generated links.
+External webhooks cannot reach localhost directly. Bank sync, mail, push, billing, feedback, AI, and telemetry integrations are not validated by the default local setup. Inspect the corresponding backend module before enabling them. The retired hosted domains are never used as fallbacks. Set `KUALIA_APP_URL` to your web origin whenever the app is reached anywhere other than `http://127.0.0.1:4200`, such as another host, port, or HTTPS.
 
 ## Repository map
 

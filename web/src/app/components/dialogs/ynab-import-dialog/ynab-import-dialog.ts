@@ -607,11 +607,6 @@ interface DialogContext {
                 you'll see overspending reflected in future months. This gives you a more accurate picture of your
                 actual budget situation.
               </p>
-              <p class="text-muted-foreground mt-3 text-xs">
-                If something doesn't look right, reach out to us at
-                <a href="mailto:support@kualia.com" class="text-primary hover:underline">support&#64;kualia.com</a>
-                and we'll help you get it sorted out.
-              </p>
             </div>
           </div>
         }
