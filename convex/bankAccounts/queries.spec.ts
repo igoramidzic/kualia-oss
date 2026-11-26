@@ -5,7 +5,9 @@ import type { api } from '../_generated/api';
 import type { Doc, Id } from '../_generated/dataModel';
 import type { QueryCtx } from '../_generated/server';
 
-import { APPLE_WALLET_LOGO_URL } from '../lib/logoUtils';
+import { getAppleWalletLogoUrl } from '../lib/logoUtils';
+
+const APPLE_WALLET_LOGO_URL = getAppleWalletLogoUrl();
 import { getBankAccount, getBankAccountByShortId, getBankAccountLogoFields, getFirstBalanceYearMonth } from './queries';
 
 describe('getFirstBalanceYearMonth', () => {

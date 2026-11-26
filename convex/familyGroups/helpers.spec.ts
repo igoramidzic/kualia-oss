@@ -98,12 +98,14 @@ describe('family group helpers', () => {
   });
 
   it('builds tokenized family group invite URLs', () => {
-    expect(buildFamilyGroupInviteUrl('invite-token')).toBe('https://app.kualia.com/family/join/invite-token');
-    expect(buildFamilyGroupInviteUrl('invite-token', 'https://preview.kualia.com/')).toBe(
-      'https://preview.kualia.com/family/join/invite-token'
+    expect(buildFamilyGroupInviteUrl('invite-token', 'https://budget.example.test/')).toBe(
+      'https://budget.example.test/family/join/invite-token'
+    );
+    expect(buildFamilyGroupInviteUrl('invite token/1', 'https://budget.example.test')).toBe(
+      'https://budget.example.test/family/join/invite%20token%2F1'
     );
     expect(buildFamilyGroupInviteUrl('invite-token', 'not a url')).toBe(
-      'https://app.kualia.com/family/join/invite-token'
+      'http://127.0.0.1:4200/family/join/invite-token'
     );
   });
 

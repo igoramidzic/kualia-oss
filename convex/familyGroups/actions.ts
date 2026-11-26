@@ -5,8 +5,6 @@ import type { Id } from '../_generated/dataModel';
 import { action } from '../_generated/server';
 import { buildFamilyGroupInviteUrl, buildFamilyInviteSentDiscordNotification } from './helpers';
 
-const KUALIA_APP_URL_ENV_VAR = 'KUALIA_APP_URL';
-
 interface InviteRecord {
   _id: Id<'familyGroupInvite'>;
   familyGroupId: Id<'familyGroup'>;
@@ -65,7 +63,7 @@ export const createInvite = action({
         inviterName: prepared.invitedByName,
         inviterEmail: prepared.invitedByEmail,
         familyGroupName: prepared.familyGroupName,
-        inviteLink: buildFamilyGroupInviteUrl(prepared.inviteToken, process.env[KUALIA_APP_URL_ENV_VAR]),
+        inviteLink: buildFamilyGroupInviteUrl(prepared.inviteToken),
         expiresAt: prepared.expiresAt,
         idempotencyKey,
       });

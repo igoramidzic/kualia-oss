@@ -1,9 +1,10 @@
-const PROD_APP_BASE_URL = 'https://app.kualia.com';
-export const APPLE_WALLET_LOGO_PATH = '/images/apple-logo.jpeg';
-export const APPLE_WALLET_LOGO_URL = `${PROD_APP_BASE_URL}${APPLE_WALLET_LOGO_PATH}`;
+import { buildAppUrl } from './appUrl';
 
+export const APPLE_WALLET_LOGO_PATH = '/images/apple-logo.jpeg';
+
+/** Apple Wallet logo served by the web app's static assets (see `KUALIA_APP_URL`). */
 export function getAppleWalletLogoUrl(): string {
-  return APPLE_WALLET_LOGO_URL;
+  return buildAppUrl(APPLE_WALLET_LOGO_PATH);
 }
 
 /**

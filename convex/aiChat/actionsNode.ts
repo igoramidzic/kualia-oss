@@ -12,7 +12,7 @@ import { requireAuthAction } from '../lib/auth';
 import { getPostHogClient } from '../lib/posthog';
 import { chatAgent, chatModel, chatModelId, titleModel } from './agent';
 import { buildKualiaTools } from './kualiaTools';
-import { getDocsTools } from './mcp';
+import { getDocsBaseUrl, getDocsTools } from './mcp';
 import { buildSystemPrompt, SYSTEM_PROMPT } from './prompts';
 import { parseKualiaContextTag, stripKualiaContextTag, type WorkspaceContext } from './workspaceContextTag';
 
@@ -290,6 +290,7 @@ export const sendMessageImpl = internalAction({
       identity.subject,
       workspaceContext?.workspaceId as Id<'workspace'> | undefined
     );
+    const hasDocsTools = docsTools !== undefined && Object.keys(docsTools).length > 0;
     const tools: ToolSet = { ...(docsTools ?? {}), ...kualiaTools };
     const hasTools = Object.keys(tools).length > 0;
 
@@ -299,7 +300,12 @@ export const sendMessageImpl = internalAction({
       agentName: 'Kualia Assistant',
       workspaceId: workspaceContext?.workspaceId,
     });
-    const system = buildSystemPrompt(new Date(), workspaceContext, workspaceTimezone);
+    const system = buildSystemPrompt(
+      new Date(),
+      workspaceContext,
+      workspaceTimezone,
+      hasDocsTools ? getDocsBaseUrl() : null
+    );
 
     // Wire an abortSignal to streamText so a stop request can interrupt the model
     // mid-flight — even between text deltas (e.g. while a tool call is running),

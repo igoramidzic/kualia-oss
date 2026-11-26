@@ -1,5 +1,6 @@
 import { internal } from '../_generated/api';
 import type { ActionCtx } from '../_generated/server';
+import { buildAppUrl } from '../lib/appUrl';
 import { sha256Hex } from '../lib/crypto';
 import { APP_READ_SCOPE, BUDGETS_WRITE_SCOPE, TRANSACTIONS_WRITE_SCOPE } from './tools';
 
@@ -33,33 +34,6 @@ function oauthError(error: string, errorDescription: string, status = 400): Resp
   );
 }
 
-function normalizeBaseUrl(raw: string): string {
-  const trimmed = raw.trim();
-  if (!trimmed) {
-    throw new Error('Base URL cannot be empty');
-  }
-
-  const parsed = new URL(trimmed);
-  parsed.hash = '';
-  parsed.search = '';
-  return parsed.toString().replace(/\/$/, '');
-}
-
-function getAppBaseUrl(request: Request): string {
-  const configured = process.env['KUALIA_APP_URL'];
-  if (configured && configured.trim().length > 0) {
-    try {
-      return normalizeBaseUrl(configured);
-    } catch {
-      // Ignore malformed env and fall back to host-based default.
-    }
-  }
-
-  const requestUrl = new URL(request.url);
-  const isLocal = requestUrl.hostname === 'localhost' || requestUrl.hostname === '127.0.0.1';
-  return isLocal ? 'http://localhost:3000' : 'https://app.kualia.com';
-}
-
 function getOAuthServerMetadata(request: Request) {
   const requestUrl = new URL(request.url);
   const issuer = `${requestUrl.protocol}//${requestUrl.host}`;
@@ -79,7 +53,7 @@ function getOAuthServerMetadata(request: Request) {
 
 function getOAuthAuthorizationRedirectUrl(request: Request): string {
   const requestUrl = new URL(request.url);
-  const redirectUrl = new URL('/oauth/authorize', getAppBaseUrl(request));
+  const redirectUrl = new URL(buildAppUrl('/oauth/authorize'));
   redirectUrl.search = requestUrl.search;
   return redirectUrl.toString();
 }
