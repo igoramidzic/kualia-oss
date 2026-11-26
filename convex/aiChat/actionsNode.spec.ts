@@ -10,6 +10,7 @@ const mocks = vi.hoisted(() => ({
   generateText: vi.fn(),
   generateObject: vi.fn(),
   updateThreadMetadata: vi.fn(),
+  createMCPClient: vi.fn(),
 }));
 
 vi.mock('@convex-dev/agent', () => ({
@@ -30,7 +31,7 @@ vi.mock('ai', async (importOriginal) => ({
 }));
 vi.mock('../lib/auth', () => ({ requireAuthAction: async () => ({ subject: 'user-1' }) }));
 vi.mock('../lib/posthog', () => ({ getPostHogClient: () => null }));
-vi.mock('./mcp', () => ({ getDocsTools: async () => ({}) }));
+vi.mock('@ai-sdk/mcp', () => ({ createMCPClient: mocks.createMCPClient }));
 vi.mock('./kualiaTools', () => ({ buildKualiaTools: () => ({ kualia_create_transactions: {} }) }));
 
 type Attachment = { storageId: Id<'_storage'>; mediaType: string; filename: string };
@@ -62,6 +63,8 @@ function setup() {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.unstubAllEnvs();
+  vi.stubEnv('KUALIA_DOCS_MCP_URL', '');
   mocks.models.length = 0;
   mocks.streamText.mockResolvedValue(undefined);
   mocks.generateText.mockResolvedValue({ text: 'Monthly Budget' });
@@ -122,5 +125,31 @@ describe('chat models', () => {
       patch: { title: 'Monthly Budget' },
     });
     expect(mocks.streamText).not.toHaveBeenCalled();
+  });
+});
+
+describe('docs MCP tools', () => {
+  it('chats with only Kualia tools and no docs links when KUALIA_DOCS_MCP_URL is unset', async () => {
+    await expect(send(setup(), { prompt: 'How do targets work?' })).resolves.toEqual({ threadId: 'thread-1' });
+
+    expect(mocks.createMCPClient).not.toHaveBeenCalled();
+    const input = mocks.streamText.mock.calls[0]?.[2] as { tools: Record<string, unknown>; system: string };
+    expect(input.tools).toEqual({ kualia_create_transactions: {} });
+    expect(input.system).toContain('No documentation tools are configured');
+    expect(input.system).not.toContain('kualia.com');
+  });
+
+  it('adds docs tools from the configured server', async () => {
+    vi.stubEnv('KUALIA_DOCS_MCP_URL', 'https://docs.example.test/mcp');
+    mocks.createMCPClient.mockResolvedValue({ tools: async () => ({ docs_search: {} }) });
+
+    await send(setup(), { prompt: 'How do targets work?' });
+
+    expect(mocks.createMCPClient).toHaveBeenCalledWith(
+      expect.objectContaining({ transport: { type: 'http', url: 'https://docs.example.test/mcp' } })
+    );
+    const input = mocks.streamText.mock.calls[0]?.[2] as { tools: Record<string, unknown>; system: string };
+    expect(input.tools).toEqual({ docs_search: {}, kualia_create_transactions: {} });
+    expect(input.system).toContain('https://docs.example.test');
   });
 });

@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { NucleoIcon, nucleoMoon as Moon } from '@kualia/icons';
+import { KualiaIcon, kualiaMoon as Moon } from '@kualia/icons';
 import { BaseChartDirective } from 'ng2-charts';
 import { toast } from 'ngx-sonner';
 
@@ -47,7 +47,7 @@ const MONTH_LABELS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'S
     BrnPopoverTrigger,
     HlmButton,
     HlmPopoverContent,
-    NucleoIcon,
+    KualiaIcon,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
@@ -163,7 +163,7 @@ const MONTH_LABELS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'S
                     class="text-muted-foreground hover:text-foreground hover:bg-accent flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
                     (click)="onCancelSnooze()"
                   >
-                    <nucleo-icon [icon]="Moon" [size]="14" />
+                    <kualia-icon [icon]="Moon" [size]="14" />
                     Cancel Snooze
                   </button>
                 } @else {
@@ -172,7 +172,7 @@ const MONTH_LABELS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'S
                     class="text-muted-foreground hover:text-foreground hover:bg-accent flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
                     (click)="onSnoozeTarget()"
                   >
-                    <nucleo-icon [icon]="Moon" [size]="14" />
+                    <kualia-icon [icon]="Moon" [size]="14" />
                     Snooze Target
                   </button>
                 }

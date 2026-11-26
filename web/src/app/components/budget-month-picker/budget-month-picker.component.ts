@@ -4,16 +4,16 @@ import { BrnPopover, BrnPopoverContent, BrnPopoverTrigger } from '@spartan-ng/br
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import {
-  nucleoChevronDown as ChevronDown,
-  nucleoChevronLeft as ChevronLeft,
-  nucleoChevronRight as ChevronRight,
-  NucleoIcon,
+  kualiaChevronDown as ChevronDown,
+  kualiaChevronLeft as ChevronLeft,
+  kualiaChevronRight as ChevronRight,
+  KualiaIcon,
 } from '@kualia/icons';
 import { formatMonthShort, getMonthFromYearMonth, getYearFromYearMonth } from '../../shared/utils/month.utils';
 
 @Component({
   selector: 'app-budget-month-picker',
-  imports: [HlmButton, NucleoIcon, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent],
+  imports: [HlmButton, KualiaIcon, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex items-center gap-2">
@@ -27,7 +27,7 @@ import { formatMonthShort, getMonthFromYearMonth, getYearFromYearMonth } from '.
         class="w-7"
         aria-label="Previous month"
       >
-        <nucleo-icon [icon]="ChevronLeft" class="h-4 w-4" />
+        <kualia-icon [icon]="ChevronLeft" class="h-4 w-4" />
       </button>
       @if (showDropdown()) {
         <brn-popover
@@ -46,7 +46,7 @@ import { formatMonthShort, getMonthFromYearMonth, getYearFromYearMonth } from '.
             brnPopoverTrigger
           >
             <span class="text-left">{{ displayMonth() }}</span>
-            <nucleo-icon [icon]="ChevronDown" class="h-4 w-4 flex-shrink-0" />
+            <kualia-icon [icon]="ChevronDown" class="h-4 w-4 flex-shrink-0" />
           </button>
           <div *brnPopoverContent class="!w-auto p-4" hlmPopoverContent>
             <!-- Year Navigation -->
@@ -61,7 +61,7 @@ import { formatMonthShort, getMonthFromYearMonth, getYearFromYearMonth } from '.
                 [disabled]="!canNavigateYear(-1)"
                 aria-label="Previous year"
               >
-                <nucleo-icon [icon]="ChevronLeft" class="h-4 w-4" />
+                <kualia-icon [icon]="ChevronLeft" class="h-4 w-4" />
               </button>
               <span class="text-sm font-medium">{{ selectedYear() }}</span>
               <button
@@ -74,7 +74,7 @@ import { formatMonthShort, getMonthFromYearMonth, getYearFromYearMonth } from '.
                 [disabled]="!canNavigateYear(1)"
                 aria-label="Next year"
               >
-                <nucleo-icon [icon]="ChevronRight" class="h-4 w-4" />
+                <kualia-icon [icon]="ChevronRight" class="h-4 w-4" />
               </button>
             </div>
 
@@ -107,7 +107,7 @@ import { formatMonthShort, getMonthFromYearMonth, getYearFromYearMonth } from '.
         class="w-7"
         aria-label="Next month"
       >
-        <nucleo-icon [icon]="ChevronRight" class="h-4 w-4" />
+        <kualia-icon [icon]="ChevronRight" class="h-4 w-4" />
       </button>
       @if (alwaysShowTodayButton() || !isCurrentMonth()) {
         <button

@@ -3,13 +3,13 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoBank as Building2,
-  nucleoCheck as Check,
-  nucleoInfo as Info,
-  nucleoLink as Link,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaBank as Building2,
+  kualiaCheck as Check,
+  kualiaInfo as Info,
+  kualiaLink as Link,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
 } from '@kualia/icons';
 import { BankAccountService } from '../../../services/bank-account.service';
 import { TransactionService, TransactionWithRelations } from '../../../services/transaction.service';
@@ -28,14 +28,14 @@ interface SuggestedTransfer {
 
 @Component({
   selector: 'app-transfer-approval-dialog',
-  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, NucleoIcon, CurrencyPipe],
+  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, KualiaIcon, CurrencyPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
       <div class="flex flex-col items-center gap-3 pb-2">
         <!-- Icon -->
         <div class="flex h-14 w-14 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30">
-          <nucleo-icon [icon]="ArrowLeftRightIcon" class="h-7 w-7 text-purple-600 dark:text-purple-400" />
+          <kualia-icon [icon]="ArrowLeftRightIcon" class="h-7 w-7 text-purple-600 dark:text-purple-400" />
         </div>
 
         <!-- Title -->
@@ -104,7 +104,7 @@ interface SuggestedTransfer {
               >
                 <!-- Account Icon -->
                 <div class="bg-accent flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full">
-                  <nucleo-icon [icon]="Building2Icon" class="text-muted-foreground h-4 w-4" />
+                  <kualia-icon [icon]="Building2Icon" class="text-muted-foreground h-4 w-4" />
                 </div>
 
                 <!-- Account Info -->
@@ -126,7 +126,7 @@ interface SuggestedTransfer {
                 <div class="flex-shrink-0">
                   @if (isSelectedAccount(account._id)) {
                     <div class="bg-primary flex h-5 w-5 items-center justify-center rounded-full">
-                      <nucleo-icon [icon]="CheckIcon" class="h-3 w-3 text-white" />
+                      <kualia-icon [icon]="CheckIcon" class="h-3 w-3 text-white" />
                     </div>
                   } @else {
                     <div class="border-muted-foreground/30 h-5 w-5 rounded-full border-2"></div>
@@ -161,7 +161,7 @@ interface SuggestedTransfer {
 
       <!-- Info Section -->
       <div class="bg-accent/50 flex items-start gap-2 rounded-lg p-3">
-        <nucleo-icon [icon]="InfoIcon" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
+        <kualia-icon [icon]="InfoIcon" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
         <p class="text-muted-foreground text-xs">
           {{
             isLinkedTransfer()
@@ -188,7 +188,7 @@ interface SuggestedTransfer {
         [disabled]="processing() || (!isLinkedTransfer() && !effectiveSelectedAccountId())"
       >
         @if (processing()) {
-          <nucleo-icon [icon]="LoaderCircleIcon" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircleIcon" class="h-4 w-4 animate-spin" />
         }
         {{ isLinkedTransfer() ? 'Approve Transfer' : 'Confirm as Transfer' }}
       </button>

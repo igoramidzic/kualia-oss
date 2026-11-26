@@ -5,25 +5,25 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { HlmBadge } from '@spartan-ng/helm/badge';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmSidebarService } from '@spartan-ng/helm/sidebar';
-import { NucleoIcon, type NucleoIconData } from '@kualia/icons';
+import { KualiaIcon, type KualiaIconData } from '@kualia/icons';
 import { filter, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navigation-item',
-  imports: [NgClass, RouterLink, HlmBadge, HlmButton, NucleoIcon],
+  imports: [NgClass, RouterLink, HlmBadge, HlmButton, KualiaIcon],
   templateUrl: './navigation-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationItemComponent {
   readonly label = input.required<string>();
   readonly route = input.required<string>();
-  readonly icon = input.required<NucleoIconData>();
+  readonly icon = input.required<KualiaIconData>();
   readonly exactMatch = input<boolean>(true);
   readonly badgeCount = input<number | null>(null);
   readonly badgeText = input<string | null>(null);
   readonly badgeTextPosition = input<'end' | 'inline'>('end');
   readonly badgeTextClass = input<string>('text-muted-foreground');
-  readonly alertIcon = input<NucleoIconData | null>(null);
+  readonly alertIcon = input<KualiaIconData | null>(null);
 
   private readonly router = inject(Router);
   private readonly sidebarService = inject(HlmSidebarService);

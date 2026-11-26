@@ -6,7 +6,7 @@
           <li
             class="bg-background border-border text-foreground flex max-w-full items-center gap-1.5 rounded-md border px-2 py-1 text-[12px]"
           >
-            <nucleo-icon [icon]="Paperclip" [size]="12" class="text-muted-foreground shrink-0" />
+            <kualia-icon [icon]="Paperclip" [size]="12" class="text-muted-foreground shrink-0" />
             <span class="truncate" [title]="attachment.filename">{{ attachment.filename }}</span>
           </li>
         }
@@ -23,7 +23,7 @@
       <!-- "{name} added to context" — locked at 12px in both floating and expanded modes
            (inline style beats the panel's text-xs / text-[12px] expansion bump). -->
       <div class="text-muted-foreground flex items-center gap-1 text-[12px]">
-        <nucleo-icon [icon]="LayoutGrid" [size]="12" class="shrink-0" />
+        <kualia-icon [icon]="LayoutGrid" [size]="12" class="shrink-0" />
         <span class="truncate">
           <span class="text-foreground font-medium">{{ ctx.workspaceName }}</span>
           <span> added to context</span>
@@ -55,7 +55,7 @@
               Used tools
             }
           </span>
-          <nucleo-icon
+          <kualia-icon
             [icon]="ChevronRight"
             [size]="12"
             class="ai-chat-tool-chevron transition-transform duration-200 ease-out"
@@ -111,7 +111,7 @@
           aria-label="Copy message"
           (click)="copyAssistantText(assistant.text)"
         >
-          <nucleo-icon [icon]="Copy" [size]="14" />
+          <kualia-icon [icon]="Copy" [size]="14" />
         </button>
       </div>
     }

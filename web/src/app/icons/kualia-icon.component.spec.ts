@@ -1,43 +1,43 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { NucleoIcon } from './nucleo-icon.component';
-import * as artwork from './nucleo-icons';
-import { nucleoBudget, nucleoCheck, nucleoLoader, nucleoSidebarLeftClose, nucleoSidebarLeftOpen } from './nucleo-icons';
+import { KualiaIcon } from './kualia-icon.component';
+import * as artwork from './kualia-icons';
+import { kualiaBudget, kualiaCheck, kualiaLoader, kualiaSidebarLeftClose, kualiaSidebarLeftOpen } from './kualia-icons';
 
 @Component({
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoBudget })],
+  providers: [provideIcons({ kualiaBudget })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-icon name="nucleoBudget" />',
+  template: '<ng-icon name="kualiaBudget" />',
 })
 class RegisteredIconHost {}
 
-describe('Nucleo icon rendering', () => {
+describe('Kualia icon rendering', () => {
   it('renders single-tone outlines with the Lucide view box and current text color', async () => {
-    const fixture = TestBed.createComponent(NucleoIcon);
-    fixture.componentRef.setInput('icon', nucleoBudget);
+    const fixture = TestBed.createComponent(KualiaIcon);
+    fixture.componentRef.setInput('icon', kualiaBudget);
     fixture.componentRef.setInput('size', 18);
     fixture.detectChanges();
     await fixture.whenStable();
     const element: HTMLElement = fixture.nativeElement;
 
     expect(element.getAttribute('aria-hidden')).toBe('true');
-    expect(element.style.getPropertyValue('--nucleo-icon-size')).toBe('18px');
+    expect(element.style.getPropertyValue('--kualia-icon-size')).toBe('18px');
     expect(element.querySelector('svg')?.getAttribute('viewBox')).toBe('0 0 24 24');
     expect(element.querySelector('[fill-opacity], [opacity]')).toBeNull();
     expect(element.querySelector('[stroke="currentColor"]')).not.toBeNull();
   });
 
   it('updates stateful artwork without leaving the previous SVG behind', async () => {
-    const fixture = TestBed.createComponent(NucleoIcon);
-    fixture.componentRef.setInput('icon', nucleoSidebarLeftOpen);
+    const fixture = TestBed.createComponent(KualiaIcon);
+    fixture.componentRef.setInput('icon', kualiaSidebarLeftOpen);
     fixture.detectChanges();
     await fixture.whenStable();
     const element: HTMLElement = fixture.nativeElement;
     const before = element.querySelector('svg')?.innerHTML;
 
-    fixture.componentRef.setInput('icon', nucleoSidebarLeftClose);
+    fixture.componentRef.setInput('icon', kualiaSidebarLeftClose);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -50,13 +50,13 @@ describe('Nucleo icon rendering', () => {
     ['16', '16px'],
     ['1.25rem', '1.25rem'],
   ])('accepts size %s', (size, expected) => {
-    const fixture = TestBed.createComponent(NucleoIcon);
-    fixture.componentRef.setInput('icon', nucleoCheck);
+    const fixture = TestBed.createComponent(KualiaIcon);
+    fixture.componentRef.setInput('icon', kualiaCheck);
     fixture.componentRef.setInput('size', size);
     fixture.detectChanges();
 
     const element: HTMLElement = fixture.nativeElement;
-    expect(element.style.getPropertyValue('--nucleo-icon-size')).toBe(expected);
+    expect(element.style.getPropertyValue('--kualia-icon-size')).toBe(expected);
   });
 
   it('renders the same artwork through the named registry used by Spartan controls', async () => {
@@ -85,7 +85,7 @@ describe('Nucleo icon rendering', () => {
   });
 
   it('uses Lucide loader artwork compatible with the existing spin animation', () => {
-    const svg = new DOMParser().parseFromString(nucleoLoader, 'image/svg+xml');
+    const svg = new DOMParser().parseFromString(kualiaLoader, 'image/svg+xml');
     expect(svg.querySelector('parsererror')).toBeNull();
     expect(svg.querySelector('svg')?.getAttribute('viewBox')).toBe('0 0 24 24');
     expect(svg.querySelector('[stroke="currentColor"]')).not.toBeNull();

@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoCheck } from '@kualia/icons';
+import { kualiaCheck } from '@kualia/icons';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: 'hlm-dropdown-menu-checkbox-indicator',
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoCheck })],
+  providers: [provideIcons({ kualiaCheck })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` <ng-icon class="text-base" name="nucleoCheck" /> `,
+  template: ` <ng-icon class="text-base" name="kualiaCheck" /> `,
 })
 export class HlmDropdownMenuCheckboxIndicator {
   constructor() {

@@ -19,7 +19,7 @@
             aria-label="Show favorite bank accounts"
             (click)="toggleFavoriteFilter()"
           >
-            <nucleo-icon
+            <kualia-icon
               [icon]="Heart"
               [class]="favoriteOnly() ? 'h-4 w-4 fill-red-500 text-red-500' : 'text-muted-foreground h-4 w-4'"
             />
@@ -39,7 +39,7 @@
           class="group hover:text-foreground transition-colors"
           (click)="openCreateBankAccountDialog()"
         >
-          <nucleo-icon
+          <kualia-icon
             [icon]="Plus"
             class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
           />
@@ -111,7 +111,7 @@
                       class="h-6 w-6"
                       [attr.aria-label]="'Toggle ' + formatAccountTypeCategory(group.label)"
                     >
-                      <nucleo-icon
+                      <kualia-icon
                         [icon]="isGroupExpanded(group.label) ? ChevronDown : ChevronRight"
                         class="text-muted-foreground h-4 w-4"
                       />
@@ -184,7 +184,7 @@
                                 <span
                                   class="bg-background absolute -right-0.5 -bottom-0.5 flex h-3 w-3 items-center justify-center rounded-full border"
                                 >
-                                  <nucleo-icon
+                                  <kualia-icon
                                     [icon]="Heart"
                                     class="h-2.5 w-2.5 fill-red-500 text-red-500"
                                     aria-hidden="true"
@@ -242,7 +242,7 @@
                                       <span
                                         class="bg-background absolute -right-0.5 -bottom-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border"
                                       >
-                                        <nucleo-icon
+                                        <kualia-icon
                                           [icon]="Heart"
                                           class="h-2 w-2 fill-red-500 text-red-500"
                                           aria-hidden="true"
@@ -289,7 +289,7 @@
                           "
                           [attr.aria-expanded]="isClosedAccountsVisible(group.label)"
                         >
-                          <nucleo-icon
+                          <kualia-icon
                             [icon]="isClosedAccountsVisible(group.label) ? EyeOff : Eye"
                             class="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors"
                           />
@@ -311,7 +311,7 @@
 
       @if (!loading() && hasBankAccounts() && favoriteOnly() && groupedBankAccountsWithSeparation().length === 0) {
         <div class="py-12 text-center">
-          <nucleo-icon [icon]="Heart" class="text-muted-foreground mx-auto h-10 w-10" />
+          <kualia-icon [icon]="Heart" class="text-muted-foreground mx-auto h-10 w-10" />
           <h3 class="mt-2 text-sm font-semibold">No favorite accounts</h3>
         </div>
       }
@@ -319,12 +319,12 @@
       <!-- Empty State -->
       @if (!loading() && !hasBankAccounts() && !error()) {
         <div class="py-12 text-center">
-          <nucleo-icon [icon]="Wallet" class="text-muted-foreground mx-auto h-12 w-12" />
+          <kualia-icon [icon]="Wallet" class="text-muted-foreground mx-auto h-12 w-12" />
           <h3 class="mt-2 text-sm font-semibold">No bank accounts</h3>
           <p class="text-muted-foreground mt-1 text-sm">Get started by adding your first bank account.</p>
           <div class="mt-6">
             <button hlmBtn (click)="openCreateBankAccountDialog()">
-              <nucleo-icon [icon]="Plus" class="h-4 w-4" />
+              <kualia-icon [icon]="Plus" class="h-4 w-4" />
               New Bank Account
             </button>
           </div>
@@ -338,7 +338,7 @@
 <ng-template #bankAccountContextMenu let-accountId="accountId">
   <hlm-dropdown-menu class="w-48">
     <button hlmDropdownMenuItem (click)="onToggleAccountFavorite(accountId, $event)">
-      <nucleo-icon [icon]="Heart" [class]="isBankAccountFavorite(accountId) ? 'h-4 w-4 fill-current' : 'h-4 w-4'" />
+      <kualia-icon [icon]="Heart" [class]="isBankAccountFavorite(accountId) ? 'h-4 w-4 fill-current' : 'h-4 w-4'" />
       <span class="text-xs">{{ isBankAccountFavorite(accountId) ? 'Unfavorite' : 'Favorite' }}</span>
     </button>
   </hlm-dropdown-menu>

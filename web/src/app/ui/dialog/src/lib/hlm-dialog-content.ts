@@ -2,7 +2,7 @@ import type { BooleanInput } from '@angular/cdk/coercion';
 import { NgComponentOutlet } from '@angular/common';
 import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
-import { nucleoClose } from '@kualia/icons';
+import { kualiaClose } from '@kualia/icons';
 import { BrnDialogRef, injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
@@ -12,7 +12,7 @@ import { HlmDialogClose } from './hlm-dialog-close';
 @Component({
   selector: 'hlm-dialog-content',
   imports: [NgComponentOutlet, HlmIconImports, HlmButton, HlmDialogClose],
-  providers: [provideIcons({ nucleoClose })],
+  providers: [provideIcons({ kualiaClose })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-slot': 'dialog-content',
@@ -28,7 +28,7 @@ import { HlmDialogClose } from './hlm-dialog-close';
     @if (showCloseButton()) {
       <button hlmBtn variant="ghost" size="icon-sm" class="absolute end-2 top-2" hlmDialogClose>
         <span class="sr-only">close</span>
-        <ng-icon hlm size="sm" name="nucleoClose" />
+        <ng-icon hlm size="sm" name="kualiaClose" />
       </button>
     }
   `,

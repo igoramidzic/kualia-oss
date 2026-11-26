@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import {
-  NucleoIcon,
-  nucleoSidebarRightClose as PanelRightClose,
-  nucleoSidebarRightOpen as PanelRightOpen,
+  KualiaIcon,
+  kualiaSidebarRightClose as PanelRightClose,
+  kualiaSidebarRightOpen as PanelRightOpen,
 } from '@kualia/icons';
 import { UserPreferencesService } from '../../core/services/preferences/user-preferences.service';
 
 @Component({
   selector: 'app-budget-sidebar-toggle',
-  imports: [NucleoIcon, HlmButton],
+  imports: [KualiaIcon, HlmButton],
   template: `
     <button
       hlmBtn
@@ -23,7 +23,7 @@ import { UserPreferencesService } from '../../core/services/preferences/user-pre
       (click)="toggle()"
       [attr.aria-label]="userPreferencesService.budgetSidebarOpen() ? 'Close sidebar' : 'Open sidebar'"
     >
-      <nucleo-icon [icon]="icon()" class="h-4 w-4" />
+      <kualia-icon [icon]="icon()" class="h-4 w-4" />
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

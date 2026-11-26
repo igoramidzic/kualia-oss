@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, input, output, signal } f
 import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
-import { nucleoCoins as Coins, NucleoIcon } from '@kualia/icons';
+import { kualiaCoins as Coins, KualiaIcon } from '@kualia/icons';
 import { CurrencyInfo, getAllCurrencies, getCurrencyInfo } from '../../shared/utils/currency-info';
 
 @Component({
   selector: 'app-currency-selector',
-  imports: [NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -25,11 +25,11 @@ import { CurrencyInfo, getAllCurrencies, getCurrencyInfo } from '../../shared/ut
             @if (info.flagEmoji) {
               <span class="shrink-0">{{ info.flagEmoji }}</span>
             } @else {
-              <nucleo-icon [icon]="Coins" [size]="14" class="shrink-0" />
+              <kualia-icon [icon]="Coins" [size]="14" class="shrink-0" />
             }
             <span class="min-w-0 truncate">{{ info.code }} - {{ info.name }}</span>
           } @else {
-            <nucleo-icon [icon]="Coins" [size]="14" class="shrink-0" />
+            <kualia-icon [icon]="Coins" [size]="14" class="shrink-0" />
             <span class="text-muted-foreground min-w-0 truncate">Select currency</span>
           }
         </span>
@@ -50,7 +50,7 @@ import { CurrencyInfo, getAllCurrencies, getCurrencyInfo } from '../../shared/ut
                   @if (currency.flagEmoji) {
                     <span class="shrink-0">{{ currency.flagEmoji }}</span>
                   } @else {
-                    <nucleo-icon [icon]="Coins" [size]="14" class="text-muted-foreground shrink-0" />
+                    <kualia-icon [icon]="Coins" [size]="14" class="text-muted-foreground shrink-0" />
                   }
                   <span class="min-w-0 truncate">{{ currency.code }} - {{ currency.name }}</span>
                 </div>

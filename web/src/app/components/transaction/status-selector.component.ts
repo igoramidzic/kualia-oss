@@ -3,28 +3,28 @@ import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import {
-  nucleoCheckCircle as CircleCheck,
-  nucleoPause as CirclePause,
-  nucleoHistory as ClockFading,
-  NucleoIcon,
-  type NucleoIconData,
+  kualiaCheckCircle as CircleCheck,
+  kualiaPause as CirclePause,
+  kualiaHistory as ClockFading,
+  KualiaIcon,
+  type KualiaIconData,
 } from '@kualia/icons';
 
 interface StatusOption {
   value: string;
   label: string;
-  icon: NucleoIconData;
+  icon: KualiaIconData;
 }
 
 @Component({
   selector: 'app-status-selector',
-  imports: [NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox [value]="status()" (valueChange)="selectStatus($event)" [disabled]="disabled()" sideOffset="5">
       <hlm-combobox-trigger [class]="buttonClass()" [variant]="variant()" [showIcon]="false" stopPropagation>
         <span class="flex items-center gap-2">
-          <nucleo-icon
+          <kualia-icon
             [icon]="selectedOption().icon"
             [size]="16"
             [class.text-green-500]="status() === 'active' || status() === 'completed'"
@@ -39,7 +39,7 @@ interface StatusOption {
             @for (option of statusOptions(); track option.value) {
               <hlm-combobox-item [value]="option.value">
                 <div class="flex items-center gap-2">
-                  <nucleo-icon
+                  <kualia-icon
                     [icon]="option.icon"
                     [size]="16"
                     [class.text-green-500]="option.value === 'active' || option.value === 'completed'"

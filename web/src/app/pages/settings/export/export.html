@@ -16,7 +16,7 @@
       <section hlmCard class="overflow-hidden">
         <div class="flex items-start gap-4 p-4 sm:p-5">
           <div class="bg-primary/10 text-primary flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full">
-            <nucleo-icon [icon]="FileArchive" class="h-5 w-5" />
+            <kualia-icon [icon]="FileArchive" class="h-5 w-5" />
           </div>
 
           <div class="min-w-0 flex-1">
@@ -26,7 +26,7 @@
             </p>
 
             <div class="text-muted-foreground mt-4 flex items-start gap-2 text-sm leading-6">
-              <nucleo-icon [icon]="FileSpreadsheet" class="mt-1 h-4 w-4 flex-shrink-0" />
+              <kualia-icon [icon]="FileSpreadsheet" class="mt-1 h-4 w-4 flex-shrink-0" />
               <p>
                 Transaction splits use one row per movement. Every row keeps the same transaction ID and includes its
                 movement number and total movement count.
@@ -42,10 +42,10 @@
               data-testid="download-export"
             >
               @if (isExporting()) {
-                <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+                <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
                 Creating export…
               } @else {
-                <nucleo-icon [icon]="Download" class="h-4 w-4" />
+                <kualia-icon [icon]="Download" class="h-4 w-4" />
                 Export and download
               }
             </button>

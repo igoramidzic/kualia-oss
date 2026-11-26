@@ -3,7 +3,7 @@ import { injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader, HlmDialogService } from '@spartan-ng/helm/dialog';
 import type { ScheduledTransactionWithRelations } from 'convex/scheduledTransactions/queries';
-import { nucleoCalendarCheck as CalendarArrowDown, NucleoIcon } from '@kualia/icons';
+import { kualiaCalendarCheck as CalendarArrowDown, KualiaIcon } from '@kualia/icons';
 
 interface EnterScheduledTransactionDialogContext {
   scheduledTransaction: ScheduledTransactionWithRelations;
@@ -13,7 +13,7 @@ interface EnterScheduledTransactionDialogContext {
 
 @Component({
   selector: 'app-enter-scheduled-transaction-dialog',
-  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, NucleoIcon],
+  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -22,7 +22,7 @@ interface EnterScheduledTransactionDialogContext {
 
     <div class="space-y-3 p-4">
       <div class="bg-accent/50 flex items-start gap-3 rounded-md border p-3">
-        <nucleo-icon [icon]="CalendarArrowDown" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
+        <kualia-icon [icon]="CalendarArrowDown" class="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
         <div class="min-w-0">
           <p class="text-sm font-medium">{{ merchantName() }}</p>
           <p class="text-muted-foreground text-sm">

@@ -3,6 +3,8 @@
  * HTML templates are defined here for email notifications
  */
 
+import { buildAppUrl } from '../lib/appUrl';
+
 /**
  * Format currency amount from bigint (cents) to USD string
  */
@@ -268,7 +270,7 @@ export function getBankLinkStatusChangeTemplate(
   };
 
   const statusInfo = statusMessages[status];
-  const settingsUrl = `https://kualia.com/${workspaceShortId}/settings/bank-connections`;
+  const settingsUrl = buildAppUrl(`/${workspaceShortId}/settings/bank-connections`);
 
   return `
 <!DOCTYPE html>

@@ -20,15 +20,15 @@ import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import { FunctionReturnType } from 'convex/server';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoEmail as Box,
-  nucleoChevronDown as ChevronDown,
-  nucleoHistory as History,
-  nucleoBank as Landmark,
-  nucleoLink as Link,
-  NucleoIcon,
-  type NucleoIconData,
-  nucleoShop as Store,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaEmail as Box,
+  kualiaChevronDown as ChevronDown,
+  kualiaHistory as History,
+  kualiaBank as Landmark,
+  kualiaLink as Link,
+  KualiaIcon,
+  type KualiaIconData,
+  kualiaShop as Store,
 } from '@kualia/icons';
 import { SettingsPageHeaderComponent } from '../../../components/settings-page-header/settings-page-header';
 import { InfiniteScrollDirective } from '../../../directives/infinite-scroll.directive';
@@ -123,7 +123,7 @@ export class ActivityOverflowDirective implements AfterViewInit, OnDestroy {
     HlmBadge,
     HlmCard,
     InfiniteScrollDirective,
-    NucleoIcon,
+    KualiaIcon,
     RouterLink,
     SettingsPageHeaderComponent,
   ],
@@ -323,7 +323,7 @@ export class ActivityComponent {
     }
   }
 
-  protected entryIcon(entityType: ActivityEntry['entityType']): NucleoIconData {
+  protected entryIcon(entityType: ActivityEntry['entityType']): KualiaIconData {
     switch (entityType) {
       case 'transaction':
         return ArrowLeftRight;

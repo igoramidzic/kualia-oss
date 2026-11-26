@@ -2,12 +2,12 @@ import { CUSTOM_ELEMENTS_SCHEMA, provideZonelessChangeDetection, signal, type Wr
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { type NavigationEnd, Router } from '@angular/router';
 import {
-  nucleoEmail,
-  nucleoTransactions,
-  nucleoCalendarFilled,
-  nucleoBank,
-  nucleoReports,
-  nucleoPreferences,
+  kualiaEmail,
+  kualiaTransactions,
+  kualiaCalendarFilled,
+  kualiaBank,
+  kualiaReports,
+  kualiaPreferences,
 } from '@kualia/icons';
 import { HlmSidebarService } from '@spartan-ng/helm/sidebar';
 import type { Id } from 'convex/_generated/dataModel';
@@ -408,12 +408,12 @@ describe('MainLayoutComponent', () => {
       createComponent('/test-workspace/budget');
 
       expect(component['navItems']().map(({ label, icon }) => [label, icon])).toEqual([
-        ['Budget', nucleoEmail],
-        ['Transactions', nucleoTransactions],
-        ['Planned', nucleoCalendarFilled],
-        ['Accounts', nucleoBank],
-        ['Reports', nucleoReports],
-        ['Settings', nucleoPreferences],
+        ['Budget', kualiaEmail],
+        ['Transactions', kualiaTransactions],
+        ['Planned', kualiaCalendarFilled],
+        ['Accounts', kualiaBank],
+        ['Reports', kualiaReports],
+        ['Settings', kualiaPreferences],
       ]);
     });
 

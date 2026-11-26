@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService, BankAccountWithRelations } from '../../../services/bank-account.service';
 import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-message';
@@ -14,7 +14,7 @@ interface DeleteBankAccountDialogContext {
 
 @Component({
   selector: 'app-delete-bank-account-dialog',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, HlmDialogFooter],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, HlmDialogFooter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -38,7 +38,7 @@ interface DeleteBankAccountDialogContext {
     <hlm-dialog-footer>
       <button hlmBtn size="sm" variant="destructive" (click)="confirmDelete()" [disabled]="deleting()">
         @if (deleting()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Deleting...
         } @else {
           Delete

@@ -6,16 +6,16 @@ import { HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { HlmItem, HlmItemContent, HlmItemDescription, HlmItemTitle } from '@spartan-ng/helm/item';
 import type { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoArrowLeft as ArrowLeft,
-  nucleoBank as Building2,
-  nucleoChevronRight as ChevronRight,
-  nucleoDots as Ellipsis,
-  nucleoEye as Eye,
-  nucleoLink as Link,
-  nucleoUnlink as Link2Off,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoPlus as Plus,
+  kualiaArrowLeft as ArrowLeft,
+  kualiaBank as Building2,
+  kualiaChevronRight as ChevronRight,
+  kualiaDots as Ellipsis,
+  kualiaEye as Eye,
+  kualiaLink as Link,
+  kualiaUnlink as Link2Off,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaPlus as Plus,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService } from '../../../services/bank-account.service';
@@ -56,7 +56,7 @@ interface ConnectionAccountDetails {
   selector: 'app-bank-link-account-details-dialog',
   imports: [
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     HlmDialogHeader,
     HlmItem,
     HlmItemContent,

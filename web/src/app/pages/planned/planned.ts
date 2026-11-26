@@ -4,17 +4,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import {
-  nucleoCalendarFilled as CalendarDays,
-  nucleoCheckCircle as CircleCheck,
-  nucleoClock as Clock,
-  nucleoClock as ClockAlert,
-  nucleoInfo as Info,
-  nucleoList as List,
-  NucleoIcon,
-  nucleoPause as Pause,
-  nucleoPlay as Play,
-  nucleoPlus as Plus,
-  nucleoSkip as SkipForward,
+  kualiaCalendarFilled as CalendarDays,
+  kualiaCheckCircle as CircleCheck,
+  kualiaClock as Clock,
+  kualiaClock as ClockAlert,
+  kualiaInfo as Info,
+  kualiaList as List,
+  KualiaIcon,
+  kualiaPause as Pause,
+  kualiaPlay as Play,
+  kualiaPlus as Plus,
+  kualiaSkip as SkipForward,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BudgetMonthPickerComponent } from '../../components/budget-month-picker/budget-month-picker.component';
@@ -56,7 +56,7 @@ type PlannedTab = 'all' | 'monthly';
 @Component({
   selector: 'app-planned',
   imports: [
-    NucleoIcon,
+    KualiaIcon,
     HlmButton,
     SidebarToggleComponent,
     ResponsiveFilterRowComponent,

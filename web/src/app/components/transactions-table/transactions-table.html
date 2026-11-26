@@ -51,7 +51,7 @@
             />
           </div>
           <div class="flex items-center justify-center">
-            <nucleo-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
+            <kualia-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
           </div>
           <div class="text-muted-foreground">Date</div>
           <div class="text-muted-foreground pl-0">Payee</div>
@@ -86,7 +86,7 @@
         </cdk-virtual-scroll-viewport>
       } @else if (!loading() && transactions().length === 0) {
         <div class="fade-in py-12 text-center">
-          <nucleo-icon [icon]="ArrowLeftRight" class="text-muted-foreground mx-auto h-12 w-12" />
+          <kualia-icon [icon]="ArrowLeftRight" class="text-muted-foreground mx-auto h-12 w-12" />
           <h3 class="mt-2 text-sm font-semibold">No transactions</h3>
           <p class="text-muted-foreground mt-1 text-sm">There are no transactions to display.</p>
         </div>
@@ -132,7 +132,7 @@
             />
           </div>
           <div class="flex items-center justify-center">
-            <nucleo-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
+            <kualia-icon [icon]="Info" [size]="14" class="text-muted-foreground" />
           </div>
           <div class="text-muted-foreground">Date</div>
           <div class="text-muted-foreground pl-0">Payee</div>
@@ -175,7 +175,7 @@
 
 @if (!loading() && transactions().length === 0 && !error() && !headerTemplate()) {
   <div class="fade-in py-12 text-center">
-    <nucleo-icon [icon]="ArrowLeftRight" class="text-muted-foreground mx-auto h-12 w-12" />
+    <kualia-icon [icon]="ArrowLeftRight" class="text-muted-foreground mx-auto h-12 w-12" />
     <h3 class="mt-2 text-sm font-semibold">No transactions</h3>
     <p class="text-muted-foreground mt-1 text-sm">There are no transactions to display.</p>
   </div>

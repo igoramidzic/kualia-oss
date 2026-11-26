@@ -10,12 +10,12 @@ import { Id } from 'convex/_generated/dataModel';
 import { FunctionReturnType } from 'convex/server';
 import { ConvexError } from 'convex/values';
 import {
-  nucleoChevronRight as ChevronRight,
-  nucleoLoader as LoaderCircle,
-  nucleoLogout as LogOut,
-  NucleoIcon,
-  nucleoEmailPlus as MailPlus,
-  nucleoUsers as UsersRound,
+  kualiaChevronRight as ChevronRight,
+  kualiaLoader as LoaderCircle,
+  kualiaLogout as LogOut,
+  KualiaIcon,
+  kualiaEmailPlus as MailPlus,
+  kualiaUsers as UsersRound,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { InviteFamilyMemberDialogComponent } from '../../../components/dialogs/invite-family-member-dialog/invite-family-member-dialog';
@@ -35,7 +35,7 @@ interface LeaveFamilyGroupDialogContext {
 
 @Component({
   selector: 'app-leave-family-group-dialog',
-  imports: [HlmButton, HlmDialogFooter, HlmDialogHeader, NucleoIcon],
+  imports: [HlmButton, HlmDialogFooter, HlmDialogHeader, KualiaIcon],
   template: `
     <hlm-dialog-header>
       <h2 class="text-lg font-semibold">Leave Family</h2>
@@ -81,7 +81,7 @@ interface LeaveFamilyGroupDialogContext {
         data-testid="confirm-leave-family"
       >
         @if (leaving()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Leaving...
         } @else {
           Leave Family
@@ -127,7 +127,7 @@ export class LeaveFamilyGroupDialogComponent {
 
 @Component({
   selector: 'app-family',
-  imports: [RouterLink, HlmBadge, HlmButton, HlmCard, NucleoIcon, SettingsPageHeaderComponent],
+  imports: [RouterLink, HlmBadge, HlmButton, HlmCard, KualiaIcon, SettingsPageHeaderComponent],
   templateUrl: './family.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

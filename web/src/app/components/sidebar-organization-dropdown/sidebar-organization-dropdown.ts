@@ -3,11 +3,11 @@ import { RouterLink } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
 import type { FunctionReturnType } from 'convex/server';
 import {
-  nucleoChevronDown as ChevronDown,
-  nucleoLogout as LogOut,
-  NucleoIcon,
-  nucleoPreferences as Settings,
-  nucleoUser as UserIcon,
+  kualiaChevronDown as ChevronDown,
+  kualiaLogout as LogOut,
+  KualiaIcon,
+  kualiaPreferences as Settings,
+  kualiaUser as UserIcon,
 } from '@kualia/icons';
 import { api } from '../../../../../convex/_generated/api';
 import { AuthService } from '../../services/auth.service';
@@ -30,7 +30,7 @@ type UserProfile = FunctionReturnType<typeof api.userProfiles.getCurrentProfile>
     HlmAvatar,
     HlmAvatarFallback,
     HlmAvatarImage,
-    NucleoIcon,
+    KualiaIcon,
     HlmDropdownMenuTrigger,
     HlmDropdownMenu,
     HlmDropdownMenuItem,

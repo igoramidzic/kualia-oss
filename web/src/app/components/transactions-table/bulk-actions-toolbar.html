@@ -10,7 +10,7 @@
     (click)="onDeselectAll()"
     [disabled]="isBulkActionInProgress()"
   >
-    <nucleo-icon [icon]="XIcon" [size]="14" />
+    <kualia-icon [icon]="XIcon" [size]="14" />
     {{ selectionLabel() }}
   </button>
 
@@ -26,7 +26,7 @@
       (click)="enterNowSelected()"
       [disabled]="isBulkActionInProgress()"
     >
-      <nucleo-icon [icon]="CalendarArrowDown" [size]="14" />
+      <kualia-icon [icon]="CalendarArrowDown" [size]="14" />
       Enter now
     </button>
 
@@ -43,7 +43,7 @@
       (click)="bulkApprove()"
       [disabled]="isBulkActionInProgress()"
     >
-      <nucleo-icon [icon]="BadgeCheck" [size]="14" />
+      <kualia-icon [icon]="BadgeCheck" [size]="14" />
       Approve
     </button>
 
@@ -59,7 +59,7 @@
     (click)="bulkDelete()"
     [disabled]="isBulkActionInProgress()"
   >
-    <nucleo-icon [icon]="Trash2" [size]="14" />
+    <kualia-icon [icon]="Trash2" [size]="14" />
     Delete
   </button>
 
@@ -76,7 +76,7 @@
         brnPopoverTrigger
         [disabled]="isBulkActionInProgress()"
       >
-        <nucleo-icon [icon]="Ellipsis" [size]="16" />
+        <kualia-icon [icon]="Ellipsis" [size]="16" />
       </button>
       <div *brnPopoverContent="let ctx" hlmPopoverContent class="w-48 p-1">
         <button
@@ -86,7 +86,7 @@
           class="w-full justify-start gap-2 px-2 text-sm font-normal"
           (click)="bulkUpdateStatus('cleared')"
         >
-          <nucleo-icon [icon]="CircleCheck" [size]="14" />
+          <kualia-icon [icon]="CircleCheck" [size]="14" />
           Mark Cleared
         </button>
         <button
@@ -96,7 +96,7 @@
           class="w-full justify-start gap-2 px-2 text-sm font-normal"
           (click)="bulkUpdateStatus('pending')"
         >
-          <nucleo-icon [icon]="ClockFading" [size]="14" />
+          <kualia-icon [icon]="ClockFading" [size]="14" />
           Mark Pending
         </button>
       </div>

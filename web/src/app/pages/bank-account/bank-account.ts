@@ -22,21 +22,21 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import {
-  nucleoCheckCircle as CheckCircle2,
-  nucleoChevronRight as ChevronRight,
-  nucleoCloseCircle as CircleX,
-  nucleoDots as Ellipsis,
-  nucleoInfo as Info,
-  NucleoIcon,
-  nucleoConnection as Plug,
-  nucleoConnection as PlugZap,
-  nucleoPlus as Plus,
-  nucleoRedo as Redo2,
-  nucleoSearch as Search,
-  nucleoPhone as Smartphone,
-  nucleoTrash as Trash2,
-  nucleoUndo as Undo2,
-  nucleoClose as X,
+  kualiaCheckCircle as CheckCircle2,
+  kualiaChevronRight as ChevronRight,
+  kualiaCloseCircle as CircleX,
+  kualiaDots as Ellipsis,
+  kualiaInfo as Info,
+  KualiaIcon,
+  kualiaConnection as Plug,
+  kualiaConnection as PlugZap,
+  kualiaPlus as Plus,
+  kualiaRedo as Redo2,
+  kualiaSearch as Search,
+  kualiaPhone as Smartphone,
+  kualiaTrash as Trash2,
+  kualiaUndo as Undo2,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -76,7 +76,7 @@ import { BankAccountPageService } from './bank-account-page.service';
   imports: [
     CommonModule,
     FormsModule,
-    NucleoIcon,
+    KualiaIcon,
     SidebarToggleComponent,
     HlmButton,
     RouterLink,

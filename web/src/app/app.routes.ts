@@ -63,7 +63,7 @@ export const routes: Routes = [
     canActivate: [authGuard, noUserOnboardingGuard],
     loadChildren: () => import('./routes/account-settings.routes').then((m) => m.accountSettingsRoutes),
   },
-  // Landing page, privacy, and terms-of-service are served by the marketing site (kualia.com)
+  // No landing, privacy, or terms routes: the hosted marketing site is retired and not part of this app
   {
     path: ':workspaceShortId',
     canActivate: [authGuard, noUserOnboardingGuard, subscriptionGuard, workspaceGuard],

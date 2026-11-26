@@ -50,9 +50,4 @@ If guidance conflicts, follow the most specific guide for the code you are editi
 
 ## Validation Commands
 
-Run from repo root before commit:
-
-1. `pnpm lint`
-2. `pnpm format`
-3. `pnpm build`
-4. `pnpm test:ci`
+Before commit, run the full root check list from `../AGENTS.md` ("Validation"). `pnpm check` at the repo root runs all of it; use `pnpm format` to apply formatting fixes first.

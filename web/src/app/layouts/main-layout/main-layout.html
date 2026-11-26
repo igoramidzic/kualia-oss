@@ -34,7 +34,7 @@
               alt="Kualia"
               class="hidden h-5 w-5 shrink-0 group-hover/logo-toggle:!hidden dark:block"
             />
-            <nucleo-icon
+            <kualia-icon
               [icon]="PanelLeftOpen"
               [size]="16"
               class="text-muted-foreground hidden group-hover/logo-toggle:block"
@@ -49,7 +49,7 @@
             [attr.aria-label]="sidebarToggleLabel()"
             (click)="toggleSidebar()"
           >
-            <nucleo-icon [icon]="sidebarToggleIcon()" [size]="16" />
+            <kualia-icon [icon]="sidebarToggleIcon()" [size]="16" />
           </button>
         </div>
       </div>
@@ -93,7 +93,7 @@
                     "
                     aria-label="View overspent categories"
                   >
-                    <nucleo-icon [icon]="AlertCircle" [size]="16" />
+                    <kualia-icon [icon]="AlertCircle" [size]="16" />
                   </a>
                 </div>
               } @else if (item.label === 'Transactions' && hasNeedsReviewTransactions()) {
@@ -122,7 +122,7 @@
                     "
                     aria-label="View needs review transactions"
                   >
-                    <nucleo-icon [icon]="BadgeCheck" [size]="16" />
+                    <kualia-icon [icon]="BadgeCheck" [size]="16" />
                   </a>
                 </div>
               } @else {
@@ -170,7 +170,7 @@
               aria-label="Theme"
               aria-haspopup="menu"
             >
-              <nucleo-icon [icon]="currentThemeIcon()" [size]="16" />
+              <kualia-icon [icon]="currentThemeIcon()" [size]="16" />
             </button>
           </div>
         </div>
@@ -191,7 +191,7 @@
             aria-label="Theme"
             aria-haspopup="menu"
           >
-            <nucleo-icon [icon]="currentThemeIcon()" [size]="16" />
+            <kualia-icon [icon]="currentThemeIcon()" [size]="16" />
           </button>
         </div>
 
@@ -199,10 +199,10 @@
           <hlm-dropdown-menu class="w-36">
             @for (option of themeOptions; track option.value) {
               <button hlmDropdownMenuItem (click)="selectTheme(option.value)">
-                <nucleo-icon [icon]="option.icon" [size]="14" />
+                <kualia-icon [icon]="option.icon" [size]="14" />
                 <span class="text-xs">{{ option.label }}</span>
                 @if (currentTheme() === option.value) {
-                  <nucleo-icon [icon]="Check" [size]="14" class="ml-auto" />
+                  <kualia-icon [icon]="Check" [size]="14" class="ml-auto" />
                 }
               </button>
             }

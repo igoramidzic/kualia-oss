@@ -7,19 +7,19 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoBell as BellRing,
-  nucleoCalendarCheck as CalendarArrowDown,
-  nucleoCalendarClock as CalendarClock,
-  nucleoCheck as Check,
-  nucleoChevronDown as ChevronDown,
-  nucleoChevronRight as ChevronRight,
-  nucleoHistory as ClockFading,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoPause as Pause,
-  nucleoPlay as Play,
-  nucleoSkip as SkipForward,
-  nucleoShop as Store,
+  kualiaBell as BellRing,
+  kualiaCalendarCheck as CalendarArrowDown,
+  kualiaCalendarClock as CalendarClock,
+  kualiaCheck as Check,
+  kualiaChevronDown as ChevronDown,
+  kualiaChevronRight as ChevronRight,
+  kualiaHistory as ClockFading,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaPause as Pause,
+  kualiaPlay as Play,
+  kualiaSkip as SkipForward,
+  kualiaShop as Store,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { confirmSkipPlannedTransaction } from '../../components/dialogs/skip-planned-transaction-dialog/skip-planned-transaction-dialog';
@@ -79,7 +79,7 @@ interface OptimisticPlannedFields {
     FormsModule,
     RouterLink,
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     AmountSignToggleComponent,
     ArithmeticCurrencyInputComponent,
     PayeeSelectorComponent,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { NucleoIcon, nucleoTarget as Target } from '@kualia/icons';
+import { KualiaIcon, kualiaTarget as Target } from '@kualia/icons';
 import { BudgetCategorySelectionService } from '../../services/budget-category-selection.service';
 import { BudgetMonthService } from '../../services/budget-month.service';
 import { BudgetService } from '../../services/budget.service';
@@ -8,7 +8,7 @@ import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-target-progress-card',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (isVisible()) {
@@ -16,7 +16,7 @@ import { CurrencyService } from '../../services/currency.service';
         <!-- Header row -->
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1.5">
-            <nucleo-icon [icon]="targetIcon" class="text-muted-foreground h-3.5 w-3.5" />
+            <kualia-icon [icon]="targetIcon" class="text-muted-foreground h-3.5 w-3.5" />
             <span class="text-muted-foreground text-xs">Target Progress</span>
           </div>
           <span class="text-xs font-medium">{{ percentageFunded() }}%</span>

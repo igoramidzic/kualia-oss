@@ -41,15 +41,24 @@ describe('buildSystemPrompt', () => {
     expect(prompt).toContain('workspace timezone (UTC)');
   });
 
-  it('instructs the agent to always emit fully qualified docs URLs', () => {
+  it('tells the agent no docs are available when docs tools are disabled', () => {
     const prompt = buildSystemPrompt(FIXED_DATE);
-    expect(prompt).toContain('https://docs.kualia.com');
-    expect(prompt).toMatch(/fully qualified URL/i);
+    expect(prompt).toContain('No documentation tools are configured');
+    expect(prompt).not.toContain('kualia.com');
   });
 
-  it('includes the support email for contact requests', () => {
+  it('instructs the agent to emit fully qualified URLs on the configured docs site', () => {
+    const prompt = buildSystemPrompt(FIXED_DATE, null, undefined, 'https://docs.example.test');
+    expect(prompt).toContain('https://docs.example.test');
+    expect(prompt).toMatch(/fully qualified URL/i);
+    expect(prompt).not.toContain('No documentation tools are configured');
+    expect(prompt).not.toContain('kualia.com');
+  });
+
+  it('points support requests at the instance operator instead of a hosted address', () => {
     const prompt = buildSystemPrompt(FIXED_DATE);
-    expect(prompt).toContain('support@kualia.com');
+    expect(prompt).toContain('whoever runs their Kualia instance');
+    expect(prompt).not.toMatch(/support@/);
   });
 
   it('teaches the agent how to handle skipped duplicates from chat-file imports', () => {

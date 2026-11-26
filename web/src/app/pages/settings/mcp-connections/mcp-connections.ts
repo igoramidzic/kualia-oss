@@ -6,11 +6,11 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { api } from 'convex/_generated/api';
 import { FunctionReturnType } from 'convex/server';
 import {
-  nucleoConnection as Cable,
-  nucleoExternalLink as ExternalLink,
-  NucleoIcon,
-  nucleoShield as ShieldCheck,
-  nucleoTrash as Trash2,
+  kualiaConnection as Cable,
+  kualiaExternalLink as ExternalLink,
+  KualiaIcon,
+  kualiaShield as ShieldCheck,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { RevokeMcpConnectionDialogComponent } from '../../../components/dialogs/revoke-mcp-connection-dialog/revoke-mcp-connection-dialog';
 import { SettingsPageHeaderComponent } from '../../../components/settings-page-header/settings-page-header';
@@ -27,7 +27,7 @@ const SCOPE_LABELS: Record<string, string> = {
 
 @Component({
   selector: 'app-mcp-connections',
-  imports: [DatePipe, HlmButton, HlmCard, NucleoIcon, SettingsPageHeaderComponent],
+  imports: [DatePipe, HlmButton, HlmCard, KualiaIcon, SettingsPageHeaderComponent],
   templateUrl: './mcp-connections.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block h-full' },

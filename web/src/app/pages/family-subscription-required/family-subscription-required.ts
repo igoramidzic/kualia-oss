@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { nucleoLoader as LoaderCircle, nucleoUsers as UsersRound } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, kualiaUsers as UsersRound } from '@kualia/icons';
 import { UserPreferencesService } from '../../core/services/preferences/user-preferences.service';
 import { AppAccessService, isBlockedByFamilyOwnerSubscription } from '../../services/app-access.service';
 import { LocalAuthService } from '../../services/local-auth.service';

@@ -5,13 +5,13 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoChevronRight as ChevronRight,
-  nucleoDots as Ellipsis,
-  nucleoMerge as GitMerge,
-  NucleoIcon,
-  nucleoReports as SquareChartGantt,
-  nucleoTrash as Trash2,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaChevronRight as ChevronRight,
+  kualiaDots as Ellipsis,
+  kualiaMerge as GitMerge,
+  KualiaIcon,
+  kualiaReports as SquareChartGantt,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { DeleteMerchantDialogComponent } from '../../components/dialogs/delete-merchant-dialog/delete-merchant-dialog';
@@ -31,7 +31,7 @@ export function merchantRequiresDeleteTarget(merchant: Merchant): boolean {
   selector: 'app-merchant',
   imports: [
     RouterOutlet,
-    NucleoIcon,
+    KualiaIcon,
     SidebarToggleComponent,
     RouterLink,
     HlmDropdownMenu,

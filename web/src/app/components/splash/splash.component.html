@@ -6,13 +6,13 @@
     </div>
 
     <div class="flex justify-center">
-      <nucleo-icon [icon]="LoaderCircle" class="text-primary h-8 w-8 animate-spin" />
+      <kualia-icon [icon]="LoaderCircle" class="text-primary h-8 w-8 animate-spin" />
     </div>
 
     @if (initializationError()) {
       <div class="rounded-lg border border-red-200 bg-red-50 p-4">
         <div class="flex items-start space-x-3">
-          <nucleo-icon [icon]="AlertCircle" class="mt-0.5 text-red-600" size="20" />
+          <kualia-icon [icon]="AlertCircle" class="mt-0.5 text-red-600" size="20" />
           <div class="flex-1 space-y-2">
             <p class="text-sm font-medium text-red-900">Initialization Failed</p>
             <p class="text-sm text-red-700">{{ initializationError() }}</p>
@@ -29,10 +29,10 @@
             class="flex items-center space-x-2"
           >
             @if (isRetrying()) {
-              <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+              <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
               <span>Retrying...</span>
             } @else {
-              <nucleo-icon [icon]="RefreshCw" size="16" />
+              <kualia-icon [icon]="RefreshCw" size="16" />
               <span>Retry</span>
             }
           </button>

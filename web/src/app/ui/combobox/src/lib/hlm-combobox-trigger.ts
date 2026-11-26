@@ -1,7 +1,7 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoChevronDown } from '@kualia/icons';
+import { kualiaChevronDown } from '@kualia/icons';
 import { BrnComboboxAnchor, BrnComboboxPopoverTrigger, BrnComboboxTrigger } from '@spartan-ng/brain/combobox';
 import { BrnFieldControlDescribedBy } from '@spartan-ng/brain/field';
 import { ButtonVariants, HlmButton } from '@spartan-ng/helm/button';
@@ -18,7 +18,7 @@ import type { ClassValue } from 'clsx';
     BrnComboboxPopoverTrigger,
     BrnFieldControlDescribedBy,
   ],
-  providers: [provideIcons({ nucleoChevronDown })],
+  providers: [provideIcons({ kualiaChevronDown })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
@@ -35,7 +35,7 @@ import type { ClassValue } from 'clsx';
     >
       <ng-content />
       @if (showIcon()) {
-        <ng-icon name="nucleoChevronDown" class="text-muted-foreground text-[calc(var(--spacing)*4)]" />
+        <ng-icon name="kualiaChevronDown" class="text-muted-foreground text-[calc(var(--spacing)*4)]" />
       }
     </button>
   `,

@@ -1,6 +1,6 @@
 <ng-template #navTabs>
   <a routerLink="details" routerLinkActive="bg-accent/50" hlmBtn variant="ghost" size="sm" class="h-6 border text-xs">
-    <nucleo-icon [icon]="SquareChartGantt" size="14" />
+    <kualia-icon [icon]="SquareChartGantt" size="14" />
     Details
   </a>
 
@@ -12,7 +12,7 @@
     size="sm"
     class="h-6 border text-xs"
   >
-    <nucleo-icon [icon]="ArrowLeftRight" size="14" />
+    <kualia-icon [icon]="ArrowLeftRight" size="14" />
     Transactions
   </a>
 </ng-template>
@@ -31,15 +31,15 @@
               >
                 {{ workspaceName() }}
               </a>
-              <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
+              <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
             }
           </div>
           <a routerLink="../" class="text-muted-foreground/60 hover:text-foreground m-0 p-1"> Categories </a>
           @if (isLoading()) {
-            <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
+            <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
             <hlm-skeleton class="h-5 w-32" />
           } @else if (category()) {
-            <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
+            <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4" />
             <div class="flex min-w-0 flex-shrink items-center gap-2">
               <span class="block truncate">{{ categoryName() }}</span>
             </div>
@@ -55,7 +55,7 @@
                 aria-haspopup="menu"
                 class="h-6 w-6"
               >
-                <nucleo-icon [icon]="Ellipsis" [size]="16" />
+                <kualia-icon [icon]="Ellipsis" [size]="16" />
                 <span class="sr-only">Open menu</span>
               </button>
 
@@ -63,12 +63,12 @@
                 <hlm-dropdown-menu class="w-68">
                   @if (category()?.isSystemCategory) {
                     <button hlmDropdownMenuItem disabled>
-                      <nucleo-icon [icon]="Trash2" [size]="14" />
+                      <kualia-icon [icon]="Trash2" [size]="14" />
                       <span class="text-xs">Cannot delete system category</span>
                     </button>
                   } @else {
                     <button hlmDropdownMenuItem (click)="openDeleteDialog()">
-                      <nucleo-icon [icon]="Trash2" [size]="14" />
+                      <kualia-icon [icon]="Trash2" [size]="14" />
                       <span class="text-xs">Delete...</span>
                     </button>
                   }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { NucleoIcon, nucleoShop as Store } from '@kualia/icons';
+import { KualiaIcon, kualiaShop as Store } from '@kualia/icons';
 import { IconService } from '../../services/icon.service';
 import {
   DEFAULT_MERCHANT_ICON_NAME,
@@ -12,7 +12,7 @@ type EntityMarkSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'app-entity-mark',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (shouldRenderIcon()) {
@@ -22,13 +22,13 @@ type EntityMarkSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
         [style.color]="iconColor().foreground"
         [attr.aria-label]="alt()"
       >
-        <nucleo-icon [icon]="iconData()" [size]="iconSize()" />
+        <kualia-icon [icon]="iconData()" [size]="iconSize()" />
       </div>
     } @else if (logoUrl()) {
       <img [src]="logoUrl()!" [alt]="alt()" [class]="imageClass()" />
     } @else {
       <div [class]="fallbackClass()">
-        <nucleo-icon [icon]="fallbackIconData()" [size]="iconSize()" />
+        <kualia-icon [icon]="fallbackIconData()" [size]="iconSize()" />
       </div>
     }
   `,

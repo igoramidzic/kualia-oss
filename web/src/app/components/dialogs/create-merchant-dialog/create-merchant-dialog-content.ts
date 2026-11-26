@@ -5,7 +5,7 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter } from '@spartan-ng/helm/dialog';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import { ConvexError } from 'convex/values';
-import { nucleoLoader as LoaderCircle, NucleoIcon, nucleoClose as X } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon, kualiaClose as X } from '@kualia/icons';
 import { MerchantService } from '../../../services/merchant.service';
 import {
   DEFAULT_MERCHANT_ICON_NAME,
@@ -21,7 +21,7 @@ import { LogoPickerComponent } from '../../logo-picker/logo-picker.component';
   selector: 'app-create-merchant-dialog-content',
   imports: [
     HlmButton,
-    NucleoIcon,
+    KualiaIcon,
     HlmDialogFooter,
     BrnPopover,
     BrnPopoverTrigger,

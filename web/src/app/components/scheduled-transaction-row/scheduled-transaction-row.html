@@ -41,7 +41,7 @@
 
   <!-- Column 2: Scheduled indicator -->
   <div class="flex h-full items-center justify-center">
-    <nucleo-icon [icon]="CalendarClock" [size]="16" class="text-muted-foreground" [attr.title]="recurrenceText()" />
+    <kualia-icon [icon]="CalendarClock" [size]="16" class="text-muted-foreground" [attr.title]="recurrenceText()" />
   </div>
 
   <!-- Column 3: Date (next occurrence) -->
@@ -51,7 +51,7 @@
       [max]="null"
       [disabled]="isSavingDate()"
       variant="ghost"
-      buttonClass="h-7 w-full min-w-0 justify-start overflow-hidden px-1 text-sm font-normal [&>span]:min-w-0 [&>span]:max-w-full [&_nucleo-icon]:hidden"
+      buttonClass="h-7 w-full min-w-0 justify-start overflow-hidden px-1 text-sm font-normal [&>span]:min-w-0 [&>span]:max-w-full [&_kualia-icon]:hidden"
       (dateChange)="onDateChange($event)"
     />
   </div>
@@ -155,7 +155,7 @@
   <!-- Column 9: Status Icon -->
   <div class="flex items-center justify-end">
     @if (isPending()) {
-      <nucleo-icon [icon]="ClockFading" class="h-3.5 w-3.5 text-yellow-500" />
+      <kualia-icon [icon]="ClockFading" class="h-3.5 w-3.5 text-yellow-500" />
     }
   </div>
 </a>
@@ -164,7 +164,7 @@
 <ng-template #scheduledTransactionContextMenu>
   <hlm-dropdown-menu class="w-48">
     <button hlmDropdownMenuItem variant="destructive" [disabled]="isDeleting()" (click)="onContextMenuDelete()">
-      <nucleo-icon [icon]="Trash2" [size]="14" />
+      <kualia-icon [icon]="Trash2" [size]="14" />
       <span class="text-xs">Delete</span>
     </button>
   </hlm-dropdown-menu>

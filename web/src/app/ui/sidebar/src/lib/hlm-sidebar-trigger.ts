@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
-import { nucleoSidebar } from '@kualia/icons';
+import { kualiaSidebar } from '@kualia/icons';
 import { HlmButton, provideBrnButtonConfig } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { HlmSidebarService } from './hlm-sidebar.service';
@@ -8,7 +8,7 @@ import { HlmSidebarService } from './hlm-sidebar.service';
 @Component({
   selector: 'button[hlmSidebarTrigger]',
   imports: [HlmIconImports],
-  providers: [provideIcons({ nucleoSidebar }), provideBrnButtonConfig({ variant: 'ghost', size: 'icon' })],
+  providers: [provideIcons({ kualiaSidebar }), provideBrnButtonConfig({ variant: 'ghost', size: 'icon' })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [
     {
@@ -20,7 +20,7 @@ import { HlmSidebarService } from './hlm-sidebar.service';
     'data-sidebar': 'trigger',
     '(click)': '_onClick()',
   },
-  template: ` <ng-icon hlm name="nucleoSidebar" size="sm"></ng-icon> `,
+  template: ` <ng-icon hlm name="kualiaSidebar" size="sm"></ng-icon> `,
 })
 export class HlmSidebarTrigger {
   private readonly _hlmBtn = inject(HlmButton);

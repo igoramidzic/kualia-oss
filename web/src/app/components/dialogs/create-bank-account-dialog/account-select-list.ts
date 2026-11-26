@@ -4,17 +4,17 @@ import { HlmCheckbox } from '@spartan-ng/helm/checkbox';
 import { HlmDialogFooter } from '@spartan-ng/helm/dialog';
 import type { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoBank as Building2,
-  nucleoCheck as Check,
-  NucleoIcon,
-  nucleoMinusCircle as MinusCircle,
+  kualiaBank as Building2,
+  kualiaCheck as Check,
+  KualiaIcon,
+  kualiaMinusCircle as MinusCircle,
 } from '@kualia/icons';
 import { formatAccountType, isSupportedForLinking } from '../../../shared/utils/account-type-utils';
 import type { BankLinkGroup } from './bank-link-list';
 
 @Component({
   selector: 'app-account-select-list',
-  imports: [HlmButton, HlmCheckbox, HlmDialogFooter, NucleoIcon],
+  imports: [HlmButton, HlmCheckbox, HlmDialogFooter, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-3 select-none">
@@ -28,7 +28,7 @@ import type { BankLinkGroup } from './bank-link-list';
           />
         } @else {
           <div class="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
-            <nucleo-icon [icon]="Building2" class="text-muted-foreground h-5 w-5" />
+            <kualia-icon [icon]="Building2" class="text-muted-foreground h-5 w-5" />
           </div>
         }
         <div>
@@ -103,7 +103,7 @@ import type { BankLinkGroup } from './bank-link-list';
           <div class="space-y-2">
             @for (account of linkedAccounts(); track account._id) {
               <div class="border-border flex items-center gap-3 rounded-lg border p-3 opacity-50">
-                <nucleo-icon [icon]="Check" class="text-primary h-4 w-4" />
+                <kualia-icon [icon]="Check" class="text-primary h-4 w-4" />
                 <div class="flex-1">
                   <div class="font-medium">{{ account.name }}</div>
                   <div class="text-muted-foreground text-sm">Linked to {{ account.linkedToBankAccount?.name }}</div>
@@ -121,7 +121,7 @@ import type { BankLinkGroup } from './bank-link-list';
           <div class="space-y-2">
             @for (account of unsupportedAccounts(); track account._id) {
               <div class="border-border flex items-center gap-3 rounded-lg border p-3 opacity-50">
-                <nucleo-icon [icon]="MinusCircle" class="text-muted-foreground h-4 w-4" />
+                <kualia-icon [icon]="MinusCircle" class="text-muted-foreground h-4 w-4" />
                 <div class="flex-1">
                   <div class="text-muted-foreground font-medium">{{ account.name }}</div>
                   <div class="text-muted-foreground flex items-center gap-2 text-sm">
