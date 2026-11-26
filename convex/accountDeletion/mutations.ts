@@ -351,20 +351,6 @@ export const softDeleteAccount = internalMutation({
   handler: softDeleteAccountHandler,
 });
 
-export const softDeleteAccountFromClerk = internalMutation({
-  args: {
-    clerkId: v.string(),
-    deletedAt: v.string(),
-  },
-  handler: async (ctx, args) => {
-    return await softDeleteAccountHandler(ctx, {
-      clerkId: args.clerkId,
-      deletedAt: args.deletedAt,
-      clerkDeletedAt: args.deletedAt,
-    });
-  },
-});
-
 export const markBankLinkProviderDisconnected = internalMutation({
   args: {
     bankLinkId: v.id('bankLink'),

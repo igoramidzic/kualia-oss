@@ -92,7 +92,7 @@ Root `angular.json`, `tsconfig*.json`, and `vite.config.ts` configure the existi
 4. Domain functions under `convex/` validate inputs, call `lib/auth.ts`, check workspace access, and read/write indexed documents.
 5. Convex subscriptions update Angular signals; no separate REST server or SQL database is required for the main UI.
 
-Convex Auth's JWT subject includes both user and session IDs. `convex/lib/identity.ts` normalizes it to a stable user ID. Historical schema fields named `clerkId` and `ownerClerkId` now store that local user ID; they do **not** require Clerk. Never use the session-specific raw subject as a workspace owner. The old Clerk webhook route and web SDK are removed; some archived/internal naming remains for compatibility.
+Convex Auth's JWT subject includes both user and session IDs. `convex/lib/identity.ts` normalizes it to a stable user ID. Historical schema fields named `clerkId` and `ownerClerkId` now store that local user ID; they do **not** require Clerk. Never use the session-specific raw subject as a workspace owner. The old Clerk webhook, its mutations, and the web SDK are removed; `convex/clerk/queries.ts` remains under its historical name because auth helpers use it to look up profiles.
 
 ### Where to change a feature
 
@@ -105,6 +105,7 @@ Convex Auth's JWT subject includes both user and session IDs. `convex/lib/identi
 | Local startup or ports | `scripts/dev-backend.mjs`, `local-ready.mjs`, `dev-web.mjs`, web environments |
 | Uploaded / searched logos | `web/src/app/services/logo-*`, `convex/storage/`, `convex/logoDev.ts` |
 | Icons | Existing `nucleo*` exports now contain Lucide artwork; `LICENSE-LUCIDE` applies |
+| Legacy-named or optional backend modules | Check **Module status** in `convex/README.md` before changing `clerk*`, `ads/`, `revenuecat/`, `discord*`, `financeKit/`, or other integration folders |
 
 ## Development and checks
 
