@@ -26,7 +26,15 @@ Turborepo starts the local Convex backend, pushes functions and schema, generate
 | Generated signing keys and startup state | `.local/` (ignored by Git) |
 | CLI deployment selection | `.env.local` (generated, ignored by Git) |
 
-Keep `.convex/` and `.local/` together when backing up a stopped local instance. They contain private data and credentials. Do not commit or publish them. The dev launcher rejects cloud credentials and non-anonymous deployment selectors instead of using an existing Convex project. If it reports a port conflict, stop the other process using ports 3210, 3211, or 4200. If you see a Node actions error, check `node --version` is 24.x and restart the dev command.
+Keep `.convex/` and `.local/` together when backing up a stopped local instance. They contain private data and credentials. Do not commit or publish them. The dev launcher rejects cloud credentials and non-anonymous deployment selectors instead of using an existing Convex project.
+
+### Troubleshooting
+
+- **`ERR_PNPM_BAD_RUNTIME_VERSION` during `pnpm install`**: the root `package.json` sets `devEngines.runtime` to require Node 24, so pnpm refuses to install on any other version. Run `nvm use`, or install Node 24, then run the install again. pnpm 12 does not read `engine-strict` from `.npmrc`, so the check lives in `package.json` instead.
+- **Port conflict**: stop the other process using port 3210, 3211, or 4200.
+- **Node actions error**: check that `node --version` is 24.x, then restart `pnpm dev`.
+
+Contributing? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## What works without external services
 
@@ -130,6 +138,8 @@ Run `pnpm check` before committing; it is the same list the root `AGENTS.md` req
 The smoke test creates synthetic accounts and a workspace in the ignored local database; it checks password rejection, token refresh/logout, cross-user isolation, ownership after a new login, and an export/import round trip.
 
 `pnpm build` produces `web/dist/`. It does not deploy anything. `pnpm scan:secrets` scans Git-tracked source and checks for sensitive/generated paths; install Gitleaks for the additional full pattern scan (`gitleaks dir . --redact`, or scan a clean export to avoid private local state).
+
+CI (`.github/workflows/ci.yml`) runs `pnpm check` on pull requests and pushes to `main`. It does not start Convex, run `pnpm smoke`, or need secrets. See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow.
 
 Agents should read `AGENTS.md`, then the scoped guide in `web/`, `convex/`, or `iOS/`. Claude Code reads `CLAUDE.md` instead, so each of those directories has a `CLAUDE.md` that imports its sibling `AGENTS.md` (`@AGENTS.md`); edit `AGENTS.md`, which stays the single source of truth. Claude Code finds skills under `.claude/skills/`, a relative symlink to `.agents/skills/`, so the generated Convex skills are shared without copies. On Windows, enable Git symlinks (`git config core.symlinks true` with Developer Mode) or the link checks out as a plain text file. For backend changes also read `convex/_generated/ai/guidelines.md` and the relevant `.agents/skills/convex*/SKILL.md`. The generated files can be refreshed with `pnpm exec convex ai-files install`; review its diff and keep project-specific guidance in `AGENTS.md` rather than overwriting generated skills. Ordinary development must remain local unless explicitly asked to configure a different deployment.
 
