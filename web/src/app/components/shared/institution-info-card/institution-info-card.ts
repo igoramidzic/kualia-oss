@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { nucleoBank as Building2, NucleoIcon } from '@kualia/icons';
+import { kualiaBank as Building2, KualiaIcon } from '@kualia/icons';
 
 @Component({
   selector: 'app-institution-info-card',
-  imports: [NucleoIcon],
+  imports: [KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex items-center gap-4" [class.mb-3]="accountInfo()">
@@ -11,7 +11,7 @@ import { nucleoBank as Building2, NucleoIcon } from '@kualia/icons';
         <img [src]="logoUrl()!" [alt]="institutionName()" class="h-10 w-10 rounded-full object-contain" />
       } @else {
         <div class="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
-          <nucleo-icon [icon]="Building2" [size]="20" class="text-muted-foreground" />
+          <kualia-icon [icon]="Building2" [size]="20" class="text-muted-foreground" />
         </div>
       }
 

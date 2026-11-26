@@ -6,11 +6,11 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoChevronRight as ChevronRight,
-  nucleoDots as Ellipsis,
-  NucleoIcon,
-  nucleoReports as SquareChartGantt,
-  nucleoTrash as Trash2,
+  kualiaChevronRight as ChevronRight,
+  kualiaDots as Ellipsis,
+  KualiaIcon,
+  kualiaReports as SquareChartGantt,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { filter } from 'rxjs/operators';
@@ -29,7 +29,7 @@ import { TransactionPageService } from './transaction-page.service';
   imports: [
     CommonModule,
     RouterOutlet,
-    NucleoIcon,
+    KualiaIcon,
     SidebarToggleComponent,
     RouterLink,
     RouterLink,

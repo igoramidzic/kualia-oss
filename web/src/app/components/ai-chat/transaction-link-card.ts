@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  NucleoIcon,
-  nucleoTransactions as Receipt,
-  nucleoShop as Store,
+  kualiaTransfer as ArrowLeftRight,
+  KualiaIcon,
+  kualiaTransactions as Receipt,
+  kualiaShop as Store,
 } from '@kualia/icons';
 
 import { api } from '../../../../../convex/_generated/api';
@@ -27,7 +27,13 @@ type PopulatedTransaction = {
   } | null;
 };
 
-const PROD_APP_BASE_URL = 'https://app.kualia.com';
+/**
+ * App-relative path to a transaction's details page. Links to other workspaces
+ * open on this app's own origin, never on a hard-coded hosted domain.
+ */
+export function buildTransactionDetailsPath(workspaceShortId: string, transactionId: string): string {
+  return `/${encodeURIComponent(workspaceShortId)}/transactions/${encodeURIComponent(transactionId)}/details`;
+}
 
 /**
  * Inline pill rendered in place of a `<transactionLink>` tag. Sized like a
@@ -39,7 +45,7 @@ const PROD_APP_BASE_URL = 'https://app.kualia.com';
  */
 @Component({
   selector: 'app-transaction-link-card',
-  imports: [NucleoIcon, RouterLink],
+  imports: [KualiaIcon, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (!sameWorkspace()) {
@@ -50,7 +56,7 @@ const PROD_APP_BASE_URL = 'https://app.kualia.com';
         class="bg-background border-border text-foreground hover:bg-accent mx-0.5 my-0.5 inline-flex max-w-full items-center gap-1.5 rounded-md border px-1.5 py-0 align-middle text-[12px] no-underline transition-colors"
       >
         <span class="bg-accent flex h-5 w-5 shrink-0 items-center justify-center rounded-full border">
-          <nucleo-icon [icon]="Store" class="text-muted-foreground h-3 w-3" />
+          <kualia-icon [icon]="Store" class="text-muted-foreground h-3 w-3" />
         </span>
         <span class="truncate">Open transaction</span>
       </a>
@@ -68,7 +74,7 @@ const PROD_APP_BASE_URL = 'https://app.kualia.com';
             <img [src]="logo" [alt]="merchantName()" class="h-5 w-5 shrink-0 rounded-full border object-cover" />
           } @else {
             <span class="bg-accent flex h-5 w-5 shrink-0 items-center justify-center rounded-full border">
-              <nucleo-icon [icon]="fallbackIcon()" class="text-muted-foreground h-3 w-3" />
+              <kualia-icon [icon]="fallbackIcon()" class="text-muted-foreground h-3 w-3" />
             </span>
           }
           <span class="truncate font-medium">{{ merchantName() }}</span>
@@ -90,8 +96,8 @@ export class TransactionLinkCardComponent {
   readonly workspaceShortId = input.required<string>();
   readonly transactionId = input.required<string>();
 
-  protected readonly externalUrl = computed(
-    () => `${PROD_APP_BASE_URL}/${this.workspaceShortId()}/transactions/${this.transactionId()}/details`
+  protected readonly externalUrl = computed(() =>
+    buildTransactionDetailsPath(this.workspaceShortId(), this.transactionId())
   );
 
   protected readonly sameWorkspace = computed(() => {

@@ -7,18 +7,18 @@ import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoBadgeCheck as BadgeCheck,
-  nucleoChevronRight as ChevronRight,
-  nucleoCheckCircle as CircleCheck,
-  nucleoHistory as ClockFading,
-  nucleoInfo as Info,
-  nucleoLink as Link,
-  nucleoLock as Lock,
-  NucleoIcon,
-  nucleoTransactions as Receipt,
-  nucleoTrash as Trash2,
-  nucleoClose as X,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaBadgeCheck as BadgeCheck,
+  kualiaChevronRight as ChevronRight,
+  kualiaCheckCircle as CircleCheck,
+  kualiaHistory as ClockFading,
+  kualiaInfo as Info,
+  kualiaLink as Link,
+  kualiaLock as Lock,
+  KualiaIcon,
+  kualiaTransactions as Receipt,
+  kualiaTrash as Trash2,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService } from '../../services/bank-account.service';
@@ -44,7 +44,7 @@ import { TransactionDatePickerComponent } from '../transaction/transaction-date-
   selector: 'app-transaction-row',
   imports: [
     RouterLink,
-    NucleoIcon,
+    KualiaIcon,
     HlmCheckbox,
     HlmButton,
     BrnPopover,

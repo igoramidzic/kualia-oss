@@ -8,7 +8,7 @@
 <div class="max-h-[400px] overflow-y-auto p-3">
   @if (loading()) {
     <div class="flex items-center justify-center py-8">
-      <nucleo-icon [icon]="LoaderCircle" class="text-muted-foreground h-6 w-6 animate-spin" />
+      <kualia-icon [icon]="LoaderCircle" class="text-muted-foreground h-6 w-6 animate-spin" />
     </div>
   } @else if (error()) {
     <div class="bg-destructive/10 text-destructive border-destructive/20 rounded-lg border p-3">
@@ -29,7 +29,7 @@
               />
             } @else {
               <div class="bg-accent flex h-8 w-8 items-center justify-center rounded-full">
-                <nucleo-icon [icon]="Building2" class="text-muted-foreground h-4 w-4" />
+                <kualia-icon [icon]="Building2" class="text-muted-foreground h-4 w-4" />
               </div>
             }
             <div>
@@ -44,9 +44,9 @@
           </div>
           <button hlmBtn size="sm" variant="outline" (click)="unlinkAccount()" [disabled]="saving()">
             @if (saving()) {
-              <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+              <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
             } @else {
-              <nucleo-icon [icon]="Link2Off" class="h-4 w-4" />
+              <kualia-icon [icon]="Link2Off" class="h-4 w-4" />
             }
             Disconnect
           </button>
@@ -81,7 +81,7 @@
                   />
                 } @else {
                   <div class="bg-accent flex h-5 w-5 items-center justify-center rounded-full">
-                    <nucleo-icon [icon]="Building2" class="text-muted-foreground h-3 w-3" />
+                    <kualia-icon [icon]="Building2" class="text-muted-foreground h-3 w-3" />
                   </div>
                 }
                 <span class="text-sm font-medium">{{ group.institution?.name ?? 'Unknown Institution' }}</span>
@@ -109,7 +109,7 @@
                       }
                     </div>
                     @if (!disabled.isDisabled && !isCurrentlyLinked()) {
-                      <nucleo-icon
+                      <kualia-icon
                         [icon]="Check"
                         class="text-muted-foreground h-4 w-4 opacity-0 group-hover:opacity-100"
                       />
@@ -124,7 +124,7 @@
     } @else if (!isCurrentlyLinked()) {
       <div class="py-8 text-center">
         <div class="bg-accent mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-          <nucleo-icon [icon]="Building2" class="text-muted-foreground h-6 w-6" />
+          <kualia-icon [icon]="Building2" class="text-muted-foreground h-6 w-6" />
         </div>
         <h3 class="mt-3 text-sm font-semibold">No bank connections</h3>
         <p class="text-muted-foreground mt-1 text-sm">Add a bank connection in Settings to link accounts.</p>

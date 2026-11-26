@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
 import {
-  nucleoCheckCircle as CheckCircle2,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoCloseCircle as XCircle,
+  kualiaCheckCircle as CheckCircle2,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaCloseCircle as XCircle,
 } from '@kualia/icons';
 import type { ImportStatus } from '../../../services/ynab-import.service';
 import { HlmProgress, HlmProgressIndicator } from '../../../ui/progress/src';
 
 @Component({
   selector: 'app-importing-step',
-  imports: [NucleoIcon, HlmProgress, HlmProgressIndicator],
+  imports: [KualiaIcon, HlmProgress, HlmProgressIndicator],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-col items-center gap-8 py-8">
@@ -19,7 +19,7 @@ import { HlmProgress, HlmProgressIndicator } from '../../../ui/progress/src';
           @case ('importing') {
             <!-- Loading Animation -->
             <div class="bg-primary/10 flex h-20 w-20 items-center justify-center rounded-full">
-              <nucleo-icon [icon]="LoaderCircle" class="text-primary h-10 w-10 animate-spin" />
+              <kualia-icon [icon]="LoaderCircle" class="text-primary h-10 w-10 animate-spin" />
             </div>
 
             <!-- Current Step -->
@@ -90,7 +90,7 @@ import { HlmProgress, HlmProgressIndicator } from '../../../ui/progress/src';
           @case ('completed') {
             <!-- Success State -->
             <div class="bg-success/10 flex h-20 w-20 items-center justify-center rounded-full">
-              <nucleo-icon [icon]="CheckCircle2" class="text-success h-10 w-10" />
+              <kualia-icon [icon]="CheckCircle2" class="text-success h-10 w-10" />
             </div>
             <div class="text-center">
               <p class="text-lg font-medium">Import Complete!</p>
@@ -100,7 +100,7 @@ import { HlmProgress, HlmProgressIndicator } from '../../../ui/progress/src';
           @case ('failed') {
             <!-- Error State -->
             <div class="bg-destructive/10 flex h-20 w-20 items-center justify-center rounded-full">
-              <nucleo-icon [icon]="XCircle" class="text-destructive h-10 w-10" />
+              <kualia-icon [icon]="XCircle" class="text-destructive h-10 w-10" />
             </div>
             <div class="text-center">
               <p class="text-lg font-medium">Import Failed</p>
@@ -112,7 +112,7 @@ import { HlmProgress, HlmProgressIndicator } from '../../../ui/progress/src';
           @default {
             <!-- Pending/Parsing State -->
             <div class="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
-              <nucleo-icon [icon]="LoaderCircle" class="text-muted-foreground h-10 w-10 animate-spin" />
+              <kualia-icon [icon]="LoaderCircle" class="text-muted-foreground h-10 w-10 animate-spin" />
             </div>
             <div class="text-center">
               <p class="text-lg font-medium">Preparing import...</p>
@@ -122,7 +122,7 @@ import { HlmProgress, HlmProgressIndicator } from '../../../ui/progress/src';
       } @else {
         <!-- No Status Yet -->
         <div class="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
-          <nucleo-icon [icon]="LoaderCircle" class="text-muted-foreground h-10 w-10 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="text-muted-foreground h-10 w-10 animate-spin" />
         </div>
         <div class="text-center">
           <p class="text-lg font-medium">Starting import...</p>

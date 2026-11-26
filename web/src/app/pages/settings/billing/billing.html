@@ -19,23 +19,15 @@
             >
               <span class="mr-1">Manage</span>
               @if (isLoadingPortal()) {
-                <nucleo-icon [icon]="Loader2" [size]="14" class="animate-spin" />
+                <kualia-icon [icon]="Loader2" [size]="14" class="animate-spin" />
               } @else {
-                <nucleo-icon [icon]="manageSubscriptionIcon" [size]="14" />
+                <kualia-icon [icon]="manageSubscriptionIcon" [size]="14" />
               }
             </button>
           }
         </div>
         <p class="text-muted-foreground text-light text-sm">
-          For questions about billing,
-          <a
-            hlmBtn
-            size="sm"
-            variant="link"
-            class="text-foreground px-0 text-sm font-light"
-            href="mailto:support@kualia.com"
-            >contact us</a
-          >
+          For questions about billing, contact the administrator of this Kualia instance.
         </p>
       </div>
 
@@ -122,7 +114,7 @@
         <div hlmCard class="fade-in mt-4 p-4">
           <div class="flex items-start gap-3">
             <div class="bg-primary/10 rounded-full p-2">
-              <nucleo-icon [icon]="Sparkles" [size]="16" class="text-primary" />
+              <kualia-icon [icon]="Sparkles" [size]="16" class="text-primary" />
             </div>
             <div class="flex-1">
               <h3 class="mb-1 font-medium">Upgrade to Lifetime</h3>

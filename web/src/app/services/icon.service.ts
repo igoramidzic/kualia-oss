@@ -1,13 +1,13 @@
 import { Injectable, computed, signal } from '@angular/core';
-import type { NucleoIconData } from '@kualia/icons';
-import { legacyIconNames, nucleoIconCatalog, type NucleoIconName } from '../icons/icon-catalog';
+import type { KualiaIconData } from '@kualia/icons';
+import { legacyIconNames, kualiaIcons, type KualiaIconName } from '../icons/icon-catalog';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IconService {
   private readonly _searchQuery = signal<string>('');
-  private readonly _allIconNames = signal<string[]>(Object.keys(nucleoIconCatalog).sort());
+  private readonly _allIconNames = signal<string[]>(Object.keys(kualiaIcons).sort());
 
   readonly allIcons = this._allIconNames.asReadonly();
 
@@ -33,13 +33,13 @@ export class IconService {
     this._searchQuery.set(query);
   }
 
-  getIconByName(name: string): NucleoIconData | null {
+  getIconByName(name: string): KualiaIconData | null {
     const canonical = this.resolveIconName(name);
-    return canonical === null ? null : nucleoIconCatalog[canonical];
+    return canonical === null ? null : kualiaIcons[canonical];
   }
 
-  resolveIconName(name: string): NucleoIconName | null {
-    if (Object.hasOwn(nucleoIconCatalog, name)) return name as NucleoIconName;
+  resolveIconName(name: string): KualiaIconName | null {
+    if (Object.hasOwn(kualiaIcons, name)) return name as KualiaIconName;
     const alias = Object.hasOwn(legacyIconNames, name) ? legacyIconNames[name] : undefined;
     return alias ?? null;
   }

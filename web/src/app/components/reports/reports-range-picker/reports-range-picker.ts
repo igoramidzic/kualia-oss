@@ -4,10 +4,10 @@ import { BrnPopover, BrnPopoverContent, BrnPopoverTrigger } from '@spartan-ng/br
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import {
-  nucleoCalendarRepeating as CalendarDays,
-  nucleoChevronLeft as ChevronLeft,
-  nucleoChevronRight as ChevronRight,
-  NucleoIcon,
+  kualiaCalendarRepeating as CalendarDays,
+  kualiaChevronLeft as ChevronLeft,
+  kualiaChevronRight as ChevronRight,
+  KualiaIcon,
 } from '@kualia/icons';
 import { formatMonthShort, getYearFromYearMonth } from '../../../shared/utils/month.utils';
 import { HlmSeparator } from '../../../ui/separator/src';
@@ -62,7 +62,7 @@ type PickerMode = 'presets' | 'range';
 
 @Component({
   selector: 'app-reports-range-picker',
-  imports: [HlmButton, NucleoIcon, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent, HlmSeparator],
+  imports: [HlmButton, KualiaIcon, BrnPopover, BrnPopoverTrigger, BrnPopoverContent, HlmPopoverContent, HlmSeparator],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <brn-popover
@@ -84,7 +84,7 @@ type PickerMode = 'presets' | 'range';
           @if (isActive()) {
             <span class="bg-destructive absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full"></span>
           }
-          <nucleo-icon [icon]="CalendarIcon" class="text-muted-foreground h-3.5 w-3.5" />
+          <kualia-icon [icon]="CalendarIcon" class="text-muted-foreground h-3.5 w-3.5" />
           <span>{{ triggerLabel() }}</span>
         </button>
         @if (isActive()) {
@@ -172,7 +172,7 @@ type PickerMode = 'presets' | 'range';
                       (click)="rangeYear.set(rangeYear() - 1)"
                       [disabled]="!canNavigateRangeYear(-1)"
                     >
-                      <nucleo-icon [icon]="ChevronLeft" class="h-3.5 w-3.5" />
+                      <kualia-icon [icon]="ChevronLeft" class="h-3.5 w-3.5" />
                     </button>
                     <span class="text-sm font-medium">{{ rangeYear() }}</span>
                     <button
@@ -184,7 +184,7 @@ type PickerMode = 'presets' | 'range';
                       (click)="rangeYear.set(rangeYear() + 1)"
                       [disabled]="!canNavigateRangeYear(1)"
                     >
-                      <nucleo-icon [icon]="ChevronRight" class="h-3.5 w-3.5" />
+                      <kualia-icon [icon]="ChevronRight" class="h-3.5 w-3.5" />
                     </button>
                   </div>
 

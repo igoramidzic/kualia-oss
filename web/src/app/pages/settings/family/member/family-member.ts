@@ -8,10 +8,10 @@ import { api } from 'convex/_generated/api';
 import { FunctionReturnType } from 'convex/server';
 import { ConvexError } from 'convex/values';
 import {
-  nucleoChevronRight as ChevronRight,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoClose as X,
+  kualiaChevronRight as ChevronRight,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaClose as X,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { SidebarToggleComponent } from '../../../../components/sidebar-toggle/sidebar-toggle';
@@ -130,7 +130,7 @@ export class RemoveFamilyMemberDialogComponent {
 
 @Component({
   selector: 'app-family-member',
-  imports: [RouterLink, HlmButton, HlmCard, NucleoIcon, SidebarToggleComponent],
+  imports: [RouterLink, HlmButton, HlmCard, KualiaIcon, SidebarToggleComponent],
   template: `
     <div class="flex h-full flex-col overflow-hidden">
       <div class="flex flex-shrink-0 flex-col border-b select-none">
@@ -142,7 +142,7 @@ export class RemoveFamilyMemberDialogComponent {
                 Family
               </a>
               @if (memberDetails(); as member) {
-                <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+                <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
                 <span
                   class="fade-in max-w-[200px] min-w-0 truncate text-sm font-medium sm:max-w-[300px]"
                   data-testid="member-breadcrumb-name"
@@ -150,7 +150,7 @@ export class RemoveFamilyMemberDialogComponent {
                   {{ displayName(member) }}
                 </span>
               } @else if (!isLoading()) {
-                <nucleo-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
+                <kualia-icon [icon]="ChevronRight" class="text-muted-foreground h-4 w-4 flex-shrink-0" />
                 <span class="text-sm font-medium">Not Found</span>
               }
             </nav>
@@ -191,7 +191,7 @@ export class RemoveFamilyMemberDialogComponent {
                     (click)="openRemoveDialog()"
                     data-testid="remove-family-member"
                   >
-                    <nucleo-icon [icon]="XIcon" class="h-4 w-4" />
+                    <kualia-icon [icon]="XIcon" class="h-4 w-4" />
                     {{ removeActionLabel(member) }}
                   </button>
                 </section>

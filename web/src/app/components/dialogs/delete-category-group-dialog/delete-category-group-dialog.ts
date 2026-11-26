@@ -6,7 +6,7 @@ import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { CategoryGroup } from '../../../services/category.service';
 import { ConvexService } from '../../../services/convex.service';
@@ -22,7 +22,7 @@ interface DialogContext {
 
 @Component({
   selector: 'app-delete-category-group-dialog',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, HlmDialogFooter, FormsModule, HlmSelectImports],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, HlmDialogFooter, FormsModule, HlmSelectImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -83,7 +83,7 @@ interface DialogContext {
       <button hlmBtn size="sm" variant="outline" (click)="cancel()">Cancel</button>
       <button hlmBtn size="sm" variant="destructive" (click)="confirmDelete()" [disabled]="deleting() || !canDelete()">
         @if (deleting()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Deleting...
         } @else {
           Delete

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } 
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { nucleoLayers as Layers, NucleoIcon } from '@kualia/icons';
+import { kualiaLayers as Layers, KualiaIcon } from '@kualia/icons';
 import {
   PRESET_LABELS,
   ReportRange,
@@ -47,7 +47,7 @@ function yearMonthNumberToString(yearMonth: number): string {
   selector: 'app-reports',
   imports: [
     FormsModule,
-    NucleoIcon,
+    KualiaIcon,
     ReportsRangePickerComponent,
     ReportsSummaryCardComponent,
     ReportsTransactionsListComponent,

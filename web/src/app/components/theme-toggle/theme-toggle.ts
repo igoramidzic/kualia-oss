@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import {
-  nucleoCheck as Check,
-  nucleoChevronRight as ChevronRight,
-  NucleoIcon,
-  nucleoSystemAppearance as Monitor,
-  nucleoMoon as Moon,
-  nucleoAppearance as Palette,
-  nucleoSun as Sun,
+  kualiaCheck as Check,
+  kualiaChevronRight as ChevronRight,
+  KualiaIcon,
+  kualiaSystemAppearance as Monitor,
+  kualiaMoon as Moon,
+  kualiaAppearance as Palette,
+  kualiaSun as Sun,
 } from '@kualia/icons';
 import { Theme, UserPreferencesService } from '../../core/services/preferences/user-preferences.service';
 import {
@@ -25,7 +25,7 @@ interface ThemeOption {
 @Component({
   selector: 'app-theme-toggle',
   imports: [
-    NucleoIcon,
+    KualiaIcon,
     HlmDropdownMenuTrigger,
     HlmDropdownMenuItem,
     HlmDropdownMenuItemSubIndicator,

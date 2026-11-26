@@ -34,9 +34,5 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm format:check
-      - run: pnpm lint
-      - run: pnpm typecheck
-      - run: pnpm build
-      - run: pnpm test:ci
-      - run: pnpm scan:secrets
+      # format:check, lint, typecheck, build, test:ci, scan:secrets (see package.json).
+      - run: pnpm check

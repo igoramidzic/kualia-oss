@@ -1,16 +1,16 @@
 import { IconService } from './icon.service';
-import { nucleoIconCatalog } from '../icons/icon-catalog';
-import { nucleoShop, nucleoCreditCard, nucleoPaw, nucleoBank, nucleoClose, nucleoTarget } from '@kualia/icons';
+import { kualiaIcons } from '../icons/icon-catalog';
+import { kualiaShop, kualiaCreditCard, kualiaPaw, kualiaBank, kualiaClose, kualiaTarget } from '@kualia/icons';
 
 describe('IconService', () => {
   it.each([
-    ['Store', nucleoShop],
-    ['CreditCard', nucleoCreditCard],
-    ['PawPrint', nucleoPaw],
-    ['Landmark', nucleoBank],
-    ['X', nucleoClose],
-    ['Target', nucleoTarget],
-  ])('renders saved %s choices with Nucleo artwork', (name, artwork) => {
+    ['Store', kualiaShop],
+    ['CreditCard', kualiaCreditCard],
+    ['PawPrint', kualiaPaw],
+    ['Landmark', kualiaBank],
+    ['X', kualiaClose],
+    ['Target', kualiaTarget],
+  ])('renders saved %s choices with Lucide artwork', (name, artwork) => {
     const service = new IconService();
     expect(service.getIconByName(name)).toBe(artwork);
   });
@@ -19,7 +19,7 @@ describe('IconService', () => {
     const service = new IconService();
     expect(service.allIcons()).not.toContain('Store');
     expect(service.allIcons()).toContain('Shop');
-    for (const [name, artwork] of Object.entries(nucleoIconCatalog)) {
+    for (const [name, artwork] of Object.entries(kualiaIcons)) {
       expect(service.getIconByName(name)).toBe(artwork);
       const svg = new DOMParser().parseFromString(artwork, 'image/svg+xml');
       expect(svg.querySelector('parsererror'), name).toBeNull();

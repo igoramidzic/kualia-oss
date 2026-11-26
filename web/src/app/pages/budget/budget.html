@@ -27,7 +27,7 @@
           (keydown.enter)="focusSearch()"
           (keydown.space)="onWrapperSpaceKey($event)"
         >
-          <nucleo-icon [icon]="Search" [size]="14" class="text-muted-foreground shrink-0" />
+          <kualia-icon [icon]="Search" [size]="14" class="text-muted-foreground shrink-0" />
           <input
             #searchInput
             type="text"
@@ -48,7 +48,7 @@
               (click)="clearSearch()"
               aria-label="Clear search"
             >
-              <nucleo-icon [icon]="X" [size]="14" />
+              <kualia-icon [icon]="X" [size]="14" />
             </button>
           }
         </div>
@@ -76,11 +76,11 @@
       />
       <div class="flex items-center gap-1">
         <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canUndo()" (click)="undo()" class="px-1">
-          <nucleo-icon [icon]="Undo2" class="h-4 w-4" />
+          <kualia-icon [icon]="Undo2" class="h-4 w-4" />
           <span class="hidden text-xs min-[480px]:inline">Undo</span>
         </button>
         <button hlmBtn variant="ghost" size="sm" type="button" [disabled]="!canRedo()" (click)="redo()" class="px-1">
-          <nucleo-icon [icon]="Redo2" class="h-4 w-4" />
+          <kualia-icon [icon]="Redo2" class="h-4 w-4" />
           <span class="hidden text-xs min-[480px]:inline">Redo</span>
         </button>
       </div>
@@ -144,7 +144,7 @@
                 class="w-7 shrink-0"
                 aria-label="Toggle all groups"
               >
-                <nucleo-icon
+                <kualia-icon
                   [icon]="allGroupsExpanded() ? ChevronDown : ChevronRight"
                   [size]="16"
                   class="text-muted-foreground"
@@ -162,7 +162,7 @@
                 (click)="onProgressBarsToggle()"
                 aria-label="Toggle progress bars"
               >
-                <nucleo-icon
+                <kualia-icon
                   [icon]="showCategoryProgressBars() ? Rows2 : Rows3"
                   [size]="16"
                   class="text-muted-foreground"
@@ -182,7 +182,7 @@
                   aria-label="Show favorite categories"
                   (click)="toggleFavoriteFilter()"
                 >
-                  <nucleo-icon
+                  <kualia-icon
                     [icon]="Heart"
                     [size]="16"
                     [class]="favoriteOnly() ? 'fill-red-500 text-red-500' : 'text-muted-foreground'"
@@ -290,7 +290,7 @@
                       class="w-7 shrink-0"
                       [attr.aria-label]="'Toggle ' + groupData.group.name"
                     >
-                      <nucleo-icon
+                      <kualia-icon
                         [icon]="isGroupExpanded(groupData.group._id) ? ChevronDown : ChevronRight"
                         [size]="16"
                         class="text-muted-foreground"
@@ -902,7 +902,7 @@
                                 : 'Show ' + groupData.hiddenCount + ' hidden categories'
                             "
                           >
-                            <nucleo-icon
+                            <kualia-icon
                               [icon]="isHiddenCategoriesVisible(groupData.group._id) ? EyeOff : Eye"
                               class="h-4 w-4"
                             />
@@ -953,12 +953,12 @@
 <ng-template #categoryContextMenu let-categoryId="categoryId" let-isArchived="isArchived">
   <hlm-dropdown-menu class="w-48">
     <button hlmDropdownMenuItem (click)="onToggleCategoryFavorite(categoryId, $event)">
-      <nucleo-icon [icon]="Heart" [size]="14" [class]="isCategoryFavorite(categoryId) ? 'fill-current' : ''" />
+      <kualia-icon [icon]="Heart" [size]="14" [class]="isCategoryFavorite(categoryId) ? 'fill-current' : ''" />
       <span class="text-xs">{{ isCategoryFavorite(categoryId) ? 'Unfavorite' : 'Favorite' }}</span>
     </button>
     @if (hasCategoryTarget(categoryId)) {
       <button hlmDropdownMenuItem (click)="onToggleCategoryTargetSnooze(categoryId, $event)">
-        <nucleo-icon [icon]="Moon" [size]="14" />
+        <kualia-icon [icon]="Moon" [size]="14" />
         <span class="text-xs">{{ isCategoryTargetSnoozed(categoryId) ? 'Unsnooze Target' : 'Snooze Target' }}</span>
       </button>
     }
@@ -967,7 +967,7 @@
       (click)="onArchiveCategory(categoryId, $event)"
       [disabled]="shouldDisableArchiveDelete(categoryId)"
     >
-      <nucleo-icon [icon]="Archive" [size]="14" />
+      <kualia-icon [icon]="Archive" [size]="14" />
       <span class="text-xs">{{ isArchived ? 'Unarchive' : 'Archive' }}</span>
     </button>
     <button
@@ -976,7 +976,7 @@
       (click)="onDeleteCategory(categoryId, $event)"
       [disabled]="shouldDisableArchiveDelete(categoryId)"
     >
-      <nucleo-icon [icon]="Trash2" [size]="14" />
+      <kualia-icon [icon]="Trash2" [size]="14" />
       <span class="text-xs">Delete...</span>
     </button>
   </hlm-dropdown-menu>
@@ -991,7 +991,7 @@
       (click)="onDeleteCategoryGroup(groupId)"
       [disabled]="groupType === 'credit_card'"
     >
-      <nucleo-icon [icon]="Trash2" [size]="14" />
+      <kualia-icon [icon]="Trash2" [size]="14" />
       <span class="text-xs">Delete Group...</span>
     </button>
   </hlm-dropdown-menu>

@@ -17,23 +17,23 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmSidebarImports, HlmSidebarService } from '@spartan-ng/helm/sidebar';
 import { HlmSpinner } from '@spartan-ng/helm/spinner';
 import {
-  nucleoWarningCircle as AlertCircle,
-  nucleoTransactions as TransactionsIcon,
-  nucleoBadgeCheck as BadgeCheck,
-  nucleoEmail as BudgetIcon,
-  nucleoCalendarFilled as PlannedIcon,
-  nucleoCheck as Check,
-  nucleoSupport as LifeBuoy,
-  NucleoIcon,
-  type NucleoIconData,
-  nucleoSystemAppearance as Monitor,
-  nucleoMoon as Moon,
-  nucleoSidebarLeftClose as PanelLeftClose,
-  nucleoSidebarLeftOpen as PanelLeftOpen,
-  nucleoReports as ReportsIcon,
-  nucleoPreferences as Settings,
-  nucleoSun as Sun,
-  nucleoBank as AccountsIcon,
+  kualiaWarningCircle as AlertCircle,
+  kualiaTransactions as TransactionsIcon,
+  kualiaBadgeCheck as BadgeCheck,
+  kualiaEmail as BudgetIcon,
+  kualiaCalendarFilled as PlannedIcon,
+  kualiaCheck as Check,
+  kualiaSupport as LifeBuoy,
+  KualiaIcon,
+  type KualiaIconData,
+  kualiaSystemAppearance as Monitor,
+  kualiaMoon as Moon,
+  kualiaSidebarLeftClose as PanelLeftClose,
+  kualiaSidebarLeftOpen as PanelLeftOpen,
+  kualiaReports as ReportsIcon,
+  kualiaPreferences as Settings,
+  kualiaSun as Sun,
+  kualiaBank as AccountsIcon,
 } from '@kualia/icons';
 import { filter, map } from 'rxjs';
 import { AiChatLauncherComponent } from '../../components/ai-chat/ai-chat-launcher';
@@ -58,11 +58,11 @@ import { HlmTooltip } from '../../ui/tooltip/src';
 interface NavItem {
   label: string;
   route: string;
-  icon: NucleoIconData;
+  icon: KualiaIconData;
   exactMatch?: boolean;
   badgeCount?: number | null;
   badgeText?: string | null;
-  alertIcon?: NucleoIconData | null;
+  alertIcon?: KualiaIconData | null;
 }
 
 @Component({
@@ -77,7 +77,7 @@ interface NavItem {
     HlmButton,
     HlmSpinner,
     HlmTooltip,
-    NucleoIcon,
+    KualiaIcon,
     ...HlmDropdownMenuImports,
     ...HlmSidebarImports,
   ],
@@ -240,7 +240,7 @@ export class MainLayoutComponent {
 
   // Theme toggle
   readonly currentTheme = computed(() => this.userPreferencesService.theme());
-  readonly themeOptions: { value: Theme; label: string; icon: NucleoIconData }[] = [
+  readonly themeOptions: { value: Theme; label: string; icon: KualiaIconData }[] = [
     { value: 'light', label: 'Light', icon: Sun },
     { value: 'dark', label: 'Dark', icon: Moon },
     { value: 'system', label: 'System', icon: Monitor },

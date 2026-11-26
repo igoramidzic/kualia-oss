@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoCircle } from '@kualia/icons';
+import { kualiaCircle } from '@kualia/icons';
 import { classes } from '@spartan-ng/helm/utils';
 
 @Component({
   selector: 'hlm-dropdown-menu-radio-indicator',
   imports: [NgIcon],
-  providers: [provideIcons({ nucleoCircle })],
+  providers: [provideIcons({ kualiaCircle })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` <ng-icon name="nucleoCircle" class="text-[0.5rem] *:[svg]:fill-current" /> `,
+  template: ` <ng-icon name="kualiaCircle" class="text-[0.5rem] *:[svg]:fill-current" /> `,
 })
 export class HlmDropdownMenuRadioIndicator {
   constructor() {

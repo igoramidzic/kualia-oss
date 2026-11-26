@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
-  nucleoWarningCircle as AlertCircle,
-  nucleoCategory as Box,
-  nucleoHistory as ClockFading,
-  nucleoLock as Lock,
-  NucleoIcon,
-  nucleoTransactions as Receipt,
+  kualiaWarningCircle as AlertCircle,
+  kualiaCategory as Box,
+  kualiaHistory as ClockFading,
+  kualiaLock as Lock,
+  KualiaIcon,
+  kualiaTransactions as Receipt,
 } from '@kualia/icons';
 import { CurrencyService } from '../../services/currency.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -17,7 +17,7 @@ import { TransactionAccountBadgeComponent } from '../transaction/transaction-acc
 
 @Component({
   selector: 'app-transaction-row-brief',
-  imports: [RouterLink, NucleoIcon, EntityMarkComponent, TransactionAccountBadgeComponent],
+  imports: [RouterLink, KualiaIcon, EntityMarkComponent, TransactionAccountBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './transaction-row-brief.html',
 })

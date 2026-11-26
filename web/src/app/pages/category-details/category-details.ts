@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HlmBadge } from '@spartan-ng/helm/badge';
-import { nucleoLock as Lock, NucleoIcon } from '@kualia/icons';
+import { kualiaLock as Lock, KualiaIcon } from '@kualia/icons';
 import { IconPickerComponent } from '../../components/icon-picker/icon-picker.component';
 import { Category, CategoryService } from '../../services/category.service';
 import { CurrencyService } from '../../services/currency.service';
@@ -12,7 +12,7 @@ import { CategoryOverviewPageService } from './category-overview-page.service';
 
 @Component({
   selector: 'app-category-details',
-  imports: [IconPickerComponent, NucleoIcon, RouterLink, HlmBadge],
+  imports: [IconPickerComponent, KualiaIcon, RouterLink, HlmBadge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './category-details.html',
 })

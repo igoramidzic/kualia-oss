@@ -4,11 +4,11 @@ import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import {
-  nucleoWarningCircle as AlertCircle,
-  nucleoCategory as Box,
-  NucleoIcon,
-  nucleoPlus as Plus,
-  nucleoSplit as Split,
+  kualiaWarningCircle as AlertCircle,
+  kualiaCategory as Box,
+  KualiaIcon,
+  kualiaPlus as Plus,
+  kualiaSplit as Split,
 } from '@kualia/icons';
 import { BudgetService } from '../../services/budget.service';
 import { Category, CategoryGroup, CategoryService } from '../../services/category.service';
@@ -33,7 +33,7 @@ const NO_CATEGORY_VALUE = '__NO_CATEGORY__';
 
 @Component({
   selector: 'app-category-selector',
-  imports: [NucleoIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports, HlmButton, HlmTooltip],
+  imports: [KualiaIcon, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports, HlmButton, HlmTooltip],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-combobox
@@ -47,13 +47,13 @@ const NO_CATEGORY_VALUE = '__NO_CATEGORY__';
       <hlm-combobox-trigger [class]="buttonClass()" [variant]="variant()" [showIcon]="false" stopPropagation>
         <span class="flex min-w-0 flex-1 items-center gap-2">
           @if (customEmptyIcon(); as customIcon) {
-            <nucleo-icon
+            <kualia-icon
               [icon]="customIcon"
               [size]="14"
               [class]="(isMissingCategoryState() ? 'text-destructive' : 'text-muted-foreground') + ' flex-shrink-0'"
             />
           } @else {
-            <nucleo-icon
+            <kualia-icon
               [icon]="isMissingCategoryState() ? AlertCircle : Box"
               [size]="14"
               [class]="(isMissingCategoryState() ? 'text-destructive' : 'text-muted-foreground') + ' flex-shrink-0'"
@@ -92,7 +92,7 @@ const NO_CATEGORY_VALUE = '__NO_CATEGORY__';
               [hlmTooltip]="'Split Transaction'"
               (click)="onSplitClick($event)"
             >
-              <nucleo-icon [icon]="SplitIcon" [size]="16" class="-rotate-90" />
+              <kualia-icon [icon]="SplitIcon" [size]="16" class="-rotate-90" />
             </button>
           }
         </div>

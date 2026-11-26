@@ -1,13 +1,13 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { HlmButton } from '@spartan-ng/helm/button';
-import { NucleoIcon, nucleoClose as X } from '@kualia/icons';
+import { KualiaIcon, kualiaClose as X } from '@kualia/icons';
 import { UserPreferencesService } from '../../core/services/preferences/user-preferences.service';
 import { QuickAssignCardComponent } from './quick-assign-card.component';
 import { TargetProgressCardComponent } from './target-progress-card.component';
 
 @Component({
   selector: 'app-budget-sidebar',
-  imports: [NucleoIcon, HlmButton, QuickAssignCardComponent, TargetProgressCardComponent],
+  imports: [KualiaIcon, HlmButton, QuickAssignCardComponent, TargetProgressCardComponent],
   template: `
     @if (shouldRender()) {
       <aside [class]="sidebarClasses()" [attr.aria-hidden]="!isOpen()">
@@ -23,7 +23,7 @@ import { TargetProgressCardComponent } from './target-progress-card.component';
               (click)="close()"
               aria-label="Close sidebar"
             >
-              <nucleo-icon [icon]="closeIcon" class="h-4 w-4" />
+              <kualia-icon [icon]="closeIcon" class="h-4 w-4" />
             </button>
           </div>
 

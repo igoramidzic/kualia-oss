@@ -3,11 +3,11 @@ import { BrnDialogRef, injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import type { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoBank as Building2,
-  nucleoCheck as Check,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoPlus as Plus,
+  kualiaBank as Building2,
+  kualiaCheck as Check,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaPlus as Plus,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankAccountService } from '../../../services/bank-account.service';
@@ -30,7 +30,7 @@ interface BankLinkAccountContext {
 
 @Component({
   selector: 'app-connect-bank-link-account-dialog',
-  imports: [NucleoIcon, HlmDialogHeader],
+  imports: [KualiaIcon, HlmDialogHeader],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './connect-bank-link-account-dialog.html',
 })

@@ -3,12 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmCard } from '@spartan-ng/helm/card';
 import {
-  nucleoCheck as Check,
-  nucleoChevronDown as ChevronDown,
-  NucleoIcon,
-  nucleoSystemAppearance as Monitor,
-  nucleoMoon as Moon,
-  nucleoSun as Sun,
+  kualiaCheck as Check,
+  kualiaChevronDown as ChevronDown,
+  KualiaIcon,
+  kualiaSystemAppearance as Monitor,
+  kualiaMoon as Moon,
+  kualiaSun as Sun,
 } from '@kualia/icons';
 import { SettingsPageHeaderComponent } from '../../../components/settings-page-header/settings-page-header';
 import { Theme, UserPreferencesService } from '../../../core/services/preferences/user-preferences.service';
@@ -26,7 +26,7 @@ interface ThemeOption {
     FormsModule,
     HlmButton,
     HlmCard,
-    NucleoIcon,
+    KualiaIcon,
     HlmDropdownMenuTrigger,
     HlmDropdownMenu,
     HlmDropdownMenuItem,

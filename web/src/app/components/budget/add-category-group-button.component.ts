@@ -4,7 +4,7 @@ import { BrnPopover, BrnPopoverContent, BrnPopoverTrigger } from '@spartan-ng/br
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
-import { NucleoIcon, nucleoPlus as Plus } from '@kualia/icons';
+import { KualiaIcon, kualiaPlus as Plus } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { CategoryService } from '../../services/category.service';
 
@@ -18,7 +18,7 @@ import { CategoryService } from '../../services/category.service';
     HlmButton,
     HlmInput,
     HlmPopoverContent,
-    NucleoIcon,
+    KualiaIcon,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -35,7 +35,7 @@ import { CategoryService } from '../../services/category.service';
         brnPopoverTrigger
         aria-label="Add category group"
       >
-        <nucleo-icon [icon]="Plus" [size]="14" class="text-muted-foreground" />
+        <kualia-icon [icon]="Plus" [size]="14" class="text-muted-foreground" />
       </button>
       <div *brnPopoverContent="let ctx" class="w-[280px] p-4" hlmPopoverContent>
         <div class="space-y-4">

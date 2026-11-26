@@ -18,7 +18,7 @@
       />
     } @else {
       <div class="bg-accent/50 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border">
-        <nucleo-icon [icon]="isTransfer() ? ArrowLeftRight : CalendarClock" class="text-muted-foreground h-4 w-4" />
+        <kualia-icon [icon]="isTransfer() ? ArrowLeftRight : CalendarClock" class="text-muted-foreground h-4 w-4" />
       </div>
     }
     <span class="truncate text-sm font-medium">{{ displayName() }}</span>
@@ -67,19 +67,19 @@
 <ng-template #plannedTransactionContextMenu>
   <hlm-dropdown-menu class="w-48">
     <button hlmDropdownMenuItem [disabled]="!canActOnOccurrence()" (click)="onAction('enter')">
-      <nucleo-icon [icon]="CalendarArrowDown" [size]="14" />
+      <kualia-icon [icon]="CalendarArrowDown" [size]="14" />
       <span class="text-xs">Enter now</span>
     </button>
     <button hlmDropdownMenuItem [disabled]="base().status === 'completed'" (click)="onAction('pause')">
-      <nucleo-icon [icon]="base().status === 'paused' ? Play : Pause" [size]="14" />
+      <kualia-icon [icon]="base().status === 'paused' ? Play : Pause" [size]="14" />
       <span class="text-xs">{{ base().status === 'paused' ? 'Resume' : 'Pause' }}</span>
     </button>
     <button hlmDropdownMenuItem [disabled]="!canActOnOccurrence()" (click)="onAction('skip')">
-      <nucleo-icon [icon]="SkipForward" [size]="14" />
+      <kualia-icon [icon]="SkipForward" [size]="14" />
       <span class="text-xs">Skip</span>
     </button>
     <button hlmDropdownMenuItem variant="destructive" (click)="onAction('delete')">
-      <nucleo-icon [icon]="Trash2" [size]="14" />
+      <kualia-icon [icon]="Trash2" [size]="14" />
       <span class="text-xs">Delete</span>
     </button>
   </hlm-dropdown-menu>

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
-import { nucleoLoader as LoaderCircle, NucleoIcon } from '@kualia/icons';
+import { kualiaLoader as LoaderCircle, KualiaIcon } from '@kualia/icons';
 import { Merchant, MerchantService } from '../../../services/merchant.service';
 import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-message';
 
@@ -10,7 +10,7 @@ type DeleteMerchantDialogResult = { deleted?: boolean; requiresTarget?: boolean 
 
 @Component({
   selector: 'app-delete-merchant-dialog',
-  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, NucleoIcon],
+  imports: [HlmButton, HlmDialogHeader, HlmDialogFooter, KualiaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -36,7 +36,7 @@ type DeleteMerchantDialogResult = { deleted?: boolean; requiresTarget?: boolean 
       <button hlmBtn size="sm" variant="outline" (click)="cancel()" [disabled]="deleting()">Cancel</button>
       <button hlmBtn size="sm" variant="destructive" (click)="confirmDelete()" [disabled]="deleting()">
         @if (deleting()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Deleting...
         } @else {
           Delete

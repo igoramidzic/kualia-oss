@@ -6,17 +6,17 @@ import { HlmDialogFooter, HlmDialogHeader, HlmDialogService } from '@spartan-ng/
 import { HlmItem, HlmItemContent, HlmItemDescription, HlmItemTitle } from '@spartan-ng/helm/item';
 import type { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoChevronDown as ChevronDown,
-  nucleoChevronRight as ChevronRight,
-  nucleoLink as Link,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoDotsVertical as MoreVertical,
-  nucleoPlus as Plus,
-  nucleoRefresh as RefreshCw,
-  nucleoPhone as Smartphone,
-  nucleoUnlink as Unplug,
-  nucleoAccounts as WalletCards,
+  kualiaChevronDown as ChevronDown,
+  kualiaChevronRight as ChevronRight,
+  kualiaLink as Link,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaDotsVertical as MoreVertical,
+  kualiaPlus as Plus,
+  kualiaRefresh as RefreshCw,
+  kualiaPhone as Smartphone,
+  kualiaUnlink as Unplug,
+  kualiaAccounts as WalletCards,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BankLinkAccountDetailsDialogComponent } from '../../../components/dialogs/bank-link-account-details-dialog/bank-link-account-details-dialog';
@@ -62,7 +62,7 @@ interface DeleteBankConnectionDialogContext {
 
 @Component({
   selector: 'app-delete-bank-connection-dialog',
-  imports: [HlmButton, NucleoIcon, HlmDialogHeader, HlmDialogFooter],
+  imports: [HlmButton, KualiaIcon, HlmDialogHeader, HlmDialogFooter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-dialog-header>
@@ -93,7 +93,7 @@ interface DeleteBankConnectionDialogContext {
       </button>
       <button hlmBtn size="sm" variant="destructive" (click)="confirmDisconnect()" [disabled]="disconnecting()">
         @if (disconnecting()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Disconnecting...
         } @else {
           Disconnect
@@ -146,7 +146,7 @@ export class DeleteBankConnectionDialogComponent {
     HlmItemContent,
     HlmItemTitle,
     HlmItemDescription,
-    NucleoIcon,
+    KualiaIcon,
     SettingsPageHeaderComponent,
   ],
   templateUrl: './bank-connections.html',

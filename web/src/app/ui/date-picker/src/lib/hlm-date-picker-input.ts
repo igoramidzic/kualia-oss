@@ -1,7 +1,7 @@
 import { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, computed, input, linkedSignal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoCalendarFilled, nucleoClose } from '@kualia/icons';
+import { kualiaCalendarFilled, kualiaClose } from '@kualia/icons';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 import { HlmDatePickerAnchor } from './hlm-date-picker-anchor';
@@ -11,7 +11,7 @@ import { injectHlmDatePicker, injectHlmDatePickerConfig } from './hlm-date-picke
 @Component({
   selector: 'hlm-date-picker-input',
   imports: [HlmInputGroupImports, HlmButtonImports, HlmDatePickerAnchor, NgIcon],
-  providers: [provideIcons({ nucleoCalendarFilled, nucleoClose }), provideHlmDatePickerTrigger(HlmDatePickerInput)],
+  providers: [provideIcons({ kualiaCalendarFilled, kualiaClose }), provideHlmDatePickerTrigger(HlmDatePickerInput)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-input-group hlmDatePickerAnchor [hlmDatePickerAnchorFor]="_popover()">
@@ -38,7 +38,7 @@ import { injectHlmDatePicker, injectHlmDatePickerConfig } from './hlm-date-picke
             (click)="_clear()"
             [disabled]="_disabled()"
           >
-            <ng-icon name="nucleoClose" />
+            <ng-icon name="kualiaClose" />
           </button>
         }
         <button
@@ -48,7 +48,7 @@ import { injectHlmDatePicker, injectHlmDatePickerConfig } from './hlm-date-picke
           (click)="_popover().open()"
           [disabled]="_disabled()"
         >
-          <ng-icon name="nucleoCalendarFilled" />
+          <ng-icon name="kualiaCalendarFilled" />
         </button>
       </hlm-input-group-addon>
     </hlm-input-group>

@@ -3,27 +3,27 @@ import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
 import {
-  nucleoArrowLeft as ArrowLeft,
-  nucleoWorkspace as Building,
-  nucleoConnection as Cable,
-  nucleoChevronsRight as ChevronsRight,
-  nucleoCreditCard as CreditCard,
-  nucleoDownload as Download,
-  nucleoHistory as History,
-  nucleoKey as KeyRound,
-  nucleoLink as Link,
-  NucleoIcon,
-  nucleoPreferences as Settings,
-  nucleoShop as Store,
-  nucleoUser as UserRound,
-  nucleoUsers as UsersRound,
+  kualiaArrowLeft as ArrowLeft,
+  kualiaWorkspace as Building,
+  kualiaConnection as Cable,
+  kualiaChevronsRight as ChevronsRight,
+  kualiaCreditCard as CreditCard,
+  kualiaDownload as Download,
+  kualiaHistory as History,
+  kualiaKey as KeyRound,
+  kualiaLink as Link,
+  KualiaIcon,
+  kualiaPreferences as Settings,
+  kualiaShop as Store,
+  kualiaUser as UserRound,
+  kualiaUsers as UsersRound,
 } from '@kualia/icons';
 import { NavigationItemComponent } from '../../components/navigation-item/navigation-item';
 import { WorkspaceService } from '../../services/workspace.service';
 
 @Component({
   selector: 'app-settings-layout',
-  imports: [RouterOutlet, RouterLink, HlmButton, NucleoIcon, NavigationItemComponent, ...HlmSidebarImports],
+  imports: [RouterOutlet, RouterLink, HlmButton, KualiaIcon, NavigationItemComponent, ...HlmSidebarImports],
   templateUrl: './settings-layout.html',
   styleUrl: './settings-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

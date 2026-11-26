@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { lstatSync, readFileSync, readlinkSync } from 'node:fs';
+import { relative, resolve } from 'node:path';
 
 const files = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' }).split('\0').filter(Boolean);
 if (!files.length) throw new Error('No tracked files to scan. Stage the intended source files first.');
@@ -15,7 +16,12 @@ for (const file of files) {
   if (forbidden.test(file) && !file.endsWith('.env.example')) {
     console.error(`Sensitive/generated path: ${file}`); failed = true;
   }
-  const content = readFileSync(file, 'utf8');
+  // Git stores a symlink as its target path; scan that text and keep links inside the repository.
+  const isLink = lstatSync(file).isSymbolicLink();
+  const content = isLink ? readlinkSync(file) : readFileSync(file, 'utf8');
+  if (isLink && relative(process.cwd(), resolve(file, '..', content)).startsWith('..')) {
+    console.error(`Symlink points outside the repository: ${file}`); failed = true;
+  }
   // Generated instructions contain example key encodings, not key material.
   if (patterns.some((pattern) => pattern.test(content))) {
     console.error(`Potential credential: ${file} (value redacted)`); failed = true;

@@ -1,14 +1,14 @@
 import { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { nucleoSearch, nucleoClose } from '@kualia/icons';
+import { kualiaSearch, kualiaClose } from '@kualia/icons';
 import { BrnAutocompleteAnchor, BrnAutocompleteClear, BrnAutocompleteInput } from '@spartan-ng/brain/autocomplete';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 
 @Component({
   selector: 'hlm-autocomplete-input',
   imports: [HlmInputGroupImports, NgIcon, BrnAutocompleteAnchor, BrnAutocompleteClear, BrnAutocompleteInput],
-  providers: [provideIcons({ nucleoSearch, nucleoClose })],
+  providers: [provideIcons({ kualiaSearch, kualiaClose })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <hlm-input-group brnAutocompleteAnchor class="w-auto">
@@ -24,7 +24,7 @@ import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 
       @if (showSearch()) {
         <hlm-input-group-addon>
-          <ng-icon name="nucleoSearch" [class.opacity-50]="autocompleteInput.disabled()" />
+          <ng-icon name="kualiaSearch" [class.opacity-50]="autocompleteInput.disabled()" />
         </hlm-input-group-addon>
       }
 
@@ -38,7 +38,7 @@ import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
             size="icon-xs"
             variant="ghost"
           >
-            <ng-icon name="nucleoClose" />
+            <ng-icon name="kualiaClose" />
           </button>
         </hlm-input-group-addon>
       }

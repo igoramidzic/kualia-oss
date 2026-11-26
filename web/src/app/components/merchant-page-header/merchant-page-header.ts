@@ -4,13 +4,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
 import {
-  nucleoTransfer as ArrowLeftRight,
-  nucleoChevronRight as ChevronRight,
-  nucleoDots as Ellipsis,
-  nucleoMerge as GitMerge,
-  NucleoIcon,
-  nucleoReports as SquareChartGantt,
-  nucleoTrash as Trash2,
+  kualiaTransfer as ArrowLeftRight,
+  kualiaChevronRight as ChevronRight,
+  kualiaDots as Ellipsis,
+  kualiaMerge as GitMerge,
+  KualiaIcon,
+  kualiaReports as SquareChartGantt,
+  kualiaTrash as Trash2,
 } from '@kualia/icons';
 import { HlmDropdownMenu, HlmDropdownMenuItem, HlmDropdownMenuTrigger } from '../../ui/dropdown-menu/src';
 import { SidebarToggleComponent } from '../sidebar-toggle/sidebar-toggle';
@@ -21,7 +21,7 @@ import { SidebarToggleComponent } from '../sidebar-toggle/sidebar-toggle';
     CommonModule,
     RouterLink,
     RouterLinkActive,
-    NucleoIcon,
+    KualiaIcon,
     HlmButton,
     HlmDropdownMenuTrigger,
     HlmDropdownMenu,

@@ -15,14 +15,10 @@ Follow [README → Start here](README.md#start-here). You need Node.js 24 (`.nvm
 ## Before opening a pull request
 
 ```sh
-pnpm format        # or pnpm format:check
-pnpm lint
-pnpm typecheck
-pnpm build
-pnpm test:ci
-pnpm scan:secrets
+pnpm format   # apply formatting fixes
+pnpm check    # format:check, lint, typecheck, build, test:ci, scan:secrets
 ```
 
-CI runs the same checks on every pull request. See [README → Development and checks](README.md#development-and-checks) for the optional local smoke test.
+CI runs `pnpm check` on every pull request. After auth, access, or export changes, also run `pnpm smoke` while `pnpm dev` is running. See [README → Development and checks](README.md#development-and-checks).
 
 Keep changes small and follow the existing patterns. Add or update tests for behavior changes, and use synthetic data only. If you change startup, auth, environment variables, or integrations, update README and the relevant guide in the same pull request. The pull request template has the full checklist.

@@ -104,7 +104,7 @@ describe('SidebarOrganizationDropdownComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('img[hlmAvatarImage]')).toBeNull();
-    expect(fixture.nativeElement.querySelector('[data-testid="user-avatar-fallback"] nucleo-icon')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('[data-testid="user-avatar-fallback"] kualia-icon')).not.toBeNull();
   });
 
   it('keeps workspace switching out of the user menu', () => {

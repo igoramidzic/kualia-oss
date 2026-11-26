@@ -9,10 +9,10 @@ import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmLabel } from '@spartan-ng/helm/label';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import {
-  nucleoCheck as Check,
-  nucleoChevronDown as ChevronDown,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
+  kualiaCheck as Check,
+  kualiaChevronDown as ChevronDown,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
 } from '@kualia/icons';
 import { BankAccountService } from '../../../services/bank-account.service';
 import { extractConvexErrorMessage } from '../../../shared/utils/convex-error-message';
@@ -41,7 +41,7 @@ interface AccountTypeGroup {
     HlmCommandImports,
     HlmButton,
     HlmPopoverContent,
-    NucleoIcon,
+    KualiaIcon,
     HlmDialogFooter,
     HlmLabel,
     HlmInput,
@@ -85,7 +85,7 @@ interface AccountTypeGroup {
               <span [class]="(accountType() ? '' : 'text-muted-foreground') + ' min-w-0 flex-1 truncate text-left'">
                 {{ getSelectedAccountTypeName() ?? 'Select account type...' }}
               </span>
-              <nucleo-icon [icon]="ChevronDown" [size]="16" class="text-muted-foreground" />
+              <kualia-icon [icon]="ChevronDown" [size]="16" class="text-muted-foreground" />
             </button>
             <hlm-command
               *brnPopoverContent="let ctx"
@@ -112,7 +112,7 @@ interface AccountTypeGroup {
                         >
                           <span class="min-w-0 flex-1 truncate text-left">{{ option.label }}</span>
                           @if (option.value === accountType()) {
-                            <nucleo-icon [icon]="Check" [size]="14" class="flex-shrink-0" />
+                            <kualia-icon [icon]="Check" [size]="14" class="flex-shrink-0" />
                           }
                         </button>
                       }
@@ -158,7 +158,7 @@ interface AccountTypeGroup {
         (click)="createBankAccount()"
       >
         @if (creating()) {
-          <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+          <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
           Creating...
         } @else {
           Create Bank Account

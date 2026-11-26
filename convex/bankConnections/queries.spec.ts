@@ -4,7 +4,9 @@ import type { Id } from '../_generated/dataModel';
 import type { QueryCtx } from '../_generated/server';
 import * as bankLinkHelpers from '../bankLinks/helpers';
 import { listBankLinksInternal } from '../bankLinks/queries';
-import { APPLE_WALLET_LOGO_URL } from '../lib/logoUtils';
+import { getAppleWalletLogoUrl } from '../lib/logoUtils';
+
+const APPLE_WALLET_LOGO_URL = getAppleWalletLogoUrl();
 import { toAppleWalletConnection, toPlaidConnection } from './queries';
 
 describe('toPlaidConnection', () => {

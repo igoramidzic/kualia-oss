@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import {
-  nucleoCalendarClock as CalendarClock,
-  nucleoChevronDown as ChevronDown,
-  nucleoChevronRight as ChevronRight,
-  NucleoIcon,
+  kualiaCalendarClock as CalendarClock,
+  kualiaChevronDown as ChevronDown,
+  kualiaChevronRight as ChevronRight,
+  KualiaIcon,
 } from '@kualia/icons';
 import { UserPreferencesService } from '../../core/services/preferences/user-preferences.service';
 import { ScheduledTransactionService } from '../../services/scheduled-transaction.service';
@@ -18,7 +18,7 @@ import { ScheduledTransactionRowComponent } from '../scheduled-transaction-row/s
  */
 @Component({
   selector: 'app-scheduled-transactions-section',
-  imports: [NucleoIcon, ScheduledTransactionRowComponent],
+  imports: [KualiaIcon, ScheduledTransactionRowComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scheduled-transactions-section.html',
 })

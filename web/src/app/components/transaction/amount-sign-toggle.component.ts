@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { nucleoArrowDownLeft as ArrowDownLeft, nucleoArrowUpRight as ArrowUpRight, NucleoIcon } from '@kualia/icons';
+import { kualiaArrowDownLeft as ArrowDownLeft, kualiaArrowUpRight as ArrowUpRight, KualiaIcon } from '@kualia/icons';
 import { HlmToggleGroupImports } from '../../ui/toggle-group/src';
 
 export type AmountSign = 'inflow' | 'outflow';
 
 @Component({
   selector: 'app-amount-sign-toggle',
-  imports: [NucleoIcon, ...HlmToggleGroupImports],
+  imports: [KualiaIcon, ...HlmToggleGroupImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -24,7 +24,7 @@ export type AmountSign = 'inflow' | 'outflow';
         size="sm"
         class="group text-muted-foreground data-[state=on]:border-destructive/20 data-[state=on]:bg-destructive/5 w-32"
       >
-        <nucleo-icon [icon]="ArrowDownLeft" [size]="16" />
+        <kualia-icon [icon]="ArrowDownLeft" [size]="16" />
         Outflow
       </button>
       <button
@@ -33,7 +33,7 @@ export type AmountSign = 'inflow' | 'outflow';
         size="sm"
         class="group text-muted-foreground w-32 data-[state=on]:border-green-500/20 data-[state=on]:bg-green-500/5"
       >
-        <nucleo-icon [icon]="ArrowUpRight" [size]="16" />
+        <kualia-icon [icon]="ArrowUpRight" [size]="16" />
         Inflow
       </button>
     </div>

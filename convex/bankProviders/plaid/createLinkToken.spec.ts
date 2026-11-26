@@ -7,6 +7,8 @@ import { createLinkToken } from './createLinkToken';
 import { createUpdateLinkToken } from './createUpdateLinkToken';
 import { getSafePlaidErrorDetails, plaidClient } from './plaidClient';
 
+const REDIRECT_URI = 'https://budget.example.test/plaid/oauth';
+
 const handler = (
   createLinkToken as unknown as {
     _handler: (ctx: ActionCtx, args: { platform?: 'ios' }) => Promise<{ link_token: string; expiration: string }>;
@@ -14,13 +16,17 @@ const handler = (
 )._handler;
 
 describe('createLinkToken', () => {
-  afterEach(() => vi.restoreAllMocks());
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
 
   const ctx = {
     auth: { getUserIdentity: async () => ({ subject: 'clerk_owner', email: 'owner@example.test' }) },
   } as unknown as ActionCtx;
 
   it.each([undefined, 'ios'] as const)('creates a token for platform %s', async (platform) => {
+    vi.stubEnv('PLAID_REDIRECT_URI', REDIRECT_URI);
     const create = vi.spyOn(plaidClient, 'linkTokenCreate').mockResolvedValue({
       data: { link_token: 'link_test', expiration: '2026-09-06T12:00:00Z' },
     } as Awaited<ReturnType<typeof plaidClient.linkTokenCreate>>);
@@ -30,9 +36,25 @@ describe('createLinkToken', () => {
       expiration: '2026-09-06T12:00:00Z',
     });
     const request = create.mock.calls[0]?.[0];
-    expect(request?.redirect_uri).toBe(platform === 'ios' ? 'https://kualia.com/plaid/oauth' : undefined);
+    expect(request?.redirect_uri).toBe(platform === 'ios' ? REDIRECT_URI : undefined);
     expect(request?.user?.client_user_id).toBe('clerk_owner');
   });
+
+  it.each([undefined, '', 'not a url', 'http://budget.example.test/plaid/oauth'])(
+    'omits the iOS redirect when PLAID_REDIRECT_URI is %j',
+    async (configured) => {
+      if (configured !== undefined) vi.stubEnv('PLAID_REDIRECT_URI', configured);
+      const create = vi.spyOn(plaidClient, 'linkTokenCreate').mockResolvedValue({
+        data: { link_token: 'link_test', expiration: '2026-09-06T12:00:00Z' },
+      } as Awaited<ReturnType<typeof plaidClient.linkTokenCreate>>);
+
+      await handler(ctx, { platform: 'ios' });
+      const request = create.mock.calls[0]?.[0];
+      expect(request).toBeDefined();
+      expect(request && 'redirect_uri' in request).toBe(false);
+      expect(JSON.stringify(request)).not.toContain('kualia.com');
+    }
+  );
 
   it('does not contact Plaid for an unauthenticated client', async () => {
     const create = vi.spyOn(plaidClient, 'linkTokenCreate');
@@ -72,8 +94,8 @@ describe('createLinkToken', () => {
     const surfaced = await handler(ctx, { platform: 'ios' }).catch((error: unknown) => error);
 
     expect(surfaced).toBeInstanceOf(ConvexError);
-    expect(String(surfaced)).toContain('contact Kualia support');
-    expect(log).toHaveBeenCalledWith(expect.stringContaining('Register https://kualia.com/plaid/oauth'), {
+    expect(String(surfaced)).toContain('administrator of this Kualia instance');
+    expect(log).toHaveBeenCalledWith(expect.stringContaining('Set PLAID_REDIRECT_URI'), {
       error_code: 'INVALID_FIELD',
       error_type: 'INVALID_REQUEST',
       request_id: 'request_test_123',
@@ -124,7 +146,10 @@ describe('createLinkToken', () => {
 });
 
 describe('createUpdateLinkToken', () => {
-  afterEach(() => vi.restoreAllMocks());
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
   const bankLinkId = 'bank_link_test' as Id<'bankLink'>;
   const updateHandler = (
     createUpdateLinkToken as unknown as {
@@ -140,13 +165,14 @@ describe('createUpdateLinkToken', () => {
   } as unknown as ActionCtx;
 
   it.each([undefined, 'ios'] as const)('preserves update mode and sets the return link for %s', async (platform) => {
+    vi.stubEnv('PLAID_REDIRECT_URI', REDIRECT_URI);
     const create = vi.spyOn(plaidClient, 'linkTokenCreate').mockResolvedValue({
       data: { link_token: 'update_test', expiration: '2026-09-07T12:00:00Z' },
     } as Awaited<ReturnType<typeof plaidClient.linkTokenCreate>>);
     await updateHandler(ctx, { bankLinkId, ...(platform ? { platform } : {}) });
     const request = create.mock.calls[0]?.[0];
     expect(request?.access_token).toBe('existing-item-token');
-    expect(request?.redirect_uri).toBe(platform === 'ios' ? 'https://kualia.com/plaid/oauth' : undefined);
+    expect(request?.redirect_uri).toBe(platform === 'ios' ? REDIRECT_URI : undefined);
     expect(request?.products).toBeUndefined();
     expect(ctx.runQuery).toHaveBeenCalledWith(expect.anything(), { bankLinkId, userId: 'clerk_owner' });
   });
@@ -187,7 +213,7 @@ describe('createUpdateLinkToken', () => {
     });
     const log = vi.spyOn(console, 'error').mockImplementation(() => {});
     const error = await updateHandler(ctx, { bankLinkId, platform: 'ios' }).catch((value: unknown) => value);
-    expect(String(error)).toContain('contact Kualia support');
+    expect(String(error)).toContain('administrator of this Kualia instance');
     expect(JSON.stringify({ error, logs: log.mock.calls })).not.toContain('private_token');
   });
 });

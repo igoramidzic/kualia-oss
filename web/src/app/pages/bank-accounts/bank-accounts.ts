@@ -19,18 +19,18 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmCollapsibleImports } from '@spartan-ng/helm/collapsible';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import {
-  nucleoChevronDown as ChevronDown,
-  nucleoChevronRight as ChevronRight,
-  nucleoEye as Eye,
-  nucleoEyeOff as EyeOff,
-  nucleoHeart as Heart,
-  nucleoCreditCard as CreditCard,
-  nucleoHouse as House,
-  nucleoLayers as Layers,
-  nucleoTrendUp as TrendingUp,
-  NucleoIcon,
-  nucleoPlus as Plus,
-  nucleoBank as Wallet,
+  kualiaChevronDown as ChevronDown,
+  kualiaChevronRight as ChevronRight,
+  kualiaEye as Eye,
+  kualiaEyeOff as EyeOff,
+  kualiaHeart as Heart,
+  kualiaCreditCard as CreditCard,
+  kualiaHouse as House,
+  kualiaLayers as Layers,
+  kualiaTrendUp as TrendingUp,
+  KualiaIcon,
+  kualiaPlus as Plus,
+  kualiaBank as Wallet,
 } from '@kualia/icons';
 import { api } from '../../../../../convex/_generated/api';
 import type { Id } from '../../../../../convex/_generated/dataModel';
@@ -86,7 +86,7 @@ interface BankAccountGroupWithSeparation {
   selector: 'app-bank-accounts',
   imports: [
     RouterLink,
-    NucleoIcon,
+    KualiaIcon,
     HlmButton,
     EntityMarkComponent,
     BankLinkStatusBadgeComponent,

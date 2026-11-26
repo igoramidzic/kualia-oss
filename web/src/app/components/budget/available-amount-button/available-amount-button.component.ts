@@ -4,7 +4,7 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { NucleoIcon, nucleoMoon as Moon } from '@kualia/icons';
+import { KualiaIcon, kualiaMoon as Moon } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { BudgetCategorySelectionService } from '../../../services/budget-category-selection.service';
 import { BudgetService } from '../../../services/budget.service';
@@ -25,7 +25,7 @@ import { MoveMoneyFormComponent } from './move-money-form.component';
     CoverOverspendingFormComponent,
     HlmButton,
     HlmPopoverContent,
-    NucleoIcon,
+    KualiaIcon,
     MoveMoneyFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,7 +60,7 @@ import { MoveMoneyFormComponent } from './move-money-form.component';
             <div
               class="bg-background border-border absolute -top-1.5 -left-1.5 flex h-4 w-4 items-center justify-center rounded-full border"
             >
-              <nucleo-icon [icon]="Moon" [size]="9" class="text-muted-foreground" />
+              <kualia-icon [icon]="Moon" [size]="9" class="text-muted-foreground" />
             </div>
           }
         </button>

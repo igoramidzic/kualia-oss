@@ -11,24 +11,24 @@ import { HlmDialogFooter, HlmDialogHeader } from '@spartan-ng/helm/dialog';
 import { HlmInput } from '@spartan-ng/helm/input';
 import { HlmPopoverContent } from '@spartan-ng/helm/popover';
 import {
-  nucleoWarningCircle as AlertCircle,
-  nucleoArrowLeft as ArrowLeft,
-  nucleoMoney as Banknote,
-  nucleoBank as Building2,
-  nucleoCheck as Check,
-  nucleoCheckCircle as CheckCircle2,
-  nucleoChevronDown as ChevronDown,
-  nucleoCreditCard as CreditCard,
-  nucleoTable as FileSpreadsheet,
-  nucleoLoader as LoaderCircle,
-  NucleoIcon,
-  nucleoParty as PartyPopper,
-  nucleoPiggyBank as PiggyBank,
-  nucleoTrendUp as TrendingUp,
-  nucleoUpload as Upload,
-  nucleoAccounts as Wallet,
-  nucleoCloseCircle as XCircle,
-  type NucleoIconData,
+  kualiaWarningCircle as AlertCircle,
+  kualiaArrowLeft as ArrowLeft,
+  kualiaMoney as Banknote,
+  kualiaBank as Building2,
+  kualiaCheck as Check,
+  kualiaCheckCircle as CheckCircle2,
+  kualiaChevronDown as ChevronDown,
+  kualiaCreditCard as CreditCard,
+  kualiaTable as FileSpreadsheet,
+  kualiaLoader as LoaderCircle,
+  KualiaIcon,
+  kualiaParty as PartyPopper,
+  kualiaPiggyBank as PiggyBank,
+  kualiaTrendUp as TrendingUp,
+  kualiaUpload as Upload,
+  kualiaAccounts as Wallet,
+  kualiaCloseCircle as XCircle,
+  type KualiaIconData,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import { YnabImportService } from '../../../services/ynab-import.service';
@@ -104,7 +104,7 @@ const ACCOUNT_TYPE_GROUPS: AccountTypeGroup[] = [
 ];
 
 // Account type prefix to icon mapping
-const ACCOUNT_TYPE_ICONS: Record<string, NucleoIconData> = {
+const ACCOUNT_TYPE_ICONS: Record<string, KualiaIconData> = {
   credit_: CreditCard,
   investment_: TrendingUp,
   loan_: Building2,
@@ -127,7 +127,7 @@ interface DialogContext {
     HlmInput,
     HlmProgress,
     HlmProgressIndicator,
-    NucleoIcon,
+    KualiaIcon,
     BrnCommand,
     BrnCommandEmpty,
     BrnCommandGroup,
@@ -149,7 +149,7 @@ interface DialogContext {
             class="text-muted-foreground hover:text-foreground -ml-1 p-1 transition-colors"
             (click)="goBack()"
           >
-            <nucleo-icon [icon]="ArrowLeft" class="h-4 w-4" />
+            <kualia-icon [icon]="ArrowLeft" class="h-4 w-4" />
           </button>
         }
         <div>
@@ -209,9 +209,9 @@ interface DialogContext {
                 [class.bg-accent]="!planCsvContent()"
               >
                 @if (planCsvContent()) {
-                  <nucleo-icon [icon]="Check" class="text-primary h-6 w-6" />
+                  <kualia-icon [icon]="Check" class="text-primary h-6 w-6" />
                 } @else {
-                  <nucleo-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-6 w-6" />
+                  <kualia-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-6 w-6" />
                 }
               </div>
               <div class="text-center">
@@ -219,7 +219,7 @@ interface DialogContext {
                 <p class="text-muted-foreground text-xs">Budget assignments and category targets</p>
               </div>
               <div class="text-muted-foreground flex items-center gap-1 text-xs">
-                <nucleo-icon [icon]="Upload" class="h-3 w-3" />
+                <kualia-icon [icon]="Upload" class="h-3 w-3" />
                 <span>{{ planCsvContent() ? 'Click to replace' : 'Click or drag and drop' }}</span>
               </div>
             </button>
@@ -250,9 +250,9 @@ interface DialogContext {
                 [class.bg-accent]="!registerCsvContent()"
               >
                 @if (registerCsvContent()) {
-                  <nucleo-icon [icon]="Check" class="text-primary h-6 w-6" />
+                  <kualia-icon [icon]="Check" class="text-primary h-6 w-6" />
                 } @else {
-                  <nucleo-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-6 w-6" />
+                  <kualia-icon [icon]="FileSpreadsheet" class="text-muted-foreground h-6 w-6" />
                 }
               </div>
               <div class="text-center">
@@ -260,7 +260,7 @@ interface DialogContext {
                 <p class="text-muted-foreground text-xs">All your transactions</p>
               </div>
               <div class="text-muted-foreground flex items-center gap-1 text-xs">
-                <nucleo-icon [icon]="Upload" class="h-3 w-3" />
+                <kualia-icon [icon]="Upload" class="h-3 w-3" />
                 <span>{{ registerCsvContent() ? 'Click to replace' : 'Click or drag and drop' }}</span>
               </div>
             </button>
@@ -327,7 +327,7 @@ interface DialogContext {
               @if (accountsNeedingReview().length > 0) {
                 <div>
                   <div class="mb-2 flex items-center gap-2">
-                    <nucleo-icon [icon]="AlertCircle" class="text-warning h-4 w-4" />
+                    <kualia-icon [icon]="AlertCircle" class="text-warning h-4 w-4" />
                     <h3 class="text-warning text-sm font-medium">Needs Review</h3>
                   </div>
                   <div class="space-y-2">
@@ -377,9 +377,9 @@ interface DialogContext {
                   [class.bg-warning/20]="needsReview"
                 >
                   @if (needsReview) {
-                    <nucleo-icon [icon]="AlertCircle" class="text-warning h-4 w-4" />
+                    <kualia-icon [icon]="AlertCircle" class="text-warning h-4 w-4" />
                   } @else {
-                    <nucleo-icon [icon]="getAccountIcon(mapping.confirmedType)" class="h-4 w-4" />
+                    <kualia-icon [icon]="getAccountIcon(mapping.confirmedType)" class="h-4 w-4" />
                   }
                 </div>
 
@@ -411,7 +411,7 @@ interface DialogContext {
                     >
                       {{ mapping.confirmedType === null ? 'Select type...' : getTypeLabel(mapping.confirmedType) }}
                     </span>
-                    <nucleo-icon [icon]="ChevronDown" [size]="14" class="flex-shrink-0" />
+                    <kualia-icon [icon]="ChevronDown" [size]="14" class="flex-shrink-0" />
                   </button>
                   <hlm-command
                     *brnPopoverContent="let ctx"
@@ -442,7 +442,7 @@ interface DialogContext {
                                   option.label
                                 }}</span>
                                 @if (option.value === mapping.confirmedType) {
-                                  <nucleo-icon [icon]="Check" [size]="14" class="flex-shrink-0" />
+                                  <kualia-icon [icon]="Check" [size]="14" class="flex-shrink-0" />
                                 }
                               </button>
                             }
@@ -464,7 +464,7 @@ interface DialogContext {
               @switch (status.status) {
                 @case ('importing') {
                   <div class="bg-primary/10 flex h-16 w-16 items-center justify-center rounded-full">
-                    <nucleo-icon [icon]="LoaderCircle" class="text-primary h-8 w-8 animate-spin" />
+                    <kualia-icon [icon]="LoaderCircle" class="text-primary h-8 w-8 animate-spin" />
                   </div>
 
                   <div class="text-center">
@@ -539,7 +539,7 @@ interface DialogContext {
                 }
                 @case ('failed') {
                   <div class="bg-destructive/10 flex h-16 w-16 items-center justify-center rounded-full">
-                    <nucleo-icon [icon]="XCircle" class="text-destructive h-8 w-8" />
+                    <kualia-icon [icon]="XCircle" class="text-destructive h-8 w-8" />
                   </div>
                   <div class="text-center">
                     <p class="font-medium">Import Failed</p>
@@ -550,7 +550,7 @@ interface DialogContext {
                 }
                 @default {
                   <div class="bg-accent flex h-16 w-16 items-center justify-center rounded-full">
-                    <nucleo-icon [icon]="LoaderCircle" class="text-muted-foreground h-8 w-8 animate-spin" />
+                    <kualia-icon [icon]="LoaderCircle" class="text-muted-foreground h-8 w-8 animate-spin" />
                   </div>
                   <div class="text-center">
                     <p class="font-medium">Preparing import...</p>
@@ -559,7 +559,7 @@ interface DialogContext {
               }
             } @else {
               <div class="bg-accent flex h-16 w-16 items-center justify-center rounded-full">
-                <nucleo-icon [icon]="LoaderCircle" class="text-muted-foreground h-8 w-8 animate-spin" />
+                <kualia-icon [icon]="LoaderCircle" class="text-muted-foreground h-8 w-8 animate-spin" />
               </div>
               <div class="text-center">
                 <p class="font-medium">Starting import...</p>
@@ -573,7 +573,7 @@ interface DialogContext {
         @case (YnabImportStep.Complete) {
           <div class="flex flex-col items-center gap-6 py-6">
             <div class="bg-success/10 flex h-20 w-20 items-center justify-center rounded-full">
-              <nucleo-icon [icon]="PartyPopper" class="text-success h-10 w-10" />
+              <kualia-icon [icon]="PartyPopper" class="text-success h-10 w-10" />
             </div>
 
             <div class="text-center">
@@ -585,15 +585,15 @@ interface DialogContext {
               <h3 class="mb-3 text-sm font-medium">What's next?</h3>
               <ul class="space-y-2">
                 <li class="flex items-start gap-2">
-                  <nucleo-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-4 w-4 shrink-0" />
+                  <kualia-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-4 w-4 shrink-0" />
                   <span class="text-xs">Your accounts and balances are ready</span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <nucleo-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-4 w-4 shrink-0" />
+                  <kualia-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-4 w-4 shrink-0" />
                   <span class="text-xs">Categories and budget assignments imported</span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <nucleo-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-4 w-4 shrink-0" />
+                  <kualia-icon [icon]="CheckCircle2" class="text-success mt-0.5 h-4 w-4 shrink-0" />
                   <span class="text-xs">All transactions are in place</span>
                 </li>
               </ul>
@@ -606,11 +606,6 @@ interface DialogContext {
                 YNAB resets negative category balances to zero each month. Kualia carries over negative balances, so
                 you'll see overspending reflected in future months. This gives you a more accurate picture of your
                 actual budget situation.
-              </p>
-              <p class="text-muted-foreground mt-3 text-xs">
-                If something doesn't look right, reach out to us at
-                <a href="mailto:support@kualia.com" class="text-primary hover:underline">support&#64;kualia.com</a>
-                and we'll help you get it sorted out.
               </p>
             </div>
           </div>
@@ -625,7 +620,7 @@ interface DialogContext {
         </button>
         <button hlmBtn size="sm" (click)="continue()" [disabled]="!canContinue() || loading()">
           @if (loading()) {
-            <nucleo-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
+            <kualia-icon [icon]="LoaderCircle" class="mr-2 h-4 w-4 animate-spin" />
           }
           {{ continueButtonText() }}
         </button>
@@ -867,7 +862,7 @@ export class YnabImportDialogComponent {
     return type;
   }
 
-  getAccountIcon(type: string): NucleoIconData {
+  getAccountIcon(type: string): KualiaIconData {
     if (ACCOUNT_TYPE_ICONS[type]) {
       return ACCOUNT_TYPE_ICONS[type];
     }

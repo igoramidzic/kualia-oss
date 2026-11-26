@@ -6,4 +6,4 @@ This backend uses Convex Auth passwords and workspace-scoped finance data. Use `
 
 Use workspace indexes, `v.id` references, bounded reads, existing soft-delete conventions, and ISO timestamps. Re-export domain APIs from their existing barrel files. Keep external I/O in actions; keep internal functions internal. Add tests for changed behavior and negative authorization cases.
 
-`pnpm dev` targets anonymous local Convex. Never use cloud credentials to verify local work. Run root quality checks and confirm the local backend pushes successfully. Do not hand-edit `_generated/api.ts`; regenerate after adding/removing modules. Keep generated guidance and skills in source control.
+`pnpm dev` targets anonymous local Convex. Never use cloud credentials to verify local work. Run the root validation list from `../AGENTS.md` (`pnpm check` at the repo root runs it), then confirm the local backend pushes successfully. Do not hand-edit `_generated/api.ts`; regenerate after adding/removing modules. Keep generated guidance and skills in source control.

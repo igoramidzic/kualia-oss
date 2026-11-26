@@ -11,7 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
-import { nucleoClose } from '@kualia/icons';
+import { kualiaClose } from '@kualia/icons';
 import { injectExposedSideProvider, injectExposesStateProvider } from '@spartan-ng/brain/core';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
@@ -41,7 +41,7 @@ export const sheetVariants = cva(
 @Component({
   selector: 'hlm-sheet-content',
   imports: [HlmIconImports, HlmButton, HlmSheetClose],
-  providers: [provideIcons({ nucleoClose })],
+  providers: [provideIcons({ kualiaClose })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-slot': 'sheet-content',
@@ -53,7 +53,7 @@ export const sheetVariants = cva(
     @if (showCloseButton()) {
       <button hlmBtn variant="ghost" size="icon-sm" class="absolute end-4 top-4" hlmSheetClose>
         <span class="sr-only">Close</span>
-        <ng-icon hlm size="sm" name="nucleoClose" />
+        <ng-icon hlm size="sm" name="kualiaClose" />
       </button>
     }
   `,

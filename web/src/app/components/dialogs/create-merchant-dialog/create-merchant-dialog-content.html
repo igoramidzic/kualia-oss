@@ -10,7 +10,7 @@
       [disabled]="creating()"
       (click)="dialogRef.close()"
     >
-      <nucleo-icon [icon]="X" size="16" />
+      <kualia-icon [icon]="X" size="16" />
       <span class="sr-only">Close</span>
     </button>
   </div>
@@ -84,7 +84,7 @@
       (click)="createMerchant()"
     >
       @if (creating()) {
-        <nucleo-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
+        <kualia-icon [icon]="LoaderCircle" class="h-4 w-4 animate-spin" />
         Creating...
       } @else {
         Create Merchant

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output, si
 import { BrnComboboxImports } from '@spartan-ng/brain/combobox';
 import { BrnPopoverContent } from '@spartan-ng/brain/popover';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
-import { nucleoHistory as History, NucleoIcon } from '@kualia/icons';
+import { kualiaHistory as History, KualiaIcon } from '@kualia/icons';
 import { AiChatService, ThreadSummary } from '../../services/ai-chat.service';
 import { HlmTooltip } from '../../ui/tooltip/src';
 import { bucketLabel, formatRelativeShort, HISTORY_BUCKET_ORDER, HistoryBucket } from './history-buckets';
@@ -20,7 +20,7 @@ interface HistoryGroup {
 @Component({
   selector: 'app-ai-chat-history',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NucleoIcon, HlmTooltip, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
+  imports: [KualiaIcon, HlmTooltip, BrnComboboxImports, BrnPopoverContent, HlmComboboxImports],
   templateUrl: './ai-chat-history.html',
 })
 export class AiChatHistoryComponent {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { nucleoArrowLeft as ArrowLeft, NucleoIcon } from '@kualia/icons';
+import { kualiaArrowLeft as ArrowLeft, KualiaIcon } from '@kualia/icons';
 import type { FunctionReturnType } from 'convex/server';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { toast } from 'ngx-sonner';
@@ -33,7 +33,7 @@ import {
     HlmButton,
     HlmProgress,
     HlmProgressIndicator,
-    NucleoIcon,
+    KualiaIcon,
     UserNavbarComponent,
     NameStepComponent,
     HousingStepComponent,

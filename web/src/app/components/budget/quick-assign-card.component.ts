@@ -3,10 +3,10 @@ import { HlmButton } from '@spartan-ng/helm/button';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import {
-  nucleoChevronDown as ChevronDown,
-  NucleoIcon,
-  nucleoPreferences as Settings,
-  nucleoBolt as Zap,
+  kualiaChevronDown as ChevronDown,
+  KualiaIcon,
+  kualiaPreferences as Settings,
+  kualiaBolt as Zap,
 } from '@kualia/icons';
 import { toast } from 'ngx-sonner';
 import {
@@ -26,7 +26,7 @@ import { QuickAssignButtonComponent } from './quick-assign-button.component';
 
 @Component({
   selector: 'app-quick-assign-card',
-  imports: [NucleoIcon, HlmButton, QuickAssignButtonComponent],
+  imports: [KualiaIcon, HlmButton, QuickAssignButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="border-border bg-card overflow-hidden rounded-lg border">
@@ -37,7 +37,7 @@ import { QuickAssignButtonComponent } from './quick-assign-button.component';
         (click)="toggleCollapsed()"
       >
         <div class="flex items-center gap-2">
-          <nucleo-icon [icon]="zapIcon" class="text-muted-foreground h-4 w-4" />
+          <kualia-icon [icon]="zapIcon" class="text-muted-foreground h-4 w-4" />
           <span class="text-sm font-medium">Quick Assign</span>
           <button
             hlmBtn
@@ -46,11 +46,11 @@ import { QuickAssignButtonComponent } from './quick-assign-button.component';
             class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
             (click)="toggleEditMode($event)"
           >
-            <nucleo-icon [icon]="settingsIcon" class="h-3 w-3" />
+            <kualia-icon [icon]="settingsIcon" class="h-3 w-3" />
           </button>
         </div>
         @if (!isEditMode()) {
-          <nucleo-icon
+          <kualia-icon
             [icon]="chevronIcon"
             class="text-muted-foreground h-4 w-4 transition-transform"
             [class.rotate-180]="!isCollapsed()"
