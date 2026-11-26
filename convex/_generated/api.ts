@@ -116,6 +116,7 @@ import type * as dataExports_format from "../dataExports/format.js";
 import type * as debug_creditCardDebug from "../debug/creditCardDebug.js";
 import type * as debug_dashboardMutations from "../debug/dashboardMutations.js";
 import type * as debug_referralSubscriptions from "../debug/referralSubscriptions.js";
+import type * as devSeed from "../devSeed.js";
 import type * as devUtils from "../devUtils.js";
 import type * as discord from "../discord.js";
 import type * as discord_actions from "../discord/actions.js";
@@ -469,6 +470,7 @@ const fullApi: ApiFromModules<{
   "debug/creditCardDebug": typeof debug_creditCardDebug;
   "debug/dashboardMutations": typeof debug_dashboardMutations;
   "debug/referralSubscriptions": typeof debug_referralSubscriptions;
+  devSeed: typeof devSeed;
   devUtils: typeof devUtils;
   discord: typeof discord;
   "discord/actions": typeof discord_actions;

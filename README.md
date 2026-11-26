@@ -116,8 +116,11 @@ pnpm typecheck
 pnpm build
 pnpm test:ci
 pnpm scan:secrets
+pnpm seed                      # optional: load a synthetic demo budget while pnpm dev is running
 node scripts/smoke-local.mjs   # optional integration check while pnpm dev is running
 ```
+
+`pnpm seed` fills the local database with a fictional demo budget for reviewing UI changes and reproducing bugs. It signs up (or signs in) `demo@example.test` with the password `kualia-demo-budget`, prints both, and imports a "Demo Budget" workspace through the regular Kualia backup import: checking, savings, and credit card accounts; Bills, Everyday, and Savings Goals categories with targets; assignments for the current and previous three months; and dated transactions including paychecks, a split receipt, a card refund, savings transfers, and card payments. It then runs the workspace integrity validator. Re-running reports the existing demo workspace instead of adding a second one; delete the workspace in Settings and rerun to start over. It only targets the anonymous local backend at `127.0.0.1:3210` and refuses to run when a remote deployment is configured. These credentials are for the local database only.
 
 The smoke test creates synthetic accounts and a workspace in the ignored local database; it checks password rejection, token refresh/logout, cross-user isolation, ownership after a new login, and an export/import round trip.
 

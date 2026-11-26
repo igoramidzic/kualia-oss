@@ -8,6 +8,8 @@ Kualia is a local-first envelope budgeting app. The web client is Angular 21; Co
 
 Use Node 24 and pnpm 12. `pnpm install --frozen-lockfile`, then `pnpm dev`, starts anonymous local Convex and Angular. No cloud account, Docker, Clerk, Logo.dev, Plaid, or payment provider is required for core budgeting. Read the optional-services table in README before enabling an integration. Custom logo uploads use Convex storage and need no Logo.dev account.
 
+For UI review or bug reproduction, `pnpm seed` (while `pnpm dev` runs) loads a synthetic demo budget and prints its local login (`demo@example.test` / `kualia-demo-budget`). Its data comes from `scripts/seed-data.mjs` and is imported through `kualiaImport.restore`; keep the generator in sync with schema or import changes, and keep it local-only via `assertLocalDeployment`.
+
 ## Before changing code
 
 1. Locate the feature's page/service, backend barrel file and domain folder, schema tables, and neighboring tests.
